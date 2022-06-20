@@ -11,4 +11,5 @@ public class Qna {
 	private String createDate;
 	private String qnaDisclosure;
 	private String qnaKind;
+	private String qnaState;
 }
