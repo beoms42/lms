@@ -8,8 +8,7 @@ public class License {
 	private String licenseName;
 	private String loginId;
 	private String getLicenseDate;
-	private String institute;
+	private String licenseAgency;
 	private String createDate;
 	private String updateDate;
-
 }

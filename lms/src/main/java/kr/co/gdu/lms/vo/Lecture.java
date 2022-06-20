@@ -12,6 +12,7 @@ public class Lecture {
 	private String lectureRoomName;
 	private int lectureStudentCapacity;
 	private String loginId;
+	private String lectureActive;
 	private String createDate;
 	private String updateDate;
 }

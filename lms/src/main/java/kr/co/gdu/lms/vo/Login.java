@@ -7,7 +7,7 @@ public class Login {
 	private String loginId;
 	private String loginPw;
 	private int level;
-	private int active;
+	private int loginActive;
 	private String createDate;
 	private String updateDate;
 }
