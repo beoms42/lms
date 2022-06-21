@@ -47,4 +47,22 @@
 			, update_date updateDate
 		FROM lecture_room
 	</select>
+	
+	<insert id="insertLecture"
+		parameterType="kr.co.gdu.lms.vo.Lecture">
+		INSERT INTO lecture(lecture_name, teacher, manager, lecture_start_date, lecture_end_date, lecture_room_name, lecture_student_capacity, login_id, lecture_active, create_date, update_date)
+		VALUES(
+			#{lectureName}
+			, #{teacher}
+			, #{manager}
+			, #{lectureStartDate}
+			, #{lectureEndDate}
+			, #{lectureRoomName}
+			, #{lectureStudentCapacity}
+			, #{loginId}
+			, '0'
+			, NOW()
+			, NOW()
+			)
+	</insert>
 </mapper>

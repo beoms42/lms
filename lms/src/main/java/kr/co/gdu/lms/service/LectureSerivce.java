@@ -56,4 +56,8 @@ public class LectureSerivce {
 		return map;
 	}
 	
+	public void addLecutre(Lecture lecture) {
+		lecutreMapper.insertLecture(lecture);
+		
+	}
 }

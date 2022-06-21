@@ -19,4 +19,7 @@ public interface LectureMapper {
 	
 	// 강의실
 	List<LectureRoom> selectLectureRoom();
+	
+	// 강의 개설
+	int insertLecture(Lecture lecture);
 }

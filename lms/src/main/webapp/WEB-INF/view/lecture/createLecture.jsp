@@ -10,19 +10,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>LMS-TFT</title>
   <!-- plugins:css -->
-  <link rel="stylesheet" href="vendors/feather/feather.css">
-  <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/vendors/feather/feather.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/vendors/css/vendor.bundle.base.css">
   <!-- endinject -->
   <!-- Plugin css for this page -->
-  <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-  <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" type="text/css" href="js/select.dataTables.min.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/js/select.dataTables.min.css">
   <!-- End plugin css for this page -->
   <!-- inject:css -->
-  <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/vertical-layout-light/style.css">
   <!-- endinject -->
-  <link rel="shortcut icon" href="images/tftace.jpg" />
+  <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/tftace.jpg" />
   <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
@@ -95,7 +95,7 @@
           </li>
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-              <img src="images/tftace.jpg" alt="profile"/>
+              <img src="${pageContext.request.contextPath}/images/tftace.jpg" alt="profile"/>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
               <a class="dropdown-item">
@@ -148,14 +148,15 @@
                   <p class="card-description">
                     Basic form elements
                   </p>
-                  <form class="forms-sample">
+                  <form class="forms-sample" method="post" action="${pageContext.request.contextPath}/addLecture">
                     <div class="form-group">
                       <label for="exampleInputName1">개설 강의명</label>
-                      <input type="text" class="form-control" id="exampleInputName1" placeholder="Name">
+                      <input type="text" class="form-control" id="exampleInputName1" placeholder="강의명" name="lectureName">
                     </div>
                     <div class="form-group">
                       <label for="exampleInputEmail3">강의 기간</label>
-                      <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">
+                      <br>
+                      시작일 : <input type="date" name="lectureStartDate"> 끝나는 날 : <input type="date" name="lectureEndDate">
                     </div>
                     <div class="form-group">
                       <label for="exampleInputPassword4">담당 강사</label>
@@ -170,7 +171,7 @@
 	                        </div>
 	                      </div>
 	                      
-                      	<input type="text" class="form-control" aria-label="Text input with dropdown button" readonly="readonly" id="teacherName">
+                      	<input type="text" class="form-control" aria-label="Text input with dropdown button" readonly="readonly" id="teacherName" name="teacherName">
                    	  </div>
                     </div>
                     <div class="form-group">
@@ -185,7 +186,7 @@
 	                        </select>
 	                      </div>
 	                      
-                      	<input type="text" class="form-control" aria-label="Text input with dropdown button" readonly="readonly" id="managerName">
+                      	<input type="text" class="form-control" aria-label="Text input with dropdown button" readonly="readonly" id="managerName" name="managerName">
                    	  </div>
                    	  
                     </div>                    
@@ -204,16 +205,16 @@
 	                        
 	                        
 	                      </div>
-                      	<input type="text" class="form-control" aria-label="Text input with dropdown button" readonly="readonly" id="lectureRoomName">
+                      	<input type="text" class="form-control" aria-label="Text input with dropdown button" readonly="readonly" id="lectureRoomName" name="lectureRoomName">
                    	  </div>
                     </div>
                     <div class="form-group">
                       <label for="exampleInputCity1">학생 정원</label>
-                      <input type="number" class="form-control" id="exampleInputCity1" placeholder="" max="30">
+                      <input type="number" class="form-control" id="exampleInputCity1" placeholder="" max="30" name="maxStudent">
                     </div>
                     <div class="form-group">
                       <label for="exampleInputPassword4">강의 개설자</label>
-                      <input type="password" class="form-control" id="exampleInputPassword4" placeholder="Password">
+                      <input type="text" class="form-control" id="exampleInputPassword4" value="${loginId}" name="loginId">
                     </div>
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
                     <button class="btn btn-light">Cancel</button>
@@ -227,15 +228,6 @@
         </div>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
-        <footer class="footer">
-          <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021.  Premium <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a> from BootstrapDash. All rights reserved.</span>
-            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span>
-          </div>
-          <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Distributed by <a href="https://www.themewagon.com/" target="_blank">Themewagon</a></span> 
-          </div>
-        </footer> 
         <!-- partial -->
       </div>
       <!-- main-panel ends -->
@@ -245,25 +237,25 @@
   <!-- container-scroller -->
 
   <!-- plugins:js -->
-  <script src="vendors/js/vendor.bundle.base.js"></script>
+  <script src="${pageContext.request.contextPath}/vendors/js/vendor.bundle.base.js"></script>
   <!-- endinject -->
   <!-- Plugin js for this page -->
-  <script src="vendors/chart.js/Chart.min.js"></script>
-  <script src="vendors/datatables.net/jquery.dataTables.js"></script>
-  <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-  <script src="js/dataTables.select.min.js"></script>
+  <script src="${pageContext.request.contextPath}/vendors/chart.js/Chart.min.js"></script>
+  <script src="${pageContext.request.contextPath}/vendors/datatables.net/jquery.dataTables.js"></script>
+  <script src="${pageContext.request.contextPath}/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+  <script src="${pageContext.request.contextPath}/js/dataTables.select.min.js"></script>
 
   <!-- End plugin js for this page -->
   <!-- inject:js -->
-  <script src="js/off-canvas.js"></script>
-  <script src="js/hoverable-collapse.js"></script>
-  <script src="js/template.js"></script>
-  <script src="js/settings.js"></script>
-  <script src="js/todolist.js"></script>
+  <script src="${pageContext.request.contextPath}/js/off-canvas.js"></script>
+  <script src="${pageContext.request.contextPath}/js/hoverable-collapse.js"></script>
+  <script src="${pageContext.request.contextPath}/js/template.js"></script>
+  <script src="${pageContext.request.contextPath}/js/settings.js"></script>
+  <script src="${pageContext.request.contextPath}/js/todolist.js"></script>
   <!-- endinject -->
   <!-- Custom js for this page-->
-  <script src="js/dashboard.js"></script>
-  <script src="js/Chart.roundedBarCharts.js"></script>
+  <script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
+  <script src="${pageContext.request.contextPath}/js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
   <script type="text/javascript">
 	$('.clickTeacherMenu').click(function() {
