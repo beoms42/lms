@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,19 +36,21 @@
               </div>
               <h4>Hello! let's get started</h4>
               <h6 class="font-weight-light">Sign in to continue.</h6>
-              <form class="pt-3" method="post" action="${pageContext.request.contextPath}/login">
+              <form id="signupForm" class="pt-3" method="post" action="${pageContext.request.contextPath}/login">
                 <div class="form-group">
-                  <input type="text" name="loginId" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Username">
+                  <input type="text" name="loginId" class="form-control form-control-lg" id="loginId" placeholder="Username" value="${cookieId}">
+                  <span id="idHelper"></span>
                 </div>
                 <div class="form-group">
-                  <input type="password" name="loginPw" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
+                  <input type="password" name="loginPw" class="form-control form-control-lg" id="loginPw" placeholder="Password">
+                  <span id="pwHelper"></span>
                 </div>
                 <div class="mt-3">
-                  <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN IN</button>
+                  <button type="button" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" id="signIn">SIGN IN</button>
                 </div>
                 <div class="top left">
                     <label class="form-check-label text-muted">
-                      <input type="checkbox" class="form-check-input">
+                      <input type="checkbox" name="idSave" class="form-check-input">
                       아이디 저장
                     </label>
                   <span class="float-right">
@@ -59,7 +60,7 @@
                	</div>
                
                 <div class="text-center mt-4 font-weight-light">
-                  <a href="register.html" class="text-primary">회원가입하기</a>
+                  <a href="${pageContext.request.contextPath}/addMember" class="text-primary">회원가입하기</a>
                 </div>
               </form>
             </div>
@@ -83,6 +84,19 @@
   <script src="../../js/settings.js"></script>
   <script src="../../js/todolist.js"></script>
   <!-- endinject -->
+  <script>
+  	$('#signIn').click(function() {
+  		if($('#loginId').val() == '') {
+  			$('#idHelper').text('id를 입력하세요');
+  		} else if($('#loginPw').val() == '') {
+  			$('#idHelper').text('');
+  			
+  			$('#pwHelper').text('pw를 입력하세요');
+  		} else {
+  			$('#signupForm').submit();
+  		}
+  	});
+  </script>
 </body>
 
 </html>

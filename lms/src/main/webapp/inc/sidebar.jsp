@@ -22,7 +22,7 @@
 <body>
 	<ul class="nav">
           <li class="nav-item">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/main">
               <i class="icon-grid menu-icon"></i>
               <span class="menu-title">HOME</span>
             </a>
