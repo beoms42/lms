@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.service.MemberService;
@@ -27,4 +28,19 @@ public class MemberController {
 		model.addAttribute("student", student);
 		return "member/getStudentOne";
 	}
+	
+	// 학생정보 수정폼
+	@GetMapping("/loginCheck/modifyStudent")
+	public String modifyStudent (Model model, Student student) {
+		log.debug(CF.GDH+"MemberController.modifyStudent student : "+student+CF.RS);
+		model.addAttribute("student", student);
+		return "member/modifyStudent";
+	}
+	
+	// 학생정보 수정액션
+	@PostMapping("/loginCheck/modifyStudent")
+	public String modifyStudent (Model model, String loginId) {
+		return "member/modifyStudent";
+	}
+	
 }

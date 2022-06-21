@@ -22,12 +22,15 @@ public class MemberService {
 		log.debug(CF.GDH+"MemberService.getStudentOne student : "+student+CF.RS);
 		return student;
 	}
-	
-	/* 학생정보 수정폼
+	/*
+	// 학생정보 수정폼
 	public Student modifyStudent(String loginId) {
+		log.debug(CF.GDH+"MemberService.getStudentOne loginId : "+loginId+CF.RS);
+		Student student = memberMapper.updateStudent(loginId);
+		return student;
 	}
 	
-	// 학생정보 삭제하기
+	/* 학생정보 삭제하기
 	public Student deleteStudent() {
 		
 	}

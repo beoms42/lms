@@ -171,6 +171,11 @@
 						<td>${student.createDate}</td>
 					</tr>
 				</table>
+				
+				<div>
+					<a href="${pageContext.request.contextPath}/loginCheck/modifyStudent?loginId=${student.loginId}&studentName=${student.studentName}&studentBirth=${student.studentGender}&address=${student.address}&studentEmail=${student.studentEmail}&studentPhone=${student.studentPhone}&militaryStatus=${student.militaryStatus}&graduate=${student.graduate}&createDate=${student.createDate}">수정</a>
+					<a href="${pageContext.request.contextPath}/removeStudent?loginId=${student.loginId}">삭제</a>
+				</div>
                 </div>
                 <div class="col-12 col-xl-4">
                  <div class="justify-content-end d-flex">
