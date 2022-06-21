@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.gdu.lms.mapper.MemberMapper">
+	<select id="selectStudentOne"
+			resultType="kr.co.gdu.lms.vo.Student"
+			parameterType="String">
+		SELECT
+         login_id loginId
+         , student_name studentName
+         , student_birth studentBirth
+         , student_gender studentGender
+         , CONCAT(address,' ', detail_address) address
+         , student_email studentEmail
+         , CONCAT(SUBSTRING(student_phone, 1,3),'-',(SUBSTRING(student_phone,4,4)),'-',(SUBSTRING(student_phone,8,4))) studentPhone
+         , military_status militaryStatus
+         , graduate
+         , create_date createDate   
+      FROM student
+      WHERE login_id = #{loginId}	
+	</select>
+
+	<update id="updateStudent"
+			parameterType="kr.co.gdu.lms.vo.Student">
+		UPDATE student
+		SET stduent_name = #{studentName}
+			, address = #{address}
+			, detail_address = #{detailAddress}
+			, student_email = #{studentEmail}
+			, student_phone = #{studentPhone}
+			, military_status = #{militaryStatus}
+			, graduate = #{graduate}
+			, update_date = NOW()
+		WHERE login_id = #{loginId}
+	</update>
+	
+	<delete id="deleteStudent"
+			parameterType="kr.co.gdu.lms.vo.Student">
+		DELETE FROM student
+		WHERE student_id = #{studentId} 		
+	</delete>
+	
+	<select id="pwCheck"
+			resultType="int"
+			parameterType="kr.co.gdu.lms.vo.Login">
+		SELECT COUNT(*)
+		FROM login
+		WHERE login_id = #{loginId}
+	</select>
+	
+</mapper>
