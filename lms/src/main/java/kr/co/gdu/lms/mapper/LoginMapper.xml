@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.gdu.lms.mapper.LoginMapper">
+
+	<select id="loginAndSelectLevel"
+			parameterType="kr.co.gdu.lms.vo.Login"
+			resultType = "kr.co.gdu.lms.vo.Login">
+		SELECT 
+			login_id loginId
+			, level
+		FROM login
+		WHERE login_id=#{loginId} AND login_pw=PASSWORD(#{loginPw});
+	</select>
+	
+</mapper>
