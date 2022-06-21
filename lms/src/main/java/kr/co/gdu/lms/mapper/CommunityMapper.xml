@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.gdu.lms.mapper.communityMapper">
+
+	<!--커뮤니티 crud-->
+	<!--커뮤니티 게시글 입력-->
+	<insert id="insertCommunity"
+			parameterType="int">
+		INSERT INTO community(
+			community_title
+			, community_content
+			, login_id
+			, create_date
+			, update_date
+			, community_pw)
+		VALUES(
+			#{communityTitle}, #{communityContent}, #{loginId}, NOW(), NOW(), PASSWORD(#{communityPw}));
+	</insert>
+	
+	<!--커뮤니티 게시글 selectOne-->
+	<select id="selectOneCommunity"
+			parameterType="String"
+			resultType="kr.co.gdu.lms.vo.Community">
+		SELECT
+			community_no communityNo
+			, community_title communityTitle
+			, community_content communityContent
+			, community_pw communityPw
+			, login_id loginId
+			, create_date createDate
+			, update_date updateDate
+		FROM community
+		WHERE community_no = #{communityNo};
+	</select>
+	
+	<!--커뮤니티 게시글 List-->
+	<select id="selectListCommunity"
+			parameterType="String"
+			resultType="kr.co.gdu.lms.vo.Community">
+		SELECT
+			community_no communityNo
+			, community_title communityTitle
+			, login_id loginId
+			, create_date createDate
+		FROM community
+		ORDER BY create_date DESC
+		LIMIT 1,10;
+	</select>
+	
+	<!--커뮤니티 게시글 수정-->
+	<update id="updateCommunity"
+			parameterType="int">
+		UPDATE community SET
+			community_title=#{communityTitle}
+			, community_content=#{communityContent}
+			, update_date=NOW()
+		WHERE community_no = #{communityNo}
+		AND community_pw = PASSWORD(#{communityPw});
+	</update>
+	
+	<!--커뮤니티 글 삭제-->
+	<delete id="deleteCommunity"
+			parameterType="int">
+		DELETE from community
+		WHERE community_no = #{communityNo}
+		AND community_pw = PASSWORD(#{communityPw});
+	</delete>
+	
+	<!--커뮤니티 파일 입력-->
+	<insert id="insertCommunityFile"
+			parameterType="int">
+		INSERT INTO community_file(
+			community_no
+			, login_id
+			, community_file_name
+			, community_file_type
+			, community_file_origin_name
+			, community_file_size
+			, create_date)
+		VALUES(
+			#{communityNo}
+			, #{loginId}
+			, #{communityFileName}
+			, #{communityFileType}
+			, #{communityFileOriginName}
+			, #{communityFileSize}
+			, NOW());
+	</insert>
+	
+	<!--커뮤니티 파일 selectOne-->
+	<select id="selectOneCommunityFile"
+			parameterType="String"
+			resultType="kr.co.gdu.lms.vo.CommunityFile">
+		SELECT
+			community_file_no communityFileNo
+			, community_file_name communityFileName
+			, community_file_type communityFileType
+			, community_file_origin_name communityFileOriginName
+			, community_file_size communityFileSize
+		FROM community_file
+		WHERE community_no = #{communityNo};
+	</select>
+	
+	<!--커뮤니티 파일 삭제-->
+	<delete id="deleteCommunityFile"
+			parameterType="int">
+		DELETE FROM community_file
+		WHERE community_no = #{communityNo};
+	</delete>
+	
+	<!--커뮤니티 게시글 추천입력-->
+	<insert id="insertRecommend"
+			parameterType="int">
+		INSERT INTO recommend
+		VALUES(
+		#{loginId}
+		, #{communityNo}
+		, NOW());
+	</insert>
+	
+	<!-- 커뮤니티 추천 중복(1은 추천함, 0은 추천안함)-->
+	<select id="selectRecommendCheck"
+			parameterType="String"
+			resultType="kr.co.gdu.lms.vo.Recommend">
+		SELECT COUNT(*) cnt
+		FROM recommend
+		WHERE login_id = #{loginId} AND community_no = #{communityNo};
+	</select>
+	
+	<!--인기글 5개 LIST-->
+	<select id="selectRecommendList"
+			parameterType="String"
+			resultType="kr.co.gdu.lms.vo.Recommend">
+		SELECT
+			c.community_no communityNo
+			, c.community_title communityTitle
+			, c.community_content communityContent
+			, c.create_date createDate 
+			, COUNT(*) cnt
+		FROM recommend r
+		JOIN community c
+			ON r.community_no = c.community_no
+		GROUP BY c.community_no
+		ORDER BY cnt DESC
+		LIMIT 0,5;
+	</select>
+	
+	<!--댓글 crud-->
+	<!--댓글 입력-->
+	<insert id="insertCommunityComment"
+			parameterType="int">
+		INSERT INTO community_comment
+		VALUES(
+		#{loginId}
+		, NOW()
+		, #{communityCommentContent}
+		, #{communityNo}
+		, NOW()); 
+	</insert>
+
+	<!--댓글 수정-->
+	<update id="updateCommunityComment"
+			parameterType="int">
+		UPDATE community_comment SET
+		community_comment_content = #{communityCommentContent}
+		, update_date=NOW()
+		WHERE login_id = #{loginId} AND community_no = #{communityNo};
+	</update>
+	
+	<!--댓글 삭제-->
+	<delete id="deleteCommunityComment"
+			parameterType="int">
+		DELETE FROM community_comment
+		WHERE login_id = #{loginId} AND community_no = #{communityNo};
+	</delete>
+	
+	<!-- 댓글 select-->
+	<select id="selectCommunityComment"
+			parameterType="String"
+			resultType="kr.co.gdu.lms.vo.CommunityComment">
+		SELECT
+			login_id loginId
+			, create_date createDate
+			, community_comment_content communityCommentContent
+			, community_no communityNo
+			, update_date updateDate
+		FROM community_comment
+		WHERE #{communityNo};
+	</select>
+</mapper>
