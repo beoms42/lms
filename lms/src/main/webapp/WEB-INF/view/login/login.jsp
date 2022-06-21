@@ -8,16 +8,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>LMS-TFT</title>
   <!-- plugins:css -->
-  <link rel="stylesheet" href="../../vendors/feather/feather.css">
-  <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/vendors/feather/feather.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/vendors/css/vendor.bundle.base.css">
   <!-- endinject -->
   <!-- Plugin css for this page -->
   <!-- End plugin css for this page -->
   <!-- inject:css -->
-  <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/vertical-layout-light/style.css">
   <!-- endinject -->
-  <link rel="shortcut icon" href="../../images/favicon.png" />
+  <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/favicon.png" />
   <style>
   	.top {margin-top : 10px;}
   	.left {margin-left : 20px;}
@@ -78,11 +78,11 @@
   <!-- Plugin js for this page -->
   <!-- End plugin js for this page -->
   <!-- inject:js -->
-  <script src="../../js/off-canvas.js"></script>
-  <script src="../../js/hoverable-collapse.js"></script>
-  <script src="../../js/template.js"></script>
-  <script src="../../js/settings.js"></script>
-  <script src="../../js/todolist.js"></script>
+  <script src="${pageContext.request.contextPath}/js/off-canvas.js"></script>
+  <script src="${pageContext.request.contextPath}/js/hoverable-collapse.js"></script>
+  <script src="${pageContext.request.contextPath}/js/template.js"></script>
+  <script src="${pageContext.request.contextPath}/js/settings.js"></script>
+  <script src="${pageContext.request.contextPath}/js/todolist.js"></script>
   <!-- endinject -->
   <script>
   	$('#signIn').click(function() {
