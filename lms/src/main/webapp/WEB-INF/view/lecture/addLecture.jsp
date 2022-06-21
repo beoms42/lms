@@ -164,6 +164,7 @@
                       
 	                      <div class="input-group-prepend">
 	                        <select class="teacherNames">
+	                          <option value="">:::강사 선택:::</option>
 	                          <c:forEach var="n" items="${teacherNameList}">
 	                          	<option value="${n}">${n}</option>
 	                          </c:forEach>
@@ -180,6 +181,7 @@
                       
 	                      <div class="input-group-prepend">
 	                        <select class="managerNames">
+	                        <option value="">:::매니저 선택:::</option>
 	                          <c:forEach var="n" items="${managerNameList}">
 	                          	<option value="${n}">${n}</option>
 	                          </c:forEach>
@@ -197,6 +199,7 @@
 	                      <div class="input-group-prepend">
 	                      
 	                      <select class="lectureRoomNames">
+	                            <option value="">:::강의실 선택:::</option>
 	                          <c:forEach var="n" items="${lectureRoomList}">
 	                          	<option value="${n.lectureRoomName}">강의실 : ${n.lectureRoomName} / 정원 : ${n.lectureRoomAdmit}명</option>
 	                          </c:forEach>
@@ -214,7 +217,7 @@
                     </div>
                     <div class="form-group">
                       <label for="exampleInputPassword4">강의 개설자</label>
-                      <input type="text" class="form-control" id="exampleInputPassword4" value="${loginId}" name="loginId">
+                      <input type="text" class="form-control" id="exampleInputPassword4" value="${loginId}" name="loginId" readonly="readonly">
                     </div>
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
                     <button class="btn btn-light">Cancel</button>
