@@ -36,7 +36,7 @@
             <div class="collapse" id="ui-basic">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">내 강의</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">과제</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/getAssignmentExam">과제</a></li>
                 <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">성적</a></li>
               </ul>
             </div>
