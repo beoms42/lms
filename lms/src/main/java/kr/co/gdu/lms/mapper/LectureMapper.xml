@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.gdu.lms.mapper.LectureMapper">
+	<select id="selectTeacher"
+			resultType = "kr.co.gdu.lms.vo.Teacher">
+			SELECT
+				login_id loginId
+				, teacher_name teacherName
+				, teacher_birth teacherBirth
+				, address
+				, detail_addr detailAddr
+				, teacher_email teacherEmail
+				, teacher_phone teacherPhone
+				, last_login_date lastLoginDate
+				, graduate
+				, create_date createDate
+				, update_date updateDate
+			FROM teacher
+	</select>
+	
+	<select id="selectManager"
+			resultType = "kr.co.gdu.lms.vo.Manager">
+		SELECT
+			login_id loginId
+			, manager_name managerName
+			, manager_birth manaberBirth
+			, manager_gender managerGender
+			, address
+			, detail_addr detailAddr
+			, manager_email managerEmail
+			, manager_phone managerPhone
+			, last_login_date lastLoginDate
+			, dept_no deptNo
+			, position_no positionNo
+			, create_date createDate
+			, update_date updateDate
+		FROM manager
+	</select>
+	
+	<select id="selectLectureRoom"
+			resultType = "kr.co.gdu.lms.vo.LectureRoom">
+		SELECT
+			lecture_room_name lectureRoomName
+			, lecture_room_location lectureRoomLocation
+			, lecture_room_admit lectureRoomAdmit
+			, create_date createDate
+			, update_date updateDate
+		FROM lecture_room
+	</select>
+</mapper>

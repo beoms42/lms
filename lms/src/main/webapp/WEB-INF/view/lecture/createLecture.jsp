@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,6 +23,7 @@
   <link rel="stylesheet" href="css/vertical-layout-light/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="images/tftace.jpg" />
+  <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
   <div class="container-scroller">
@@ -139,52 +141,80 @@
           </div>
           <!-- 강의개설 실제부분 --> 
           <div class="row">
-            <div class="col-md-12 stretch-card grid-margin">
+            <div class="col-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <p class="card-title mb-0">개설 강의명 <input type="text" ></p>
-                  <div class="table-responsive">
-                    <table class="table table-borderless">
-                      <thead>
-                        <tr>
-                          <th class="pl-0  pb-2 border-bottom">담당</th>
-                          <th class="border-bottom pb-2"></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td class="pl-0">강의 기간</td>
-                          <td><p class="mb-0"><span class="font-weight-bold mr-2">65</span>(2.15%)</p></td>
-                        </tr>
-                        <tr>
-                          <td class="pl-0">담당 강사</td>
-                          <td><p class="mb-0"><span class="font-weight-bold mr-2">54</span>(3.25%)</p></td>
-                        </tr>
-                        <tr>
-                          <td class="pl-0">담당 매니저</td>
-                          <td><p class="mb-0"><span class="font-weight-bold mr-2">22</span>(2.22%)</p></td>
-                        </tr>
-                        <tr>
-                          <td class="pl-0">강의실</td>
-                          <td><p class="mb-0"><span class="font-weight-bold mr-2">46</span>(3.27%)</p></td>
-                        </tr>
-                        <tr>
-                          <td class="pl-0">학생 정원</td>
-                          <td><p class="mb-0"><span class="font-weight-bold mr-2">17</span>(1.25%)</p></td>
-                        </tr>
-                        <tr>
-                          <td class="pl-0">Nevada</td>
-                          <td><p class="mb-0"><span class="font-weight-bold mr-2">52</span>(3.11%)</p></td>
-                        </tr>
-                        <tr>
-                          <td class="pl-0 pb-0">Louisiana</td>
-                          <td class="pb-0"><p class="mb-0"><span class="font-weight-bold mr-2">25</span>(1.32%)</p></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                  <h4 class="card-title">Basic form elements</h4>
+                  <p class="card-description">
+                    Basic form elements
+                  </p>
+                  <form class="forms-sample">
+                    <div class="form-group">
+                      <label for="exampleInputName1">개설 강의명</label>
+                      <input type="text" class="form-control" id="exampleInputName1" placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputEmail3">강의 기간</label>
+                      <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword4">담당 강사</label>
+                      <div class="input-group">
+	                      <div class="input-group-prepend">
+	                        <button class="btn btn-sm btn-outline-primary dropdown-toggle" id="dropBtn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
+	                        <div class="dropdown-menu">
+	                          <c:forEach var="n" items="${teacherNameList}">
+	                          	<p class="clickTeacherMenu dropdown-item" value="${n}">${n}</p>
+	                          </c:forEach>
+	                        </div>
+	                      </div>
+                      	<input type="text" class="form-control" aria-label="Text input with dropdown button" readonly="readonly" id="teacherName">
+                   	  </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword4">담당 매니저</label>
+                      <div class="input-group">
+	                      <div class="input-group-prepend">
+	                        <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
+	                        <div class="dropdown-menu">
+	                          <c:forEach var="n" items="${managerNameList}">
+	                          	<a class="dropdown-item" href="#">${n}</a>
+	                          </c:forEach>
+	                        </div>
+	                      </div>
+                      	<input type="text" class="form-control" aria-label="Text input with dropdown button" readonly="readonly">
+                   	  </div>
+                    </div>                    
+                      
+                    <div class="form-group">
+                      <label for="exampleInputPassword4">강의실</label>
+                      <div class="input-group">
+	                      <div class="input-group-prepend">
+	                        <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
+	                        <div class="dropdown-menu">
+	                          <c:forEach var="n" items="${lectureRoomList}">
+	                          	<a class="dropdown-item" href="#">강의실 : ${n.lectureRoomName} / 정원 : ${n.lectureRoomAdmit}명</a>
+	                          </c:forEach>
+	                        </div>
+	                      </div>
+                      	<input type="text" class="form-control" aria-label="Text input with dropdown button" readonly="readonly">
+                   	  </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputCity1">학생 정원</label>
+                      <input type="text" class="form-control" id="exampleInputCity1" placeholder="Location">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword4">강의 개설자</label>
+                      <input type="password" class="form-control" id="exampleInputPassword4" placeholder="Password">
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <button class="btn btn-light">Cancel</button>
+                  </form>
                 </div>
               </div>
+            </div>
+
             </div>
           
         </div>
@@ -228,7 +258,12 @@
   <script src="js/dashboard.js"></script>
   <script src="js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
+  <script type="text/javascript">
+	$('.clickTeacherMenu').click(function() {
+			console.log('dsdsdsdsdsd');
+			$('#teacherName').val();
+	});
+  </script>
 </body>
-
 </html>
 
