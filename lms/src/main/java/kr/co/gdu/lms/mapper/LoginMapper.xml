@@ -49,5 +49,63 @@
 		WHERE t.teacher_name = #{teacherName}
 		AND t.teacher_email = #{teacherEmail};
 	</select>
+	
+	<!--학생비밀번호 찾기-->
+	<select id="selectStudentPw"
+			parameterType="String"
+			resultType="kr.co.gdu.lms.vo.Student">
+		SELECT COUNT(*) cnt
+		FROM login AS l
+		JOIN student AS s
+		ON l.login_id = s.login_id
+		WHERE s.login_id = #{loginId}
+		AND s.student_name = #{studentName}
+		AND s.student_email = #{studentEmail};
+	</select>
+	
+	<!-- 매니저비밀번호 찾기 -->
+	<select id="selectManagerPw"
+			parameterType="String"
+			resultType="kr.co.gdu.lms.vo.Manager">
+		SELECT COUNT(*) cnt
+		FROM login AS l
+		JOIN manager AS m
+		ON l.login_id = m.login_id
+		WHERE m.login_id = #{loginId}
+		AND m.manager_name = #{managerName}
+		AND m.manager_email = #{managerEmail};
+	
+	</select>
+	
+	<!-- 강사비밀번호 찾기 -->
+	<select id="selectTeacherPw"
+			parameterType="String"
+			resultType="kr.co.gdu.lms.vo.Teacher">
+		SELECT COUNT(*) cnt
+		FROM login AS l
+		JOIN teacher AS t
+		ON l.login_id = t.login_id
+		WHERE t.login_id = #{loginId}
+		AND t.teacher_name = #{teacherName}
+		AND t.teacher_email = #{teacherEmail};
+	</select>
+	
+	<!-- 학생,강사,매니저 비밀번호 변경 -->
+	<update id="updatePw"
+			parameterType="int">
+		UPDATE login SET login_pw=PASSWORD(#{loginPw}), update_date = NOW()
+		WHERE login_id = #{loginId};
+	</update>
+	
+	<!-- 학생,강사,매니저 비밀번호 이력 테이블 삽입 -->
+	<insert id="insertPwRecord">
+		INSERT INTO pw_record VALUES (#{loginId},PASSWORD(#{loginPw}), NOW());
+	</insert>
+	
+	
+	
+		
+		
+		
 		
 </mapper>
