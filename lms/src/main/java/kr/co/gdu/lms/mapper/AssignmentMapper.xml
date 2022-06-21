@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.gdu.lms.mapper.AssignmentMapper">
+	<select id="getAssignment"
+			parameterType = "String"
+			resultType="kr.co.gdu.lms.vo.AssignmentExam">
+		SELECT assginment_exam_no assignmentExamNo
+				,lecture_name lectureName
+				,assignment_exam_title assignmentExamTitle
+				,assignment_exam_content assignmentExamContent
+				,assignment_dead_line assignmentDeadLine
+				,create_date createDate
+		FROM assignment_exam
+		WHERE lecture_name = #{lectureName}
+		ORDER BY create_date
+	</select>
+	<select	id="getAssignmentTotalCount"
+			resultType="int">
+		SELECT COUNT(*) cnt FROM assignment_exam
+	</select>
+</mapper>
