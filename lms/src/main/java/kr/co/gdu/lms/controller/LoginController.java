@@ -23,6 +23,7 @@ public class LoginController {
 
 	@Autowired private LoginService loginService;
 	
+	// 회원가입 폼
 	@GetMapping("/addMember")
 	public String addMemeber(Model model
 			, @RequestParam(value="addChk", defaultValue="student") String addChk) {

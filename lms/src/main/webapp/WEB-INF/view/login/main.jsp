@@ -100,7 +100,7 @@
                 <i class="ti-settings text-primary"></i>
                 Settings
               </a>
-              <a class="dropdown-item" href="${pageContextPath.request.getContextPath}/loginCheck/logout">
+              <a class="dropdown-item" href="${pageContextPath.request.getContextPath}/lms/loginCheck/logout">
                 <i class="ti-power-off text-primary"></i>
                 Logout
               </a>

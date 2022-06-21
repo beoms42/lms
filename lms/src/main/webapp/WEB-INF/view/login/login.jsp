@@ -46,7 +46,7 @@
                   <span id="pwHelper"></span>
                 </div>
                 <div class="mt-3">
-                  <button type="button" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" id="signIn">SIGN IN</button>
+                  <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" id="signIn">SIGN IN</button>
                 </div>
                 <div class="top left">
                     <label class="form-check-label text-muted">
