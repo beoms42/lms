@@ -12,11 +12,9 @@
 		WHERE login_id=#{loginId} AND login_pw=PASSWORD(#{loginPw});
 	</select>
 	
-	
-	
 	<!--학생 아이디 찾기-->
 	<select id = "selectStudentLoginId"
-			parameterType="String"
+			parameterType="kr.co.gdu.lms.vo.Student"
 			resultType="kr.co.gdu.lms.vo.Student">
 		SELECT l.login_id loginId
 		FROM login AS l
@@ -28,7 +26,7 @@
 	
 	<!--매니저 아이디 찾기-->
 	<select id = "selectManagerLoginId"
-			parameterType="String"
+			parameterType="kr.co.gdu.lms.vo.Manager"
 			resultType="kr.co.gdu.lms.vo.Manager">
 		SELECT l.login_id loginId
 		FROM login AS l
@@ -40,7 +38,7 @@
 	
 	<!--강사 아이디 찾기-->
 	<select id = "selectTeacherLoginId"
-			parameterType="String"
+			parameterType="kr.co.gdu.lms.vo.Teacher"
 			resultType="kr.co.gdu.lms.vo.Teacher">
 		SELECT l.login_id loginId
 		FROM login AS l
