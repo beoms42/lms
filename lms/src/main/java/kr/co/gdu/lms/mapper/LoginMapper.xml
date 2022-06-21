@@ -97,8 +97,9 @@
 		WHERE login_id = #{loginId};
 	</update>
 	
-	<!-- 학생,강사,매니저 비밀번호 이력 테이블 삽입 -->
-	<insert id="insertPwRecord">
+	<!-- 학생,강사,매니저 비밀번호 변경 이력 테이블 삽입 -->
+	<insert id="insertPwRecord"
+			parameterType="int">
 		INSERT INTO pw_record VALUES (#{loginId},PASSWORD(#{loginPw}), NOW());
 	</insert>
 	
