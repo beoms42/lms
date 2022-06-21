@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.gdu.lms.mapper.ManagerMapper">
+	<select id="selectManagerOne" 
+			parameterType="String" 
+			resultType="kr.co.gdu.lms.vo.Manager">
+		SELECT
+		  login_id loginId
+		  , manager_name managerName 
+		  , manager_birth managerBirth
+		  , manager_gender managerGender 
+		  , address 
+		  , detail_addr detailAddr
+		  , manager_email managerEmail
+		  , manager_phone managerPhone
+		  , last_login_date lastLoginDate
+		  , dept_no deptNo
+		  , position_no positionNo
+		  , create_date createDate
+		FROM manager 
+		WHERE login_id = #{loginId}
+	</select>
+	
+	<select id="selectManagerList" resultType="kr.co.gdu.lms.vo.Manager">
+		SELECT 
+		  login_id loginId
+		  , manager_name managerName
+		  , manager_gender managerGender
+		  , address
+		  , manager_phone managerPhone
+		  , last_login_date lastLoginDate
+		  , dept_no deptNo
+		  , position_no positionNo
+		FROM manager 
+	</select>
+	
+	<update id= "updateManager" 
+			parameterType="kr.co.gdu.lms.vo.Manager">
+			UPDATE manager SET
+ 				manager_name managerName= #{managerName}	
+				, manager_birth managerBirth= #{managerBirth}	
+      			, manager_gender managerGender= #{managerGender}	
+      			, address= #{address}	
+     			, detail_addr detailAddr= #{detailAddr}	
+      			, manager_email managerEmail= #{managerEmail}	
+      			, manager_phone managerPhone= #{managerPhone}	
+				, dept_no deptNo= #{deptNo}	
+				, position_no positionNo= #{positionNo}	
+		WHERE login_id loginId= #{loginId}	
+	</update>
+	
+	<delete id="deleteManager"
+		parameterType="String">
+		DELETE FROM login_id
+		WHERE login_id = #{loginId}	
+		</delete>
+		
+	</mapper>
+	

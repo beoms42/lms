@@ -1,5 +1,7 @@
 package kr.co.gdu.lms.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,14 +11,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import kr.co.gdu.lms.log.CF;
+import kr.co.gdu.lms.mapper.ManagerMapper;
+import kr.co.gdu.lms.mapper.TeacherMapper;
 import kr.co.gdu.lms.service.MemberService;
+import kr.co.gdu.lms.vo.Manager;
 import kr.co.gdu.lms.vo.Student;
+import kr.co.gdu.lms.vo.Teacher;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
 public class MemberController {
 	@Autowired private MemberService memberService;
+
+	@Autowired  private ManagerMapper managerMapper;
+	@Autowired  private TeacherMapper teacherMapper;
+	
 	
 	// 학생정보 상세보기
 	@GetMapping("/loginCheck/getStudentOne")
@@ -43,4 +53,47 @@ public class MemberController {
 		return "member/modifyStudent";
 	}
 	
-}
+		// managerList
+		 public List<Manager> getManagerList() {
+			 List<Manager> list = managerMapper.selectManagerList();
+		 return list;   
+		 }
+		 
+		// managerOne
+		 public Manager getManagerOne(String loginId) {
+			 	Manager manager = new Manager();
+			 	manager = managerMapper.selectManagerOne(loginId);
+				return manager;
+			}
+		 
+		 // updateManager
+		 
+		 
+		 
+		 
+		 // deleteManager
+		 
+		 
+		 // teacherList
+		 public List<Teacher> getTeacherList() {
+			 List<Teacher>list = teacherMapper.selectTeacherList();
+		 return list;
+		 }
+		 
+		 
+		// teacherOne
+		 public Teacher getTeacherOne(String loginId) {
+			 	Teacher teacher = new Teacher();
+			 	teacher = teacherMapper.selectTeacherOne(loginId);
+				return teacher;
+			}
+		 
+		 
+		 // updateteacher
+		 
+		 
+		 
+		 
+	}
+
+	

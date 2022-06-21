@@ -1,12 +1,18 @@
 package kr.co.gdu.lms.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.gdu.lms.log.CF;
+import kr.co.gdu.lms.mapper.ManagerMapper;
 import kr.co.gdu.lms.mapper.MemberMapper;
+import kr.co.gdu.lms.mapper.TeacherMapper;
+import kr.co.gdu.lms.vo.Manager;
 import kr.co.gdu.lms.vo.Student;
+import kr.co.gdu.lms.vo.Teacher;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -35,4 +41,52 @@ public class MemberService {
 		
 	}
 	*/
-}
+
+		
+		@Autowired  private ManagerMapper managerMapper;
+		@Autowired  private TeacherMapper teacherMapper;
+		
+		// managerList
+		 public List<Manager> getManagerList() {
+			 List<Manager> list = managerMapper.selectManagerList();
+		 return list;   
+		 }
+		 
+		// managerOne
+		 public Manager getManagerOne(String loginId) {
+			 	Manager manager = new Manager();
+			 	manager = managerMapper.selectManagerOne(loginId);
+				return manager;
+			}
+		 
+		 // updateManager
+		 
+		 
+		 
+		 
+		 // deleteManager
+		 
+		 
+		 // teacherList
+		 public List<Teacher> getTeacherList() {
+			 List<Teacher>list = teacherMapper.selectTeacherList();
+		 return list;
+		 }
+		 
+		 
+		// teacherOne
+		 public Teacher getTeacherOne(String loginId) {
+			 	Teacher teacher = new Teacher();
+			 	teacher = teacherMapper.selectTeacherOne(loginId);
+				return teacher;
+			}
+		 
+		 
+		 // updateteacher
+		 
+		 
+		
+		 
+	}
+
+
