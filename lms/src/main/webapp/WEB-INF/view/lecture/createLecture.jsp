@@ -160,49 +160,56 @@
                     <div class="form-group">
                       <label for="exampleInputPassword4">담당 강사</label>
                       <div class="input-group">
+                      
 	                      <div class="input-group-prepend">
-	                        <button class="btn btn-sm btn-outline-primary dropdown-toggle" id="dropBtn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
-	                        <div class="dropdown-menu">
+	                        <select class="teacherNames">
 	                          <c:forEach var="n" items="${teacherNameList}">
-	                          	<p class="clickTeacherMenu dropdown-item" value="${n}">${n}</p>
+	                          	<option value="${n}">${n}</option>
 	                          </c:forEach>
+	                         </select>
 	                        </div>
 	                      </div>
+	                      
                       	<input type="text" class="form-control" aria-label="Text input with dropdown button" readonly="readonly" id="teacherName">
                    	  </div>
                     </div>
                     <div class="form-group">
                       <label for="exampleInputPassword4">담당 매니저</label>
                       <div class="input-group">
+                      
 	                      <div class="input-group-prepend">
-	                        <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
-	                        <div class="dropdown-menu">
+	                        <select class="managerNames">
 	                          <c:forEach var="n" items="${managerNameList}">
-	                          	<a class="dropdown-item" href="#">${n}</a>
+	                          	<option value="${n}">${n}</option>
 	                          </c:forEach>
-	                        </div>
+	                        </select>
 	                      </div>
-                      	<input type="text" class="form-control" aria-label="Text input with dropdown button" readonly="readonly">
+	                      
+                      	<input type="text" class="form-control" aria-label="Text input with dropdown button" readonly="readonly" id="managerName">
                    	  </div>
+                   	  
                     </div>                    
                       
                     <div class="form-group">
                       <label for="exampleInputPassword4">강의실</label>
                       <div class="input-group">
 	                      <div class="input-group-prepend">
-	                        <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
-	                        <div class="dropdown-menu">
+	                      
+	                      <select class="lectureRoomNames">
 	                          <c:forEach var="n" items="${lectureRoomList}">
-	                          	<a class="dropdown-item" href="#">강의실 : ${n.lectureRoomName} / 정원 : ${n.lectureRoomAdmit}명</a>
+	                          	<option value="${n.lectureRoomName}">강의실 : ${n.lectureRoomName} / 정원 : ${n.lectureRoomAdmit}명</option>
 	                          </c:forEach>
-	                        </div>
+	                        </select>
+	                        
+	                        
+	                        
 	                      </div>
-                      	<input type="text" class="form-control" aria-label="Text input with dropdown button" readonly="readonly">
+                      	<input type="text" class="form-control" aria-label="Text input with dropdown button" readonly="readonly" id="lectureRoomName">
                    	  </div>
                     </div>
                     <div class="form-group">
                       <label for="exampleInputCity1">학생 정원</label>
-                      <input type="text" class="form-control" id="exampleInputCity1" placeholder="Location">
+                      <input type="number" class="form-control" id="exampleInputCity1" placeholder="" max="30">
                     </div>
                     <div class="form-group">
                       <label for="exampleInputPassword4">강의 개설자</label>
@@ -261,7 +268,22 @@
   <script type="text/javascript">
 	$('.clickTeacherMenu').click(function() {
 			console.log('dsdsdsdsdsd');
-			$('#teacherName').val();
+			$('#teacherName').val($('.clickTeacherMenu').text());
+	});
+	
+	$('.teacherNames').change(function() {
+	    var value = $(this).val();
+	    $('#teacherName').val(value);
+	});
+	
+	$('.managerNames').change(function() {
+	    var value = $(this).val();
+	    $('#managerName').val(value);
+	});
+	
+	$('.lectureRoomNames').change(function() {
+	    var value = $(this).val();
+	    $('#lectureRoomName').val(value);
 	});
   </script>
 </body>

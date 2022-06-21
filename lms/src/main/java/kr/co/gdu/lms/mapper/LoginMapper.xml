@@ -12,4 +12,42 @@
 		WHERE login_id=#{loginId} AND login_pw=PASSWORD(#{loginPw});
 	</select>
 	
+	
+	
+	<!--학생 아이디 찾기-->
+	<select id = "selectStudentLoginId"
+			parameterType="String"
+			resultType="kr.co.gdu.lms.vo.Student">
+		SELECT l.login_id loginId
+		FROM login AS l
+		JOIN student AS s
+		ON l.login_id = s.login_id
+		WHERE s.student_name = #{studentName}
+		AND s.student_email = #{studentEmail};
+	</select>
+	
+	<!--매니저 아이디 찾기-->
+	<select id = "selectManagerLoginId"
+			parameterType="String"
+			resultType="kr.co.gdu.lms.vo.Manager">
+		SELECT l.login_id loginId
+		FROM login AS l
+		JOIN manager AS m
+		ON l.login_id = m.login_id
+		WHERE m.manager_name = #{managerName}
+		AND m.manager_email = #{managerEmail};
+	</select>
+	
+	<!--강사 아이디 찾기-->
+	<select id = "selectTeacherLoginId"
+			parameterType="String"
+			resultType="kr.co.gdu.lms.vo.Teacher">
+		SELECT l.login_id loginId
+		FROM login AS l
+		JOIN teacher AS t
+		ON l.login_id = t.login_id
+		WHERE t.teacher_name = #{teacherName}
+		AND t.teacher_email = #{teacherEmail};
+	</select>
+		
 </mapper>
