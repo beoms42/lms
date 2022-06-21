@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
 <head>
 <meta charset="UTF-8">
   <!-- Required meta tags -->
@@ -28,8 +31,8 @@
     <!-- partial:partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo mr-5" href="index.html">LMS-TFT</a>
-        <a class="navbar-brand brand-logo-mini" href="index.html">LMS</a>
+        <a class="navbar-brand brand-logo mr-5" href="index.jsp">LMS-TFT</a>
+        <a class="navbar-brand brand-logo-mini" href="index.jsp">LMS</a>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -128,8 +131,36 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                  <h1>개발 기본 INDEX H1</h1>
-                  <h6 class="font-weight-normal mb-0">개발 기본 INDEX H6</span></h6>
+						<div class="container">
+							<h1>과제 입력</h1>
+							<form method="post" action="${pageContext.request.contextPath}/addAssignment" id="addForm" enctype="multipart/form-data">
+								번호 : <input type="hidden" name="assignmentExamNo" value="${assignmentExamNo}">
+								<div>
+									과목 : 
+										<input type="text" name="lectureName" id="lectureName">
+								</div>
+								<div>
+									제목 : <input type="text" name="assignmentExamTitle" id="assignmentExamTitle">
+								</div>
+								<div>
+									내용 :<br>
+									<textarea  rows="5" cols="50" name="assignmentExamContent" id="assignmentExamContent"></textarea>
+								</div>
+								<div>
+									기한 : <input type="date" name="createDate">~<input type="date" name="assignmentDeadLine">
+								</div>
+								<div>
+									<button type="button" id="addFileupload">파일 업로드 추가</button>
+									<div id="fileSection">
+										<!-- 파일 업로드 input 태그가 추가될 영역 -->
+									</div>
+								</div>
+								<div>
+									<button type="button" id="addAssignment">입력</button>
+								</div>
+							</form>
+							</div>
+ 
                 </div>
                 <div class="col-12 col-xl-4">
                  <div class="justify-content-end d-flex">
@@ -182,6 +213,46 @@
   <script src="js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
 </body>
+<script>
+	$('#addFileupload').click(function(){
+		let flag = true;
 
+		$('.assignmentFileList').each(function(){
+			if($(this).val() == ''){
+					flag = false;
+			}
+		});
+		
+		if(flag){
+			$('#fileSection').append("<div><input type='file' class='assignmentFileList' name='assignmentFileList'></div> ");
+		}else{
+			alert('파일이 첨부되지 않은 assignmentFileList가 존재합니다.');
+		}
+	});
+	
+	let flag = true;
+	
+	$('#addAssignment').click(function(){
+		if($('#assignmentExamTitle').val() == ''){
+			alert("과제 제목이 입력되지 않았습니다.")
+		}else if($('#assignmentExamCotnent').val() == ''){
+			alert("과제 내용을 입력해주세요");
+		}else{
+			$('.assignmentFileList').each(function(){
+				if($(this).val() == ''){
+						flag = false;
+				}
+			});
+			if(flag){
+				$('#addForm').submit();
+				return;
+			} else{
+				alert('파일이 첨부되지 않았습니다.');
+			}
+		}
+	});
+	
+	
+</script>
 </html>
 

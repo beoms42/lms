@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    
 <!DOCTYPE html>
-<html lang="en">
+<html>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
 <head>
 <meta charset="UTF-8">
   <!-- Required meta tags -->
@@ -9,27 +14,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>LMS-TFT</title>
   <!-- plugins:css -->
-  <link rel="stylesheet" href="vendors/feather/feather.css">
-  <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/vendors/feather/feather.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/vendors/css/vendor.bundle.base.css">
   <!-- endinject -->
   <!-- Plugin css for this page -->
-  <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-  <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" type="text/css" href="js/select.dataTables.min.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/js/select.dataTables.min.css">
   <!-- End plugin css for this page -->
   <!-- inject:css -->
-  <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/vertical-layout-light/style.css">
   <!-- endinject -->
-  <link rel="shortcut icon" href="images/tftace.jpg" />
+  <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/tftace.jpg" />
 </head>
 <body>
   <div class="container-scroller">
     <!-- partial:partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo mr-5" href="index.html">LMS-TFT</a>
-        <a class="navbar-brand brand-logo-mini" href="index.html">LMS</a>
+        <a class="navbar-brand brand-logo mr-5" href="${pageContext.request.contextPath}/loginCheck/main">LMS-TFT</a>
+        <a class="navbar-brand brand-logo-mini" href="${pageContext.request.contextPath}/loginCheck/main">LMS</a>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -93,7 +98,7 @@
           </li>
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-              <img src="images/tftace.jpg" alt="profile"/>
+              <img src="${pageContext.request.contextPath}/images/tftace.jpg" alt="profile"/>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
               <a class="dropdown-item">
@@ -128,8 +133,33 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                  <h1>개발 기본 INDEX H1</h1>
-                  <h6 class="font-weight-normal mb-0">개발 기본 INDEX H6</span></h6>
+						<div class="container">
+					 		<form action="${pageContext.request.contextPath}/getAssignmentExam" method="post">
+					 					과목 : ${lectureName}
+					 					<table border="1">
+											<c:forEach var="m" items="${assignmentExamList}" >	
+												<thead>
+													<tr>
+														<td>번호</td>
+														<td>과제 이름</td>
+														<th>시작일</th>
+														<th>기한</th>
+													</tr>
+												</theads>	 							
+												<tbody>
+													<tr>
+														<td><input type="hidden" name="assignmentExamNo" value="${m.assignmentExamNo}">${m.assignmentExamNo}</td>
+														<td><a href="#">${m.assignmentExamTitle}</a></td>
+														<td>${m.createDate}</td>
+														<td>${m.assignmentDeadLine}</td>
+													</tr>
+												</tbody>
+					 						</c:forEach>
+					 							<button type="submit">과제 입력</button>
+					 					</table>
+				 					</form>
+							</div>
+ 
                 </div>
                 <div class="col-12 col-xl-4">
                  <div class="justify-content-end d-flex">
@@ -160,26 +190,28 @@
   </div>
   <!-- container-scroller -->
 
+  <!-- container-scroller -->
+
   <!-- plugins:js -->
-  <script src="vendors/js/vendor.bundle.base.js"></script>
+  <script src="${pageContext.request.contextPath}/vendors/js/vendor.bundle.base.js"></script>
   <!-- endinject -->
   <!-- Plugin js for this page -->
-  <script src="vendors/chart.js/Chart.min.js"></script>
-  <script src="vendors/datatables.net/jquery.dataTables.js"></script>
-  <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-  <script src="js/dataTables.select.min.js"></script>
+  <script src="${pageContext.request.contextPath}/vendors/chart.js/Chart.min.js"></script>
+  <script src="${pageContext.request.contextPath}/vendors/datatables.net/jquery.dataTables.js"></script>
+  <script src="${pageContext.request.contextPath}/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+  <script src="${pageContext.request.contextPath}/js/dataTables.select.min.js"></script>
 
   <!-- End plugin js for this page -->
   <!-- inject:js -->
-  <script src="js/off-canvas.js"></script>
-  <script src="js/hoverable-collapse.js"></script>
-  <script src="js/template.js"></script>
-  <script src="js/settings.js"></script>
-  <script src="js/todolist.js"></script>
+  <script src="${pageContext.request.contextPath}/js/off-canvas.js"></script>
+  <script src="${pageContext.request.contextPath}/js/hoverable-collapse.js"></script>
+  <script src="${pageContext.request.contextPath}/js/template.js"></script>
+  <script src="${pageContext.request.contextPath}/js/settings.js"></script>
+  <script src="${pageContext.request.contextPath}/js/todolist.js"></script>
   <!-- endinject -->
   <!-- Custom js for this page-->
-  <script src="js/dashboard.js"></script>
-  <script src="js/Chart.roundedBarCharts.js"></script>
+  <script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
+  <script src="${pageContext.request.contextPath}/js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
 </body>
 

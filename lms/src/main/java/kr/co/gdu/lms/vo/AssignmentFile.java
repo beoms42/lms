@@ -10,6 +10,6 @@ public class AssignmentFile {
 	private String assignmentFileName;
 	private String assignmentFileOriginName;
 	private String assignmentFileType;
-	private int assignmentFileSize;
+	private long assignmentFileSize;
 	private String assignmentFileCreateDate;
 }
