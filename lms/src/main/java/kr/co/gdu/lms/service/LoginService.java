@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 public class LoginService {
 	@Autowired private LoginMapper loginMapper;
 	
-	// 학생 아이디 찾기
+		// 학생 아이디 찾기
 		public String searchLoginIdByStudent(Map<String, Object> map) {
 			log.debug(CF.PHW+"LoginService.searchLoginIdByStudent map : "+map+CF.RS );
 			return loginMapper.selectStudentLoginId(map);
@@ -50,8 +50,37 @@ public class LoginService {
 	public int idCheck(String id) {
 		
 		// 해당 아이디 있는지 체크해서 일치하는 개수 받아오기
-		int count = loginMapper.selectIdList(id);
+		int count = loginMapper.selectIdCnt(id);
 		
 		return count;
 	}
+	
+	// 회원가입
+	public void addMember(Map<String, Object> map) {
+		// 디버깅
+		log.debug(CF.OHI+"LoginService.addMember map : "+map+CF.RS );
+		int row =  0;
+	
+		row = loginMapper.insertMember(map);
+		
+		/*
+		if(map.get("addChk").equals("manager")) { // 매니저 회원가입이면
+		
+		}
+		
+		
+		 else if(map.get("addChk").equals("teacher")) { // 선생님 회원가입이면
+			row = loginMapper.insertTeacher(map);
+		} else { // 학생 회원가입이면
+			row = loginMapper.insertStudent(map);
+		}
+		*/
+		// 성공여부
+		log.debug(CF.OHI+"LoginService.addMember row : "+row+CF.RS );
+		
+		
+	}
+	
+	
+	
 }

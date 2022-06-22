@@ -2,6 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.gdu.lms.mapper.LoginMapper">
 
+	<!-- id 중복 체크 위해 id 리스트 받기-->
+	<select id = "selectIdCnt"
+			parameterType="String"
+			resultType="int">
+		SELECT 
+			count(*)
+		FROM login
+		WHERE login_id=#{id}
+	</select>
+	
+	<!-- 로그인 아이디와 비밀번호 확인하고 맞다면 해당 level 출력  -->
 	<select id="loginAndSelectLevel"
 			parameterType="kr.co.gdu.lms.vo.Login"
 			resultType = "kr.co.gdu.lms.vo.Login">
@@ -101,10 +112,62 @@
 		INSERT INTO pw_record VALUES (#{loginId},PASSWORD(#{loginPw}), NOW());
 	</insert>
 	
+	<!-- 매니저 회원가입 -->
+	<insert id="insertMember" parameterType="java.util.Map">
+		<where>
+			<if test='"manager".equals(msg)'>
+				INSERT INTO manager		
+			</if>
+			<if test='"teacher".equals(msg)'>
+				INSERT INTO teacher
+			</if>
+			<if test='"student".equals(msg)'>
+				INSERT INTO student
+			</if>
+		</where>
+		VALUES(
+			#{login.loginId}
+			, #{name}
+			, #{birth}
+			, #{gender}
+			, #{address}
+			, #{detailAddr}
+			, #{email}
+			, #{phone}
+		<where>
+			<if test='"teacher".equals(msg)'>
+				, #{education}
+			</if>
+			<if test='"student".equals(msg)'>
+				, #{education}
+				, #{military}
+			</if>
+		</where>
+		)
+	</insert>
 	
+	<insert id="insertLogin" parameterType="java.util.Map">
+		INSERT INTO login
+		VALUES(
+			#{login.loginId}
+			, #{login.loginPw}
+			, #{level}
+			, '1'
+			, now()
+			, now()
+			, now()
+		)
 	
-		
-		
-		
+	</insert>
+	
+	<!-- 강사 회원가입 -->
+	<insert id="insertTeacher" parameterType="java.util.Map">
+	
+	</insert>
+	
+	<!-- 학생 회원가입 -->
+	<insert id="insertStudent" parameterType="java.util.Map">
+	
+	</insert>
 		
 </mapper>

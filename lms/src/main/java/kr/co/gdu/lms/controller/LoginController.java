@@ -95,7 +95,8 @@ public class LoginController {
 	}
 	
 	@PostMapping("/addMember")
-	public String addMember(Login login
+	public String addMember(HttpServletRequest request
+			, Login login
 			, @RequestParam(value="name") String name
 			, @RequestParam(value="gender") String gender
 			, @RequestParam(value="email") String email
@@ -104,6 +105,7 @@ public class LoginController {
 			, @RequestParam(value="addr") String detailAddr
 			, @RequestParam(value="customFile")MultipartFile customFile
 			, @RequestParam(value="addChk") String addChk) {
+		
 		// 디버깅
 		log.debug(CF.OHI+"LoginController.addMember.Post login : "+login+CF.RS);
 		log.debug(CF.OHI+"LoginController.addMember.Post name : "+name+CF.RS);
@@ -114,17 +116,18 @@ public class LoginController {
 		log.debug(CF.OHI+"LoginController.addMember.Post detailAddr : "+detailAddr+CF.RS);
 		log.debug(CF.OHI+"LoginController.addMember.Post customFile : "+customFile+CF.RS);
 		log.debug(CF.OHI+"LoginController.addMember.Post addChk : "+addChk+CF.RS);
-		int row = 0;
-		if(addChk.equals("manager")) {
-			//row = loginService;
-			
-		} else if(addChk.equals("teacher")) {
-			//row = loginService;
-			
-		} else {
-			//row = loginService;
-			
-		}
+	
+		Map<String, Object> map = new HashMap<>();
+		map.put("login", login);
+		map.put("name", name);
+		map.put("gender", gender);
+		map.put("email", email);
+		map.put("phone", phone);
+		map.put("addr", addr);
+		map.put("detailAddr", detailAddr);
+		map.put("customFile", customFile);
+		map.put("addChk", addChk);
+		loginService.addMember(map);
 		
 		return "";
 	}

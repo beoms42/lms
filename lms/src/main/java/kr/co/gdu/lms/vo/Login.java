@@ -8,6 +8,7 @@ public class Login {
 	private String loginPw;
 	private int level;
 	private int loginActive;
+	private String lastLoginDate;
 	private String createDate;
 	private String updateDate;
 }

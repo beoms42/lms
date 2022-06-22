@@ -5,9 +5,6 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import kr.co.gdu.lms.vo.Login;
-import kr.co.gdu.lms.vo.Manager;
-import kr.co.gdu.lms.vo.Student;
-import kr.co.gdu.lms.vo.Teacher;
 
 @Mapper
 public interface LoginMapper {
@@ -24,5 +21,19 @@ public interface LoginMapper {
 	// 로그인 아이디와 비밀번호 확인하고 맞다면 해당 level 출력 
 	Login loginAndSelectLevel(Login loginTest);
 	
-	int selectIdList(String id);
+	// id 중복 체크 위해 id 리스트 받기
+	int selectIdCnt(String id);
+	
+	// 매니저 회원가입
+	int insertMember(Map<String, Object> map);
+	
+	// 회원가입시 로그인 테이블에도 추가
+	int insertLogin(Map<String, Object> map);
+	
+	// 강사 회원가입
+	//int insertTeacher(Map<String, Object> map);
+	
+	// 학생 회원가입
+	// int insertStudent(Map<String, Object> map);
+	
 }

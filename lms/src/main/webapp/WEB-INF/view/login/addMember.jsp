@@ -137,28 +137,30 @@
 	 										<span id="imageHelper"></span>
 						            </div>
 						            
-						            <!-- 학생과 강사만 -->
-						            <c:if test="${addChk eq 'student' || addChk eq 'teacher'}">
-							            <div class="form-group">
-								            <label>Military</label>
-								            <select class="form-control">
-								             	<option>해당없음</option>
-							                    <option>군필</option>
-							                    <option>미필</option>
-					                  		</select>
-							            </div>
-						            </c:if>
-						            <!-- 학생만 -->
-						            <c:if test="${addChk eq 'student'}">
+						            <!-- 학생과 강사 -->
+						              <c:if test="${addChk eq 'student' || addChk eq 'teacher'}">
 							            <div class="form-group">
 								            <label>Education</label>
-								            <select class="form-control">
+								            <select class="form-control" name="education">
 								             	<option>고졸</option>
 							                    <option>초대졸</option>
 							                    <option>대졸</option>
 					                  		</select>
 							            </div>
 						            </c:if>
+						            
+						            <!-- 학생만 -->
+						            <c:if test="${addChk eq 'student'}">
+							            <div class="form-group">
+								            <label>Military</label>
+								            <select class="form-control" name="military">
+								             	<option>해당없음</option>
+							                    <option>군필</option>
+							                    <option>미필</option>
+					                  		</select>
+							            </div>
+						            </c:if>
+						          
 						            <button type="button" class="btn btn-primary mr-2" id="addMemberBtn">회원 가입</button>
 						            <button class="btn btn-light">입력 취소</button>
 					            </form>
