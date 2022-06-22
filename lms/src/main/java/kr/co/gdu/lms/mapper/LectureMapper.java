@@ -22,4 +22,10 @@ public interface LectureMapper {
 	
 	// 강의 개설
 	int insertLecture(Lecture lecture);
+	
+	// 강의 관리 - 액티브가 1인 강의리스트만 필요
+	List<Lecture> selectLectureList();
+	
+	// 강의 승인 - 액티브가 0인 강의리스트만 필요
+	List<Lecture> selectNotAcceptLectureList();
 }

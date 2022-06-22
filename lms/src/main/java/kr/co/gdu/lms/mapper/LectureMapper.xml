@@ -50,7 +50,18 @@
 	
 	<insert id="insertLecture"
 		parameterType="kr.co.gdu.lms.vo.Lecture">
-		INSERT INTO lecture(lecture_name, teacher, manager, lecture_start_date, lecture_end_date, lecture_room_name, lecture_student_capacity, login_id, lecture_active, create_date, update_date)
+		INSERT INTO lecture(
+			lecture_name
+			, teacher
+			, manager
+			, lecture_start_date
+			, lecture_end_date
+			, lecture_room_name
+			, lecture_student_capacity
+			, login_id
+			, lecture_active
+			, create_date
+			, update_date)
 		VALUES(
 			#{lectureName}
 			, #{teacher}
@@ -65,4 +76,40 @@
 			, NOW()
 			)
 	</insert>
+	
+	<select id="selectLectureList"
+		resultType="kr.co.gdu.lms.vo.Lecture">
+	select
+		lecture_name lectureName
+		, teacher
+		, manager
+		, lecture_start_date lectureStartDate
+		, lecture_end_date lectureEndDate
+		, lecture_room_name lectureRoomName
+		, lecture_student_capacity lectureStudentCapacity
+		, login_id loginId
+		, lecture_active lectureActive
+		, create_date createDate
+		, update_date updateDate
+	FROM lecture
+	WHERE lecture_active = '1'
+	</select>	
+	
+	<select id="selectNotAcceptLectureList"
+		resultType="kr.co.gdu.lms.vo.Lecture">
+	select
+		lecture_name lectureName
+		, teacher
+		, manager
+		, lecture_start_date lectureStartDate
+		, lecture_end_date lectureEndDate
+		, lecture_room_name lectureRoomName
+		, lecture_student_capacity lectureStudentCapacity
+		, login_id loginId
+		, lecture_active lectureActive
+		, create_date createDate
+		, update_date updateDate
+	FROM lecture
+	WHERE lecture_active = '0'
+	</select>	
 </mapper>
