@@ -148,7 +148,7 @@
 					</tr>
 					<tr>
 						<th>주소</th>
-						<td>${student.address}</td>
+						<td>${student.address} ${student.detailAddress}</td> 
 					</tr>
 					<tr>
 						<th>이메일</th>
@@ -169,11 +169,11 @@
 					<tr>
 						<th>가입일</th>
 						<td>${student.createDate}</td>
-					</tr>
+					</tr>x
 				</table>
 				
 				<div>
-					<a href="${pageContext.request.contextPath}/loginCheck/modifyStudent?loginId=${student.loginId}&studentName=${student.studentName}&studentBirth=${student.studentGender}&address=${student.address}&studentEmail=${student.studentEmail}&studentPhone=${student.studentPhone}&militaryStatus=${student.militaryStatus}&graduate=${student.graduate}&createDate=${student.createDate}">수정</a>
+					<a href="${pageContext.request.contextPath}/loginCheck/modifyStudent?loginId=${student.loginId}&studentName=${student.studentName}&studentBirth=${student.studentBirth}&studentGender=${student.studentGender}&address=${student.address}&detailAddress=${student.detailAddress}&studentEmail=${student.studentEmail}&studentPhone=${student.studentPhone}&militaryStatus=${student.militaryStatus}&graduate=${student.graduate}">수정</a>
 					<a href="${pageContext.request.contextPath}/removeStudent?loginId=${student.loginId}">삭제</a>
 				</div>
                 </div>

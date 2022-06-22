@@ -129,7 +129,7 @@
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
                   <h1>개인정보 수정하기</h1>
-                  <form method="post" action="${pageContext.request.contextPath}/modifyMember}">	
+                  <form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyStudent">
 	                  <table class="table">
 						<tr>
 							<th>아이디</th>
@@ -155,12 +155,16 @@
 							<td><input type="text" value="${student.address}" name="address"></td>
 						</tr>
 						<tr>
+							<th>상세주소</th>
+							<td><input type="text" value="${student.detailAddress}" name="detailAddress"></td>
+						</tr>
+						<tr>
 							<th>이메일</th>
 							<td><input type="text" value="${student.studentEmail}" name="studentEmail"></td>
 						</tr>
 						<tr>
 							<th>전화번호</th>
-							<td><input type="text" value="${student.studentPhone}" name="studentPhone"></td>
+							<td><input type="text" value="${student.studentPhone}" name="studentPhone"> '-'를 제외하고 입력하시오.</td>
 						</tr>
 						<tr>
 							<th>병역유무</th>
@@ -178,11 +182,8 @@
 								<input type="radio" name="graduate" <c:if test="${student.graduate eq '대졸'}">checked</c:if> value="대졸"/>대졸
 							</td>
 						</tr>
-						<tr>
-							<th>가입일</th>
-							<td><input type="date" name="createDate" value="${student.createDate}" readonly="readonly"></td>
-						</tr>
 					</table>
+					<button>수정</button>
 				</form>
                 </div>
                 <div class="col-12 col-xl-4">

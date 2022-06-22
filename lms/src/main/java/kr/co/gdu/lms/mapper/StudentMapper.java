@@ -6,7 +6,7 @@ import kr.co.gdu.lms.vo.Login;
 import kr.co.gdu.lms.vo.Student;
 
 @Mapper
-public interface MemberMapper {
+public interface StudentMapper {
 	// 학생정보 상세보기 SELECT
 	Student selectStudentOne(String loginId);
 	
