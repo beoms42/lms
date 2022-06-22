@@ -31,6 +31,18 @@
 		)
 		
 	</insert>
+	<select id ="selectAssignmentOne"
+			resultType="kr.co.gdu.lms.vo.AssignmentExam"
+			parameterType="int">
+			SELECT assignment_exam_no assignmentExamNo
+				,lecture_name lectureName
+				,assignment_exam_title assignmentExamTitle
+				,assignment_exam_content assignmentExamContent
+				,assignment_deadline assignmentDeadLine
+				,create_date createDate
+		FROM assignment_exam
+		WHERE assignment_exam_no = #{assignmentExamNo}
+	</select>
 	<select	id="selectAssignmentTotalCount"
 			resultType="int">
 		SELECT COUNT(*) cnt FROM assignment_exam

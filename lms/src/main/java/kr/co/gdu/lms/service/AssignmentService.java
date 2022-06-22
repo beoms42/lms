@@ -1,6 +1,7 @@
 package kr.co.gdu.lms.service;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +55,18 @@ public class AssignmentService {
 		return returnMap;
 		
 	}
-	public int addAssignment(AssignmentExam assignmentexam,String path){
+	public Map<String,Object> getAssignmentOne(Map<String,Object> paramMap){
+		log.debug(CF.GMC+"AssignmentService.addAssignment.param assignmentExamNo : " + paramMap.get("assignmentExamNo") + CF.RS);
+		log.debug(CF.GMC+"AssignmentService.addAssignment.param assignmentExamNo : " + paramMap.get("sessionMemberId") + CF.RS);
+		List<AssignmentExam> assignmentList = assignmentmapper.selectAssignmentOne((int)paramMap.get("assignmentExamNo"));
+		List<AssignmentFile> assignmentListFile = assignmentfilemapper.selectAssinmetFile(paramMap);
+		
+		Map<String,Object> returnMap = new HashMap<>();
+		returnMap.put("assignmentList", assignmentList);
+		returnMap.put("assignmentListFile", assignmentListFile);
+		return returnMap;
+	}
+	public int addAssignment(AssignmentExam assignmentexam,String path)  {
 		log.debug(CF.GMC+"AssignmentService.addAssignment.param path : " + path + CF.RS);
 		log.debug(CF.GMC+"AssignmentService.addAssignment.param assignmentfileList : " + assignmentexam +CF.RS);
 		
@@ -101,13 +113,13 @@ public class AssignmentService {
 				assignmentFile.setLoginId(loginId);
 				assignmentfilemapper.insertAssingmentfile(assignmentFile);
 				
+				//파일 저장
 				try {
-					//파일 저장
 					mf.transferTo(new File(path+filename));
 				} catch (Exception e) {
 					e.printStackTrace();
-
-				} 
+					throw new RuntimeException();
+				}
 			}
 		}
 		
