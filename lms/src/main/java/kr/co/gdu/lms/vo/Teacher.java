@@ -11,7 +11,6 @@ public class Teacher {
 	private String teacherEmail;
 	private String detailAddr;
 	private String teacherPhone;
-	private String lastLoginDate;
 	private String graduate;
 	private String createDate;
 	private String updateDate;

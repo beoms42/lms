@@ -23,7 +23,6 @@
 				, address address
 				, detail_addr detailAddr
 				, teacher_phone teacherPhone
-				, last_login_date lastLoginDate
 				, graduate graduate
 			FROM teacher = #{loginId}
 	</select>
@@ -36,7 +35,6 @@
 				, detail_addr detailAddr= #{detailAddr}
 				, teacher_email= #{managerName} 
 				, teacher_phone= #{managerName}
-				, last_login_date= #{managerName}
 				, graduate= #{managerName}
 				WHERE login_id = #{loginId}	
 	</update>

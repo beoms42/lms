@@ -13,7 +13,6 @@
 		  , detail_addr detailAddr
 		  , manager_email managerEmail
 		  , manager_phone managerPhone
-		  , last_login_date lastLoginDate
 		  , dept_no deptNo
 		  , position_no positionNo
 		  , create_date createDate
