@@ -19,10 +19,22 @@
 			,#{assignmentFileSize}
 			,NOW()
 		)
-		
-		
 	</insert>
-
+	<select id="selectAssinmetFile"
+			parameterType="java.util.Map"
+			resultType="kr.co.gdu.lms.vo.AssignmentFile">
+		SELECT assignment_exam_no assignmentExamNo
+			,login_id loginId
+			,assignment_file_name assignmentFileName
+			,assignment_file_origin_name assignmentFileOriginName
+			,assignment_file_type assignmentFileType
+			,assignment_file_size assignmentFileSize
+			,assignment_file_create_date assignmentFileCreateDate
+		FROM assignment_file
+		WHERE assignment_exam_no = #{assignmentExamNo} 
+		AND login_id = #{loginId}
+		
+	</select>
 
 
 </mapper>

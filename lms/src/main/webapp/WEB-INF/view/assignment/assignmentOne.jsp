@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     
 <!DOCTYPE html>
 <html>
@@ -133,35 +133,52 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-						<div class="container">
-							<h1>과제 입력</h1>
-							<form method="post" action="${pageContext.request.contextPath}/loginCheck/addAssignment" id="addForm" enctype="multipart/form-data">
-								번호 : <input type="hidden" name="assignmentExamNo" value="${assignmentExamNo}">
-								<div>
-									과목 : 
-										<input type="text" name="lectureName" id="lectureName">
-								</div>
-								<div>
-									제목 : <input type="text" name="assignmentExamTitle" id="assignmentExamTitle">
-								</div>
-								<div>
-									내용 :<br>
-									<textarea  rows="5" cols="50" name="assignmentExamContent" id="assignmentExamContent"></textarea>
-								</div>
-								<div>
-									기한 : <input type="date" name="createDate">~<input type="date" name="assignmentDeadLine">
-								</div>
-								<div>
-									<button type="button" id="addFileupload">파일 업로드 추가</button>
-									<div id="fileSection">
-										<!-- 파일 업로드 input 태그가 추가될 영역 -->
-									</div>
-								</div>
-								<div>
-										<button type="button" id="addAssignment">입력</button>
-								</div>
-							</form>
-						</div>
+					<div class="container">
+						<h1>과제</h1>
+						<table class="table table-striped">
+					        <tbody>
+					        	<c:forEach var="n" items="${assignmentList}">
+						                <tr>
+						                	<td>번호</td>
+						                	<td>${n.assignmentExamNo}</td>
+						                </tr>
+						                <tr>
+						                	<td>과목</td>
+						                	<td>${n.lectureName}</td>
+						                </tr>
+								        <tr>
+								        	<td>제목</td>
+						                	<td>${n.assignmentExamTitle}</td>
+						                </tr>
+						                <tr>
+						                	<td>제출 기한</td>
+						                	<td>${n.createDate}~${n.assignmentDeadLine}</td>
+						                </tr> 
+							                <tr>
+									            <td><textarea name="noticeContent" rows="5" cols="50" readOnly="readOnly">${n.assignmentExamContent} </textarea></td>
+									        </tr>
+								      
+							        </c:forEach>
+					                <tr>
+					                	<td><a href="${pageContext.request.contextPath}/loginCheck/getAssignmentExam">목록</a></td>
+					                </tr>
+									<c:forEach var="f" items="${assignmentListFile}">
+							  			<tr>
+							  				<td>파일</td>
+							  				<c:if test="${f.assignmentFileType.equals('image/jpeg')}">
+							  					<c:forEach var="n" items="${assignmentListFile}">
+								  					<td><img src="${pageContext.request.contextPath}/upload/${f.assignemntFileName}"></td>
+							  					</c:forEach>
+							  				</c:if>
+							  				<c:if test="${f.assignmentFileType.equals('application/octet-stream')}">
+							  					<td><a href="${pageContext.request.contextPath}/upload/${f.assignemntFileName}">${f.assignemntFileName}</a></td>
+							  				</c:if>
+							  			</tr>
+							 	 	</c:forEach>
+					        </tbody>
+					    </table>
+					</div>
+					</div>
                 </div>
                 <div class="col-12 col-xl-4">
                  <div class="justify-content-end d-flex">
@@ -215,47 +232,7 @@
   <script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
   <script src="${pageContext.request.contextPath}/js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
-<script>
-	$('#addFileupload').click(function(){
-		let flag = true;
-
-		$('.assignmentFileList').each(function(){
-			if($(this).val() == ''){
-					flag = false;
-			}
-		});
-		
-		if(flag){
-			$('#fileSection').append("<div><input type='file' class='assignmentFileList' name='assignmentFileList'></div> ");
-		}else{
-			alert('파일이 첨부되지 않은 assignmentFileList가 존재합니다.');
-		}
-	});
-	
-	let flag = true;
-	
-	$('#addAssignment').click(function(){
-		if($('#assignmentExamTitle').val() == ''){
-			alert("과제 제목이 입력되지 않았습니다.")
-		}else if($('#assignmentExamCotnent').val() == ''){
-			alert("과제 내용을 입력해주세요");
-		}else{
-			$('.assignmentFileList').each(function(){
-				if($(this).val() == ''){
-						flag = false;
-				}
-			});
-			if(flag){
-				$('#addForm').submit();
-				return;
-			} else{
-				alert('파일이 첨부되지 않았습니다.');
-			}
-		}
-	});
-	
-	
-</script>
 </body>
+
 </html>
 
