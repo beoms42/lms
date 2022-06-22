@@ -154,16 +154,16 @@
                           <th>ID</th>
                           <th>매니저명</th>
                           <th>직급</th>
+                          <th>생성날짜</th>
                         </tr>
                       </thead>
                       <tbody>
-                      <c:forEach var="lect" items="${lectList}">
+                      <c:forEach var="m" items="${managerlist}">
                          <tr>
-                            <td>${manager}</td>
-                            <td>${manager.teacher}</td>
-                            <td>${manager.manager}</td>
-                           
-                            <td><label class="badge badge-success">//</label></td>
+                            <td><a href="${pageContext.request.contextPath}/loginCheck/getmanagerOne?loginId=${m.loginId}">${m.loginId}</a></td>
+                            <td>${m.managerName}</td>
+                            <td>${m.positionNo}</td>
+                            <td>${m.createDate}</td>
                          </tr>
                       </c:forEach>                
                       </tbody>

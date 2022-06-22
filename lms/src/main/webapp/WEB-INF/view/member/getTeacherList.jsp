@@ -154,8 +154,7 @@
                           <th>ID</th>
                           <th>매니저명</th>
                           <th>생년월일</th>
-                          <th>E_mail</th>
-                          <th>생성 날짜</th>
+                          <th>생성날짜</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -164,7 +163,6 @@
                             <td><a href="${pageContext.request.contextPath}/loginCheck/getTeacherOne?loginId=${t.loginId}">${t.loginId}</a></td>
                             <td>${t.teacherName}</td>
                             <td>${t.teacherBirth}</td>
-                            <td>${t.teacherEmail}</td>
                             <td>${t.createDate}</td>
                          </tr>
                       </c:forEach>                
