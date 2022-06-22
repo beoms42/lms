@@ -1,5 +1,8 @@
 package kr.co.gdu.lms.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +26,62 @@ import lombok.extern.slf4j.Slf4j;
 public class LoginController {
 
 	@Autowired private LoginService loginService;
+	
+	// 학생, 강사, 매니저 아이디 찾기 액션
+		@PostMapping("/searchLoginId")
+		public String searchLoginId(Model model
+									, @RequestParam String msg
+									, @RequestParam String name
+									, @RequestParam String email) {
+			log.debug(CF.PHW+"LoginController.searchLoginId.post msg : "+msg+CF.RS );
+			log.debug(CF.PHW+"LoginController.searchLoginId.post name : "+name+CF.RS );
+			log.debug(CF.PHW+"LoginController.searchLoginId.post email : "+email+CF.RS );
+			
+			Map<String, Object> map = new HashMap<>();
+			map.put("name", name);
+			map.put("email", email);
+			
+			String loginId = "";
+			
+			if("student".equals(msg)) {
+				loginId = loginService.searchLoginIdByStudent(map);
+				log.debug(CF.PHW+"LoginController.searchLoginId.post.if student loginId : "+loginId+CF.RS );
+			} else if("teacher".equals(msg)) {
+				loginId = loginService.searchLoginIdByTeacher(map);
+				log.debug(CF.PHW+"LoginController.searchLoginId.post.if teacher loginId : "+loginId+CF.RS );
+			} else if("manager".equals(msg)){
+				loginId = loginService.searchLoginIdByManager(map);
+				log.debug(CF.PHW+"LoginController.searchLoginId.post.if manager loginId : "+loginId+CF.RS );
+			} else {
+				log.debug(CF.PHW+"LoginController.searchLoginId.post.if msg : msg값이 사라졌습니다! "+CF.RS );
+			}
+				
+			model.addAttribute("loginId", loginId);
+			
+			return "login/searchLoginId";
+		}
+		
+		
+		
+		// 학생, 강사, 매니저 아이디 찾기 폼
+		@GetMapping("/searchLoginId")
+		public String searchLoginId(Model model
+									, @RequestParam(value = "msg", defaultValue = "student") String msg) {
+			log.debug(CF.PHW+"LoginController.searchLoginId.get msg : "+msg+CF.RS );
+			
+			model.addAttribute("msg", msg);
+			
+			return "login/searchLoginId";
+		}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	// 회원가입 폼
 	@GetMapping("/addMember")

@@ -1,5 +1,7 @@
 package kr.co.gdu.lms.service;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,25 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class LoginService {
 	@Autowired private LoginMapper loginMapper;
+	
+	// 학생 아이디 찾기
+		public String searchLoginIdByStudent(Map<String, Object> map) {
+			log.debug(CF.PHW+"LoginService.searchLoginIdByStudent map : "+map+CF.RS );
+			return loginMapper.selectStudentLoginId(map);
+		}
+		
+		// 강사 아이디 찾기 
+		public String searchLoginIdByTeacher(Map<String, Object> map) {
+			log.debug(CF.PHW+"LoginService.searchLoginIdByTeacher map : "+map+CF.RS );
+			return loginMapper.selectTeacherLoginId(map);
+		}
+		
+		// 매니저 아이디 찾기
+		public String searchLoginIdByManager(Map<String, Object> map) {
+			log.debug(CF.PHW+"LoginService.searchLoginIdByManager map : "+map+CF.RS );
+			return loginMapper.selectManagerLoginId(map);
+		}
+	
 	
 	public Login login(Login loginTest) {
 		log.debug(CF.OHI+"LoginService.login loginTest : "+loginTest+CF.RS);

@@ -54,7 +54,7 @@
                       아이디 저장
                     </label>
                   <span class="float-right">
-	                  <a href="#" class="auth-link text-black">아이디 찾기 /</a>
+	                  <a href="${pageContext.request.contextPath}/searchLoginId" class="auth-link text-black">아이디 찾기 /</a>
 	                  <a href="#" class="auth-link text-black">비밀번호 찾기</a>
                   </span>
                	</div>
@@ -85,6 +85,8 @@
   <script src="${pageContext.request.contextPath}/js/todolist.js"></script>
   <!-- endinject -->
   <script>
+  	
+  
   	$('#signIn').click(function() {
   		if($('#loginId').val() == '') {
   			$('#idHelper').text('id를 입력하세요');
