@@ -28,4 +28,16 @@ public interface LectureMapper {
 	
 	// 강의 승인 - 액티브가 0인 강의리스트만 필요
 	List<Lecture> selectNotAcceptLectureList();
+	
+	// 강의 승인 - 업데이트 0을 1으로
+	void updateLectureActive(String lectureName);
+	
+	// 강의 삭제
+	void deleteLecutre(String lectureName);
+	
+	// 과목 리스트 가져오기
+	List<String> selectSubejctList();
+	
+	// 강의 이름으로 subject 넣기
+	void insertSubject(String subjectName, String lectureName);
 }

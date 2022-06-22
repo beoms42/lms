@@ -175,7 +175,7 @@
                       		<td>${lect.lectureStudentCapacity}</td>
                       		<td>${lect.createDate}</td>
                       		<td><label class="badge badge-danger">개설 미승인</label></td>
-                      		<td><a href="#"><label class="badge badge-info">승인하기</label></a></td>
+                      		<td><a href="${pageContext.request.contextPath}/loginCheck/acceptActionLecture?lectureName=${lect.lectureName}"><label class="badge badge-info">승인하기</label></a></td>
                       	</tr>
                       </c:forEach>                
                       </tbody>

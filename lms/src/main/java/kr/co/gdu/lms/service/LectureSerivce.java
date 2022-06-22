@@ -74,4 +74,23 @@ public class LectureSerivce {
 		
 		return lectList;
 	}
+	
+	public void updateLectureActive(String lectureName) {
+		lectureMapper.updateLectureActive(lectureName);
+	}
+	
+	// 과목리스트 디스틴트로 가져오는 서비스
+	public List<String> selectSubejctList() {
+		List<String> subList = lectureMapper.selectSubejctList();
+		
+		return subList;
+	}
+	
+	// 강의에 과목리스트 넣기
+	public void insertSubjectList(List<String> subList, String lectureName) {
+		for(String s : subList) {
+			lectureMapper.insertSubject(s, lectureName);
+		}
+		
+	}
 }

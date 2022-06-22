@@ -148,7 +148,7 @@
                   <p class="card-description">
                     Basic form elements
                   </p>
-                  <form class="forms-sample" method="post" action="${pageContext.request.contextPath}/addLecture">
+                  <form class="forms-sample" method="post" action="${pageContext.request.contextPath}/loginCheck/addLecture">
                     <div class="form-group">
                       <label for="exampleInputName1">개설 강의명</label>
                       <input type="text" class="form-control" id="exampleInputName1" placeholder="강의명" name="lectureName">
@@ -174,7 +174,6 @@
 	                      
                       	<input type="text" class="form-control" aria-label="Text input with dropdown button" readonly="readonly" id="teacherName" name="teacherName">
                    	  </div>
-                    </div>
                     <div class="form-group">
                       <label for="exampleInputPassword4">담당 매니저</label>
                       <div class="input-group">
@@ -187,30 +186,26 @@
 	                          </c:forEach>
 	                        </select>
 	                      </div>
-	                      
+	                     </div> 
                       	<input type="text" class="form-control" aria-label="Text input with dropdown button" readonly="readonly" id="managerName" name="managerName">
                    	  </div>
                    	  
-                    </div>                    
+                   
                       
                     <div class="form-group">
                       <label for="exampleInputPassword4">강의실</label>
                       <div class="input-group">
 	                      <div class="input-group-prepend">
-	                      
-	                      <select class="lectureRoomNames">
+	                        <select class="lectureRoomNames">
 	                            <option value="">:::강의실 선택:::</option>
 	                          <c:forEach var="n" items="${lectureRoomList}">
 	                          	<option value="${n.lectureRoomName}">강의실 : ${n.lectureRoomName} / 정원 : ${n.lectureRoomAdmit}명</option>
 	                          </c:forEach>
 	                        </select>
-	                        
-	                        
-	                        
+	                        </div>
 	                      </div>
                       	<input type="text" class="form-control" aria-label="Text input with dropdown button" readonly="readonly" id="lectureRoomName" name="lectureRoomName">
                    	  </div>
-                    </div>
                     <div class="form-group">
                       <label for="exampleInputCity1">학생 정원</label>
                       <input type="number" class="form-control" id="exampleInputCity1" placeholder="" max="30" name="maxStudent">
@@ -221,7 +216,9 @@
                     </div>
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
                     <button class="btn btn-light">Cancel</button>
+                    </div>
                   </form>
+                  </div> 
                 </div>
               </div>
             </div>
