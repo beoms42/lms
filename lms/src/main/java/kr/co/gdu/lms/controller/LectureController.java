@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class LectureController {
 	@Autowired private LectureSerivce lectureService;
 	
-	@GetMapping("/createLecture")
+	@GetMapping("/loginCheck/addLecture")
 	public String createLecture(Model model
 			, HttpSession session) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -40,10 +40,10 @@ public class LectureController {
 		String loginId = (String) session.getAttribute("sessionId");
 		
 		model.addAttribute("loginId", loginId);
-		return "lecture/createLecture";
+		return "lecture/addLecture";
 	}
 	
-	@PostMapping("/addLecture")
+	@PostMapping("/loginCheck/addLecture")
 	public String addLecture(Model model
 			, @RequestParam(name = "lectureName") String lectureName
 			, @RequestParam(name = "lectureStartDate") String lectureStartDate
