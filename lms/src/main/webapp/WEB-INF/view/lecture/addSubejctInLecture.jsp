@@ -139,6 +139,49 @@
               </div>
             </div>
           </div>
+          
+          <!-- 강의개설 실제부분 --> 
+          <div class="row">
+            <div class="col-lg-2 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title"></h4>
+                  <p class="card-description">
+                  </p>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>강의명 : ${lectureName} </th>
+                        </tr>
+                      </thead>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-lg-3 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title"></h4>
+                  <p class="card-description">
+                  </p>
+                 <form action="${pageContext.request.contextPath}/loginCheck/addSubjectInLectureAction" method="get">
+                 	<input type="text" hidden="hidden" value="${lectureName}" name="lectureName">
+                 	<c:forEach var="subject" items="${subList}" >
+                 	<div>
+			        	<h2><input style="zoom:2.0;" type="checkbox" class="checkbox" name="checkedSubject" value="${subject}">&nbsp;${subject}</h2>
+			        	<br>
+			        </div>
+			        </c:forEach>
+			        <input type="submit"/>
+			    </form>
+                </div>
+              </div>
+            </div>
+          
+          </div>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
         <!-- partial -->

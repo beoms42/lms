@@ -112,4 +112,29 @@
 	FROM lecture
 	WHERE lecture_active = '0'
 	</select>	
+	
+	
+	<update id="updateLectureActive"
+		parameterType="String">
+		UPDATE lecture
+		SET lecture_active = '1'
+		WHERE lecture_name = #{lectureName}
+	</update>
+	
+	<delete id="deleteLecutre"
+		parameterType="String"></delete>
+		
+	<select id="selectSubejctList"
+		resultType="String">
+		SELECT DISTINCT
+			subject_name subjectName
+		FROM subject
+		</select>
+		
+	<insert id="insertSubject"
+		parameterType="String">
+		INSERT INTO lecture_subject(lecture_name, subject_name)
+		VALUES(#{lectureName}, #{subjectName})
+		
+		</insert>
 </mapper>

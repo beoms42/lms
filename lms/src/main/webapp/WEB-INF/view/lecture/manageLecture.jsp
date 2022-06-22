@@ -141,7 +141,7 @@
           </div>
           <!-- 강의개설 실제부분 --> 
           <div class="row">
-            <div class="col-lg-10 grid-margin stretch-card">
+            <div class="col-lg-11 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">현재 승인된 강의리스트</h4>
@@ -160,6 +160,7 @@
                           <th>인원수</th>
                           <th>개설일</th>
                           <th>현재상태</th>
+                          <th>기타</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -174,6 +175,11 @@
                       		<td>${lect.lectureStudentCapacity}</td>
                       		<td>${lect.createDate}</td>
                       		<td><label class="badge badge-success">개설 승인됨</label></td>
+                      		<td>
+                      		<a href="${pageContext.request.contextPath}/loginCheck/addSubjectInLecture?lectureName=${lect.lectureName}"><label class="badge badge-warning">과목설정</label></a>
+                      		<a href="#"><label class="badge badge-info">수정</label></a>
+                      		<a href="#"><label class="badge badge-danger">삭제</label></a>
+                      		</td>
                       	</tr>
                       </c:forEach>                
                       </tbody>
