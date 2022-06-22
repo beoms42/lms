@@ -12,7 +12,6 @@ public class Student {
 	private String detailAddress;
 	private String studentEmail;
 	private String studentPhone;
-	private String lastLoginDate;
 	private String militaryStatus;
 	private String graduate;
 	private String createDate;

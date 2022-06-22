@@ -13,5 +13,4 @@
 		WHERE login_id = #{loginId}
 	</select>
 	
-	
 </mapper>
