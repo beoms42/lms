@@ -38,15 +38,21 @@
 	<delete id="deleteStudent"
 			parameterType="kr.co.gdu.lms.vo.Student">
 		DELETE FROM student
-		WHERE student_id = #{studentId} 		
+		WHERE login_id = #{loginId} 		
 	</delete>
+	
+	<update id="updateStudentActive"
+			parameterType="kr.co.gdu.lms.vo.Login">
+		UPDATE login SET login_active = '0'
+		WHERE login_id = #{loginId} AND  login_pw = PASSWORD(#{loginPw})
+	</update>
 	
 	<select id="pwCheck"
 			resultType="int"
 			parameterType="kr.co.gdu.lms.vo.Login">
 		SELECT COUNT(*)
 		FROM login
-		WHERE login_id = #{loginId}
+		WHERE login_id = #{loginId} AND login_pw = PASSWORD(#{loginPw})
 	</select>
 	
 </mapper>

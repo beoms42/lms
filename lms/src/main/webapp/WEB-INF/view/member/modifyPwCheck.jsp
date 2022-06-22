@@ -128,58 +128,17 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                  <h1>개인정보</h1>
-                  <table class="table">
-                  	<tr>
-                  		<th>사진</th>
-                  		<td><img src="${pageContext.request.contextPath}/file/memberFile/${memberFile.memberFileName}"></td>
-                  	</tr>
-					<tr>
-						<th>아이디</th>
-						<td>${student.loginId}</td>
-					</tr>
-					<tr>
-						<th>이름</th>
-						<td>${student.studentName}</td>
-					</tr>
-					<tr>
-						<th>생년월일</th>
-						<td>${student.studentBirth}</td>
-					</tr>
-					<tr>
-						<th>성별</th>
-						<td>${student.studentGender}</td>
-					</tr>
-					<tr>
-						<th>주소</th>
-						<td>${student.address} ${student.detailAddress}</td> 
-					</tr>
-					<tr>
-						<th>이메일</th>
-						<td>${student.studentEmail}</td>
-					</tr>
-					<tr>
-						<th>전화번호</th>
-						<td>${student.studentPhone}</td>
-					</tr>
-					<tr>
-						<th>병역유무</th>
-						<td>${student.militaryStatus}</td>
-					</tr>
-					<tr>
-						<th>학력</th>
-						<td>${student.graduate}</td>
-					</tr>
-					<tr>
-						<th>가입일</th>
-						<td>${student.createDate}</td>
-					</tr>
-				</table>
-				
-				<div>
-					<a href="${pageContext.request.contextPath}/loginCheck/modifyPwCheck">수정</a>
-					<a href="${pageContext.request.contextPath}/loginCheck/removePwCheck">삭제</a>
-				</div>
+                  <h1>회원수정</h1>
+	                <form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyPwCheck">
+						<table class="table">
+							<tr>
+								<th>비밀번호 입력</th>
+								<td><input type="password" name="loginPw"></td>
+								<td><input type="text" name="loginId" value="${loginId}" readonly="readonly"></td>
+							</tr>
+						</table>
+						<button>비밀번호 입력</button>
+					</form>
                 </div>
                 <div class="col-12 col-xl-4">
                  <div class="justify-content-end d-flex">

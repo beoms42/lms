@@ -14,7 +14,10 @@ public interface StudentMapper {
 	int updateStudent(Student student);
 	
 	// 학생정보 삭제하기 DELETE(회원탈퇴)
-	int deleteStudent(Student student);
+	int deleteStudent(Login login);
+	
+	// 학생수준 수정하기 UPDATE(회원탈퇴)
+	int updateStudentActive(Login login);
 	
 	// 학생정보 수정/삭제를 위한 패스워드 접근
 	int pwCheck(Login login);

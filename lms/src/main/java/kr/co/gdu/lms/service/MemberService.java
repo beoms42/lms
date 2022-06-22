@@ -13,6 +13,7 @@ import kr.co.gdu.lms.mapper.ManagerMapper;
 import kr.co.gdu.lms.mapper.MemberFileMapper;
 import kr.co.gdu.lms.mapper.StudentMapper;
 import kr.co.gdu.lms.mapper.TeacherMapper;
+import kr.co.gdu.lms.vo.Login;
 import kr.co.gdu.lms.vo.Manager;
 import kr.co.gdu.lms.vo.MemberFile;
 import kr.co.gdu.lms.vo.Student;
@@ -36,28 +37,43 @@ public class MemberService {
 		log.debug(CF.GDH+"MemberService.getStudentOne student : "+student+CF.RS);
 		
 		// 학생파일 Mapper연결
-		List<MemberFile> memberFileList = memberFileMapper.selectMemberFileList(loginId);
-		log.debug(CF.GDH+"MemberService.getStudentOne memberFileList : "+memberFileList+CF.RS);
+		MemberFile memberFile = memberFileMapper.selectMemberFile(loginId);
+		log.debug(CF.GDH+"MemberService.getStudentOne memberFileList : "+memberFile+CF.RS);
 		
 		// 학생정보와 학생파일리스트 맵에 담기
 		Map<String, Object> returnMap = new HashMap<String, Object>();
 		returnMap.put("student", student);
-		returnMap.put("memberFileList", memberFileList);
+		returnMap.put("memberFile", memberFile);
 		
 		return returnMap;
 	}
 	
 	// 학생정보 수정하기
 	public int modifyStudent(Student student) {
-		log.debug(CF.GDH+"MemberService.getStudentOne student : " + student + CF.RS);
+		log.debug(CF.GDH+"MemberService.modifyStudent student : " + student + CF.RS);
 		return studentMapper.updateStudent(student);
 	}
 	
-	/* 학생정보 삭제하기
-	public Student deleteStudent() {
+	// 학생정보 삭제하기
+	public int removeStudent(Login login) {
+		log.debug(CF.GDH+"MemberService.removeStudent login : " + login + CF.RS);
 		
+		int activeRow = studentMapper.updateStudentActive(login);
+		log.debug(CF.GDH+"MemberService.removeStudent activeRow : " + activeRow + CF.RS);
+		
+		return studentMapper.deleteStudent(login);
 	}
-	*/
+	
+	// 비밀번호 확인하기
+	public int getPwCheck(Login login) {
+		log.debug(CF.GDH+"MemberService.getPwCheck login : " + login + CF.RS);
+		
+		int row = studentMapper.pwCheck(login);
+		log.debug(CF.GDH+"MemberService.getPwCheck row : " + row + CF.RS);
+		
+		return row;
+	}
+
 	
 		@Autowired  private ManagerMapper managerMapper;
 		@Autowired  private TeacherMapper teacherMapper;
