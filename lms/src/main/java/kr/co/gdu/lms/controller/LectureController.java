@@ -25,7 +25,7 @@ public class LectureController {
 	@Autowired private LectureSerivce lectureService;
 	
 	@GetMapping("/loginCheck/addLecture")
-	public String createLecture(Model model
+	public String addLecture(Model model
 			, HttpSession session) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		
@@ -36,6 +36,10 @@ public class LectureController {
 		model.addAttribute("teacherNameList", teacherNameList); //얘는 List<String>
 		model.addAttribute("managerNameList", managerNameList); //얘도 List<String>
 		model.addAttribute("lectureRoomList", lectureRoomList); //얘가,, List<LectureRoom>
+		
+		log.debug(CF.JYI+"LectureService.addLecture.get teacherNameList : "+teacherNameList+CF.RS);
+		log.debug(CF.JYI+"LectureService.addLecture.get managerNameList : "+managerNameList+CF.RS);
+		log.debug(CF.JYI+"LectureService.addLecture.get lectureRoomList : "+lectureRoomList+CF.RS);
 		
 		String loginId = (String) session.getAttribute("sessionId");
 		
@@ -62,11 +66,29 @@ public class LectureController {
 		lect.setLectureRoomName(lectureRoomName);
 		lect.setLectureStudentCapacity(maxStudent);
 		lect.setLoginId(loginId);
-		
-		log.debug(CF.JYI+"강의추가 - 강사 : "+lect+CF.RS);
 
-		lectureService.addLecutre(lect);
+		log.debug(CF.JYI+"LectureService.addLecture.post Lecture : "+lect+CF.RS);
+		
 		return "";
 	}
 	
+	@GetMapping("/loginCheck/manageLecture")
+	public String manageLecture(Model model
+			, HttpSession session) {
+		List<Lecture> lectList = lectureService.selectLectureList();
+		
+
+		log.debug(CF.JYI+"LectureService.manageLecture.get LectureList : "+lectList+CF.RS);
+		model.addAttribute("lectList", lectList);
+		return "lecture/manageLecture";
+	}
+	
+	@GetMapping("/loginCheck/acceptLecture")
+	public String acceptLecture(Model model
+			, HttpSession session) {
+		List<Lecture> lectList = lectureService.selectNotAcceptLectureList();
+		
+		model.addAttribute("lectList", lectList);
+		return "lecture/acceptLecture";
+	}
 }

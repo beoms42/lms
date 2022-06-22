@@ -38,6 +38,9 @@
                 <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">내 강의</a></li>
                 <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/getAssignmentExam">과제</a></li>
                 <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">성적</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/addLecture">관리자 - 강의개설</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/manageLecture">관리자 - 강의관리</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/acceptLecture">관리자 - 강의승인</a></li>
               </ul>
             </div>
           </li>

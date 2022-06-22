@@ -17,20 +17,20 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 @Service
 public class LectureSerivce {
-	@Autowired private LectureMapper lecutreMapper;
+	@Autowired private LectureMapper lectureMapper;
 	
 	// 강의개설시 필요한 드롭다운 메뉴 : 강사 / 매니저 / 강의실 / 정원(강의실)
 	public HashMap<String, Object> getMakeLectureNeed() {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		
 		// 강사 가져오기
-		List<Teacher> teacherList = lecutreMapper.selectTeacher();
+		List<Teacher> teacherList = lectureMapper.selectTeacher();
 		
 		// 매니저 가져오기
-		List<Manager> managerList = lecutreMapper.selectManager();
+		List<Manager> managerList = lectureMapper.selectManager();
 		
 		// 강의실, 정원 가져오기
-		List<LectureRoom> lectureRoomList = lecutreMapper.selectLectureRoom();
+		List<LectureRoom> lectureRoomList = lectureMapper.selectLectureRoom();
 		
 		log.debug(CF.JYI+"서비스 - 강사 : "+teacherList+CF.RS);
 		log.debug(CF.JYI+"서비스 - 매니저 : "+managerList+CF.RS);
@@ -57,7 +57,21 @@ public class LectureSerivce {
 	}
 	
 	public void addLecutre(Lecture lecture) {
-		lecutreMapper.insertLecture(lecture);
+		lectureMapper.insertLecture(lecture);
 		
+	}
+	
+	public List<Lecture> selectLectureList() {
+		List<Lecture> lectList = lectureMapper.selectLectureList();
+		log.debug(CF.JYI+"LectureService.selectLectureList LectureList : "+lectList+CF.RS);
+		
+		return lectList;
+	}
+	
+	public List<Lecture> selectNotAcceptLectureList() {
+		List<Lecture> lectList = lectureMapper.selectNotAcceptLectureList();
+		log.debug(CF.JYI+"LectureService.selectNotAcceptLectureList LectureList : "+lectList+CF.RS);
+		
+		return lectList;
 	}
 }
