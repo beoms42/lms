@@ -55,7 +55,7 @@
                     </label>
                   <span class="float-right">
 	                  <a href="${pageContext.request.contextPath}/searchLoginId" class="auth-link text-black">아이디 찾기 /</a>
-	                  <a href="#" class="auth-link text-black">비밀번호 찾기</a>
+	                  <a href="${pageContext.request.contextPath}/searchLoginPw" class="auth-link text-black">비밀번호 찾기</a>
                   </span>
                	</div>
                

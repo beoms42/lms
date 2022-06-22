@@ -2,17 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.gdu.lms.mapper.LoginMapper">
 
-	<!-- id 중복 체크 위해 id 리스트 받기-->
-	<select id = "selectIdCnt"
-			parameterType="String"
-			resultType="int">
-		SELECT 
-			count(*)
-		FROM login
-		WHERE login_id=#{id}
-	</select>
-	
-	<!-- 로그인 아이디와 비밀번호 확인하고 맞다면 해당 level 출력  -->
 	<select id="loginAndSelectLevel"
 			parameterType="kr.co.gdu.lms.vo.Login"
 			resultType = "kr.co.gdu.lms.vo.Login">
@@ -61,113 +50,61 @@
 	
 	<!--학생비밀번호 찾기-->
 	<select id="selectStudentPw"
-			parameterType="String"
-			resultType="kr.co.gdu.lms.vo.Student">
+			parameterType="java.util.Map"
+			resultType="int">
 		SELECT COUNT(*) cnt
 		FROM login AS l
 		JOIN student AS s
 		ON l.login_id = s.login_id
 		WHERE s.login_id = #{loginId}
-		AND s.student_name = #{studentName}
-		AND s.student_email = #{studentEmail};
+		AND s.student_name = #{name}
+		AND s.student_email = #{email};
 	</select>
 	
 	<!-- 매니저비밀번호 찾기 -->
 	<select id="selectManagerPw"
-			parameterType="String"
-			resultType="kr.co.gdu.lms.vo.Manager">
+			parameterType="java.util.Map"
+			resultType="int">
 		SELECT COUNT(*) cnt
 		FROM login AS l
 		JOIN manager AS m
 		ON l.login_id = m.login_id
 		WHERE m.login_id = #{loginId}
-		AND m.manager_name = #{managerName}
-		AND m.manager_email = #{managerEmail};
+		AND m.manager_name = #{name}
+		AND m.manager_email = #{email};
 	
 	</select>
 	
 	<!-- 강사비밀번호 찾기 -->
 	<select id="selectTeacherPw"
-			parameterType="String"
-			resultType="kr.co.gdu.lms.vo.Teacher">
+			parameterType="java.util.Map"
+			resultType="int">
 		SELECT COUNT(*) cnt
 		FROM login AS l
 		JOIN teacher AS t
 		ON l.login_id = t.login_id
 		WHERE t.login_id = #{loginId}
-		AND t.teacher_name = #{teacherName}
-		AND t.teacher_email = #{teacherEmail};
+		AND t.teacher_name = #{name}
+		AND t.teacher_email = #{email};
 	</select>
 	
 	<!-- 학생,강사,매니저 비밀번호 변경 -->
 	<update id="updatePw"
-			parameterType="int">
+			parameterType="java.util.Map">
 		UPDATE login SET login_pw=PASSWORD(#{loginPw}), update_date = NOW()
 		WHERE login_id = #{loginId};
 	</update>
 	
 	<!-- 학생,강사,매니저 비밀번호 변경 이력 테이블 삽입 -->
 	<insert id="insertPwRecord"
-			parameterType="int">
+			parameterType="java.util.Map">
 		INSERT INTO pw_record VALUES (#{loginId},PASSWORD(#{loginPw}), NOW());
 	</insert>
 	
-	<!-- 매니저 회원가입 -->
-	<insert id="insertMember" parameterType="java.util.Map">
-		<where>
-			<if test='"manager".equals(msg)'>
-				INSERT INTO manager		
-			</if>
-			<if test='"teacher".equals(msg)'>
-				INSERT INTO teacher
-			</if>
-			<if test='"student".equals(msg)'>
-				INSERT INTO student
-			</if>
-		</where>
-		VALUES(
-			#{login.loginId}
-			, #{name}
-			, #{birth}
-			, #{gender}
-			, #{address}
-			, #{detailAddr}
-			, #{email}
-			, #{phone}
-		<where>
-			<if test='"teacher".equals(msg)'>
-				, #{education}
-			</if>
-			<if test='"student".equals(msg)'>
-				, #{education}
-				, #{military}
-			</if>
-		</where>
-		)
-	</insert>
 	
-	<insert id="insertLogin" parameterType="java.util.Map">
-		INSERT INTO login
-		VALUES(
-			#{login.loginId}
-			, #{login.loginPw}
-			, #{level}
-			, '1'
-			, now()
-			, now()
-			, now()
-		)
 	
-	</insert>
-	
-	<!-- 강사 회원가입 -->
-	<insert id="insertTeacher" parameterType="java.util.Map">
-	
-	</insert>
-	
-	<!-- 학생 회원가입 -->
-	<insert id="insertStudent" parameterType="java.util.Map">
-	
-	</insert>
+		
+		
+		
 		
 </mapper>
