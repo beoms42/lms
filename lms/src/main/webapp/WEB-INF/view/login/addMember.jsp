@@ -72,12 +72,18 @@
 					            <h4 class="card-title bottom">회원 가입</h4>
 					            
 					            <form class="forms-sample">
-						            <div class="form-group">
-							            <label>Id</label>
-							            <input type="text" class="form-control" placeholder="Id" id="id">
+					            <div class="row">
+						            <div class="form-group col">
+							            <label>Id Check</label>
+							            <input type="text" class="form-control" placeholder="Id를 입력해주세요" id="id">
 							            <span id="idHelper"></span>
 							            <button type="button" class="float-right btn-inverse-primary" id="idChk">아이디 중복 검사</button>
 						            </div>
+						            <div class="form-group col">
+							            <label>Id</label>
+							            <input type="text" class="form-control" placeholder="Id" id="realId" readonly="readonly">
+						            </div>
+						         </div>
 						            <div class="form-group">
 							            <label>Password</label>
 							            <input type="password" class="form-control" placeholder="Password">
@@ -88,7 +94,7 @@
 						            </div>
 						            <div class="form-group">
 							            <label>Gender</label>
-							            <select class="form-control" id="exampleSelectGender">
+							            <select class="form-control">
 						                    <option>Male</option>
 						                    <option>Female</option>
 					                  	</select>
@@ -99,8 +105,24 @@
 						            </div>
 						            <div class="form-group">
 							            <label>Phone</label>
-							            <input type="email" class="form-control" placeholder="-를 제외하고 입력해주세요">
+							            <input type="number" class="form-control" placeholder="-를 제외하고 입력해주세요">
 						            </div>
+						            <div class="form-group">
+							            <label>Address</label>
+							            <input type="text" class="form-control" placeholder="주소를 입력해주세요" id="Addr">
+							            <button type="button" class="float-right btn-inverse-primary" id="searchAddr">주소 검색</button>
+						            </div>
+						            <br>
+						            <div class="form-group">
+							            <input type="text" class="form-control" placeholder="Address" readonly="readonly">
+						            </div>
+						            
+						            <div class="form-group">
+						            	<label>detail Address</label>
+							            <input type="text" class="form-control" placeholder="상세주소를 입력해주세요">
+						            </div>
+						            
+						            <!-- 학생과 강사만 -->
 						            <c:if test="${addChk eq 'student' || addChk eq 'teacher'}">
 							            <div class="form-group">
 								            <label>Military</label>
@@ -111,6 +133,7 @@
 					                  		</select>
 							            </div>
 						            </c:if>
+						            <!-- 학생만 -->
 						            <c:if test="${addChk eq 'student'}">
 							            <div class="form-group">
 								            <label>Education</label>
@@ -163,14 +186,30 @@
   					console.log('ck:', ck);
   					if(ck=='false') {
   						$('#idHelper').text('이미 사용중인 아이디 입니다.');
+  						$('#realId').val('');
   					} else {	
   						$('#idHelper').text('사용가능한 아이디 입니다.');
   						$('#id').val(ck);
+  						$('#realId').val(ck);
+  						
   					}
   				}
   			})
   		} else {
 			$('#idHelper').text('id는 4자 이상 입력해주셔야합니다.');
+  		}
+  	});
+  	
+  	$('#searchAddr').click(function() {
+  		if($('#Addr').val().length > 1) {
+  			$.ajax({
+  				type:'get'
+  				, url : url+'/searchAddr'
+  				, data : {addr:$('#addr').val()}
+  				, success:function(a){
+  					
+  				}
+  			})
   		}
   	});
   </script>

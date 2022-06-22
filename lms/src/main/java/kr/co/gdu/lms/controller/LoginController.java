@@ -64,7 +64,7 @@ public class LoginController {
 			}
 		}
 		
-		log.debug(CF.OHI+"LoginController.login get cookieId : "+cookieId+CF.RS);
+		log.debug(CF.OHI+"LoginController.login.get cookieId : "+cookieId+CF.RS);
 		
 		model.addAttribute("cookieId",cookieId);
 		return "login/login";
