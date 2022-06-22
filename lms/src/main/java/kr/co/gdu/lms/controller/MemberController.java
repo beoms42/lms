@@ -1,6 +1,7 @@
 package kr.co.gdu.lms.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -28,29 +29,39 @@ public class MemberController {
 	@Autowired  private TeacherMapper teacherMapper;
 	
 	
-	// 학생정보 상세보기
+	/* 학생정보 상세보기
 	@GetMapping("/loginCheck/getStudentOne")
 	public String getStudentOne (Model model, HttpSession session) {
+		// 세션을 통해 로그인ID 받아오기
 		String loginId = (String) session.getAttribute("sessionId");
 		log.debug(CF.GDH+"MemberController.getStudentOne loginId : "+loginId+CF.RS);
-		Student student = memberService.getStudentOne(loginId);
+		
+		// 맵에 로그인ID 담기
+		Map<String, Object> returnMap = memberService.getStudentOne(loginId);
 		log.debug(CF.GDH+"MemberController.getStudentOne student : "+student+CF.RS);
 		model.addAttribute("student", student);
 		return "member/getStudentOne";
 	}
+	*/
 	
 	// 학생정보 수정폼
 	@GetMapping("/loginCheck/modifyStudent")
 	public String modifyStudent (Model model, Student student) {
-		log.debug(CF.GDH+"MemberController.modifyStudent student : "+student+CF.RS);
+		log.debug(CF.GDH+"MemberController.modifyStudent.Get student : "+student+CF.RS);
 		model.addAttribute("student", student);
 		return "member/modifyStudent";
 	}
 	
 	// 학생정보 수정액션
 	@PostMapping("/loginCheck/modifyStudent")
-	public String modifyStudent (Model model, String loginId) {
-		return "member/modifyStudent";
+	public String modifyStudent (Student student) {
+		// 받아온 매개변수 디버깅
+		log.debug(CF.GDH+"MemberController.modifyStudent.Post student : "+student+CF.RS);
+		
+		//서비스로 보내기
+		int row = memberService.modifyStudent(student);
+		
+		return "redirect:/loginCheck/getStudentOne?loginId=" + student.getLoginId();
 	}
 	
 		// managerList
