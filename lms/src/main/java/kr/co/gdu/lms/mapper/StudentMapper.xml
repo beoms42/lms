@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.gdu.lms.mapper.StudentMapper">
+		<select id="selectStudentList" 
+			   resultType="kr.co.gdu.lms.vo.Student">
+			SELECT
+				login_id loginId
+				, student_name studentName
+				, student_birth studentBirth
+				, create_date createDate
+			FROM student 
+		</select>
+
 	<select id="selectStudentOne"
 			resultType="kr.co.gdu.lms.vo.Student"
 			parameterType="String">

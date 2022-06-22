@@ -29,6 +29,14 @@ public class MemberController {
 	@Autowired  private ManagerMapper managerMapper;
 	@Autowired  private TeacherMapper teacherMapper;
 	
+	@GetMapping("/loginCheck/getStudentList")
+	 public String getStudentList(Model model) {
+		 log.debug(CF.PSH+"MemberController.getStudentList :"+ CF.RS);
+		 List<Student> studentlist = memberService.getStudentList();
+		 model.addAttribute("studentlist", studentlist );
+	 return "member/getStudentList";   
+	 }
+	 
 	
 	// 학생정보 상세보기
 	@GetMapping("/loginCheck/getStudentOne")
