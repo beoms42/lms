@@ -25,4 +25,12 @@ public class LoginService {
 		
 		return login;
 	}
+	
+	public int idCheck(String id) {
+		
+		// 해당 아이디 있는지 체크해서 일치하는 개수 받아오기
+		int count = loginMapper.selectIdList(id);
+		
+		return count;
+	}
 }

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.gdu.lms.mapper.LoginMapper">
-
+	
+	<!-- login id와 pw 테스트 후 맞으면 아이디랑 level 추가 -->
 	<select id="loginAndSelectLevel"
 			parameterType="kr.co.gdu.lms.vo.Login"
 			resultType = "kr.co.gdu.lms.vo.Login">
@@ -12,6 +13,16 @@
 		WHERE login_id=#{loginId} AND login_pw=PASSWORD(#{loginPw});
 	</select>
 	
+	<!-- id 중복 체크 위해 id 리스트 받기-->
+	<select id = "selectIdList"
+			parameterType="String"
+			resultType="int">
+		SELECT 
+			count(*)
+		FROM login
+		WHERE login_id=#{id}
+	</select>
+	
 	<!--학생 아이디 찾기-->
 	<select id = "selectStudentLoginId"
 			parameterType="kr.co.gdu.lms.vo.Student"
@@ -19,9 +30,9 @@
 		SELECT l.login_id loginId
 		FROM login AS l
 		JOIN student AS s
-		ON l.login_id = s.login_id
+			ON l.login_id = s.login_id
 		WHERE s.student_name = #{studentName}
-		AND s.student_email = #{studentEmail};
+			AND s.student_email = #{studentEmail};
 	</select>
 	
 	<!--매니저 아이디 찾기-->
@@ -31,9 +42,9 @@
 		SELECT l.login_id loginId
 		FROM login AS l
 		JOIN manager AS m
-		ON l.login_id = m.login_id
+			ON l.login_id = m.login_id
 		WHERE m.manager_name = #{managerName}
-		AND m.manager_email = #{managerEmail};
+			AND m.manager_email = #{managerEmail};
 	</select>
 	
 	<!--강사 아이디 찾기-->
@@ -43,9 +54,9 @@
 		SELECT l.login_id loginId
 		FROM login AS l
 		JOIN teacher AS t
-		ON l.login_id = t.login_id
+			ON l.login_id = t.login_id
 		WHERE t.teacher_name = #{teacherName}
-		AND t.teacher_email = #{teacherEmail};
+			AND t.teacher_email = #{teacherEmail};
 	</select>
 	
 	<!--학생비밀번호 찾기-->
@@ -55,10 +66,10 @@
 		SELECT COUNT(*) cnt
 		FROM login AS l
 		JOIN student AS s
-		ON l.login_id = s.login_id
+			ON l.login_id = s.login_id
 		WHERE s.login_id = #{loginId}
-		AND s.student_name = #{studentName}
-		AND s.student_email = #{studentEmail};
+			AND s.student_name = #{studentName}
+			AND s.student_email = #{studentEmail};
 	</select>
 	
 	<!-- 매니저비밀번호 찾기 -->
@@ -68,10 +79,10 @@
 		SELECT COUNT(*) cnt
 		FROM login AS l
 		JOIN manager AS m
-		ON l.login_id = m.login_id
+			ON l.login_id = m.login_id
 		WHERE m.login_id = #{loginId}
-		AND m.manager_name = #{managerName}
-		AND m.manager_email = #{managerEmail};
+			AND m.manager_name = #{managerName}
+			AND m.manager_email = #{managerEmail};
 	
 	</select>
 	
@@ -82,16 +93,18 @@
 		SELECT COUNT(*) cnt
 		FROM login AS l
 		JOIN teacher AS t
-		ON l.login_id = t.login_id
+			ON l.login_id = t.login_id
 		WHERE t.login_id = #{loginId}
-		AND t.teacher_name = #{teacherName}
-		AND t.teacher_email = #{teacherEmail};
+			AND t.teacher_name = #{teacherName}
+			AND t.teacher_email = #{teacherEmail};
 	</select>
 	
 	<!-- 학생,강사,매니저 비밀번호 변경 -->
 	<update id="updatePw"
 			parameterType="int">
-		UPDATE login SET login_pw=PASSWORD(#{loginPw}), update_date = NOW()
+		UPDATE 
+			login SET login_pw=PASSWORD(#{loginPw})
+			, update_date = NOW()
 		WHERE login_id = #{loginId};
 	</update>
 	

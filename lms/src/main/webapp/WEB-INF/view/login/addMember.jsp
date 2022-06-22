@@ -74,7 +74,9 @@
 					            <form class="forms-sample">
 						            <div class="form-group">
 							            <label>Id</label>
-							            <input type="text" class="form-control" placeholder="Id">
+							            <input type="text" class="form-control" placeholder="Id" id="id">
+							            <span id="idHelper"></span>
+							            <button type="button" class="float-right btn-inverse-primary" id="idChk">아이디 중복 검사</button>
 						            </div>
 						            <div class="form-group">
 							            <label>Password</label>
@@ -97,7 +99,7 @@
 						            </div>
 						            <div class="form-group">
 							            <label>Phone</label>
-							            <input type="email" class="form-control" placeholder="Phone">
+							            <input type="email" class="form-control" placeholder="-를 제외하고 입력해주세요">
 						            </div>
 						            <c:if test="${addChk eq 'student' || addChk eq 'teacher'}">
 							            <div class="form-group">
@@ -149,6 +151,29 @@
   <script src="${pageContext.request.contextPath}/js/typeahead.js"></script>
   <script src="${pageContext.request.contextPath}/js/select2.js"></script>
   <!-- End custom js for this page-->
+  <script>
+  var url="${pageContext.request.contextPath}";
+  	$('#idChk').click(function() {
+  		if($('#id').val().length > 3) {
+  			$.ajax({
+  				type:'post'
+  				, url : url+'/idCheck'
+  				, data : {id:$('#id').val()}
+  				, success:function(ck) {
+  					console.log('ck:', ck);
+  					if(ck=='false') {
+  						$('#idHelper').text('이미 사용중인 아이디 입니다.');
+  					} else {	
+  						$('#idHelper').text('사용가능한 아이디 입니다.');
+  						$('#id').val(ck);
+  					}
+  				}
+  			})
+  		} else {
+			$('#idHelper').text('id는 4자 이상 입력해주셔야합니다.');
+  		}
+  	});
+  </script>
 </body>
 
 </html>
