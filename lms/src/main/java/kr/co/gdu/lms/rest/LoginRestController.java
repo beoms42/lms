@@ -39,10 +39,11 @@ public class LoginRestController {
 		//OPEN API 호출 URL 정보 설정
 		String confmKey = "devU01TX0FVVEgyMDIyMDYyMDA4NTcxNDExMjcwNDY="; // 인증키
 		String resultType = "json"; // json타입으로 넣기
+		int countPerPage = 100000000;
 		StringBuffer sb = null; // return 타입 선언
 		
 		try {
-			String apiUrl = "https://www.juso.go.kr/addrlink/addrLinkApi.do?currentPage="+"&keyword="+URLEncoder.encode(keyword,"UTF-8")+"&confmKey="+confmKey+"&resultType="+resultType;
+			String apiUrl = "https://www.juso.go.kr/addrlink/addrLinkApi.do?countPerPage="+countPerPage+"&keyword="+URLEncoder.encode(keyword,"UTF-8")+"&confmKey="+confmKey+"&resultType="+resultType;
 			
 			URL url = new URL(apiUrl); // 인터넷상 자원 참조하기 위해
 			//UTF-8로 인코딩해서 묶어서 보내기 위해 br에 담기

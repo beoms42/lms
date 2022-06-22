@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.service.LoginService;
@@ -34,6 +35,40 @@ public class LoginController {
 		return "login/addMember";
 	}
 	
+	@PostMapping("/addMember")
+	public String addMember(Login login
+			, @RequestParam(value="name") String name
+			, @RequestParam(value="gender") String gender
+			, @RequestParam(value="email") String email
+			, @RequestParam(value="phone") String phone
+			, @RequestParam(value="addr") String addr
+			, @RequestParam(value="addr") String detailAddr
+			, @RequestParam(value="customFile")MultipartFile customFile
+			, @RequestParam(value="addChk") String addChk) {
+		// 디버깅
+		log.debug(CF.OHI+"LoginController.addMember.Post login : "+login+CF.RS);
+		log.debug(CF.OHI+"LoginController.addMember.Post name : "+name+CF.RS);
+		log.debug(CF.OHI+"LoginController.addMember.Post gender : "+gender+CF.RS);
+		log.debug(CF.OHI+"LoginController.addMember.Post email : "+email+CF.RS);
+		log.debug(CF.OHI+"LoginController.addMember.Post phone : "+phone+CF.RS);
+		log.debug(CF.OHI+"LoginController.addMember.Post addr : "+addr+CF.RS);
+		log.debug(CF.OHI+"LoginController.addMember.Post detailAddr : "+detailAddr+CF.RS);
+		log.debug(CF.OHI+"LoginController.addMember.Post customFile : "+customFile+CF.RS);
+		log.debug(CF.OHI+"LoginController.addMember.Post addChk : "+addChk+CF.RS);
+		int row = 0;
+		if(addChk.equals("manager")) {
+			//row = loginService;
+			
+		} else if(addChk.equals("teacher")) {
+			//row = loginService;
+			
+		} else {
+			//row = loginService;
+			
+		}
+		
+		return "";
+	}
 	// 로그아웃
 	@GetMapping("/loginCheck/logout")
 	public String logout(HttpSession session) {
