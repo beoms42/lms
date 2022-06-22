@@ -134,28 +134,32 @@
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
 						<div class="container">
-					 		<form action="${pageContext.request.contextPath}/getAssignmentExam" method="post">
+					 		<form action="${pageContext.request.contextPath}/loginCheck/getAssignmentExam" method="post">
 					 					과목 : ${lectureName}
 					 					<table border="1">
 											<c:forEach var="m" items="${assignmentExamList}" >	
 												<thead>
 													<tr>
-														<td>번호</td>
-														<td>과제 이름</td>
+														<th>번호</th>
+														<th>과제 이름</th>
 														<th>시작일</th>
 														<th>기한</th>
+														<th>점수</th>
 													</tr>
 												</theads>	 							
 												<tbody>
 													<tr>
 														<td><input type="hidden" name="assignmentExamNo" value="${m.assignmentExamNo}">${m.assignmentExamNo}</td>
-														<td><a href="#">${m.assignmentExamTitle}</a></td>
+														<td><a href="${pageContext.request.contextPath}/loginCheck/getAssignmentOne?assignmentExamNo=${m.assignmentExamNo}">${m.assignmentExamTitle}</a></td>
 														<td>${m.createDate}</td>
 														<td>${m.assignmentDeadLine}</td>
+														<td><a href="#">입력</a></td>
 													</tr>
 												</tbody>
 					 						</c:forEach>
+					 						<c:if test="${level>=2}">
 					 							<button type="submit">과제 입력</button>
+					 						</c:if>
 					 					</table>
 				 					</form>
 							</div>

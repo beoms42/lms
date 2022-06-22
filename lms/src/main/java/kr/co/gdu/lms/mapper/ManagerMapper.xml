@@ -25,11 +25,6 @@
 		SELECT 
 		  login_id loginId
 		  , manager_name managerName
-		  , manager_gender managerGender
-		  , address
-		  , manager_phone managerPhone
-		  , last_login_date lastLoginDate
-		  , dept_no deptNo
 		  , position_no positionNo
 		FROM manager 
 	</select>

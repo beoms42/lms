@@ -1,12 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-    
 <!DOCTYPE html>
 <html>
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
 <head>
 <meta charset="UTF-8">
   <!-- Required meta tags -->
@@ -27,6 +23,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/vertical-layout-light/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/tftace.jpg" />
+  <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
   <div class="container-scroller">
@@ -34,7 +31,7 @@
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
         <a class="navbar-brand brand-logo mr-5" href="${pageContext.request.contextPath}/loginCheck/main">LMS-TFT</a>
-        <a class="navbar-brand brand-logo-mini" href="${pageContext.request.contextPath}/loginCheck/main">LMS</a>
+        <a class="navbar-brand brand-logo-mini" href="index.html">LMS</a>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -43,7 +40,7 @@
         <ul class="navbar-nav mr-lg-2">
           <li class="nav-item nav-search d-none d-lg-block">
             <div class="input-group">
-            	
+               
             </div>
           </li>
         </ul>
@@ -133,35 +130,7 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-						<div class="container">
-							<h1>과제 입력</h1>
-							<form method="post" action="${pageContext.request.contextPath}/loginCheck/addAssignment" id="addForm" enctype="multipart/form-data">
-								번호 : <input type="hidden" name="assignmentExamNo" value="${assignmentExamNo}">
-								<div>
-									과목 : 
-										<input type="text" name="lectureName" id="lectureName">
-								</div>
-								<div>
-									제목 : <input type="text" name="assignmentExamTitle" id="assignmentExamTitle">
-								</div>
-								<div>
-									내용 :<br>
-									<textarea  rows="5" cols="50" name="assignmentExamContent" id="assignmentExamContent"></textarea>
-								</div>
-								<div>
-									기한 : <input type="date" name="createDate">~<input type="date" name="assignmentDeadLine">
-								</div>
-								<div>
-									<button type="button" id="addFileupload">파일 업로드 추가</button>
-									<div id="fileSection">
-										<!-- 파일 업로드 input 태그가 추가될 영역 -->
-									</div>
-								</div>
-								<div>
-										<button type="button" id="addAssignment">입력</button>
-								</div>
-							</form>
-						</div>
+                  <h1>매니저 목록 리스트</h1>
                 </div>
                 <div class="col-12 col-xl-4">
                  <div class="justify-content-end d-flex">
@@ -170,28 +139,49 @@
               </div>
             </div>
           </div>
+          <!-- 강의개설 실제부분 --> 
+          <div class="row">
+            <div class="col-lg-10 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">매니저</h4>
+                  <p class="card-description">
+                  </p>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>매니저명</th>
+                          <th>직급</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      <c:forEach var="lect" items="${lectList}">
+                         <tr>
+                            <td>${manager}</td>
+                            <td>${manager.teacher}</td>
+                            <td>${manager.manager}</td>
+                           
+                            <td><label class="badge badge-success">//</label></td>
+                         </tr>
+                      </c:forEach>                
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
           
-          
-        </div>
+          </div>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
-        <footer class="footer">
-          <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021.  Premium <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a> from BootstrapDash. All rights reserved.</span>
-            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span>
-          </div>
-          <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Distributed by <a href="https://www.themewagon.com/" target="_blank">Themewagon</a></span> 
-          </div>
-        </footer> 
         <!-- partial -->
       </div>
       <!-- main-panel ends -->
     </div>   
     <!-- page-body-wrapper ends -->
   </div>
-  <!-- container-scroller -->
-
   <!-- container-scroller -->
 
   <!-- plugins:js -->
@@ -215,47 +205,6 @@
   <script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
   <script src="${pageContext.request.contextPath}/js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
-<script>
-	$('#addFileupload').click(function(){
-		let flag = true;
 
-		$('.assignmentFileList').each(function(){
-			if($(this).val() == ''){
-					flag = false;
-			}
-		});
-		
-		if(flag){
-			$('#fileSection').append("<div><input type='file' class='assignmentFileList' name='assignmentFileList'></div> ");
-		}else{
-			alert('파일이 첨부되지 않은 assignmentFileList가 존재합니다.');
-		}
-	});
-	
-	let flag = true;
-	
-	$('#addAssignment').click(function(){
-		if($('#assignmentExamTitle').val() == ''){
-			alert("과제 제목이 입력되지 않았습니다.")
-		}else if($('#assignmentExamCotnent').val() == ''){
-			alert("과제 내용을 입력해주세요");
-		}else{
-			$('.assignmentFileList').each(function(){
-				if($(this).val() == ''){
-						flag = false;
-				}
-			});
-			if(flag){
-				$('#addForm').submit();
-				return;
-			} else{
-				alert('파일이 첨부되지 않았습니다.');
-			}
-		}
-	});
-	
-	
-</script>
 </body>
 </html>
-

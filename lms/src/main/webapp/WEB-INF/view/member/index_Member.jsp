@@ -1,12 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-    
 <!DOCTYPE html>
-<html>
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
+<html lang="en">
 <head>
 <meta charset="UTF-8">
   <!-- Required meta tags -->
@@ -14,27 +9,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>LMS-TFT</title>
   <!-- plugins:css -->
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/vendors/feather/feather.css">
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="vendors/feather/feather.css">
+  <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
   <!-- endinject -->
   <!-- Plugin css for this page -->
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/js/select.dataTables.min.css">
+  <link rel="stylesheet" href="vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+  <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" type="text/css" href="js/select.dataTables.min.css">
   <!-- End plugin css for this page -->
   <!-- inject:css -->
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/vertical-layout-light/style.css">
+  <link rel="stylesheet" href="css/vertical-layout-light/style.css">
   <!-- endinject -->
-  <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/tftace.jpg" />
+  <link rel="shortcut icon" href="images/tftace.jpg" />
 </head>
 <body>
   <div class="container-scroller">
     <!-- partial:partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo mr-5" href="${pageContext.request.contextPath}/loginCheck/main">LMS-TFT</a>
-        <a class="navbar-brand brand-logo-mini" href="${pageContext.request.contextPath}/loginCheck/main">LMS</a>
+        <a class="navbar-brand brand-logo mr-5" href="index.html">LMS-TFT</a>
+        <a class="navbar-brand brand-logo-mini" href="index.html">LMS</a>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -98,7 +93,7 @@
           </li>
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-              <img src="${pageContext.request.contextPath}/images/tftace.jpg" alt="profile"/>
+              <img src="images/tftace.jpg" alt="profile"/>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
               <a class="dropdown-item">
@@ -133,35 +128,8 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-						<div class="container">
-							<h1>과제 입력</h1>
-							<form method="post" action="${pageContext.request.contextPath}/loginCheck/addAssignment" id="addForm" enctype="multipart/form-data">
-								번호 : <input type="hidden" name="assignmentExamNo" value="${assignmentExamNo}">
-								<div>
-									과목 : 
-										<input type="text" name="lectureName" id="lectureName">
-								</div>
-								<div>
-									제목 : <input type="text" name="assignmentExamTitle" id="assignmentExamTitle">
-								</div>
-								<div>
-									내용 :<br>
-									<textarea  rows="5" cols="50" name="assignmentExamContent" id="assignmentExamContent"></textarea>
-								</div>
-								<div>
-									기한 : <input type="date" name="createDate">~<input type="date" name="assignmentDeadLine">
-								</div>
-								<div>
-									<button type="button" id="addFileupload">파일 업로드 추가</button>
-									<div id="fileSection">
-										<!-- 파일 업로드 input 태그가 추가될 영역 -->
-									</div>
-								</div>
-								<div>
-										<button type="button" id="addAssignment">입력</button>
-								</div>
-							</form>
-						</div>
+                  <h1>개발 기본 INDEX H1</h1>
+                  <h6 class="font-weight-normal mb-0">개발 기본 INDEX H6</span></h6>
                 </div>
                 <div class="col-12 col-xl-4">
                  <div class="justify-content-end d-flex">
@@ -192,70 +160,28 @@
   </div>
   <!-- container-scroller -->
 
-  <!-- container-scroller -->
-
   <!-- plugins:js -->
-  <script src="${pageContext.request.contextPath}/vendors/js/vendor.bundle.base.js"></script>
+  <script src="vendors/js/vendor.bundle.base.js"></script>
   <!-- endinject -->
   <!-- Plugin js for this page -->
-  <script src="${pageContext.request.contextPath}/vendors/chart.js/Chart.min.js"></script>
-  <script src="${pageContext.request.contextPath}/vendors/datatables.net/jquery.dataTables.js"></script>
-  <script src="${pageContext.request.contextPath}/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-  <script src="${pageContext.request.contextPath}/js/dataTables.select.min.js"></script>
+  <script src="vendors/chart.js/Chart.min.js"></script>
+  <script src="vendors/datatables.net/jquery.dataTables.js"></script>
+  <script src="vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+  <script src="js/dataTables.select.min.js"></script>
 
   <!-- End plugin js for this page -->
   <!-- inject:js -->
-  <script src="${pageContext.request.contextPath}/js/off-canvas.js"></script>
-  <script src="${pageContext.request.contextPath}/js/hoverable-collapse.js"></script>
-  <script src="${pageContext.request.contextPath}/js/template.js"></script>
-  <script src="${pageContext.request.contextPath}/js/settings.js"></script>
-  <script src="${pageContext.request.contextPath}/js/todolist.js"></script>
+  <script src="js/off-canvas.js"></script>
+  <script src="js/hoverable-collapse.js"></script>
+  <script src="js/template.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/todolist.js"></script>
   <!-- endinject -->
   <!-- Custom js for this page-->
-  <script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
-  <script src="${pageContext.request.contextPath}/js/Chart.roundedBarCharts.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
-<script>
-	$('#addFileupload').click(function(){
-		let flag = true;
-
-		$('.assignmentFileList').each(function(){
-			if($(this).val() == ''){
-					flag = false;
-			}
-		});
-		
-		if(flag){
-			$('#fileSection').append("<div><input type='file' class='assignmentFileList' name='assignmentFileList'></div> ");
-		}else{
-			alert('파일이 첨부되지 않은 assignmentFileList가 존재합니다.');
-		}
-	});
-	
-	let flag = true;
-	
-	$('#addAssignment').click(function(){
-		if($('#assignmentExamTitle').val() == ''){
-			alert("과제 제목이 입력되지 않았습니다.")
-		}else if($('#assignmentExamCotnent').val() == ''){
-			alert("과제 내용을 입력해주세요");
-		}else{
-			$('.assignmentFileList').each(function(){
-				if($(this).val() == ''){
-						flag = false;
-				}
-			});
-			if(flag){
-				$('#addForm').submit();
-				return;
-			} else{
-				alert('파일이 첨부되지 않았습니다.');
-			}
-		}
-	});
-	
-	
-</script>
 </body>
+
 </html>
 

@@ -21,4 +21,5 @@ public interface ManagerMapper {
 	//매니저 정보 삭제
 	int deleteManager(String loginId);
 	
+	
 }
