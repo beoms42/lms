@@ -40,4 +40,10 @@ public interface LectureMapper {
 	
 	// 강의 이름으로 subject 넣기
 	void insertSubject(String subjectName, String lectureName);
+	
+	// 강의명으로 subject 가져오기
+	List<String> selectSubjectListByLectureName(String lectureName);
+	
+	// 강의 이름으로 Lecture 하나 조회
+	Lecture selectLectureOneByLectureName(String lectureName);
 }

@@ -142,7 +142,7 @@
           
           <!-- 강의개설 실제부분 --> 
           <div class="row">
-            <div class="col-lg-2 grid-margin stretch-card">
+            <div class="col-lg-3 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title"></h4>
@@ -152,9 +152,16 @@
                     <table class="table">
                       <thead>
                         <tr>
-                          <th>강의명 : ${lectureName} </th>
+                          <th>[${lectureName}] 강의 현재 과목 </th>
                         </tr>
                       </thead>
+                      <tbody>
+                      	<c:forEach var="haveSubList" items="${haveSubList}" >
+		                 	<tr>
+		                 		<td>${haveSubList}</td>
+		                 	</tr>
+			        	</c:forEach>
+                      </tbody>
                     </table>
                   </div>
                 </div>

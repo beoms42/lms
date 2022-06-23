@@ -43,6 +43,8 @@ public class LectureController {
 		
 		String loginId = (String) session.getAttribute("sessionId");
 		
+		log.debug(CF.JYI+"LectureService.addLecture.get loginId : "+loginId+CF.RS);
+		
 		model.addAttribute("loginId", loginId);
 		return "lecture/addLecture";
 	}
@@ -91,6 +93,8 @@ public class LectureController {
 			, HttpSession session) {
 		List<Lecture> lectList = lectureService.selectNotAcceptLectureList();
 		
+		log.debug(CF.JYI+"LectureService.acceptLecture.get lectList : "+lectList+CF.RS);
+		
 		model.addAttribute("lectList", lectList);
 		return "lecture/acceptLecture";
 	}
@@ -127,11 +131,14 @@ public class LectureController {
 			
 		//과목명 뽑아올거
 		List<String> subList = lectureService.selectSubejctList();
+		List<String> haveSubList = lectureService.selectSubjectListByLectureName(lectureName);
 		
 		log.debug(CF.JYI+"LectureService.addSubjectInLecture.get subList : "+subList+CF.RS);
+		log.debug(CF.JYI+"LectureService.addSubjectInLecture.get haveSubList : "+haveSubList+CF.RS);
 		
 		model.addAttribute("subList", subList);
 		model.addAttribute("lectureName", lectureName);
+		model.addAttribute("haveSubList", haveSubList);
 		return "lecture/addSubejctInLecture";
 	}
 		
@@ -144,7 +151,46 @@ public class LectureController {
 			
 		//과목리스트를 넣을땐 인서트를 여러번 해야함. 그래서 서비스에서 포문으로 강의명 + 과목명으로 돌려야함
 		lectureService.insertSubjectList(checkedSubject, lectureName);
+		log.debug(CF.JYI+"LectureService.addSubjectInLectureAction.get checkedSubject : "+lectureName+CF.RS);
 		log.debug(CF.JYI+"LectureService.addSubjectInLectureAction.get checkedSubject : "+checkedSubject+CF.RS);
 		return "redirect:/loginCheck/manageLecture";
 	}
+	
+	// 강의관리 - 수정 폼(강의개설 -> 데이터 입력 + 과목데이터 추가)
+	@GetMapping("/loginCheck/updateLectureForm")
+	public String updateLectureForm(Model model
+			, HttpSession session
+			, @RequestParam(name = "lectureName") String lectureName) {
+		//이름을 받아서 그걸로 셀렉 (강의추가할때 input값으로 들어갈 강의데이터)
+		Lecture lect = lectureService.selectLectureOneByLectureName(lectureName);
+		model.addAttribute("lect", lect);
+		
+		//원래 가져와야하는 값들 : (원래 addLecture 밑에 있는것들)
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map = lectureService.getMakeLectureNeed();
+		List<String> teacherNameList = (List<String>)map.get("teacherNameList");
+		List<String> managerNameList = (List<String>)map.get("managerNameList");
+		List<LectureRoom> lectureRoomList = (List<LectureRoom>) map.get("lectureRoomList");
+		model.addAttribute("teacherNameList", teacherNameList); //얘는 List<String>
+		model.addAttribute("managerNameList", managerNameList); //얘도 List<String>
+		model.addAttribute("lectureRoomList", lectureRoomList); //얘가,, List<LectureRoom>
+		
+		log.debug(CF.JYI+"LectureService.addLecture.get teacherNameList : "+teacherNameList+CF.RS);
+		log.debug(CF.JYI+"LectureService.addLecture.get managerNameList : "+managerNameList+CF.RS);
+		log.debug(CF.JYI+"LectureService.addLecture.get lectureRoomList : "+lectureRoomList+CF.RS);
+		
+		String loginId = (String) session.getAttribute("sessionId");
+		
+		log.debug(CF.JYI+"LectureService.addLecture.get loginId : "+loginId+CF.RS);
+		
+		model.addAttribute("loginId", loginId);
+		
+		// 리스트로 강의과목을 받아서 개별 삭제하게 하는..그런
+		
+		List<String> sublist = lectureService.selectSubjectListByLectureName(lectureName);
+		model.addAttribute("sublist", sublist);
+		return "lecture/updateLectureForm";
+	}
+	
 }

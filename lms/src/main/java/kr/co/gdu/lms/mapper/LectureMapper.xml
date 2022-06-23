@@ -11,7 +11,6 @@
 				, detail_addr detailAddr
 				, teacher_email teacherEmail
 				, teacher_phone teacherPhone
-				, last_login_date lastLoginDate
 				, graduate
 				, create_date createDate
 				, update_date updateDate
@@ -29,7 +28,6 @@
 			, detail_addr detailAddr
 			, manager_email managerEmail
 			, manager_phone managerPhone
-			, last_login_date lastLoginDate
 			, dept_no deptNo
 			, position_no positionNo
 			, create_date createDate
@@ -133,8 +131,36 @@
 		
 	<insert id="insertSubject"
 		parameterType="String">
-		INSERT INTO lecture_subject(lecture_name, subject_name)
+		INSERT INTO lecture_subject(
+		lecture_name, subject_name)
 		VALUES(#{lectureName}, #{subjectName})
-		
-		</insert>
+	</insert>
+	
+	<select id="selectSubjectListByLectureName"
+		parameterType="String"
+		resultType="String">
+		SELECT distinct
+			subject_name subjectName 
+		FROM lecture_subject
+		WHERE lecture_name = #{lectureName}
+	</select>
+	
+	<select id="selectLectureOneByLectureName"
+		parameterType="String"
+		resultType="kr.co.gdu.lms.vo.Lecture">
+		select
+			lecture_name lectureName
+			, teacher
+			, manager
+			, lecture_start_date lectureStartDate
+			, lecture_end_date lectureEndDate
+			, lecture_room_name lectureRoomName
+			, lecture_student_capacity lectureStudentCapacity
+			, login_id loginId
+			, lecture_active lectureActive
+			, create_date createDate
+			, update_date updateDate
+		FROM lecture
+		WHERE lecture_name =#{lectureName}
+	</select>
 </mapper>

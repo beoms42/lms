@@ -86,11 +86,24 @@ public class LectureSerivce {
 		return subList;
 	}
 	
+	// 과목리스트 강의명으로 디스틴트로 가져오는 서비스
+	public List<String> selectSubjectListByLectureName(String lectureName) {
+		List<String> subList = lectureMapper.selectSubjectListByLectureName(lectureName);
+		
+		return subList;
+	}
+	
 	// 강의에 과목리스트 넣기
 	public void insertSubjectList(List<String> subList, String lectureName) {
 		for(String s : subList) {
 			lectureMapper.insertSubject(s, lectureName);
 		}
 		
+	}
+	
+	// 수정용 - 이름으로 Lecture(1개) 받아오기
+	public Lecture selectLectureOneByLectureName(String lectureName) {
+		Lecture lect = lectureMapper.selectLectureOneByLectureName(lectureName);
+		return lect;
 	}
 }
