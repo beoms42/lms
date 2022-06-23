@@ -31,7 +31,7 @@
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
         <a class="navbar-brand brand-logo mr-5" href="${pageContext.request.contextPath}/loginCheck/main">LMS-TFT</a>
-        <a class="navbar-brand brand-logo-mini" href="index.html">LMS</a>
+        <a class="navbar-brand brand-logo-mini" href="${pageContext.request.contextPath}/loginCheck/main">LMS</a>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -130,7 +130,7 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                  <h1>[강의관리]</h1>
+                  <h1>[강의수정]</h1>
                 </div>
                 <div class="col-12 col-xl-4">
                  <div class="justify-content-end d-flex">
@@ -141,100 +141,124 @@
           </div>
           <!-- 강의개설 실제부분 --> 
           <div class="row">
-            <div class="col-lg-11 grid-margin stretch-card">
+            <div class="col-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">현재 승인된 강의리스트</h4>
+                  <h4 class="card-title">Basic form elements</h4>
                   <p class="card-description">
+                    Basic form elements
                   </p>
-                  <div class="table-responsive">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th>강의명(상세보기)</th>
-                          <th>강사명</th>
-                          <th>매니저</th>
-                          <th>시작일</th>
-                          <th>수료일</th>
-                          <th>강의실</th>
-                          <th>인원수</th>
-                          <th>개설일</th>
-                          <th>현재상태</th>
-                          <th>기타</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      <c:forEach var="lect" items="${lectList}">
-                      	<tr>
-                      		<td><a href="#">${lect.lectureName}</a></td>
-                      		<td>${lect.teacher}</td>
-                      		<td>${lect.manager}</td>
-                      		<td>${lect.lectureStartDate}</td>
-                      		<td>${lect.lectureEndDate}</td>
-                      		<td>${lect.lectureRoomName}</td>
-                      		<td>${lect.lectureStudentCapacity}</td>
-                      		<td>${lect.createDate}</td>
-                      		<td><label class="badge badge-success">개설 승인됨</label></td>
-                      		<td>
-                      		<a href="${pageContext.request.contextPath}/loginCheck/addSubjectInLecture?lectureName=${lect.lectureName}"><label class="badge badge-warning">과목설정</label></a>
-                      		<a href="${pageContext.request.contextPath}/loginCheck/updateLectureForm?lectureName=${lect.lectureName}"><label class="badge badge-info">수정</label></a>
-                      		<a href="#"><label class="badge badge-danger">삭제</label></a>
-                      		</td>
-                      	</tr>
-                      </c:forEach>                
-                      </tbody>
-                    </table>
-                  </div>
+                  <form class="forms-sample" method="post" action="${pageContext.request.contextPath}/loginCheck/addLecture">
+                    <div class="form-group">
+                      <label for="exampleInputName1">개설 강의명</label>
+                      <input type="text" class="form-control" id="exampleInputName1" placeholder="강의명" name="lectureName" value="${lect.lectureName}">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputEmail3">강의 기간</label>
+                      <br>
+                      시작일 : <input type="date" name="lectureStartDate" value="${lect.lectureStartDate}"> 끝나는 날 : <input type="date" name="lectureEndDate" value="${lect.lectureEndDate}">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword4">담당 강사</label>
+                      <div class="input-group">
+                      
+	                      <div class="input-group-prepend">
+	                        <select class="teacherNames">
+	                          <option value="">:::강사 선택:::</option>
+	                          <c:forEach var="n" items="${teacherNameList}">
+	                          	<option value="${n}">${n}</option>
+	                          </c:forEach>
+	                         </select>
+	                        </div>
+	                      </div>
+	                      
+                      	<input type="text" class="form-control" aria-label="Text input with dropdown button" readonly="readonly" id="teacherName" name="teacherName" value="${lect.teacher}">
+                   	  </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword4">담당 매니저</label>
+                      <div class="input-group">
+                      
+	                      <div class="input-group-prepend">
+	                        <select class="managerNames">
+	                        <option value="">:::매니저 선택:::</option>
+	                          <c:forEach var="n" items="${managerNameList}">
+	                          	<option value="${n}">${n}</option>
+	                          </c:forEach>
+	                        </select>
+	                      </div>
+	                     </div> 
+                      	<input type="text" class="form-control" aria-label="Text input with dropdown button" readonly="readonly" id="managerName" name="managerName" value="${lect.manager}">
+                   	  </div>
+                   	  
+                   
+                      
+                    <div class="form-group">
+                      <label for="exampleInputPassword4">강의실</label>
+                      <div class="input-group">
+	                      <div class="input-group-prepend">
+	                        <select class="lectureRoomNames">
+	                            <option value="">:::강의실 선택:::</option>
+	                          <c:forEach var="n" items="${lectureRoomList}">
+	                          	<option value="${n.lectureRoomName}">강의실 : ${n.lectureRoomName} / 정원 : ${n.lectureRoomAdmit}명</option>
+	                          </c:forEach>
+	                        </select>
+	                        </div>
+	                      </div>
+                      	<input type="text" class="form-control" aria-label="Text input with dropdown button" readonly="readonly" id="lectureRoomName" name="lectureRoomName" value="${lect.lectureRoomName}">
+                   	  </div>
+                    <div class="form-group">
+                      <label for="exampleInputCity1">학생 정원</label>
+                      <input type="number" class="form-control" id="exampleInputCity1" placeholder="" max="30" name="maxStudent" value="${lect.lectureStudentCapacity}">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword4">강의 개설자</label>
+                      <input type="text" class="form-control" id="exampleInputPassword4" value="${lect.loginId}" name="loginId" readonly="readonly">
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <button class="btn btn-light">Cancel</button>
+                    </div>
+                  </form>
+                  </div> 
                 </div>
               </div>
+              
+              <!-- 상세보기 실제부분 --> 
+	          <div class="row">
+	            <div class="col-lg-4 grid-margin stretch-card">
+	              <div class="card">
+	                <div class="card-body">
+	                  <h4 class="card-title">과목관리</h4>
+	                  <p class="card-description">
+	                  </p>
+	                  <div class="table-responsive">
+	                    <table class="table">
+	                      <thead>
+	                        <tr>
+	                          <th>과목</th>
+	                          <th>삭제</th>
+	                        </tr>
+	                      </thead>
+	                      <tbody>
+	                      <c:forEach var="sub" items="${sublist}">
+	                      	<tr>
+								<td><button class="btn btn-outline-primary btn-fw">${sub}</button></td>
+								<td><button class="btn btn-outline-dark btn-fw">X</button></td>
+	                      	</tr>
+	                      </c:forEach>                
+	                      </tbody>
+	                    </table>
+	                  </div>
+	                </div>
+	              </div>
+	            </div>
+	          
+	          </div>
+	          <!-- 상세보기 끝 -->
             </div>
-          
-          </div>
-          <!-- 강의개설 끝 -->
-          
-          <!-- 상세보기 시작 -->
-          <div class="row">
-            <div class="col-md-12 grid-margin">
-              <div class="row">
-                <div class="col-12 col-xl-4">
-                 <div class="justify-content-end d-flex">
-                 </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- 상세보기 실제부분 --> 
-          <div class="row">
-            <div class="col-lg-11 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">상세보기</h4>
-                  <p class="card-description">
-                  </p>
-                  <div class="table-responsive">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th>강의명</th>
-                          <th>현재상태</th>
-                          <th>과목</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      <c:forEach var="lect" items="${lectList}">
-                      	<tr>
 
-                      	</tr>
-                      </c:forEach>                
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
             </div>
           
-          </div>
-          <!-- 상세보기 끝 -->
+        </div>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
         <!-- partial -->
@@ -266,7 +290,27 @@
   <script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
   <script src="${pageContext.request.contextPath}/js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
-
+  <script type="text/javascript">
+	$('.clickTeacherMenu').click(function() {
+			console.log('dsdsdsdsdsd');
+			$('#teacherName').val($('.clickTeacherMenu').text());
+	});
+	
+	$('.teacherNames').change(function() {
+	    var value = $(this).val();
+	    $('#teacherName').val(value);
+	});
+	
+	$('.managerNames').change(function() {
+	    var value = $(this).val();
+	    $('#managerName').val(value);
+	});
+	
+	$('.lectureRoomNames').change(function() {
+	    var value = $(this).val();
+	    $('#lectureRoomName').val(value);
+	});
+  </script>
 </body>
 </html>
 

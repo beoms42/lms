@@ -91,6 +91,7 @@
 						         
 						             <c:if test="${loginId != null}"> ${loginId}
 						             	<br><br><a href="${pageContext.request.contextPath}/login" class="btn btn-primary mr-2" type="button">로그인 하러가기</a>
+						             	<a href="${pageContext.request.contextPath}/searchLoginPw" class="btn btn-light" type="button">비밀번호 찾기</a>
 						             </c:if>
 					            </form>
 					        </div>
