@@ -9,6 +9,6 @@ public class MemberFile {
 	private String memberFileName;
 	private String memberFileOriginName;
 	private String memberFileType;
-	private int memberFileSize;
+	private long memberFileSize;
 	private String memberFileCreateDate;
 }
