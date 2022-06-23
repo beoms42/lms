@@ -167,7 +167,11 @@
                           <td>생년월일</td>
                           <td>${teacher.teacherBirth}</td>
                         </tr>
-                         <tr> 
+                        <tr> 
+                          <td>성별</td>
+                          <td>${teacher.teacherGender}</td>
+                        </tr>
+                        <tr> 
                           <td>주소</td>
                           <td>${teacher.address}</td>
                         </tr>
@@ -194,6 +198,7 @@
                       </thead>
                     </table>
                      	<div>
+                     	  <a class="btn btn-default" href="${pageContext.request.contextPath}/loginCheck/modifyTeacher?loginId=${teacher.loginId}">수우정</button>
 					   <a href="#"><button class="btn btn-primary"href="${pageContext.request.contextPath}/updateTeacherOneForm?loginId=${teacher.loginId}">수정</button></a>
 					  <a href="#"><button class="btn btn-danger"href="${pageContext.request.contextPath}/deleteTeacherOne?loginId=${teacher.loginId}">회원탈퇴</button></a>
 					</div>
