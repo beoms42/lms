@@ -1,6 +1,7 @@
 package kr.co.gdu.lms.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,8 +124,10 @@ public class LoginService {
 		//리턴할 맵 선언
 		Map<String, Object> map = new HashMap<>();
 		
-		Dept dept = managerMapper.selectDept();
-		Position position = managerMapper.selectPosition();
+		List<Dept> dept = managerMapper.selectDept();
+		log.debug(CF.OHI+"LoginService.addMemberGetDeptAndPosition dept : "+dept+CF.RS );
+		List<Position> position = managerMapper.selectPosition();
+		log.debug(CF.OHI+"LoginService.addMemberGetDeptAndPosition position : "+position+CF.RS );
 		
 		//맵에 담기
 		map.put("dept", dept);

@@ -102,8 +102,9 @@
 					                  	</select>
 						          	</div>
 						            <div class="form-group">
-							            <label>생일</label>
-							            <input type="date" class="form-control" name="birth">
+							            <label>생년월일</label>
+							            <input type="date" class="form-control" name="birth" id="birth">
+							            <span id="birthHelper"></span>
 						          	</div>
 						            <div class="form-group">
 							            <label>이메일</label>
@@ -163,6 +164,27 @@
 					                  		</select>
 							            </div>
 						            </c:if>
+						            
+						            <!-- 매니저만 -->
+						            <c:if test="${addChk eq 'manager'}">
+							            <div class="form-group">
+								            <label>부서</label>
+								            <select class="form-control" name="deptNo">
+								             	<c:forEach var="d" items="${dept}">
+								             		<option value="${d.deptNo}">${d.deptName}</option>
+								             	</c:forEach>
+					                  		</select>
+							            </div>
+							            <div class="form-group">
+								            <label>직급</label>
+								            <select class="form-control" name="positionNo">
+								             	<c:forEach var="p" items="${position}">
+								             		<option value="${p.positionNo}">${p.positionName}</option>
+								             	</c:forEach>
+					                  		</select>
+							            </div>
+						            </c:if>
+						            
 						            <button type="button" class="btn btn-primary mr-2" id="addMemberBtn">회원 가입</button>
 						            <button class="btn btn-light">입력 취소</button>
 					            </form>
@@ -253,6 +275,9 @@
   		} else if($('#name').val()=='') {
   			$('#pwHelper').text('');
   			$('#nameHelper').text('이름을 입력해주세요.');
+  		} else if($('#birth').val()==''){
+  			$('#nameHelper').text('');
+  			$('#birthHelper').text('생년월일을 입력해주세요.');
   		} else if($('#email').val()=='') {
   			$('#nameHelper').text('');
   			$('#emailHelper').text('이메일을 입력해주세요.');

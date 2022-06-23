@@ -20,4 +20,6 @@ public class AddMemberForm {
 	private String military;
 	private String addChk;
 	private String level;
+	private int deptNo;
+	private int positionNo;
 }

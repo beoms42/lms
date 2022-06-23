@@ -27,9 +27,7 @@ public class LoginController {
 
 	@Autowired private LoginService loginService;
 	
-	
-	
-// 비밀번호 변경 액션
+	// 비밀번호 변경 액션
 	@PostMapping("/modifyLoginPw")
 	public String modifyLoginPw(Login login
 								, @RequestParam (name = "loginId") String loginId
@@ -173,12 +171,22 @@ public class LoginController {
 	public String addMemeber(Model model
 							, @RequestParam(value="addChk", defaultValue="student") String addChk) {
 		
+		//디버깅
 		log.debug(CF.OHI+"LoginController.addMember addChk : "+addChk+CF.RS);
+		
+		if("manager".equals(addChk)) {
+			Map<String, Object> map = loginService.addMemberGetDeptAndPosition();
+			log.debug(CF.OHI+"LoginController.addMember.map dept : "+map.get("dept")+CF.RS);
+			log.debug(CF.OHI+"LoginController.addMember.map position : "+map.get("position")+CF.RS);
+			model.addAttribute("dept",map.get("dept"));
+			model.addAttribute("position",map.get("position"));
+		}
 		
 		model.addAttribute("addChk",addChk);
 		return "login/addMember";
 	}
 	
+	// 회원가입 액션
 	@PostMapping("/addMember")
 	public String addMember(HttpServletRequest request
 							, AddMemberForm addMemberForm) {

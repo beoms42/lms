@@ -72,7 +72,7 @@
 			resultType="kr.co.gdu.lms.vo.Position">
 		SELECT 
 			position_no positionNo
-			, position_name positionNam
+			, position_name positionName
 		FROM position
 	</select>
 </mapper>

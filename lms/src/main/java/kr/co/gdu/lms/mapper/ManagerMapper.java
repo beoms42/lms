@@ -27,9 +27,9 @@ public interface ManagerMapper {
 	int pwCheck(Login login);
 	
 	//매니저 회원가입 - 부서 이름 번호 
-	Dept selectDept();
+	List<Dept> selectDept();
 		
 	//매니저 회원가입 - 직급 이름 번호
-	Position selectPosition();
+	List<Position> selectPosition();
 	
 }
