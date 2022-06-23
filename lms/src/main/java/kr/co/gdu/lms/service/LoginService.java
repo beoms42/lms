@@ -1,7 +1,6 @@
 package kr.co.gdu.lms.service;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.mapper.LoginMapper;
 import kr.co.gdu.lms.mapper.ManagerMapper;
+import kr.co.gdu.lms.mapper.MemberFileMapper;
 import kr.co.gdu.lms.vo.AddMemberForm;
 import kr.co.gdu.lms.vo.Dept;
 import kr.co.gdu.lms.vo.Login;
@@ -28,8 +28,9 @@ import lombok.extern.slf4j.Slf4j;
 public class LoginService {
 	@Autowired private LoginMapper loginMapper;
 	@Autowired private ManagerMapper managerMapper;
+	@Autowired private MemberFileMapper memberFileMapper;
 
-// 학생, 강사, 매니저 비밀번호 변경 이력 테이블 삽입
+	// 학생, 강사, 매니저 비밀번호 변경 이력 테이블 삽입
 	public int addPwRecord(Login login) {
 		log.debug(CF.PHW+"LoginService.addPwRecord login : "+login+CF.RS );
 		return loginMapper.insertPwRecord(login);
@@ -66,6 +67,7 @@ public class LoginService {
 		return login;
 	}
 	
+	// ajax로 아이디 중복 체크 시 
 	public int idCheck(String id) {
 		
 		// 해당 아이디 있는지 체크해서 일치하는 개수 받아오기
@@ -99,9 +101,15 @@ public class LoginService {
 		loginMapper.insertLogin(addMemberForm);
 		
 		// 해당 멤버 테이블에 멤버 정보 추가
-		int row = loginMapper.insertMember(addMemberForm);
+		loginMapper.insertMember(addMemberForm);
+
+		// 비밀번호 이력테이블에 추가하기 위한 데이터 바인딩
+		Login login = new Login();
+		login.setLoginId(addMemberForm.getLoginId());
+		login.setLoginPw(addMemberForm.getLoginPw());
 		
-		MemberFile memberFile = new MemberFile();
+		// 비밀번호 이력테이블에 비밀번호 추가
+		loginMapper.insertPwRecord(login);
 		
 		// vo에 담긴 file꺼내서 mf에 담기 (편리성 위해)
 		MultipartFile mf = addMemberForm.getCustomFile();
@@ -119,13 +127,15 @@ public class LoginService {
 		fileName = fileName.replace("-", "");
 		fileName += ext; // fileName에 ext 붙이기
 		
+		// memberFile 데이터바인딩
+		MemberFile memberFile = new MemberFile();
 		memberFile.setLoginId(addMemberForm.getLoginId());
 		memberFile.setMemberFileName(fileName);
+		memberFile.setMemberFileOriginName(originalName);
 		memberFile.setMemberFileType(mf.getContentType());
 		memberFile.setMemberFileSize(mf.getSize());
 		
-		log.debug(CF.OHI+"LoginService.addMember memberFile : "+memberFile+CF.RS );
-		log.debug(CF.OHI+"LoginService.addMember row : "+row+CF.RS );
+		log.debug(CF.OHI+"LoginService.addMember memberFile : "+memberFile+CF.RS);
 		
 		try {
 			// 파일 위치에 저장
@@ -137,7 +147,10 @@ public class LoginService {
 			throw new RuntimeException();
 		}
 		
+		// memberFile 테이블에 파일정보 넣어주기
+		int row = memberFileMapper.insertMemberFile(memberFile);
 		
+		log.debug(CF.OHI+"LoginService.addMember row : "+row+CF.RS);
 		
 	}
 	

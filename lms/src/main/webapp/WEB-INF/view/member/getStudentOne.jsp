@@ -133,7 +133,7 @@
                   	<tr>	
                   		<th>사진</th>
                   		<td>
-                  			<img src="${pageContext.request.contextPath}/file/memberFile/${memberFile.memberFileName}">
+                  			<img src="${pageContext.request.contextPath}/file/memberPhoto/${memberFile.memberFileName}">
                   			<a href="${pageContext.request.contextPath}/loginCheck/modifyMemberFile?memberFileName=${memberFile.memberFileName}"}>사진수정</a>
 						</td>
 					</tr>

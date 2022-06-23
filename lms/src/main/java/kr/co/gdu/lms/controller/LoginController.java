@@ -191,7 +191,7 @@ public class LoginController {
 		return "login/main";
 	}
 	
-	// 로그인
+	// 로그인 폼
 	@GetMapping("/login") 
 	public String login(Model model
 						, HttpServletRequest request) {
@@ -213,6 +213,7 @@ public class LoginController {
 		return "login/login";
 	}
 	
+	// 로그인 액션
 	@PostMapping("/login")
 	public String login(HttpSession session
 						, HttpServletResponse response

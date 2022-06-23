@@ -43,4 +43,5 @@
 			, now()
 		)
 	</insert>
+	
 </mapper>
