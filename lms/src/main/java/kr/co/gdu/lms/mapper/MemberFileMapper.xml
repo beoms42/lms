@@ -13,4 +13,15 @@
 		WHERE login_id = #{loginId}
 	</select>
 	
+	<update id="updateMemberFile"
+			parameterType="kr.co.gdu.lms.vo.MemberFile">
+		UPDATE member_file
+		SET member_file_name = #{memberFileName}
+			, member_file_origin_name = #{memberFileOriginName}
+			, member_file_type = #{memberFileType}
+			, member_file_size = #{memberFileSize}
+			, member_file_create_date = now()	
+		WHERE login_id = #{loginId}	
+	</update>
+	
 </mapper>

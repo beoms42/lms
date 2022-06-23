@@ -31,8 +31,6 @@ public class MemberService {
 	public Map<String, Object> getStudentOne(String loginId) {
 		// 로그인ID 디버깅
 		log.debug(CF.GDH+"MemberService.getStudentOne loginId : "+loginId+CF.RS);
-	
-				
 		
 		// 학생정보 Mapper연결
 		Student student = studentMapper.selectStudentOne(loginId);
@@ -40,12 +38,13 @@ public class MemberService {
 		
 		// 학생파일 Mapper연결
 		MemberFile memberFile = memberFileMapper.selectMemberFile(loginId);
-		log.debug(CF.GDH+"MemberService.getStudentOne memberFileList : "+memberFile+CF.RS);
+		log.debug(CF.GDH+"====================MemberService.getStudentOne memberFileList : "+memberFile+CF.RS);
 		
 		// 학생정보와 학생파일리스트 맵에 담기
 		Map<String, Object> returnMap = new HashMap<String, Object>();
 		returnMap.put("student", student);
 		returnMap.put("memberFile", memberFile);
+		
 		
 		return returnMap;
 } 
@@ -82,7 +81,18 @@ public class MemberService {
 		
 		return row;
 	}
-
+	
+	/* 멤버파일 수정하기
+	public int modifyMemberFile(String loginId, String memberFileName) {
+		log.debug(CF.GDH+"MemberService.modifyMemberFile loginId : " + loginId + CF.RS);
+		log.debug(CF.GDH+"MemberService.modifyMemberFile memberFileName : " + memberFileName + CF.RS);
+		
+		int row = memberFileMapper.updateMemberFile(loginId, memberFileName);
+		log.debug(CF.GDH+"MemberService.updateMemberFile row : " + row + CF.RS);
+		
+		return row;
+	}
+	*/
 	
 	@Autowired  private ManagerMapper managerMapper;
 	@Autowired  private TeacherMapper teacherMapper;

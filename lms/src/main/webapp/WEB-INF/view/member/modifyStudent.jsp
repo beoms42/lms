@@ -138,6 +138,10 @@
                   <form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyStudent" id="modifyForm">
 	                  <table class="table">
 						<tr>
+							<th>사진</th>
+							<td><img src="${pageContext.request.contextPath}/file/memberFile/${memberFile.memberFileName}"></td>
+						</tr>
+						<tr>
 							<th>아이디</th>
 							<td><input type="text" name="loginId" value="${student.loginId}" readonly="readonly"></td>
 						</tr>

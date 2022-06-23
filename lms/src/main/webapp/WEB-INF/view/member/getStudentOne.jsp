@@ -130,10 +130,13 @@
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
                   <h1>개인정보</h1>
                   <table class="table">
-                  	<tr>
+                  	<tr>	
                   		<th>사진</th>
-                  		<td><img src="${pageContext.request.contextPath}/file/memberFile/${memberFile.memberFileName}"></td>
-                  	</tr>
+                  		<td>
+                  			<img src="${pageContext.request.contextPath}/file/memberFile/${memberFile.memberFileName}">
+                  			<a href="${pageContext.request.contextPath}/loginCheck/modifyMemberFile?loginId=${memberFile.loginId}&memberFileName=${memberFile.memberFileName}"}>사진수정</a>
+						</td>
+					</tr>
 					<tr>
 						<th>아이디</th>
 						<td>${student.loginId}</td>
@@ -175,7 +178,6 @@
 						<td>${student.createDate}</td>
 					</tr>
 				</table>
-				
 				<div>
 					<a href="${pageContext.request.contextPath}/loginCheck/modifyPwCheck">수정</a>
 					<a href="${pageContext.request.contextPath}/loginCheck/removePwCheck">삭제</a>
