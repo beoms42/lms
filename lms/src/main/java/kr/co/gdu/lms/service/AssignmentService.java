@@ -57,10 +57,12 @@ public class AssignmentService {
 	}
 	public Map<String,Object> getAssignmentOne(Map<String,Object> paramMap){
 		log.debug(CF.GMC+"AssignmentService.addAssignment.param assignmentExamNo : " + paramMap.get("assignmentExamNo") + CF.RS);
-		log.debug(CF.GMC+"AssignmentService.addAssignment.param assignmentExamNo : " + paramMap.get("sessionMemberId") + CF.RS);
+		log.debug(CF.GMC+"AssignmentService.addAssignment.param sessionMemberId : " + paramMap.get("loginId") + CF.RS);
 		List<AssignmentExam> assignmentList = assignmentmapper.selectAssignmentOne((int)paramMap.get("assignmentExamNo"));
 		List<AssignmentFile> assignmentListFile = assignmentfilemapper.selectAssinmetFile(paramMap);
-		
+		for(AssignmentFile f : assignmentListFile) {
+			log.debug(CF.GMC+"AssignementService.getAssignmentOne"+f.getAssignmentExamNo()+CF.RS);
+		}
 		Map<String,Object> returnMap = new HashMap<>();
 		returnMap.put("assignmentList", assignmentList);
 		returnMap.put("assignmentListFile", assignmentListFile);
@@ -78,9 +80,7 @@ public class AssignmentService {
 		List<MultipartFile> assignmentfileList = assignmentexam.getAssignmentFileList();
 	
 		log.debug(CF.GMC + "AssignmentService.addAssignment row" + row + CF.RS);
-		
-		int assingmentExamNo = assignmentexam.getAssignmentExamNo();
-		
+		int assignmentExamNo = assignmentmapper.selectassignmentExamNo();
 		String loginId = assignmentexam.getLoginId();
 		// 과제가 하나 이상이고 입력도 성공했을때
 		if(assignmentfileList != null && assignmentfileList.get(0).getSize() > 0 
@@ -105,7 +105,7 @@ public class AssignmentService {
 				filename = filename.replace("-", "");
 				filename = filename + ext;
 				
-				assignmentFile.setAssignmentExamNo(assingmentExamNo);
+				assignmentFile.setAssignmentExamNo(assignmentExamNo);
 				assignmentFile.setAssignmentFileName(filename);
 				assignmentFile.setAssignmentFileOriginName(originName);
 				assignmentFile.setAssignmentFileSize(mf.getSize());

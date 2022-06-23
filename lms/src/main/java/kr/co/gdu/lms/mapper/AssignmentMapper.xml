@@ -27,10 +27,14 @@
 			,#{assignmentExamTitle}
 			,#{assignmentExamContent}
 			,#{assignmentDeadLine}
-			,#{createDate}
+			,NOW()
 		)
-		
 	</insert>
+	<select id="selectassignmentExamNo"
+			resultType="int">
+			SELECT assignment_exam_no assignmentExamNo FROM assignment_exam WHERE create_date = NOW()
+		
+	</select>
 	<select id ="selectAssignmentOne"
 			resultType="kr.co.gdu.lms.vo.AssignmentExam"
 			parameterType="int">

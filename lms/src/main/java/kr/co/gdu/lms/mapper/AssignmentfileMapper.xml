@@ -20,9 +20,11 @@
 			,NOW()
 		)
 	</insert>
+	
 	<select id="selectAssinmetFile"
 			parameterType="java.util.Map"
 			resultType="kr.co.gdu.lms.vo.AssignmentFile">
+
 		SELECT assignment_exam_no assignmentExamNo
 			,login_id loginId
 			,assignment_file_name assignmentFileName

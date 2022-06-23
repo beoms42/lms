@@ -136,30 +136,28 @@
 						<div class="container">
 							<h1>과제 입력</h1>
 							<form method="post" action="${pageContext.request.contextPath}/loginCheck/addAssignment" id="addForm" enctype="multipart/form-data">
-								번호 : <input type="hidden" name="assignmentExamNo" value="${assignmentExamNo}">
-								<div>
-									과목 : 
-										<input type="text" name="lectureName" id="lectureName">
-								</div>
-								<div>
-									제목 : <input type="text" name="assignmentExamTitle" id="assignmentExamTitle">
-								</div>
-								<div>
-									내용 :<br>
-									<textarea  rows="5" cols="50" name="assignmentExamContent" id="assignmentExamContent"></textarea>
-								</div>
-								<div>
-									기한 : <input type="date" name="createDate">~<input type="date" name="assignmentDeadLine">
-								</div>
-								<div>
-									<button type="button" id="addFileupload">파일 업로드 추가</button>
-									<div id="fileSection">
-										<!-- 파일 업로드 input 태그가 추가될 영역 -->
-									</div>
-								</div>
-								<div>
-										<button type="button" id="addAssignment">입력</button>
-								</div>
+								<table class="table table-striped">
+									<tr>
+										<td>과목</td>
+										<td><input type="text" name="lectureName" id="lectureName"></td>
+									</tr>
+									<tr>
+										<td>제목</td>
+										<td><input type="text" name="assignmentExamTitle" id="assignmentExamTitle"></td>
+									</tr>
+									<tr>
+										<td>기한</td>
+										<td><input type="date" name="assignmentDeadLine">까지</td>
+									</tr>
+					
+						
+								</table>
+								<div style="text-center"><textarea  rows="5" cols="50" name="assignmentExamContent" id="assignmentExamContent"></textarea></div>
+								<button type="button" id="addFileupload">파일 업로드 추가</button>
+								<div id="fileSection">
+									<!-- 파일 업로드 input 태그가 추가될 영역 -->
+								</div>		
+								<button type="button" class="btn btn-primary" id="addAssignment">입력</button>
 							</form>
 						</div>
                 </div>

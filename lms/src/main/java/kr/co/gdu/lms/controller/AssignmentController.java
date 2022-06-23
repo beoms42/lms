@@ -1,5 +1,8 @@
 package kr.co.gdu.lms.controller;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.service.AssignmentService;
 import kr.co.gdu.lms.vo.AssignmentExam;
+import kr.co.gdu.lms.vo.AssignmentFile;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -55,15 +59,12 @@ public class AssignmentController {
 	
 	@PostMapping("/loginCheck/getAssignmentExam")
 	public String addAssignmentExam(HttpServletRequest request
-									,Model model
-									,@RequestParam (name="assignmentExamNo") int assignmentExamNo) {
+									,Model model) {
 		HttpSession session = request.getSession();
 		String sessionMemberId=(String)session.getAttribute("sessionId");
 		int level = (int)session.getAttribute("sessionLv");
 		
-		log.debug(CF.GMC+"AssignmentController.addAssignmentExam assignmentExamNo : "+assignmentExamNo + CF.RS);
-		model.addAttribute("assignmentExamNo",assignmentExamNo);
-		
+
 		return "/assignment/addAssignmentExam";
 			
 	}
@@ -89,8 +90,8 @@ public class AssignmentController {
 			}
 		}
 		int row;
-			row = assingmentservice.addAssignment(assignmentexam, path);
-			log.debug("assingmentController.row : ", row);
+		row = assingmentservice.addAssignment(assignmentexam, path);
+		log.debug("assingmentController.row : ", row);
 	
 		model.addAttribute("level",level);
 		return "redirect:/loginCheck/getAssignmentExam";
@@ -99,7 +100,7 @@ public class AssignmentController {
 	public String getAssignmentOne(Model model
 									,HttpServletRequest request
 									,@RequestParam (name="assignmentExamNo") int assignmentExamNo) {
-		log.debug(CF.GMC+"AssignmentController.addAssignmentExam assignmentExamNo : "+assignmentExamNo + CF.RS);
+		log.debug(CF.GMC+"AssignmentController.getAssignmentOne assignmentExamNo : "+assignmentExamNo + CF.RS);
 		HttpSession session = request.getSession();
 		String sessionMemberId=(String)session.getAttribute("sessionId");
 		int level = (int)session.getAttribute("sessionLv");
@@ -107,13 +108,24 @@ public class AssignmentController {
 		paramMap.put("loginId", sessionMemberId);
 		paramMap.put("assignmentExamNo", assignmentExamNo);
 		Map<String,Object> returnMap = assingmentservice.getAssignmentOne(paramMap);
+		List<AssignmentFile> fileList = (List<AssignmentFile>)returnMap.get("assignmentListFile");
+
 		
-		model.addAttribute("assignmentList", returnMap.get("assignmentList"));
-		model.addAttribute("assignmentListFile",returnMap.get("assignmentListFile"));
+		model.addAttribute("assignmentList", (List<AssignmentExam>)returnMap.get("assignmentList"));
+		model.addAttribute("fileList",fileList);
 		return "/assignment/assignmentOne";
 	}
-	
-	
+	@PostMapping("/uploadSignFile")
+	public String uploadSignFile() {
+		return"/uploadSign";
+	}
+	@GetMapping("/uploadSign")
+	public String uploadSign() {
+		
+		return "redirect:/loginCheck/getAssignmentExam";
+		
+	}
+
 }
 
 

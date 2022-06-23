@@ -13,4 +13,5 @@ public interface AssignmentMapper {
 	int selectAssignmentTotalCount();
 	int insertAssignmentExam(AssignmentExam assignmentExam);
 	List<AssignmentExam> selectAssignmentOne(int assignmentExamNo);
+	int selectassignmentExamNo();
 }
