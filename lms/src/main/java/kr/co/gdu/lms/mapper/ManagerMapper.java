@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import kr.co.gdu.lms.vo.Login;
 import kr.co.gdu.lms.vo.Manager;
 
 @Mapper
@@ -20,6 +21,9 @@ public interface ManagerMapper {
 	
 	//매니저 정보 삭제
 	int deleteManager(String loginId);
+	
+	//매니저 수정/삭제를 위한 패스워드 접근
+	int pwCheck(Login login);
 	
 	
 }

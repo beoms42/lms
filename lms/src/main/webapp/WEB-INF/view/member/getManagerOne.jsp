@@ -144,12 +144,16 @@
             <div class="col-lg-10 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">${manager.managerName}매니저님</h4>
+                  <h4 class="card-title"><img src="<%=request.getContextPath()%>/images/member/${fileName}" width="100" height="100">${manager.managerName}매니저님</h4>
                   <p class="card-description">
                   </p>
                   <div class="table-responsive">
                     <table class="table">
                       <thead>
+                        <tr>
+                          <td>프로필 사진</td>
+                          <td><img src="<%=request.getContextPath()%>/images/member/${fileName}" width="500" height="500"></td>
+                        </tr> 
                         <tr>
                           <td>ID</td>
                           <td>${manager.loginId}</td>
@@ -182,12 +186,8 @@
                           <td>연락처</td>
                           <td>${manager.managerPhone}</td>
                        </tr>
-                       <tr>
-                          <td>학력</td>
-                          <td>${manager.deptNo}</td>
-                        </tr>
                         <tr>
-                          <td>학력</td>
+                          <td>직급</td>
                           <td>${manager.positionNo}</td>
                         </tr>
                         <tr>   
@@ -197,15 +197,14 @@
                       </thead>
                     </table>
                      	<div>
-					   <a href="#"><button class="btn btn-primary"href="${pageContext.request.contextPath}/updateTeacherOneForm?loginId=${teacher.loginId}">수정</button></a>
-					  <a href="#"><button class="btn btn-danger"href="${pageContext.request.contextPath}/deleteTeacherOne?loginId=${teacher.loginId}">회원탈퇴</button></a>
+					   <a href=${pageContext.request.contextPath}/loginCheck/modifyManager?loginId=${manager.loginId}">수정</a>
+					  <a href="#"><button class="btn btn-danger"href="${pageContext.request.contextPath}/deleteTeacherOne?loginId=${manager.loginId}">회원탈퇴</button></a>
 					</div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
         <!-- partial -->

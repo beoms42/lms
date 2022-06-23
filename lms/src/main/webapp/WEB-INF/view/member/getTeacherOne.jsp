@@ -150,6 +150,11 @@
                   <div class="table-responsive">
                     <table class="table">
                       <thead>
+                      	<tr>
+                          <td>프로필 사진</td>
+                          <td><img src="<%=request.getContextPath()%>/images/member/${fileName}" width="500" height="500"></td>
+                        </tr> 
+                        </tr> 
                         <tr>
                           <td>ID</td>
                           <td>${teacher.loginId}</td>

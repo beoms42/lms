@@ -94,6 +94,7 @@ public class MemberService {
 			 return list;   
 		 }
 		 
+		 
 		// 매니저 정보 상세보기
 		 public Manager getManagerOne(String loginId) {
 		 	Manager manager = new Manager();
@@ -152,6 +153,13 @@ public class MemberService {
 				return row;
 
 				}
+			
+			// 사진 한장 불러오기
+			public String selectMemberFileOne(String loginId) {
+				MemberFile mem = memberFileMapper.selectMemberFile(loginId);
+				String fileName = mem.getMemberFileName();
+				return fileName;
+			}
 	}
 			 
 

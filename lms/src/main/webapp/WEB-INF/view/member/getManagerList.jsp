@@ -139,7 +139,6 @@
               </div>
             </div>
           </div>
-          <!-- 강의개설 실제부분 --> 
           <div class="row">
             <div class="col-lg-10 grid-margin stretch-card">
               <div class="card">

@@ -3,6 +3,8 @@ package kr.co.gdu.lms.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,13 +137,15 @@ public class MemberController {
 				 @GetMapping("/loginCheck/getmanagerOne")
 				 public String getManagerOne(Model model
 						 ,HttpSession session
+						 ,HttpServletRequest request
 						 ,@RequestParam(name="loginId") String loginId) {
-					 
+					 String path = request.getServletContext().getRealPath("/images/member/");
 					 	Manager manager = new Manager();
 					 	manager = memberService.getManagerOne(loginId);
-
+						String fileName = memberService.selectMemberFileOne(loginId);
 					 	log.debug(CF.PSH+"MemberController.getManagerOne :"+manager+CF.RS);
 					 	model.addAttribute("manager", manager);
+					 	model.addAttribute("fileName", fileName);
 					 	return "member/getManagerOne";
 						
 					}
@@ -154,6 +158,18 @@ public class MemberController {
 				 	 log.debug(CF.PSH+"MemberController.modifyManager :"+manager+CF.RS);
 					 return "member/getmanagerList"; //리다
 				 }
+				 
+//				// 매니저 정보 수정폼
+//					@GetMapping("/loginCheck/modifyManager")
+//					public String modifyManager (Model model, HttpSession session) {
+//						String loginId = (String) session.getAttribute("sessionId");
+//						Map<String, Object> returnMap = memberService.getManagerOne(loginId);
+//					 	 log.debug(CF.PSH+"MemberController.modifyManager :"+returnMap+CF.RS);
+//						
+//						model.addAttribute("manager", returnMap.get("manager"));
+//						model.addAttribute("memberFile", returnMap.get("memberFile"));
+//						return "member/modifyManager";
+//					}
 				 
 				 
 				 // 매니저 회원탈퇴
@@ -180,12 +196,15 @@ public class MemberController {
 				 @GetMapping("/loginCheck/getTeacherOne")
 				 public String getTeacherOne(Model model
 						 , HttpSession session
+						 , HttpServletRequest request
 	                     , @RequestParam(name="loginId") String loginId) {
-					 
+					 	String path = request.getServletContext().getRealPath("/images/member/");
 					 	Teacher teacher = new Teacher();
+					 	String fileName = memberService.selectMemberFileOne(loginId);
 					 	teacher = memberService.getTeacherOne(loginId);
-					 	log.debug(CF.PSH+"MemberController.getManagerOne :"+teacher+CF.RS);
+					 	log.debug(CF.PSH+"MemberController.getTeacherOne :"+teacher+CF.RS);
 					 	model.addAttribute("teacher", teacher);
+					 	model.addAttribute("fileName", fileName);
 					 	return "member/getTeacherOne";
 					}
 				 
@@ -198,6 +217,18 @@ public class MemberController {
 				 	 log.debug(CF.PSH+"MemberController.modifyTeacher :"+teacher+CF.RS);
 					 return "member/getTeacherList";
 				 }
+				 
+					// 매니저 정보 수정폼
+					@GetMapping("/loginCheck/modifyTeacher")
+					public String modifyTeacher (Model model, HttpSession session) {
+						String loginId = (String) session.getAttribute("sessionId");
+						Map<String, Object> returnMap = (Map<String, Object>) memberService.getTeacherOne(loginId);
+					 	 log.debug(CF.PSH+"MemberController.modifyManager :"+returnMap+CF.RS);
+						
+						model.addAttribute("teacher", returnMap.get("teacher"));
+						model.addAttribute("memberFile", returnMap.get("memberFile"));
+						return "member/modifyTeacher";
+					}
 				 
 				 // 강사 회원탈퇴
 				 @GetMapping("/loginCheck/deleteTeacher")
