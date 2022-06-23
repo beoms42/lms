@@ -12,4 +12,7 @@ public interface MemberFileMapper {
 	// 파일수정
 	int updateMemberFile(MemberFile memberFile);
 	
+	// 파일 입력
+	int insertMemberFile(MemberFile memberFile);
+	
 }

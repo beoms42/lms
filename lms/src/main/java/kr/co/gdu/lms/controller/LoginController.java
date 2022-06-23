@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.service.LoginService;
@@ -141,7 +142,7 @@ public class LoginController {
 	@GetMapping("/addMember")
 	public String addMemeber(Model model
 							, @RequestParam(value="addChk", defaultValue="student") String addChk) {
-		
+				
 		//디버깅
 		log.debug(CF.OHI+"LoginController.addMember addChk : "+addChk+CF.RS);
 		
@@ -162,10 +163,14 @@ public class LoginController {
 	public String addMember(HttpServletRequest request
 							, AddMemberForm addMemberForm) {
 		
+		String path = request.getServletContext().getRealPath("/file/memberPhoto/");
 		// 디버깅
+		log.debug(CF.OHI+"LoginController.addMember.Post path : "+path+CF.RS);
 		log.debug(CF.OHI+"LoginController.addMember.Post login : "+addMemberForm+CF.RS);
+		// 사진 이름 디버깅
+		log.debug(CF.OHI+"LoginController.addMember.Post fileName : "+addMemberForm.getCustomFile().getOriginalFilename());
 		
-		loginService.addMember(addMemberForm);
+		loginService.addMember(addMemberForm, path);
 		
 		// 회원 가입 성공했다면 login페이지로
 		return "redirect:/login";

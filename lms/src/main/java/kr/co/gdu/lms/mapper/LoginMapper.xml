@@ -90,23 +90,21 @@
 		
 		<if test='"student".equals(msg)'>
 		JOIN student AS s
-		ON l.login_id = s.login_id
+			ON l.login_id = s.login_id
 		WHERE s.student_name = #{name}
-		AND s.student_email = #{email};
+			AND s.student_email = #{email};
 		</if>
-		
 		<if test='"manager".equals(msg)'>
 		JOIN manager AS m
-		ON l.login_id = m.login_id
+			ON l.login_id = m.login_id
 		WHERE m.manager_name = #{name}
-		AND m.manager_email = #{email};
+			AND m.manager_email = #{email};
 		</if>
-		
 		<if test='"teacher".equals(msg)'>
 		JOIN teacher AS t
-		ON l.login_id = t.login_id
+			ON l.login_id = t.login_id
 		WHERE t.teacher_name = #{name}
-		AND t.teacher_email = #{email};
+			AND t.teacher_email = #{email};
 		</if>
 	</select>
 	
@@ -119,26 +117,24 @@
 	
 		<if test='"student".equals(msg)'>
 		JOIN student AS s
-		ON l.login_id = s.login_id
+			ON l.login_id = s.login_id
 		WHERE s.login_id = #{loginId}
-		AND s.student_name = #{name}
-		AND s.student_email = #{email};
+			AND s.student_name = #{name}
+			AND s.student_email = #{email};
 		</if>	
-	
 		<if test='"manager".equals(msg)'>
 		JOIN manager AS m
-		ON l.login_id = m.login_id
+			ON l.login_id = m.login_id
 		WHERE m.login_id = #{loginId}
-		AND m.manager_name = #{name}
-		AND m.manager_email = #{email};
+			AND m.manager_name = #{name}
+			AND m.manager_email = #{email};
 		</if>
-		
 		<if test='"teacher".equals(msg)'>
 		JOIN teacher AS t
-		ON l.login_id = t.login_id
+			ON l.login_id = t.login_id
 		WHERE t.login_id = #{loginId}
-		AND t.teacher_name = #{name}
-		AND t.teacher_email = #{email};
+			AND t.teacher_name = #{name}
+			AND t.teacher_email = #{email};
 		</if>
 	</select>
 	

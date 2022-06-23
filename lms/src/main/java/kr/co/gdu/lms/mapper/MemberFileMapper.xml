@@ -24,4 +24,23 @@
 		WHERE login_id = #{loginId}	
 	</update>
 	
+	<insert id="insertMemberFile"
+			parameterType="kr.co.gdu.lms.vo.MemberFile">
+		INSERT INTO member_file (
+			login_id
+			, member_file_name
+			, member_file_origin_name
+			, member_file_type
+			, member_file_size
+			, member_file_create_date
+		)
+		VALUES (
+			#{loginId}
+			, #{memberFileName}
+			, #{memberFileOriginName}
+			, #{memberFileType}
+			, #{memberFileSize}
+			, now()
+		)
+	</insert>
 </mapper>
