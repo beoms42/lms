@@ -10,6 +10,6 @@ public interface MemberFileMapper {
 	MemberFile selectMemberFile(String loginId);
 	
 	// 파일수정
-	MemberFile updateMemberFile(String loginId, String memberFileName);
+	int updateMemberFile(MemberFile memberFile);
 	
 }

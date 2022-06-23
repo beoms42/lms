@@ -82,17 +82,22 @@ public class MemberService {
 		return row;
 	}
 	
-	/* 멤버파일 수정하기
+	// 멤버파일 수정하기
 	public int modifyMemberFile(String loginId, String memberFileName) {
 		log.debug(CF.GDH+"MemberService.modifyMemberFile loginId : " + loginId + CF.RS);
 		log.debug(CF.GDH+"MemberService.modifyMemberFile memberFileName : " + memberFileName + CF.RS);
 		
-		int row = memberFileMapper.updateMemberFile(loginId, memberFileName);
+		// 파일에 담긴 사진 지우기(경로)
+		
+		// 사진 업데이트
+		MemberFile memberFile =  new MemberFile();
+		
+		int row = memberFileMapper.updateMemberFile(memberFile);
 		log.debug(CF.GDH+"MemberService.updateMemberFile row : " + row + CF.RS);
 		
 		return row;
 	}
-	*/
+	
 	
 	@Autowired  private ManagerMapper managerMapper;
 	@Autowired  private TeacherMapper teacherMapper;

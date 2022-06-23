@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.mapper.ManagerMapper;
@@ -130,30 +131,31 @@ public class MemberController {
 
 	// 멤버 사진 수정 폼
 	@GetMapping("/loginCheck/modifyMemberFile")
-	public String modifyMemberFile(Model model, @RequestParam(name = "loginId") String loginId,
-			@RequestParam(name = "memberFileName") String memberFileName) {
-
+	public String modifyMemberFile(Model model, @RequestParam(name = "memberFileName") String memberFileName) {
+		log.debug(CF.GDH + "MemberController.modifyStudent.Post memberFileName : " + memberFileName + CF.RS);
 		model.addAttribute("memberFileName", memberFileName);
-		model.addAttribute("loginId", loginId);
 
 		return "member/modifyMemberFile";
 	}
 
-	/*
-	 * // 멤버 사진 수정 액션
-	 * 
-	 * @PostMapping("/loginCheck/modifyMemberFile") public String modifyMemberFile
-	 * (@RequestParam(name= "loginId") String loginId , @RequestParam(name=
-	 * "memberFileName") String memberFileName) {
-	 * 
-	 * // 수정이 됐는지 확인 // int row = memberService.modifyMemberFile(loginId,
-	 * memberFileName);
-	 * 
-	 * if(row == 1) { return "redirect:/loginCheck/main"; } else { return
-	 * "redirect:/loginCheck/modifyMemberFile"; }
-	 * 
-	 * }
-	 */
+	
+	// 멤버 사진 수정 액션
+	@PostMapping("/loginCheck/modifyMemberFile") 
+	public String modifyMemberFile (HttpSession session
+									, @RequestParam(name="deleteMemberFileName") String memberFileName
+									, @RequestParam(name="insertMemberFile") MultipartFile insertMemberFile) {
+		
+	  String loginId = (String) session.getAttribute("sessionId");
+	  
+	  // 수정이 됐는지 확인 
+	  int row = memberService.modifyMemberFile(loginId, memberFileName);
+	 
+	  if(row == 1) { 
+		  return "redirect:/loginCheck/main"; 
+	  } else { 
+		  return "redirect:/loginCheck/modifyMemberFile"; }
+	}
+	 
 	// 매니저 목록 리스트
 	@GetMapping("/loginCheck/getmanagerList")
 	public String getManagerList(Model model) {

@@ -8,8 +8,8 @@
 </head>
 <body>
 	<form method="post" action="${pageContext.request.contextPath}/member/modifyMemberFile">
-		<input type="file" name = "memberFileName" value="${memberFileName }">
-		<input type="text" name = "loginId" value="${loginId}" hidden="hidden">
+		<input type="file" name = "insertMemberFile" >
+		<input type="text" name = "deleteMemberFileName" value="${memberFileName}" hidden="hidden">
 		<button>사진수정</button>
 	</form>
 </body>
