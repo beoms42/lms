@@ -16,23 +16,11 @@ public interface LoginMapper {
 	// 학생, 강사, 매니저 비밀번호 변경
 	int updatePw(Login login);
 	
-	// 학생 비밀번호 찾기(확인)
-	int selectStudentPw(Map<String, Object> map);
-	
-	// 매니저 비밀번호 찾기(확인)
-	int selectManagerPw(Map<String, Object> map);
-	
-	// 강사 비밀번호 찾기(확인)
-	int selectTeacherPw(Map<String, Object> map);
-	
-	// 학생 아이디 찾기
-	String selectStudentLoginId(Map<String, Object> map);
-		
-	// 매니저 아이디 찾기
-	String selectManagerLoginId(Map<String, Object> map);
-		
-	// 강사 아이디 찾기
-	String selectTeacherLoginId(Map<String, Object> map);
+	// 학생, 매니저, 강사 비밀번호 찾기(확인)
+	int selectAllLoginPw(Map<String, Object> map);
+
+	// 학생, 매니저, 강사 아이디 찾기
+	String selectAllLoginId(Map<String, Object> map);
 	
 	// 로그인 - 로그인 아이디와 비밀번호 확인하고 맞다면 해당 level 출력 
 	Login loginAndSelectLevel(Login loginTest);

@@ -23,8 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 public class LoginService {
 	@Autowired private LoginMapper loginMapper;
 	@Autowired private ManagerMapper managerMapper;
-	
-	// 학생, 강사, 매니저 비밀번호 변경 이력 테이블 삽입
+
+// 학생, 강사, 매니저 비밀번호 변경 이력 테이블 삽입
 	public int addPwRecord(Login login) {
 		log.debug(CF.PHW+"LoginService.addPwRecord login : "+login+CF.RS );
 		return loginMapper.insertPwRecord(login);
@@ -36,38 +36,16 @@ public class LoginService {
 		return loginMapper.updatePw(login);
 	}
 	
-	// 학생 비밀번호 찾기
-	public int searchLoginPwByStudent(Map<String, Object> map) {
+	// 학생, 강사, 매니저 비밀번호 찾기
+	public int searchAllLoginPw(Map<String, Object> map) {
 		log.debug(CF.PHW+"LoginService.searchLoginPwByStudent map : "+map+CF.RS );
-		return loginMapper.selectStudentPw(map);
-	}
-	// 강사 비밀번호 찾기
-	public int searchLoginPwByTeacher(Map<String, Object> map) {
-		log.debug(CF.PHW+"LoginService.searchLoginPwByStudent map : "+map+CF.RS );
-		return loginMapper.selectTeacherPw(map);
-	}
-	// 매니저 비밀번호 찾기
-	public int searchLoginPwByManager(Map<String, Object> map) {
-		log.debug(CF.PHW+"LoginService.searchLoginPwByStudent map : "+map+CF.RS );
-		return loginMapper.selectManagerPw(map);
+		return loginMapper.selectAllLoginPw(map);
 	}
 
-	// 학생 아이디 찾기
-	public String searchLoginIdByStudent(Map<String, Object> map) {
+	// 학생, 강사, 매니저 아이디 찾기
+	public String searchAllLoginId(Map<String, Object> map) {
 		log.debug(CF.PHW+"LoginService.searchLoginIdByStudent map : "+map+CF.RS );
-		return loginMapper.selectStudentLoginId(map);
-	}
-	
-	// 강사 아이디 찾기 
-	public String searchLoginIdByTeacher(Map<String, Object> map) {
-		log.debug(CF.PHW+"LoginService.searchLoginIdByTeacher map : "+map+CF.RS );
-		return loginMapper.selectTeacherLoginId(map);
-	}
-	
-	// 매니저 아이디 찾기
-	public String searchLoginIdByManager(Map<String, Object> map) {
-		log.debug(CF.PHW+"LoginService.searchLoginIdByManager map : "+map+CF.RS );
-		return loginMapper.selectManagerLoginId(map);
+		return loginMapper.selectAllLoginId(map);
 	}
 
 	public Login login(Login loginTest) {

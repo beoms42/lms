@@ -27,11 +27,13 @@ public class LoginController {
 
 	@Autowired private LoginService loginService;
 	
-	// 비밀번호 변경 액션
+
+// 비밀번호 변경 액션
 	@PostMapping("/modifyLoginPw")
 	public String modifyLoginPw(Login login
 								, @RequestParam (name = "loginId") String loginId
 								, @RequestParam (name= "loginPw") String loginPw) {
+		
 		log.debug(CF.PHW+"LoginController.modifyLoginPw.post login : "+login+CF.RS );
 		log.debug(CF.PHW+"LoginController.modifyLoginPw.post loginId : "+loginId+CF.RS );
 		log.debug(CF.PHW+"LoginController.modifyLoginPw.post loginPw : "+loginPw+CF.RS );
@@ -46,6 +48,7 @@ public class LoginController {
 	@GetMapping("/modifyLoginPw")
 	public String modifyLoginPw(Model model
 								, @RequestParam (name = "loginId") String loginId) {
+		
 		log.debug(CF.PHW+"LoginController.modifyLoginPw.get loginId : "+loginId+CF.RS );
 
 		model.addAttribute("loginId", loginId);
@@ -60,6 +63,7 @@ public class LoginController {
 								, @RequestParam (name = "loginId") String loginId
 								, @RequestParam (name = "name") String name
 								, @RequestParam (name = "email") String email) {
+		
 		log.debug(CF.PHW+"LoginController.searchLoginPw.post msg : "+msg+CF.RS );
 		log.debug(CF.PHW+"LoginController.searchLoginPw.post loginId : "+loginId+CF.RS );
 		log.debug(CF.PHW+"LoginController.searchLoginPw.post name : "+name+CF.RS );
@@ -69,40 +73,15 @@ public class LoginController {
 		map.put("loginId", loginId);
 		map.put("name", name);
 		map.put("email", email);
+		map.put("msg", msg);
 		
-		int cnt = 0;
+		
+		int cnt = loginService.searchAllLoginPw(map);
+		log.debug(CF.PHW+"LoginController.searchLoginPw.post cnt : "+cnt+CF.RS );
 		
 		model.addAttribute("loginId", loginId);
 		
-		if("student".equals(msg)) {
-			cnt = loginService.searchLoginPwByStudent(map);
-			log.debug(CF.PHW+"LoginController.searchLoginPw.post cnt : "+cnt+CF.RS );
-			if(cnt == 1) {
-				return "login/modifyLoginPw";
-			} else {
-				return "login/searchLoginPw";
-			}
-		} else if ("teacher".equals(msg)) {
-			cnt = loginService.searchLoginPwByTeacher(map);
-			log.debug(CF.PHW+"LoginController.searchLoginPw.post cnt : "+cnt+CF.RS );
-			if(cnt == 1) {
-				return "login/modifyLoginPw";
-			} else {
-				return "login/searchLoginPw";
-			}
-		} else if ("manager".equals(msg)) {
-			cnt = loginService.searchLoginPwByManager(map);
-			log.debug(CF.PHW+"LoginController.searchLoginPw.post cnt : "+cnt+CF.RS );
-			if(cnt == 1) {
-				return "login/modifyLoginPw";
-			} else {
-				return "login/searchLoginPw";
-			}
-		} else {
-			log.debug(CF.PHW+"LoginController.searchLoginPw.post.if msg : msg값이 사라졌습니다! "+CF.RS );
-		}
-		
-		return "";
+		return "login/modifyLoginPw";
 		
 	}
 	
@@ -111,6 +90,7 @@ public class LoginController {
 	@GetMapping("/searchLoginPw")
 	public String searchLoginPw(Model model
 								, @RequestParam (name = "msg", defaultValue = "student") String msg) {
+		
 		log.debug(CF.PHW+"LoginController.searchLoginPw.get msg : "+msg+CF.RS );
 
 		model.addAttribute("msg", msg);
@@ -125,6 +105,7 @@ public class LoginController {
 								, @RequestParam (name = "msg") String msg
 								, @RequestParam (name = "name") String name
 								, @RequestParam (name = "email") String email) {
+		
 		log.debug(CF.PHW+"LoginController.searchLoginId.post msg : "+msg+CF.RS );
 		log.debug(CF.PHW+"LoginController.searchLoginId.post name : "+name+CF.RS );
 		log.debug(CF.PHW+"LoginController.searchLoginId.post email : "+email+CF.RS );
@@ -132,22 +113,11 @@ public class LoginController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("name", name);
 		map.put("email", email);
+		map.put("msg", msg);
 		
-		String loginId = "";
+		String loginId = loginService.searchAllLoginId(map);
+		log.debug(CF.PHW+"LoginController.searchLoginId.post loginId : "+loginId+CF.RS );
 		
-		if("student".equals(msg)) {
-			loginId = loginService.searchLoginIdByStudent(map);
-			log.debug(CF.PHW+"LoginController.searchLoginId.post.if student loginId : "+loginId+CF.RS );
-		} else if("teacher".equals(msg)) {
-			loginId = loginService.searchLoginIdByTeacher(map);
-			log.debug(CF.PHW+"LoginController.searchLoginId.post.if teacher loginId : "+loginId+CF.RS );
-		} else if("manager".equals(msg)){
-			loginId = loginService.searchLoginIdByManager(map);
-			log.debug(CF.PHW+"LoginController.searchLoginId.post.if manager loginId : "+loginId+CF.RS );
-		} else {
-			log.debug(CF.PHW+"LoginController.searchLoginId.post.if msg : msg값이 사라졌습니다! "+CF.RS );
-		}
-			
 		model.addAttribute("loginId", loginId);
 		
 		return "login/searchLoginId";
@@ -158,6 +128,7 @@ public class LoginController {
 	@GetMapping("/searchLoginId")
 	public String searchLoginId(Model model
 								, @RequestParam(value = "msg", defaultValue = "student") String msg) {
+		
 		log.debug(CF.PHW+"LoginController.searchLoginId.get msg : "+msg+CF.RS );
 		
 		model.addAttribute("msg", msg);

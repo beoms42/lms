@@ -81,80 +81,65 @@
 		WHERE login_id=#{loginId}
 	</update>
 	
-	<!--학생 아이디 찾기-->
-	<select id = "selectStudentLoginId"
+	<!-- 학생, 매니저, 강사 아이디 찾기 -->
+	<select id = "selectAllLoginId"
 			parameterType="java.util.Map"
 			resultType="String">
 		SELECT l.login_id loginId
 		FROM login AS l
+		
+		<if test='"student".equals(msg)'>
 		JOIN student AS s
 		ON l.login_id = s.login_id
 		WHERE s.student_name = #{name}
 		AND s.student_email = #{email};
-	</select>
-	
-	<!--매니저 아이디 찾기-->
-	<select id = "selectManagerLoginId"
-			parameterType="java.util.Map"
-			resultType="String">
-		SELECT l.login_id loginId
-		FROM login AS l
+		</if>
+		
+		<if test='"manager".equals(msg)'>
 		JOIN manager AS m
 		ON l.login_id = m.login_id
 		WHERE m.manager_name = #{name}
 		AND m.manager_email = #{email};
-	</select>
-	
-	<!--강사 아이디 찾기-->
-	<select id = "selectTeacherLoginId"
-			parameterType="java.util.Map"
-			resultType="String">
-		SELECT l.login_id loginId
-		FROM login AS l
+		</if>
+		
+		<if test='"teacher".equals(msg)'>
 		JOIN teacher AS t
 		ON l.login_id = t.login_id
 		WHERE t.teacher_name = #{name}
 		AND t.teacher_email = #{email};
+		</if>
 	</select>
 	
-	<!--학생비밀번호 찾기-->
-	<select id="selectStudentPw"
+	<!--학생, 강사, 매니저 비밀번호 찾기-->
+	<select id="selectAllLoginPw"
 			parameterType="java.util.Map"
 			resultType="int">
 		SELECT COUNT(*) cnt
 		FROM login AS l
+	
+		<if test='"student".equals(msg)'>
 		JOIN student AS s
 		ON l.login_id = s.login_id
 		WHERE s.login_id = #{loginId}
 		AND s.student_name = #{name}
 		AND s.student_email = #{email};
-	</select>
+		</if>	
 	
-	<!-- 매니저비밀번호 찾기 -->
-	<select id="selectManagerPw"
-			parameterType="java.util.Map"
-			resultType="int">
-		SELECT COUNT(*) cnt
-		FROM login AS l
+		<if test='"manager".equals(msg)'>
 		JOIN manager AS m
 		ON l.login_id = m.login_id
 		WHERE m.login_id = #{loginId}
 		AND m.manager_name = #{name}
 		AND m.manager_email = #{email};
-	
-	</select>
-	
-	<!-- 강사비밀번호 찾기 -->
-	<select id="selectTeacherPw"
-			parameterType="java.util.Map"
-			resultType="int">
-		SELECT COUNT(*) cnt
-		FROM login AS l
+		</if>
+		
+		<if test='"teacher".equals(msg)'>
 		JOIN teacher AS t
 		ON l.login_id = t.login_id
 		WHERE t.login_id = #{loginId}
 		AND t.teacher_name = #{name}
 		AND t.teacher_email = #{email};
+		</if>
 	</select>
 	
 	<!-- 학생,강사,매니저 비밀번호 변경 -->

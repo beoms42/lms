@@ -26,6 +26,7 @@
   	.auth .auth-form-light select {
   		color: #4C4C4C;
   	}
+  	.boxShadow {box-shadow: 0 20px 25px -5px rgb(0 0 0 / 10%);}
   </style>
 </head>
 
@@ -34,9 +35,9 @@
 		<div class="container-fluid page-body-wrapper full-page-wrapper">
 			<div class="content-wrapper d-flex align-items-center auth px-0">
 				<div class="row w-100 mx-0">
-					<div class="col-lg-8 mx-auto">
+					<div class="col-lg-7 mx-auto">
 						
-						<div class="auth-form-light text-left py-5 px-4 px-sm-5">
+						<div class="auth-form-light text-left py-5 px-4 px-sm-5 boxShadow">
 							<div class="card-body">
 					            <h4 class="card-title bottom">비밀번호 변경하기</h4>
 					          
