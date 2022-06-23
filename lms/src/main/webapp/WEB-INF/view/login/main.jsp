@@ -153,19 +153,15 @@
             <div class="col-md-6 grid-margin stretch-card">
               <div class="card tale-bg">
                 <div class="card-people mt-auto">
-                  <img src="images/dashboard/people.svg" alt="people">
+                  <img src="${pageContext.request.contextPath}/images/dashboard/people.svg" alt="people">
                   <div class="weather-info">
                     <div class="d-flex">
                       <div>
-                        <h2 class="mb-0 font-weight-normal"><span id="weather"></span><span id="tmp"></span><sup>C</sup></h2>
+                        <h2 class="mb-0 font-weight-normal"><span id="weather"></span><span id="tmp"></span><sup>ºC</sup></h2>
                       </div>
                       <div class="ml-2">
                         <h4 class="location font-weight-normal">금천구</h4>
                         <h6 class="font-weight-normal">가산동</h6>
-                      </div>
-                      <div>
-                      	<h4 class="location font-weight-normal">강수확률 <span id="reh"></span><sup>%</sup></h4>
-                      	<div id="sky"></div>
                       </div>
                     </div>
                   </div>
