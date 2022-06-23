@@ -7,10 +7,12 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashMap;
 
 import org.json.simple.JSONObject;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,20 +30,41 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 public class WeatherRestController {
-    
+
     @GetMapping("/weather")
     public String restApiGetWeather() throws Exception {
-    	LocalDate now = LocalDate.now();
-    	String nowYear = now.toString();
+    	String updateTime = null;
+    	LocalDate date = LocalDate.now();
+    	String nowYear = date.toString();
     	nowYear = nowYear.replace("-", "");
+    	LocalTime time = LocalTime.now();
+    	int hour = time.getHour();
+    	if(hour > 1 && hour < 5) {
+    		updateTime = "0200";
+    	} else if(hour > 4 && hour < 8) {
+    		updateTime = "0500";
+    	} else if(hour > 7 && hour < 11) {
+    		updateTime = "0800";
+    	} else if(hour > 10 && hour < 14) {
+    		updateTime = "1100";
+    	} else if(hour > 13 && hour < 17) {
+    		updateTime = "1400";
+    	} else if(hour > 16 && hour < 20) {
+    		updateTime = "1700";
+    	} else if(hour > 19 && hour < 23) {
+    		updateTime = "2000";
+    	} else {
+    		updateTime = "2300";
+    	}
     	log.debug(CF.LCH+"nowYear : "+nowYear+CF.RS);
+    	log.debug(CF.LCH+"wdawfawfiawnfinawifnawifn : " + updateTime+CF.RS);
         String url = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst"
             + "?serviceKey=kOeozc2PuA1Xw33w78Tvl1%2BhJxup98e1X297F77%2FcTkYVKHmhK6v0uswhBiZpqQmJIQYm63yZT%2BGVUQkTW712A%3D%3D"
             + "&dataType=JSON"            // JSON, XML
             + "&numOfRows=10"             // 페이지 ROWS
             + "&pageNo=1"                 // 페이지 번호
             + "&base_date=" + nowYear       // 발표일자
-            + "&base_time=1400"           // 발표시각
+            + "&base_time=" +  updateTime         // 발표시각
             + "&nx=58"                    // 예보지점 X 좌표
             + "&ny=125";                  // 예보지점 Y 좌표
         
