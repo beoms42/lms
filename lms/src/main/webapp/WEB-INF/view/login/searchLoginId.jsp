@@ -127,7 +127,7 @@
   	
   	$('#name').blur(function(){
 		if ($('#name').val() == ''){
-			$('#nameHelper').text('이름을 입력하세요');
+			$('#nameHelper').text('이름을 입력하세요.');
 		} else {
 			$('#nameHelper').text('');
 		}
@@ -136,7 +136,7 @@
   
 	$('#email').blur(function(){
 		if ($('#email').val() == ''){
-			$('#emailHelper').text('이메일을 입력하세요');
+			$('#emailHelper').text('이메일을 입력하세요.');
 		} else if($('#email').val().indexOf('@') == -1 || $('#email').val().indexOf('.') == -1) {
 			$('#emailHelper').text('이메일 형식이 다릅니다.');
 		} else {

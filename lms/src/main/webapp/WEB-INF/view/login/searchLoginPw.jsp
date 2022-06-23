@@ -77,7 +77,7 @@
 						            <div class="form-group">
 							            <label>Id</label>
 							            <input type="text" name="loginId" class="form-control" placeholder="id" id="loginId">
-							            <span id="nameHelper"></span>
+							            <span id="loginIdHelper"></span>
 						            </div>
 						            <div class="form-group">
 							            <label>Name</label>
@@ -89,11 +89,8 @@
 							            <input type="text" name="email" class="form-control" placeholder="email" id="email">
 							            <span id="emailHelper"></span>
 						            </div>
-						            
-						            <c:if test="${loginPw == null}">
-						            	<button id="searchPw" type="submit" class="btn btn-primary mr-2">비밀번호 찾기</button>
+						            	<button id="searchPw" type="button" class="btn btn-primary mr-2">비밀번호 찾기</button>
 						            	<a href="${pageContext.request.contextPath}/login" class="btn btn-light" type="button">로그인 화면으로</a>
-						            </c:if>
 					            </form>
 					        </div>
 						</div>
@@ -124,14 +121,52 @@
   <!-- End custom js for this page-->
   
   <script>
-  
+
+	$('#loginId').blur(function(){
+		if ($('#loginId').val() == ''){
+			$('#loginIdHelper').text('아이디를 입력하세요.');
+		} else if ($('#loginId').val().length < 4){
+			$('#loginIdHelper').text('아이디는 4글자 이상으로 입력해주세요.');
+		} else {
+			$('#loginIdHelper').text('');
+		}
+	});
+	
+	$('#name').blur(function(){
+		if ($('#name').val() == ''){
+			$('#nameHelper').text('이름을 입력하세요.');
+		} else {
+			$('#nameHelper').text('');
+		}
+	});
+
+
+	$('#email').blur(function(){
+		if ($('#email').val() == ''){
+			$('#emailHelper').text('이메일을 입력하세요.');
+		} else if($('#email').val().indexOf('@') == -1 || $('#email').val().indexOf('.') == -1) {
+			$('#emailHelper').text('이메일 형식이 다릅니다.');
+		} else {
+			$('#emailHelper').text('');
+		}
+	});
+
+
+	$('#searchPw').click(function(){
+		if ($('#loginId').val() == ''){
+			$('#loginIdHelper').text('아이디를 입력하세요.');
+		} else if($('#name').val() == ''){
+			$('#loginIdHelper').text('');
+			$('#nameHelper').text('이름을 입력하세요.');
+		} else if($('#email').val() == ''){
+			$('#nameHelper').text('');
+			$('#emailHelper').text('이메일을 입력하세요.');
+		} else{
+			$('#searchLoginPwForm').submit();
+		}
+	});
+
   
   </script>
-  
-  
-  
 </body>
-
-
-
 </html>
