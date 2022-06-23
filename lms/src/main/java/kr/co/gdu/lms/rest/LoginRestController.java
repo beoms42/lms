@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.service.LoginService;
+import lombok.extern.slf4j.Slf4j;
 
 
+@Slf4j
 @RestController
 public class LoginRestController {
 
@@ -25,9 +28,11 @@ public class LoginRestController {
 		
 		// id 중복 체크해서 중복된 아이디 개수 받아오기
 		int count = loginService.idCheck(id);
+		log.debug(CF.OHI+"LoginRestController.idCheck.post count : "+count+CF.RS);
 		
 		if(count == 1) { // 중복된 아이디가 있다면
 			return "false"; // false값 리턴
+			
 		}
 		
 		return id;

@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.gdu.lms.mapper.LoginMapper">
 
+	<!-- 로그인 - active가 1이고 로그인 아이디와 비밀번호 확인하여 맞다면 해당 level 출력  -->
 	<select id="loginAndSelectLevel"
 			parameterType="kr.co.gdu.lms.vo.Login"
 			resultType = "kr.co.gdu.lms.vo.Login">
@@ -9,8 +10,76 @@
 			login_id loginId
 			, level
 		FROM login
-		WHERE login_id=#{loginId} AND login_pw=PASSWORD(#{loginPw});
+		WHERE login_active='1' AND login_id=#{loginId} AND login_pw=PASSWORD(#{loginPw});
 	</select>
+	
+	<!-- id 중복 체크 위해 id 리스트 받기-->
+	<select id = "selectIdCnt"
+			parameterType="String"
+			resultType="int">
+		SELECT 
+			count(*)
+		FROM login
+		WHERE login_id=#{id}
+	</select>
+	
+	<!-- 회원가입 - 회원정보넣기 -->
+	<insert id="insertMember" parameterType="kr.co.gdu.lms.vo.AddMemberForm">
+		
+		<if test='"manager".equals(addChk)'>
+			INSERT INTO manager		
+		</if>
+		<if test='"teacher".equals(addChk)'>
+			INSERT INTO teacher
+		</if>
+		<if test='"student".equals(addChk)'>
+			INSERT INTO student
+		</if>
+		VALUES(
+			#{loginId}
+			, #{name}
+			, #{birth}
+			, #{gender}
+			, #{address}
+			, #{detailAddr}
+			, #{email}
+			, #{phone}
+		<if test='"manager".equals(addChk)'>
+			, #{deptNo}
+			, #{positionNo}
+		</if>
+		<if test='"teacher".equals(addChk)'>
+			, #{graduate}
+		</if>
+		<if test='"student".equals(addChk)'>
+			, #{graduate}
+			, #{military}
+		</if>
+			, now()
+			, now()
+		)
+	</insert>
+
+	<!-- 회원가입 - 로그인테이블에 넣기 -->
+	<insert id="insertLogin" parameterType="java.util.Map">
+		INSERT INTO login
+		VALUES(
+			#{loginId}
+			, PASSWORD(#{loginPw})
+			, #{level}
+			, '1'
+			, now()
+			, now()
+			, now()
+		)
+	</insert>
+	<!-- 로그인 - 마지막 로그인날짜 업데이트 -->
+	<update id="updateLastLoginDate"
+			parameterType="kr.co.gdu.lms.vo.Login">
+		UPDATE login
+		SET last_login_date = now()
+		WHERE login_id=#{loginId}
+	</update>
 	
 	<!--학생 아이디 찾기-->
 	<select id = "selectStudentLoginId"
@@ -101,10 +170,6 @@
 		INSERT INTO pw_record VALUES (#{loginId},PASSWORD(#{loginPw}), NOW());
 	</insert>
 	
-	
-	
-		
-		
-		
+
 		
 </mapper>

@@ -14,10 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.service.LoginService;
+import kr.co.gdu.lms.vo.AddMemberForm;
 import kr.co.gdu.lms.vo.Login;
 import lombok.extern.slf4j.Slf4j;
 
@@ -150,7 +150,7 @@ public class LoginController {
 	// 회원가입 폼
 	@GetMapping("/addMember")
 	public String addMemeber(Model model
-			, @RequestParam(value="addChk", defaultValue="student") String addChk) {
+							, @RequestParam(value="addChk", defaultValue="student") String addChk) {
 		
 		log.debug(CF.OHI+"LoginController.addMember addChk : "+addChk+CF.RS);
 		
@@ -160,40 +160,15 @@ public class LoginController {
 	
 	@PostMapping("/addMember")
 	public String addMember(HttpServletRequest request
-			, Login login
-			, @RequestParam(value="name") String name
-			, @RequestParam(value="gender") String gender
-			, @RequestParam(value="email") String email
-			, @RequestParam(value="phone") String phone
-			, @RequestParam(value="addr") String addr
-			, @RequestParam(value="addr") String detailAddr
-			, @RequestParam(value="customFile")MultipartFile customFile
-			, @RequestParam(value="addChk") String addChk) {
+							, AddMemberForm addMemberForm) {
 		
 		// 디버깅
-		log.debug(CF.OHI+"LoginController.addMember.Post login : "+login+CF.RS);
-		log.debug(CF.OHI+"LoginController.addMember.Post name : "+name+CF.RS);
-		log.debug(CF.OHI+"LoginController.addMember.Post gender : "+gender+CF.RS);
-		log.debug(CF.OHI+"LoginController.addMember.Post email : "+email+CF.RS);
-		log.debug(CF.OHI+"LoginController.addMember.Post phone : "+phone+CF.RS);
-		log.debug(CF.OHI+"LoginController.addMember.Post addr : "+addr+CF.RS);
-		log.debug(CF.OHI+"LoginController.addMember.Post detailAddr : "+detailAddr+CF.RS);
-		log.debug(CF.OHI+"LoginController.addMember.Post customFile : "+customFile+CF.RS);
-		log.debug(CF.OHI+"LoginController.addMember.Post addChk : "+addChk+CF.RS);
-	
-		Map<String, Object> map = new HashMap<>();
-		map.put("login", login);
-		map.put("name", name);
-		map.put("gender", gender);
-		map.put("email", email);
-		map.put("phone", phone);
-		map.put("addr", addr);
-		map.put("detailAddr", detailAddr);
-		map.put("customFile", customFile);
-		map.put("addChk", addChk);
-		loginService.addMember(map);
+		log.debug(CF.OHI+"LoginController.addMember.Post login : "+addMemberForm+CF.RS);
 		
-		return "";
+		loginService.addMember(addMemberForm);
+		
+		// 회원 가입 성공했다면 login페이지로
+		return "redirect:/login";
 	}
 	// 로그아웃
 	@GetMapping("/loginCheck/logout")
@@ -217,17 +192,19 @@ public class LoginController {
 						, HttpServletRequest request) {
 		
 		String cookieId = null; // model에 담을 cookieId 선언 
-		Cookie[] cookies = request.getCookies(); 
-		
-		for(Cookie c : cookies) { // 쿠키 배열들 돌리면서
-			if("cookieId".equals(c.getName())) { // cookieId라는 이름 가진 쿠키 값 있다면
-				cookieId = c.getValue(); // 쿠키아이디에 정보값 담아주기
+		Cookie[] cookies = null;
+		if(request.getCookies() != null) {
+			 cookies = request.getCookies();
+			for(Cookie c : cookies) { // 쿠키 배열들 돌리면서
+				if("cookieId".equals(c.getName())) { // cookieId라는 이름 가진 쿠키 값 있다면
+					cookieId = c.getValue(); // 쿠키아이디에 정보값 담아주기
+				}
 			}
+			log.debug(CF.OHI+"LoginController.login.get cookieId : "+cookieId+CF.RS);
+			
+			model.addAttribute("cookieId",cookieId);
 		}
 		
-		log.debug(CF.OHI+"LoginController.login.get cookieId : "+cookieId+CF.RS);
-		
-		model.addAttribute("cookieId",cookieId);
 		return "login/login";
 	}
 	

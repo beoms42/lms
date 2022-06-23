@@ -31,16 +31,16 @@
 	
 	<update id= "updateManager" 
 			parameterType="kr.co.gdu.lms.vo.Manager">
-			UPDATE manager SET
- 				manager_name managerName= #{managerName}	
-				, manager_birth managerBirth= #{managerBirth}	
-      			, manager_gender managerGender= #{managerGender}	
-      			, address= #{address}	
-     			, detail_addr detailAddr= #{detailAddr}	
-      			, manager_email managerEmail= #{managerEmail}	
-      			, manager_phone managerPhone= #{managerPhone}	
-				, dept_no deptNo= #{deptNo}	
-				, position_no positionNo= #{positionNo}	
+		UPDATE manager SET
+			manager_name managerName= #{managerName}	
+			, manager_birth managerBirth= #{managerBirth}	
+   			, manager_gender managerGender= #{managerGender}	
+   			, address= #{address}	
+  			, detail_addr detailAddr= #{detailAddr}	
+   			, manager_email managerEmail= #{managerEmail}	
+   			, manager_phone managerPhone= #{managerPhone}	
+			, dept_no deptNo= #{deptNo}	
+			, position_no positionNo= #{positionNo}	
 		WHERE login_id loginId= #{loginId}	
 	</update>
 	
@@ -58,5 +58,22 @@
 		WHERE login_id = #{loginId} AND login_pw = PASSWORD(#{loginPw})
 	</select>
 		
-	</mapper>
+	<!-- 매니저 회원가입 - 부서 이름과 번호 뽑기-->
+	<select id="selectDept"
+			resultType="kr.co.gdu.lms.vo.Dept">
+		SELECT 
+			dept_no deptNo
+			, dept_name deptName
+		FROM dept
+	</select>
+	
+	<!-- 매니저 회원가입 - 직급 이름과 번호 뽑기 -->
+	<select id="selectPosition"
+			resultType="kr.co.gdu.lms.vo.Position">
+		SELECT 
+			position_no positionNo
+			, position_name positionNam
+		FROM position
+	</select>
+</mapper>
 	

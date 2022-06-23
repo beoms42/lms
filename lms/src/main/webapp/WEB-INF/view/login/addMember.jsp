@@ -23,10 +23,9 @@
   <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/favicon.png" />
   <style>
   	.bottom {margin-bottom : 40px;}
-  	.auth .auth-form-light select {
-  		color: #4C4C4C;
-  	}
+  	.auth .auth-form-light select {color: #4C4C4C;}
   	.button-bottom {margin-bottom : 10px;}
+  	.boxShadow {box-shadow: 0 20px 25px -5px rgb(0 0 0 / 10%);}
   </style>
 </head>
 
@@ -35,7 +34,7 @@
 		<div class="container-fluid page-body-wrapper full-page-wrapper">
 			<div class="content-wrapper d-flex align-items-center auth px-0">
 				<div class="row w-100 mx-0">
-					<div class="col-lg-8 mx-auto">
+					<div class="col-lg-7 mx-auto">
 						<ul class="nav nav-tabs nav-justified">
 							<li class = "nav-item">
 								<c:choose>
@@ -68,80 +67,84 @@
 								</c:choose>
 							</li>
 						</ul>
-						<div class="auth-form-light text-left py-5 px-4 px-sm-5">
+						<div class="auth-form-light text-left py-5 px-4 px-sm-5 boxShadow">
 							<div class="card-body">
 					            <h3 class="card-title bottom">회원 가입</h3>
-					            <form class="forms-sample" id="addMemberForm" method="post" action="${pageContext.request.contextPath}/addMember">
+					            <form class="forms-sample" id="addMemberForm" method="post" action="${pageContext.request.contextPath}/addMember" enctype="multipart/form-data">
 						            <div class="row">
 						            	<input type="hidden" name="addChk" value="${addChk}">
 							            <div class="form-group col">
-								            <label>Id Check</label>
-								            <input type="text" class="form-control button-bottom" placeholder="Id를 입력해주세요" id="id">
+								            <label>ID 중복 검사</label>
+								            <input type="text" class="form-control button-bottom" placeholder="ID를 입력해주세요." id="id">
 								            <span id="idHelper"></span>
 								            <button type="button" class="float-right btn btn-primary mr-2" id="idChk">아이디 중복 검사</button>
 							            </div>
 							            <div class="form-group col">
-								            <label>Id</label>
-								            <input type="text" name="loginId" class="form-control" placeholder="Id" readonly="readonly" id="realId">
+								            <label>ID</label>
+								            <input type="text" name="loginId" class="form-control" placeholder="ID" readonly="readonly" id="realId">
 							            </div>
-							         </div>
+							        </div>
 						            <div class="form-group">
-							            <label>Password</label>
-							            <input type="password" name="loginPw" class="form-control" placeholder="Password" id="pw">
+							            <label>비밀번호</label>
+							            <input type="password" name="loginPw" class="form-control" placeholder="비밀번호" id="pw">
 							            <span id="pwHelper"></span>
 						            </div>
 						            <div class="form-group">
-							            <label>Name</label>
-							            <input type="text" name="name" class="form-control" placeholder="Name" id="name">
+							            <label>이름</label>
+							            <input type="text" name="name" class="form-control" placeholder="이름" id="name">
 							            <span id="nameHelper"></span>
 						            </div>
 						            <div class="form-group">
-							            <label>Gender</label>
+							            <label>성별</label>
 							            <select name="gender" class="form-control">
-						                    <option>Male</option>
-						                    <option>Female</option>
+						                    <option>남</option>
+						                    <option>여</option>
 					                  	</select>
 						          	</div>
 						            <div class="form-group">
-							            <label>Email</label>
-							            <input type="email" name="email" class="form-control" placeholder="Email" id="email">
+							            <label>생일</label>
+							            <input type="date" class="form-control" name="birth">
+						          	</div>
+						            <div class="form-group">
+							            <label>이메일</label>
+							            <input type="email" name="email" class="form-control" placeholder="이메일" id="email">
 							            <span id="emailHelper"></span>
 						            </div>
 						            <div class="form-group">
-							            <label>Phone</label>
-							            <input type="text" name="phone" class="form-control" placeholder="-를 제외하고 입력해주세요" id="phone">
+							            <label>휴대폰 번호</label>
+							            <input type="text" name="phone" class="form-control" placeholder="-를 제외하고 입력해주세요." id="phone">
 							            <span id="phoneHelper"></span>
 						            </div>
 						            <div class="form-group">
-							            <label>Address</label>
-							            <input type="text" class="form-control button-bottom" placeholder="주소를 입력해주세요" id="addr">
+							            <label>주소</label>
+							            <input type="text" class="form-control button-bottom" placeholder="주소를 입력해주세요." id="addr">
 							            <button type="button" class="float-right btn btn-primary mr-2 button-bottom" id="searchAddr">주소 검색</button>
 							            <div id="addrHelper"></div>
 						            </div>
 						            <div class="form-group">
-						            	<select name="addr"  class = "form-control" id="searchAddrList">
+						            	<select name="address"  class = "form-control" id="searchAddrList">
 						            		<!-- 주소 들어올 공간 -->
 						            	</select>
 						            </div>
 						            <div class="form-group">
-						            	<label>detail Address</label>
-							            <input type="text" name="detailAddr" class="form-control" placeholder="상세주소를 입력해주세요" id="detailAddr">
+						            	<label>상세 주소</label>
+							            <input type="text" name="detailAddr" class="form-control" placeholder="상세주소를 입력해주세요." id="detailAddr">
 							            <span id="detailAddrHelper"></span>
 						            </div>
 						            <div class="form-group">
-						            	<label>Image</label>
+						            	<label>회원 사진</label>
 						            	<div class="custom-file">
 	   										<input type="file" class="custom-file-input" id="customFile" name="customFile">
-	   										<label class="custom-file-label" for="customFile">회원 사진으로 등록할 사진을 넣어주세요</label>
-	 										</div>
-	 										<span id="imageHelper"></span>
+	   										<label class="custom-file-label" for="customFile">회원 사진으로 등록할 사진을 넣어주세요.</label>
+	 									</div>
+	 									<span id="imageHelper"></span>
 						            </div>
 						            
 						            <!-- 학생과 강사 -->
-						              <c:if test="${addChk eq 'student' || addChk eq 'teacher'}">
+						            <c:if test="${addChk eq 'student' || addChk eq 'teacher'}">
 							            <div class="form-group">
-								            <label>Education</label>
-								            <select class="form-control" name="education">
+								            <label>학력</label>
+								            <select class="form-control" name="graduate">
 								             	<option>고졸</option>
 							                    <option>초대졸</option>
 							                    <option>대졸</option>
@@ -152,7 +155,7 @@
 						            <!-- 학생만 -->
 						            <c:if test="${addChk eq 'student'}">
 							            <div class="form-group">
-								            <label>Military</label>
+								            <label>병역 여부</label>
 								            <select class="form-control" name="military">
 								             	<option>해당없음</option>
 							                    <option>군필</option>
@@ -160,7 +163,6 @@
 					                  		</select>
 							            </div>
 						            </c:if>
-						          
 						            <button type="button" class="btn btn-primary mr-2" id="addMemberBtn">회원 가입</button>
 						            <button class="btn btn-light">입력 취소</button>
 					            </form>
