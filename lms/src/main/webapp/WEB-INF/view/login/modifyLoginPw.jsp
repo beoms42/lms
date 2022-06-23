@@ -44,23 +44,18 @@
 						             <input type="hidden" name="loginId" value="${loginId}">
 						            <div class="form-group">
 							            <label>Insert Password</label>
-							            <input type="text" name="loginPw" class="form-control" placeholder="password" id="loginPw">
+							            <input type="password" name="loginPw" class="form-control" placeholder="password" id="loginPw">
 							            <span id="nameHelper"></span>
 						            </div>
 						            <div class="form-group">
 							            <label>Check Password</label>
-							            <input type="text" name="loginPwChk" class="form-control" placeholder="password" id="loginPwChk">
+							            <input type="password" name="loginPwChk" class="form-control" placeholder="password" id="loginPwChk">
 							            <span id="nameHelper"></span>
 						            </div>
 						            
 						            <c:if test="${loginPw == null}">
 						            	<button id="searchPw" type="submit" class="btn btn-primary mr-2">비밀번호 변경</button>
-						            	<a href="${pageContext.request.contextPath}/login" class="btn btn-light" type="button">로그인 화면으로</a>
 						            </c:if>
-						         
-						             <c:if test="${loginPw != null}"> ${loginPw}
-						             	<br><br><a href="${pageContext.request.contextPath}/login" class="btn btn-primary mr-2" type="button">로그인 하러가기</a>
-						             </c:if>
 					            </form>
 					        </div>
 						</div>

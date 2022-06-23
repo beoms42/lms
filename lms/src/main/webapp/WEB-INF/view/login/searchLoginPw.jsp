@@ -93,10 +93,6 @@
 						            	<button id="searchPw" type="submit" class="btn btn-primary mr-2">비밀번호 찾기</button>
 						            	<a href="${pageContext.request.contextPath}/login" class="btn btn-light" type="button">로그인 화면으로</a>
 						            </c:if>
-						         
-						             <c:if test="${loginPw != null}"> ${loginPw}
-						             	<br><br><a href="${pageContext.request.contextPath}/login" class="btn btn-primary mr-2" type="button">로그인 하러가기</a>
-						             </c:if>
 					            </form>
 					        </div>
 						</div>
