@@ -251,6 +251,37 @@
 	                </div>
 	              </div>
 	            </div>
+	            
+	            <!--  책 리스트  -->
+	             <div class="col-lg-7 grid-margin stretch-card">
+	              <div class="card">
+	                <div class="card-body">
+	                  <h4 class="card-title">과목 - 책 리스트</h4>
+	                  <p class="card-description">
+	                  </p>
+	                  <div class="table-responsive">
+	                    <table class="table">
+	                      <thead>
+	                        <tr>
+	                          <th>과목</th>
+	                          <th>책 이름</th>
+	                          <th>출판사</th>
+	                        </tr>
+	                      </thead>
+	                      <tbody>
+	                      <c:forEach var="book" items="${bookMapList}">
+	                      	<tr>
+								<td><button class="btn btn-outline-primary btn-fw">${book.subjectName}</button></td>
+								<td><button class="btn btn-outline-dark btn-fw">${book.textbookName}</button></td>
+								<td><button class="btn btn-outline-dark btn-fw">${book.textbookPublisher}</button></td>
+	                      	</tr>
+	                      </c:forEach>                
+	                      </tbody>
+	                    </table>
+	                  </div>
+	                </div>
+	              </div>
+	            </div>
 	          
 	          </div>
 	          <!-- 상세보기 끝 -->

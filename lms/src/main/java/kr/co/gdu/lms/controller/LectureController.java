@@ -187,10 +187,25 @@ public class LectureController {
 		model.addAttribute("loginId", loginId);
 		
 		// 리스트로 강의과목을 받아서 개별 삭제하게 하는..그런
-		
 		List<String> sublist = lectureService.selectSubjectListByLectureName(lectureName);
 		model.addAttribute("sublist", sublist);
+		
+		// 리스트 과목관리에 포함된 책 보기
+		List<Map<String, Object>> bookMapList = lectureService.selectTextbookByLectureName(lectureName);
+		model.addAttribute("bookMapList", bookMapList);
+		log.debug(CF.JYI+"LectureService.updateLectureForm.get bookMap : "+bookMapList+CF.RS);
 		return "lecture/updateLectureForm";
 	}
 	
+	// 강의관리 - 과목 삭제(Get방식 단일삭제)
+	@GetMapping("/loginCheck/delSubjectOneByLectureName")
+	public String delSubjectOneByLectureName(Model model
+			, HttpSession session
+			, @RequestParam(name = "lectureName") String lectureName
+			, @RequestParam(name = "subjectName") String subjectName) {
+			
+		// 강의이름 + 과목이름으로 과목 하나 삭제
+		
+		return "redirect:/loginCheck/manageLecture";
+	}
 }

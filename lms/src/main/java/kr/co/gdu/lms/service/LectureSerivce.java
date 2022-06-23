@@ -106,4 +106,10 @@ public class LectureSerivce {
 		Lecture lect = lectureMapper.selectLectureOneByLectureName(lectureName);
 		return lect;
 	}
+	
+	// 수정용 - 이름으로 과목에 포함된 책 보기
+	public List<Map<String, Object>> selectTextbookByLectureName(String lectureName) {
+		List<Map<String, Object>> mapList = lectureMapper.selectTextbookByLectureName(lectureName);
+		return mapList;
+	}
 }

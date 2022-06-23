@@ -161,6 +161,23 @@
 			, create_date createDate
 			, update_date updateDate
 		FROM lecture
-		WHERE lecture_name =#{lectureName}
+		WHERE lecture_name = #{lectureName}
+	</select>
+	
+	<select id="selectTextbookByLectureName"
+		parameterType="String"
+		resultType="map">
+		SELECT distinct
+			ls.lecture_name lectureName
+			, ls.subject_name subjectName
+			, tb.textbook_name textbookName
+			, tb.textbook_publisher textbookPublisher
+		FROM subject_textbook st
+			INNER JOIN lecture_subject ls
+			ON st.subject_name = ls.subject_name
+			INNER JOIN textbook tb
+			ON st.textbook_no = tb.textbook_no
+		WHERE lecture_name = #{lectureName}
+		ORDER BY ls.subject_name DESC;
 	</select>
 </mapper>

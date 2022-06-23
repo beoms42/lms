@@ -46,4 +46,9 @@ public interface LectureMapper {
 	
 	// 강의 이름으로 Lecture 하나 조회
 	Lecture selectLectureOneByLectureName(String lectureName);
+	
+	// 강의이름으로 과목에 딸린 책 이름 가져오기
+	List<Map<String, Object>> selectTextbookByLectureName(String lectureName);
+	
+	// 강의이름 + 과목이름으로 과목 하나 삭제
 }
