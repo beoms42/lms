@@ -27,9 +27,30 @@ public class LoginController {
 
 	@Autowired private LoginService loginService;
 	
+	
+	
+// 비밀번호 변경 액션
+	@PostMapping("/modifyLoginPw")
+	public String modifyLoginPw(Login login
+								, @RequestParam (name = "loginId") String loginId
+								, @RequestParam (name= "loginPw") String loginPw) {
+		log.debug(CF.PHW+"LoginController.modifyLoginPw.post login : "+login+CF.RS );
+		log.debug(CF.PHW+"LoginController.modifyLoginPw.post loginId : "+loginId+CF.RS );
+		log.debug(CF.PHW+"LoginController.modifyLoginPw.post loginPw : "+loginPw+CF.RS );
+		
+		loginService.modifyLoginPw(login);
+		loginService.addPwRecord(login);
+		
+		return "login/login";
+	}
+	
 	// 비밀번호 변경 폼
 	@GetMapping("/modifyLoginPw")
-	public String modifyLoginPw() {
+	public String modifyLoginPw(Model model
+								, @RequestParam (name = "loginId") String loginId) {
+		log.debug(CF.PHW+"LoginController.modifyLoginPw.get loginId : "+loginId+CF.RS );
+
+		model.addAttribute("loginId", loginId);
 		
 		return "login/modifyLoginPw";
 	}
@@ -53,29 +74,31 @@ public class LoginController {
 		
 		int cnt = 0;
 		
+		model.addAttribute("loginId", loginId);
+		
 		if("student".equals(msg)) {
 			cnt = loginService.searchLoginPwByStudent(map);
 			log.debug(CF.PHW+"LoginController.searchLoginPw.post cnt : "+cnt+CF.RS );
 			if(cnt == 1) {
-				return "redirect:/modifyLoginPw";
+				return "login/modifyLoginPw";
 			} else {
-				return "redirect:/searchLoginPw";
+				return "login/searchLoginPw";
 			}
 		} else if ("teacher".equals(msg)) {
 			cnt = loginService.searchLoginPwByTeacher(map);
 			log.debug(CF.PHW+"LoginController.searchLoginPw.post cnt : "+cnt+CF.RS );
 			if(cnt == 1) {
-				return "redirect:/modifyLoginPw";
+				return "login/modifyLoginPw";
 			} else {
-				return "redirect:/searchLoginPw";
+				return "login/searchLoginPw";
 			}
 		} else if ("manager".equals(msg)) {
 			cnt = loginService.searchLoginPwByManager(map);
 			log.debug(CF.PHW+"LoginController.searchLoginPw.post cnt : "+cnt+CF.RS );
 			if(cnt == 1) {
-				return "redirect:/modifyLoginPw";
+				return "login/modifyLoginPw";
 			} else {
-				return "redirect:/searchLoginPw";
+				return "login/searchLoginPw";
 			}
 		} else {
 			log.debug(CF.PHW+"LoginController.searchLoginPw.post.if msg : msg값이 사라졌습니다! "+CF.RS );
@@ -131,8 +154,7 @@ public class LoginController {
 		
 		return "login/searchLoginId";
 	}
-	
-	
+
 	
 	// 학생, 강사, 매니저 아이디 찾기 폼
 	@GetMapping("/searchLoginId")
@@ -146,7 +168,6 @@ public class LoginController {
 	}
 	
 	
-
 	// 회원가입 폼
 	@GetMapping("/addMember")
 	public String addMemeber(Model model

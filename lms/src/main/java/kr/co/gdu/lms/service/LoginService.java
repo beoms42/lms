@@ -23,6 +23,18 @@ public class LoginService {
 	@Autowired private LoginMapper loginMapper;
 	@Autowired private ManagerMapper managerMapper;
 	
+	// 학생, 강사, 매니저 비밀번호 변경 이력 테이블 삽입
+	public int addPwRecord(Login login) {
+		log.debug(CF.PHW+"LoginService.addPwRecord login : "+login+CF.RS );
+		return loginMapper.insertPwRecord(login);
+	}
+	
+	// 학생, 강사, 매니저 비밀번호 변경
+	public int modifyLoginPw(Login login) {
+		log.debug(CF.PHW+"LoginService.modifyLoginPw login : "+login+CF.RS );
+		return loginMapper.updatePw(login);
+	}
+	
 	// 학생 비밀번호 찾기
 	public int searchLoginPwByStudent(Map<String, Object> map) {
 		log.debug(CF.PHW+"LoginService.searchLoginPwByStudent map : "+map+CF.RS );

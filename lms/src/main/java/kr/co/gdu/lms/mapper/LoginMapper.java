@@ -10,11 +10,11 @@ import kr.co.gdu.lms.vo.Login;
 @Mapper
 public interface LoginMapper {
 
-	//  학생, 강사, 매니저 비밀번호 변경 이력 테이블 삽입
-	String insertPwRecord(Map<String, Object> map);
+	// 학생, 강사, 매니저 비밀번호 변경 이력 테이블 삽입
+	int insertPwRecord(Login login);
 	
 	// 학생, 강사, 매니저 비밀번호 변경
-	String updatePw(Map<String,Object> map);
+	int updatePw(Login login);
 	
 	// 학생 비밀번호 찾기(확인)
 	int selectStudentPw(Map<String, Object> map);
