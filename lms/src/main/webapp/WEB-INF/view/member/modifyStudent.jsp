@@ -22,6 +22,12 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/vertical-layout-light/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/tftace.jpg" />
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <style>
+  	.helper {
+  		color : #FF0000;
+  	}
+  </style>
 </head>
 <body>
   <div class="container-scroller">
@@ -129,7 +135,7 @@
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
                   <h1>개인정보 수정하기</h1>
-                  <form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyStudent">
+                  <form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyStudent" id="modifyForm">
 	                  <table class="table">
 						<tr>
 							<th>아이디</th>
@@ -137,7 +143,10 @@
 						</tr>
 						<tr>
 							<th>이름</th>
-							<td><input type="text" name="studentName" value="${student.studentName}"></td>
+							<td>
+								<input type="text" name="studentName" value="${student.studentName}" id="name" placeholder="이름">&nbsp;&nbsp;&nbsp;
+								<span id="nameHelper" class="helper"></span>
+							</td>
 						</tr>
 						<tr>
 							<th>생년월일</th>
@@ -160,11 +169,17 @@
 						</tr>
 						<tr>
 							<th>이메일</th>
-							<td><input type="text" value="${student.studentEmail}" name="studentEmail"></td>
+							<td>
+								<input type="text" value="${student.studentEmail}" name="studentEmail" id="email" placeholder="이메일">&nbsp;&nbsp;&nbsp;
+								<span id="emailHelper" class="helper"></span>
+							</td>
 						</tr>
 						<tr>
 							<th>전화번호</th>
-							<td><input type="text" value="${student.studentPhone}" name="studentPhone"> '-'를 제외하고 입력하시오.</td>
+							<td>
+								<input type="text" value="${student.studentPhone}" name="studentPhone" id="phone" placeholder="-를 제외해서 입력해주세요." >&nbsp;&nbsp;&nbsp;
+								<span id="phoneHelper" class="helper"></span>
+							</td>
 						</tr>
 						<tr>
 							<th>병역유무</th>
@@ -183,7 +198,7 @@
 							</td>
 						</tr>
 					</table>
-					<button>수정</button>
+					<button id="modify">수정</button>
 				</form>
                 </div>
                 <div class="col-12 col-xl-4">
@@ -237,6 +252,41 @@
   <script src="js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
 </body>
+<script>
+	$('#name').blur(function() {
+		if($('#name').val().length == 0 ) {
+			$('#nameHelper').text('이름을 입력해주세요');
+		} else {
+			$('#nameHelper').text('');
+		}
+	});
+	$('#email').blur(function() {
+		if($('#email').val().length == 0 ) {
+			$('#emailHelper').text('이메일을 입력해주세요');
+		} else {
+			$('#emailHelper').text('');
+		}
+	});
+	$('#phone').blur(function(){
+		if($('#phone').val().indexOf('-') != -1 ){
+			$('#phone').val().replace(/-/g, ''); // 입력한 '-' 한자리 지움
+		   	$('#phoneHelper').text('-를 제외해서 입력해주세요.');
+		}
+	});
+	
+	$('#modify').click(function() {
+		if($('#name').val().length == 0 ) {
+			$('#nameHelper').text('이름을 입력해주세요');
+		} else if($('#email').val().length == 0 ) {
+			$('#emailHelper').text('이메일을 입력해주세요');
+		} else if($('#phone').val().indexOf('-') != -1 ){
+			$('#phone').val().replace(/-/g, ''); // 입력한 '-' 한자리 지움
+		   	$('#phoneHelper').text('-를 제외해서 입력해주세요.');
+		} else {
+			$('modifyForm').submit();
+		}
+	})
+</script>
 
 </html>
 
