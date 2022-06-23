@@ -111,18 +111,17 @@ public class MemberService {
 		 
 		 
 		// 매니저 정보 상세보기
-		 public Manager getManagerOne(String loginId) {
-		 	Manager manager = new Manager();
-		 	manager = managerMapper.selectManagerOne(loginId);
+		 public Map<String,Object> getManagerOne(String loginId) {
+		 	Map<String,Object> managerMap = managerMapper.selectManagerOne(loginId);
 		 	log.debug(CF.PSH+"MemberService.getManagerOne :"+loginId+CF.RS);
-		 	return manager;
+		 	return managerMap;
 		 }
 		 
 		 // 매니저 정보 수정하기
-		 public int modifyManager(Manager loginId) {
+		 public int modifyManager(Manager manager) {
 			 	int row = 0;
-			    row = managerMapper.updateManager(loginId);
-			 	log.debug(CF.PSH+"MemberService.modifyManager :"+loginId+CF.RS);
+			    row = managerMapper.updateManager(manager);
+			 	log.debug(CF.PSH+"MemberService.modifyManager :"+manager+CF.RS);
 			    return row;
 			}
 		 
@@ -176,7 +175,4 @@ public class MemberService {
 				return fileName;
 			}
 	}
-			 
-
-
 

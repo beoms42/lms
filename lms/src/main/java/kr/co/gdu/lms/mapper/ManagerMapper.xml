@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.gdu.lms.mapper.ManagerMapper">
+	<resultMap type ="HashMap" id="ManagerOneMap">
+		<id column="managerName" property="managerName"/>
+		<id column="managerBirth" property="managerBirth"/>
+		<id column="managerGender" property="managerGender"/>
+		<id column="address" property="address"/>
+		<id column="detailAddr" property="detailAddr"/>
+		<id column="managerEmail" property="managerEmail"/>
+		<id column="managerPhone" property="managerPhone"/>
+		<id column="positionName" property="positionName"/>
+		<id column="deptName" property="deptName"/>
+		<id column="createDate" property="createDate"/>
+	</resultMap>
 	<select id="selectManagerOne" 
 			parameterType="String" 
-			resultType="kr.co.gdu.lms.vo.Manager">
+			resultMap="ManagerOneMap">
 		SELECT
 		  login_id loginId
 		  , manager_name managerName 
@@ -13,10 +25,12 @@
 		  , detail_addr detailAddr
 		  , manager_email managerEmail
 		  , manager_phone managerPhone
-		  , dept_no deptNo
-		  , position_no positionNo
-		  , create_date createDate
-		FROM manager 
+		  , d.dept_name deptName
+		  , position_name positionName
+		  , m.create_date createDate
+			FROM manager m
+			INNER JOIN position p ON p.position_no = m.position_no
+			INNER JOIN dept d ON d.dept_no = m.dept_no
 		WHERE login_id = #{loginId}
 	</select>
 	
@@ -32,16 +46,16 @@
 	<update id= "updateManager" 
 			parameterType="kr.co.gdu.lms.vo.Manager">
 		UPDATE manager SET
-			manager_name managerName= #{managerName}	
-			, manager_birth managerBirth= #{managerBirth}	
-   			, manager_gender managerGender= #{managerGender}	
+			manager_name = #{managerName}	
+			, manager_birth = #{managerBirth}	
+   			, manager_gender = #{managerGender}	
    			, address= #{address}	
-  			, detail_addr detailAddr= #{detailAddr}	
-   			, manager_email managerEmail= #{managerEmail}	
-   			, manager_phone managerPhone= #{managerPhone}	
-			, dept_no deptNo= #{deptNo}	
-			, position_no positionNo= #{positionNo}	
-		WHERE login_id loginId= #{loginId}	
+  			, detail_addr = #{detailAddr}	
+   			, manager_email = #{managerEmail}	
+   			, manager_phone = #{managerPhone}	
+			, dept_no = #{deptNo}	
+			, position_no = #{positionNo}	
+		WHERE login_id = #{loginId}	
 	</update>
 	
 	<delete id="deleteManager"

@@ -144,61 +144,61 @@
             <div class="col-lg-10 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title"><img src="<%=request.getContextPath()%>/images/member/${fileName}" width="100" height="100">${manager.managerName}매니저님</h4>
+                  <h4 class="card-title"><img src="<%=request.getContextPath()%>/images/member/${fileName}" width="100" height="100">${managerMap.managerName}매니저님</h4>
                   <p class="card-description">
                   </p>
                   <div class="table-responsive">
                     <table class="table">
                       <thead>
                         <tr>
-                          <td>프로필 사진</td>
-                          <td><img src="<%=request.getContextPath()%>/images/member/${fileName}" width="500" height="500"></td>
-                        </tr> 
-                        <tr>
                           <td>ID</td>
-                          <td>${manager.loginId}</td>
+                          <td>${managerMap.loginId}</td>
                         </tr> 
-                        <tr> 
+                         <tr> 
                           <td>성명</td>
-                          <td>${manager.managerName}</td>
+                          <td>${managerMap.managerName}</td>
                         </tr>  
                         <tr>
                           <td>생년월일</td>
-                          <td>${manager.managerBirth}</td>
+                          <td>${managerMap.managerBirth}</td>
                         </tr>
                          <tr> 
                           <td>성별</td>
-                          <td>${manager.managerGender}</td>
+                          <td>${managerMap.managerGender}</td>
                         </tr>
                          <tr> 
                           <td>주소</td>
-                          <td>${manager.address}</td>
+                          <td>${managerMap.address}</td>
                         </tr>
                         <tr>  
                           <td>상세주소</td>
-                          <td>${manager.detailAddr}</td>
+                          <td>${managerMap.detailAddr}</td>
                         </tr>
                         <tr> 
                           <td>E-mail</td>
-                          <td>${manager.managerEmail}</td>
+                          <td>${managerMap.managerEmail}</td>
                         </tr>
                         <tr>  
                           <td>연락처</td>
-                          <td>${manager.managerPhone}</td>
+                          <td>${managerMap.managerPhone}</td>
+                       </tr>
+                       <tr>
+                       	  <td>부서</td>
+                        <td>${managerMap.deptName}</td> 
                        </tr>
                         <tr>
                           <td>직급</td>
-                          <td>${manager.positionNo}</td>
+                        <td>${managerMap.positionName}</td>
                         </tr>
                         <tr>   
-                          <td>생성날짜</td>
-                          <td>${manager.createDate}</td>
+                          <td>가입날짜</td>
+                          <td>${managerMap.createDate}</td>
                         </tr>
                       </thead>
                     </table>
                      	<div>
-					   <a href=${pageContext.request.contextPath}/loginCheck/modifyManager?loginId=${manager.loginId}">수정</a>
-					  <a href="#"><button class="btn btn-danger"href="${pageContext.request.contextPath}/deleteTeacherOne?loginId=${manager.loginId}">회원탈퇴</button></a>
+					    <a class="btn btn-default" href="${pageContext.request.contextPath}/loginCheck/modifyManager?loginId=${manager.loginId}">수정</a>
+					  	 <a href="#"><button class="btn btn-danger"href="${pageContext.request.contextPath}/deleteTeacherOne?loginId=${manager.loginId}">회원탈퇴</button></a>
 					</div>
                   </div>
                 </div>
