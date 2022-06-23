@@ -157,11 +157,15 @@
                   <div class="weather-info">
                     <div class="d-flex">
                       <div>
-                        <h2 class="mb-0 font-weight-normal"><i class="icon-sun mr-2"></i>31<sup>C</sup></h2>
+                        <h2 class="mb-0 font-weight-normal"><span id="weather"></span><span id="tmp"></span><sup>C</sup></h2>
                       </div>
                       <div class="ml-2">
-                        <h4 class="location font-weight-normal">Bangalore</h4>
-                        <h6 class="font-weight-normal">India</h6>
+                        <h4 class="location font-weight-normal">금천구</h4>
+                        <h6 class="font-weight-normal">가산동</h6>
+                      </div>
+                      <div>
+                      	<h4 class="location font-weight-normal">강수확률 <span id="reh"></span><sup>%</sup></h4>
+                      	<div id="sky"></div>
                       </div>
                     </div>
                   </div>
@@ -810,6 +814,70 @@
   <script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
   <script src="${pageContext.request.contextPath}/js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
+  <script type="text/javascript">
+  		$.ajax({
+			url : '/lms/weather'
+			, type : 'get'
+			, timeout : 30000
+			, contentType : 'application/json'
+			, dataType : 'json'
+			, success : function(data, status, xhr) {
+				let dataHeader = data.result.response.header.resultCode;
+				if(dataHeader == '00') {
+					console.log('success ==>');
+					console.log(data);
+					let arr = data.result.response.body.items.item;
+					
+					
+					if(arr[7].fcstValue >= 80) {
+						if(arr[6].fcstValue == 0) {
+							if(arr[5].fcstValue == 1) {
+								$('#weather').append('<i class="icon-sun mr-2"></i>');
+							} else {
+								$('#weather').append('<i class="icon-cloud mr-2"></i>');
+							}
+						} else if(arr[6].fcstValue == 1) {
+							$('#weather').append('<i class="icon-umbrella mr-2"></i>');
+						} else if(arr[6].fsctValue == 2 || arr[6].fsctValue == 3) {
+							if(arr[0].fcstValue < -5) {
+								$('#weather').append('<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-snow" viewBox="0 0 16 16"><path d="M8 16a.5.5 0 0 1-.5-.5v-1.293l-.646.647a.5.5 0 0 1-.707-.708L7.5 12.793V8.866l-3.4 1.963-.496 1.85a.5.5 0 1 1-.966-.26l.237-.882-1.12.646a.5.5 0 0 1-.5-.866l1.12-.646-.884-.237a.5.5 0 1 1 .26-.966l1.848.495L7 8 3.6 6.037l-1.85.495a.5.5 0 0 1-.258-.966l.883-.237-1.12-.646a.5.5 0 1 1 .5-.866l1.12.646-.237-.883a.5.5 0 1 1 .966-.258l.495 1.849L7.5 7.134V3.207L6.147 1.854a.5.5 0 1 1 .707-.708l.646.647V.5a.5.5 0 1 1 1 0v1.293l.647-.647a.5.5 0 1 1 .707.708L8.5 3.207v3.927l3.4-1.963.496-1.85a.5.5 0 1 1 .966.26l-.236.882 1.12-.646a.5.5 0 0 1 .5.866l-1.12.646.883.237a.5.5 0 1 1-.26.966l-1.848-.495L9 8l3.4 1.963 1.849-.495a.5.5 0 0 1 .259.966l-.883.237 1.12.646a.5.5 0 0 1-.5.866l-1.12-.646.236.883a.5.5 0 1 1-.966.258l-.495-1.849-3.4-1.963v3.927l1.353 1.353a.5.5 0 0 1-.707.708l-.647-.647V15.5a.5.5 0 0 1-.5.5z"/></svg>');
+							} else {
+								$('#weather').append('<i class="icon-umbrella mr-2"></i>');
+							}
+						} else {
+							$('#weather').append('<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-snow" viewBox="0 0 16 16"><path d="M8 16a.5.5 0 0 1-.5-.5v-1.293l-.646.647a.5.5 0 0 1-.707-.708L7.5 12.793V8.866l-3.4 1.963-.496 1.85a.5.5 0 1 1-.966-.26l.237-.882-1.12.646a.5.5 0 0 1-.5-.866l1.12-.646-.884-.237a.5.5 0 1 1 .26-.966l1.848.495L7 8 3.6 6.037l-1.85.495a.5.5 0 0 1-.258-.966l.883-.237-1.12-.646a.5.5 0 1 1 .5-.866l1.12.646-.237-.883a.5.5 0 1 1 .966-.258l.495 1.849L7.5 7.134V3.207L6.147 1.854a.5.5 0 1 1 .707-.708l.646.647V.5a.5.5 0 1 1 1 0v1.293l.647-.647a.5.5 0 1 1 .707.708L8.5 3.207v3.927l3.4-1.963.496-1.85a.5.5 0 1 1 .966.26l-.236.882 1.12-.646a.5.5 0 0 1 .5.866l-1.12.646.883.237a.5.5 0 1 1-.26.966l-1.848-.495L9 8l3.4 1.963 1.849-.495a.5.5 0 0 1 .259.966l-.883.237 1.12.646a.5.5 0 0 1-.5.866l-1.12-.646.236.883a.5.5 0 1 1-.966.258l-.495-1.849-3.4-1.963v3.927l1.353 1.353a.5.5 0 0 1-.707.708l-.647-.647V15.5a.5.5 0 0 1-.5.5z"/></svg>');
+						}
+					} else {
+						if(arr[5].fcstValue == 1) {
+							$('#weather').append('<i class="icon-sun mr-2"></i>');
+						} else {
+							$('#weather').append('<i class="icon-cloud mr-2"></i>');
+						}
+					}
+					
+					
+					for(let i=0; i<arr.length; i++) {
+						if(arr[i].category == 'TMP') {
+							$('#tmp').append(arr[i].fcstValue);
+						}
+						if(arr[i].category == 'REH') {
+							$('#reh').append(arr[i].fcstValue);
+						}
+						if(arr[i].category == 'SKY') {
+							$('#sky').append(arr[i].fcstValue);
+						}
+					}
+				} else {
+					console.log('fail ==>');
+					console.log(data);
+				}
+			}
+			, error : function(e, status, xhr, data) {
+				console.log('error ==>');
+				console.log(e);
+			}
+		});
+  </script>
 </body>
 
 </html>
