@@ -159,16 +159,21 @@
 					                <tr>
 					                	<td>
 					                </tr>
-									<tr>									
+									<tr>	
+									<td>파일</td>								
 									<c:forEach var="f" items="${fileList}">
-							  				<td>파일</td>
+							  				
 							  				<c:if test="${f.assignmentFileType.equals('image/jpeg')}">
 							  					<c:forEach var="n" items="${fileList}">
-								  					<td><img src="${pageContext.request.contextPath}/file/assignmentFile/${f.assignemntFileName}"></td>
+								  					<td
+								  					
+								  					
+								  					
+								  					><img src="${pageContext.request.contextPath}/file/assignmentFile/${f.assignmentFileName}"></td>
 							  					</c:forEach>
 							  				</c:if>
 							  				<c:if test="${f.assignmentFileType.equals('application/octet-stream')}">
-							  					<td><a href="${pageContext.request.contextPath}/file/assignmentFile/${f.assignemntFileName}">${f.assignemntFileName}</a></td>
+							  					<td><a href="${pageContext.request.contextPath}/file/assignmentFile/${f.assignmentFileName}">${f.assignmentFileName}</a></td>
 							  				</c:if>
 							  	
 							 	 	</c:forEach>
@@ -186,6 +191,7 @@
 							<BR>	
 							<button type="button" class="btn btn-primary" id="addAssignment">제출</button>
 							<a href="${pageContext.request.contextPath}/loginCheck/getAssignmentExam" class="btn btn-primary">목록</a></td>
+							<a href="${pageContext.request.contextPath}/loginCheck/modifyAssignment" class="btn btn-primary">수정</a>
 						</form>
 					</div>
 

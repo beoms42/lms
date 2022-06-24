@@ -93,9 +93,7 @@
     	
     		
     	});
-    	$('#svg').click(function() {
-    		alert(sigpad.signature('toSVG'));
-    	});
+    	
 	
     
 
