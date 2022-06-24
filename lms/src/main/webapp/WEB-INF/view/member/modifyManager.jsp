@@ -145,7 +145,7 @@
             <div class="col-lg-10 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title"><img src="<%=request.getContextPath()%>/images/member/${fileName}" width="100" height="100">${manager.managerName}매니저님</h4>
+                  <h4 class="card-title"><img src="<%=request.getContextPath()%>/file/memberPhoto/${fileName}" width="100" height="100">${manager.managerName}매니저님</h4>
                   <p class="card-description">
                   </p>   
                   <div class="table-responsive">
@@ -154,7 +154,7 @@
                       <thead>
                         <tr>
                           <td>프로필 사진</td>
-                          <td><img src="<%=request.getContextPath()%>/images/member/${fileName}" width="500" height="500"></td>
+                          <td><img src="${pageContext.request.contextPath }/file/memberPhoto/${fileName}" width="100" height="100">${managerMap.managerName}매니저님</h4>
                         </tr> 
                         <tr>
                           <td>ID</td>
@@ -195,24 +195,26 @@
                        </tr>
                        <tr>
                        	 <td>부서</td>
-                       	 <td><input type="text" name="deptNo" value="${manager.deptNo}"></td>
+                       	 <td>
+                       	 <select name="deptNo">
+                       	 <option value="${manager.deptNo}">${manager.deptName}</option>
+	                         <c:forEach var="d" items="${deptList}">
+	                         	<option value="${d.deptNo}">${d.deptName}</option>
+	                         </c:forEach>
+                         </select>
+                         </td>
                        </tr>
                         <tr>
-                          <td>직급
+                          <td>직급</td>
                           <td>
-                          	<select class="positionNo" name="positionNo">
-                             <option value="${manager.positionNo}">${manager.positionNo}</option>
-                                <option value="1">사원</option>
-                                <option value="2">대리</option>
-                                <option value="3">주임</option>
-                                <option value="4">차장</option>
-                                <option value="5">과장</option>
-                                <option value="6">부장</option>
-                            </select>
-                            </td>
+                          <select name="positionNo">
+                          	<option value="${manager.positionNo}">${manager.positionName}</option>
+                          		<c:forEach var="p" items="${positionList}">
+									<option value="${p.positionNo}">${p.positionName}</option>                          		
+                          		</c:forEach>
+                          </select>
+                          </td>
                         </tr>
-                        <input type="hidden" name="deptNo" value="1">
-                        
                       </thead>
                     </table>
                      	<div>

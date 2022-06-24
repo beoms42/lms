@@ -130,7 +130,7 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                  <h3>매니저 상세보기</h3>
+                  <h3>수정</h3>
                 </div>
                 <div class="col-12 col-xl-4">
                  <div class="justify-content-end d-flex">
@@ -139,66 +139,77 @@
               </div>
             </div>
           </div>
+              
           <!-- 강의개설 실제부분 --> 
           <div class="row">
             <div class="col-lg-10 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title"><img src="${pageContext.request.contextPath }/file/memberPhoto/${fileName}" width="100" height="100">${managerMap.managerName}매니저님</h4>
+                  <h4 class="card-title"><img src="<%=request.getContextPath()%>/images/member/${fileName}" width="100" height="100">${teacher.teacherName}강사님</h4>
                   <p class="card-description">
-                  </p>
+                  </p>   
                   <div class="table-responsive">
+                   <form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyTeacher">
                     <table class="table">
                       <thead>
                         <tr>
-                          <td>ID</td>
-                          <td>${managerMap.loginId}</td>
+                          <td>프로필 사진</td>
+                          <td><img src="<%=request.getContextPath()%>/images/member/${fileName}" width="500" height="500"></td>
                         </tr> 
-                         <tr> 
+                        <tr>
+                          <td>ID</td>
+                          <td><input type="text" name="loginId" value="${teacher.loginId}" readonly="readonly"></td>
+                        </tr> 
+                       <tr> 
                           <td>성명</td>
-                          <td>${managerMap.managerName}</td>
+                          <td><input type="text" name="teacherName" value="${teacher.teacherName}"></td>
                         </tr>  
                         <tr>
                           <td>생년월일</td>
-                          <td>${managerMap.managerBirth}</td>
+                          <td><input type="date" name="teacherBirth" value="${teacher.teacherBirth}"></td>
                         </tr>
                          <tr> 
                           <td>성별</td>
-                          <td>${managerMap.managerGender}</td>
+                          <td>
+                        	<select name="teacherGender">
+                                <option value="남">남</option>
+                                <option value="여">여</option>
+                            </select>
+                            </td>
                         </tr>
                          <tr> 
                           <td>주소</td>
-                          <td>${managerMap.address}</td>
+                          <td><input type="text"  name="address" value="${teacher.address}"></td>
                         </tr>
                         <tr>  
                           <td>상세주소</td>
-                          <td>${managerMap.detailAddr}</td>
+                          <td><input type="text" name="detailAddr" value="${teacher.detailAddr}"></td>
                         </tr>
                         <tr> 
                           <td>E-mail</td>
-                          <td>${managerMap.managerEmail}</td>
+                          <td><input type="text" name="teacherEmail" value="${teacher.teacherEmail}"></td>
                         </tr>
                         <tr>  
                           <td>연락처</td>
-                          <td>${managerMap.managerPhone}</td>
-                       </tr>
-                       <tr>
-                       	  <td>부서</td>
-                        <td>${managerMap.deptName}</td> 
+                          <td><input type="text" name="teacherPhone" value="${teacher.teacherPhone}"></td>
                        </tr>
                         <tr>
-                          <td>직급</td>
-                        <td>${managerMap.positionName}</td>
+                          <td>학력</td>
+                          <td>
+                        	<select name="graduate">
+                                <option value="고졸">고졸</option>
+                                <option value="초대졸">초대졸</option>
+                                <option value="대졸">대졸</option>
+                            </select>
+                            </td>
                         </tr>
-                        <tr>   
-                          <td>가입날짜</td>
-                          <td>${managerMap.createDate}</td>
-                        </tr>
+                        
                       </thead>
                     </table>
                      	<div>
-					    <a class="btn btn-default" href="${pageContext.request.contextPath}/loginCheck/modifyManager?loginId=${managerMap.loginId}">수정</a>
-					  	 <a href="#"><button class="btn btn-danger"href="${pageContext.request.contextPath}/deleteTeacherOne?loginId=${managerMap.loginId}">회원탈퇴</button></a>
+                     	<input type ="submit" value="수정">
+					   <a href="#"><button class="btn btn-danger"href="${pageContext.request.contextPath}/deleteTeacherOne?loginId=${manager.loginId}">회원탈퇴</button></a>
+					  </form>
 					</div>
                   </div>
                 </div>

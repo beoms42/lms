@@ -2,6 +2,7 @@ package kr.co.gdu.lms.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,9 +20,11 @@ import kr.co.gdu.lms.mapper.ManagerMapper;
 import kr.co.gdu.lms.mapper.MemberFileMapper;
 import kr.co.gdu.lms.mapper.StudentMapper;
 import kr.co.gdu.lms.mapper.TeacherMapper;
+import kr.co.gdu.lms.vo.Dept;
 import kr.co.gdu.lms.vo.Login;
 import kr.co.gdu.lms.vo.Manager;
 import kr.co.gdu.lms.vo.MemberFile;
+import kr.co.gdu.lms.vo.Position;
 import kr.co.gdu.lms.vo.Student;
 import kr.co.gdu.lms.vo.Teacher;
 import lombok.extern.slf4j.Slf4j;
@@ -153,14 +156,30 @@ public class MemberService {
 		 }
 		 
 		 
+		 
 		// 매니저 정보 상세보기
 		 public Map<String,Object> getManagerOne(String loginId) {
 		 	Map<String,Object> managerMap = managerMapper.selectManagerOne(loginId);
 		 	log.debug(CF.PSH+"MemberService.getManagerOne :"+loginId+CF.RS);
 		 	return managerMap;
 		 }
+		// 부서리스트
+		public List<Dept> getDeptList() {
+			List<Dept> deptList = new ArrayList<Dept>();
+			deptList = managerMapper.selectDept();
+			log.debug(CF.PSH+"MemberService.getManagerOne :"+deptList+CF.RS);
+			return deptList;
+		}
 		 
-		 // 매니저 정보 수정하기
+		// 직급 리스트
+		public List<Position> getPositions(){
+			List<Position> positionList = new ArrayList<Position>();
+			positionList = managerMapper.selectPosition();
+			log.debug(CF.PSH+"MemberService.getManagerOne :"+positionList+CF.RS);
+			return positionList;
+		}
+		
+		// 매니저 정보 수정하기
 		 public int modifyManager(Manager manager) {
 			 	int row = 0;
 			    row = managerMapper.updateManager(manager);
@@ -180,7 +199,7 @@ public class MemberService {
 		 // 강사 리스트
 		 public List<Teacher> getTeacherList() {
 			 List<Teacher> list = teacherMapper.selectTeacherList();
-		 	 log.debug(CF.PSH+"MemberService.getTeacherList :"+CF.RS);
+		 	 log.debug(CF.PSH+"MemberService.getTeacherList :"+list+CF.RS);
 			 return list;
 		 }
 		 
@@ -206,16 +225,14 @@ public class MemberService {
 			public int deleteTeacher(String loginId) {
 				int row =0;
 				row = teacherMapper.deleteTeacher(loginId);
-				log.debug(CF.PSH+"MemberService.deleteTeacher :"+loginId+CF.RS);
+				log.debug(CF.PSH+"MemberService.deleteTeacher 삭제:"+loginId+CF.RS);
 				return row;
-
 				}
 			
 			// 사진 한장 불러오기
-			public String selectMemberFileOne(String loginId) {
+			public String getMemberFileOne(String loginId) {
 				MemberFile mem = memberFileMapper.selectMemberFile(loginId);
 				String fileName = mem.getMemberFileName();
 				return fileName;
 			}
 	}
-

@@ -27,10 +27,10 @@ public interface ManagerMapper {
 	//매니저 수정/삭제를 위한 패스워드 접근
 	int pwCheck(Login login);
 	
-	//매니저 회원가입 - 부서 이름 번호 
+	//매니저 - 부서 이름 번호 
 	List<Dept> selectDept();
 		
-	//매니저 회원가입 - 직급 이름 번호
+	//매니저  - 직급 이름 번호
 	List<Position> selectPosition();
 	
 }

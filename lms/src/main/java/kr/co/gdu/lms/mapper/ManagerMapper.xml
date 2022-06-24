@@ -72,7 +72,7 @@
 		WHERE login_id = #{loginId} AND login_pw = PASSWORD(#{loginPw})
 	</select>
 		
-	<!-- 매니저 회원가입 - 부서 이름과 번호 뽑기-->
+	<!-- 매니저 - 부서 이름과 번호 뽑기-->
 	<select id="selectDept"
 			resultType="kr.co.gdu.lms.vo.Dept">
 		SELECT 
@@ -81,7 +81,7 @@
 		FROM dept
 	</select>
 	
-	<!-- 매니저 회원가입 - 직급 이름과 번호 뽑기 -->
+	<!-- 매니저 - 직급 이름과 번호 뽑기 -->
 	<select id="selectPosition"
 			resultType="kr.co.gdu.lms.vo.Position">
 		SELECT 
@@ -89,5 +89,6 @@
 			, position_name positionName
 		FROM position
 	</select>
+	
 </mapper>
 	
