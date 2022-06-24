@@ -183,7 +183,8 @@ public class MemberController {
 			 	Manager manager = new Manager();
 			 	Map<String,Object> managerMap = memberService.getManagerOne(loginId);
 				String fileName = memberService.getMemberFileOne(loginId);
-			 	log.debug(CF.PSH+"MemberController.getManagerOne :"+manager+CF.RS);
+			 	log.debug(CF.PSH+"MemberController.getManagerOne :"+managerMap+CF.RS);
+			 	log.debug(CF.PSH+"MemberController.getManagerOne :"+fileName+CF.RS);
 			 	model.addAttribute("managerMap", managerMap);
 			 	model.addAttribute("fileName", fileName);
 			 	return "member/getManagerOne";
@@ -255,6 +256,8 @@ public class MemberController {
 			 	String fileName = memberService.getMemberFileOne(loginId);
 			 	teacher = memberService.getTeacherOne(loginId);
 			 	log.debug(CF.PSH+"MemberController.getTeacherOne :"+teacher+CF.RS);
+			 	log.debug(CF.PSH+"MemberController.getTeacherOne :"+fileName+CF.RS);
+			 	log.debug(CF.PSH+"MemberController.getTeacherOne :"+path+CF.RS);
 			 	model.addAttribute("teacher", teacher);
 			 	model.addAttribute("fileName", fileName);
 			 	return "member/getTeacherOne";
@@ -287,6 +290,7 @@ public class MemberController {
 			 	teacher = memberService.getTeacherOne(loginId);
 				String fileName = memberService.getMemberFileOne(loginId);
 			 	log.debug(CF.PSH+"MemberController.modifyTeacher :"+teacher+CF.RS);
+			 	log.debug(CF.PSH+"MemberController.modifyTeacher :"+fileName+CF.RS);
 			 	model.addAttribute("teacher", teacher);
 			 	model.addAttribute("fileName", fileName);
 			 	return "member/modifyTeacher";
