@@ -1,8 +1,5 @@
 package kr.co.gdu.lms.controller;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.service.AssignmentService;
+import kr.co.gdu.lms.vo.AssignmentAddForm;
 import kr.co.gdu.lms.vo.AssignmentExam;
 import kr.co.gdu.lms.vo.AssignmentFile;
 import lombok.extern.slf4j.Slf4j;
@@ -71,26 +69,32 @@ public class AssignmentController {
 	@PostMapping("/loginCheck/addAssignment")
 	public String addAssignmentExam(Model model
 									,HttpServletRequest request
-									,AssignmentExam assignmentexam) {
+									,AssignmentAddForm assignmentAddForm) {
 		
+		//아이디 세션/레벨 받아오기
 		HttpSession session = request.getSession();
 		String sessionMemberId=(String)session.getAttribute("sessionId");
 		int level = (int)session.getAttribute("sessionLv");
 	
+		//아이디 세션 값 디버깅
 		log.debug(CF.GMC+"AssignmentController.addAssignmentExam loginId:"+sessionMemberId + CF.GMC);
-		
-		assignmentexam.setLoginId(sessionMemberId);
+		//경로 지정
 		String path = request.getServletContext().getRealPath("/file/assignmentFile/");
 		
-		log.debug(CF.GMC+"AssignmentController.addAssignment path : "+path + CF.RS);
-		log.debug(CF.GMC+"AssignmentController.addAssignment assignmentexam : "+assignmentexam + CF.RS);
-		if( assignmentexam.getAssignmentFileList()!=null &&  assignmentexam.getAssignmentFileList().get(0).getSize() > 0) { // 하나 이상의 파일이 업로드 되면
-			for(MultipartFile mf :  assignmentexam.getAssignmentFileList()) {
-				log.debug(CF.GMC+"AssignmentController.addAssignment assignmentexam : "+mf.getOriginalFilename() + CF.RS);
+		List<MultipartFile> assignmentFileList = assignmentAddForm.getAssignmentFileList();	
+		log.debug(CF.GMC+"AssignmentController.addAssignmentExam assignmentFileList:"+assignmentFileList + CF.GMC);
+		if(assignmentFileList!=null && assignmentFileList.get(0).getSize() > 0) { // 하나 이상의 파일이 업로드 되면
+			for(MultipartFile mf : assignmentFileList) {
+				log.debug(CF.GMC+"addAssignmentExam.assignmentFileList name : "+mf.getOriginalFilename());
 			}
 		}
+		assignmentAddForm.setLoginId(sessionMemberId);
+		
+		
+		log.debug(CF.GMC+"AssignmentController.addAssignment path : "+path + CF.RS);
+		log.debug(CF.GMC+"AssignmentController.addAssignment assignmentexam : "+assignmentAddForm + CF.RS);
 		int row;
-		row = assingmentservice.addAssignment(assignmentexam, path);
+		row = assingmentservice.addAssignment(assignmentAddForm, path);
 		log.debug("assingmentController.row : ", row);
 	
 		model.addAttribute("level",level);
@@ -104,27 +108,42 @@ public class AssignmentController {
 		HttpSession session = request.getSession();
 		String sessionMemberId=(String)session.getAttribute("sessionId");
 		int level = (int)session.getAttribute("sessionLv");
+		
 		Map<String,Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("loginId", sessionMemberId);
 		paramMap.put("assignmentExamNo", assignmentExamNo);
 		Map<String,Object> returnMap = assingmentservice.getAssignmentOne(paramMap);
 		List<AssignmentFile> fileList = (List<AssignmentFile>)returnMap.get("assignmentListFile");
+		for(AssignmentFile f :fileList) {
+			log.debug(CF.GMC+f.getAssignmentExamNo()+CF.RS);
+		}
 
 		
 		model.addAttribute("assignmentList", (List<AssignmentExam>)returnMap.get("assignmentList"));
 		model.addAttribute("fileList",fileList);
 		return "/assignment/assignmentOne";
 	}
-	@PostMapping("/uploadSignFile")
+	@GetMapping("/loginCheck/modifiyAssignment")
+	public String modifyAssignment() {
+		return "modifyAssingment";
+	}
+	
+	
+	@GetMapping("/loginCheck/saveImage")
 	public String uploadSignFile() {
-		return"/uploadSign";
+		return "uploadSign";
 	}
-	@GetMapping("/uploadSign")
-	public String uploadSign() {
-		
+	
+	@PostMapping("/loginCheck/saveImage")
+	public String uploadSigmFile(Model model
+								,@RequestParam (name="ImageURL") String ImageURL) {
+		log.debug(CF.GMC+"saveImage.ImageURL"+ImageURL+CF.RS);
+		model.addAttribute("ImageURL",ImageURL);
 		return "redirect:/loginCheck/getAssignmentExam";
-		
 	}
+
+
+
 
 }
 

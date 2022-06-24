@@ -1,7 +1,6 @@
 package kr.co.gdu.lms.service;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.mapper.AssignmentMapper;
 import kr.co.gdu.lms.mapper.AssignmentfileMapper;
+import kr.co.gdu.lms.vo.AssignmentAddForm;
 import kr.co.gdu.lms.vo.AssignmentExam;
 import kr.co.gdu.lms.vo.AssignmentFile;
 import lombok.extern.slf4j.Slf4j;
@@ -68,27 +68,25 @@ public class AssignmentService {
 		returnMap.put("assignmentListFile", assignmentListFile);
 		return returnMap;
 	}
-	public int addAssignment(AssignmentExam assignmentexam,String path)  {
+	public int addAssignment(AssignmentAddForm assignmentAddForm,String path)  {
 		log.debug(CF.GMC+"AssignmentService.addAssignment.param path : " + path + CF.RS);
-		log.debug(CF.GMC+"AssignmentService.addAssignment.param assignmentfileList : " + assignmentexam +CF.RS);
+		log.debug(CF.GMC+"AssignmentService.addAssignment.param assignmentfileList : " + assignmentAddForm.getAssignmentFileList() +CF.RS);
 		
-		// NoticeMapper 호출 위해
 		// 데이터 바인딩
 	
 		
-		int row = assignmentmapper.insertAssignmentExam(assignmentexam);
-		List<MultipartFile> assignmentfileList = assignmentexam.getAssignmentFileList();
+		int row = assignmentmapper.insertAssignmentExam(assignmentAddForm);
 	
 		log.debug(CF.GMC + "AssignmentService.addAssignment row" + row + CF.RS);
 		int assignmentExamNo = assignmentmapper.selectassignmentExamNo();
-		String loginId = assignmentexam.getLoginId();
+		String loginId = assignmentAddForm.getLoginId();
 		// 과제가 하나 이상이고 입력도 성공했을때
-		if(assignmentfileList != null && assignmentfileList.get(0).getSize() > 0 
-				&& assignmentfileList.size() > 0 
+		if( assignmentAddForm.getAssignmentFileList() != null &&  assignmentAddForm.getAssignmentFileList().get(0).getSize() > 0 
+				&&  assignmentAddForm.getAssignmentFileList().size() > 0 
 				&& row==1) {
 			
 			log.debug(CF.GMC + "AssignmentService.addAssignmentExam : "+ "첨부된 파일이 있습니다" + CF.RS);
-			for(MultipartFile mf : assignmentfileList) {
+			for(MultipartFile mf :  assignmentAddForm.getAssignmentFileList()) {
 				
 				AssignmentFile assignmentFile = new AssignmentFile();
 				
@@ -104,6 +102,14 @@ public class AssignmentService {
 				//UUID 새로운 이름 
 				filename = filename.replace("-", "");
 				filename = filename + ext;
+				
+				log.debug(CF.GMC + "AssignmentService.addAssignmentExam originName:" +originName +CF.RS);
+				log.debug(CF.GMC + "AssignmentService.addAssignmentExam ext: " +ext+CF.RS);
+				log.debug(CF.GMC + "AssignmentService.addAssignmentExam filename:" + filename +CF.RS);
+				log.debug(CF.GMC + "AssignmentService.addAssignmentExam assignmentExamNo:" + assignmentExamNo+CF.RS);
+				log.debug(CF.GMC + "AssignmentService.addAssignmentExam : mf.getSize()"+mf.getSize() +CF.RS);
+				log.debug(CF.GMC + "AssignmentService.addAssignmentExam : mf.getContentType()"+mf.getContentType() +CF.RS);
+				
 				
 				assignmentFile.setAssignmentExamNo(assignmentExamNo);
 				assignmentFile.setAssignmentFileName(filename);
@@ -121,6 +127,8 @@ public class AssignmentService {
 					throw new RuntimeException();
 				}
 			}
+		}else {
+			log.debug("파일이 비어있습니다");
 		}
 		
 		return row;

@@ -5,13 +5,14 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import kr.co.gdu.lms.vo.AssignmentAddForm;
 import kr.co.gdu.lms.vo.AssignmentExam;
 
 @Mapper
 public interface AssignmentMapper {
 	List<AssignmentExam> selectAssignmentExam(Map<String,Object> map);
 	int selectAssignmentTotalCount();
-	int insertAssignmentExam(AssignmentExam assignmentExam);
+	int insertAssignmentExam(AssignmentAddForm assignmentAddForm);
 	List<AssignmentExam> selectAssignmentOne(int assignmentExamNo);
 	int selectassignmentExamNo();
 }

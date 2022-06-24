@@ -160,6 +160,8 @@
 								<button type="button" class="btn btn-primary" id="addAssignment">입력</button>
 							</form>
 						</div>
+						<div>
+						</div>
                 </div>
                 <div class="col-12 col-xl-4">
                  <div class="justify-content-end d-flex">

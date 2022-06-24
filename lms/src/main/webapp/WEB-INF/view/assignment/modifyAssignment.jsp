@@ -4,6 +4,7 @@
     
 <!DOCTYPE html>
 <html>
+ <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
@@ -133,38 +134,65 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-						<div class="container">
-					 		<form action="${pageContext.request.contextPath}/loginCheck/getAssignmentExam" method="post">
-					 					<h1>${lectureName}</h1>
-					 					<table class="table table-hover">
-												<thead>
-													<tr>
-														<th>과제 이름</th>
-														<th>시작일</th>
-														<th>기한</th>
-														<th>점수</th>
-													</tr>
-												</theads>	 
-												<c:forEach var="m" items="${assignmentExamList}" >								
-												<tbody>
-													<tr>
-														<td><a href="${pageContext.request.contextPath}/loginCheck/getAssignmentOne?assignmentExamNo=${m.assignmentExamNo}">${m.assignmentExamTitle}</a></td>
-														<td>${m.createDate}</td>
-														<td>${m.assignmentDeadLine}</td>
-														<td><a href="#">입력</a></td>
-													</tr>
-															
-												</tbody>
-					 						</c:forEach>
-					 			
-					 					</table>
-						 				<c:if test="${level>=2}">
-						 					<button type="submit" class="btn btn-primary ">과제 입력</button>
-						 				</c:if>
-				 					</form>
-				 					<a href="${pageContext.request.contextPath}/loginCheck/modifyAssignment">수정</a>
-							</div>
- 
+					<div class="container col_12">
+						<table class="table">
+					        <tbody>
+					        	<c:forEach var="n" items="${assignmentList}">
+						                <tr>
+								        	<td>제목</td>
+						                	<td>${n.assignmentExamTitle}</td>
+						               </tr>
+						                <tr>
+						                	<td>과목</td>
+						                	<td>${n.lectureName}</td>
+						                </tr>
+						
+						                <tr>
+						                	<td>제출 기한</td>
+						                	<td>${n.assignmentDeadLine}</td>
+						                </tr> 
+							                <tr>
+									            <td ><textarea name="assignmentExamContent" rows="5" cols="50" readOnly="readOnly">${n.assignmentExamContent} </textarea></td>
+									        </tr>
+								      
+							        </c:forEach>
+					                <tr>
+					                	<td>
+					                </tr>
+									<tr>									
+									<c:forEach var="f" items="${fileList}">
+							  				<td>파일</td>
+							  				<c:if test="${f.assignmentFileType.equals('image/jpeg')}">
+							  					<c:forEach var="n" items="${fileList}">
+								  					<td><img src="${pageContext.request.contextPath}/file/assignmentFile/${f.assignemntFileName}"></td>
+							  					</c:forEach>
+							  				</c:if>
+							  				<c:if test="${f.assignmentFileType.equals('application/octet-stream')}">
+							  					<td><a href="${pageContext.request.contextPath}/file/assignmentFile/${f.assignemntFileName}">${f.assignemntFileName}</a></td>
+							  				</c:if>
+							  	
+							 	 	</c:forEach>
+							 	 	</tr>
+							 	 	<tr>
+							 	 		<td>과제 삭제</td>
+							 	 		<td><a href="${pageContext.request.contextPath}/loginCheck/deleteassignmentFile">과제 삭제</a></td>
+							 	 	</tr>
+					        </tbody>
+					    </table>
+					  	<form method="post" action="${pageContext.request.contextPath}/uploadSignFile" id="addForm" enctype="multipart/form-data">
+						    <Strong>제출</Strong>
+						
+						    <div><textarea  rows="5" cols="50" name="assignmentExamContent" id="assignmentExamContent"></textarea></div>
+							<button type="button" id="addFileupload">파일 업로드 추가</button>
+							<div id="fileSection">
+									<!-- 파일 업로드 input 태그가 추가될 영역 -->
+							</div>	
+							<BR>	
+							<button type="button" class="btn btn-primary" id="addAssignment">제출</button>
+							<a href="${pageContext.request.contextPath}/loginCheck/getAssignmentExam" class="btn btn-primary">목록</a></td>
+						</form>
+					</div>
+
                 </div>
                 <div class="col-12 col-xl-4">
                  <div class="justify-content-end d-flex">
@@ -219,6 +247,36 @@
   <script src="${pageContext.request.contextPath}/js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
 </body>
+<script>
 
+	$('#addFileupload').click(function(){
+		let flag = true;
+
+		$('.assignmentFileList').each(function(){
+			if($(this).val() == ''){
+					flag = false;
+			}
+		});
+		
+		if(flag){
+			$('#fileSection').append("<div><input type='file' class='assignmentFileList' name='assignmentFileList'></div> ");
+		}else{
+			alert('파일이 첨부되지 않은 assignmentFileList가 존재합니다.');
+		}
+	});
+	
+	let flag = true;
+	
+	$('#addAssignment').click(function(){
+			if(flag){
+				$('#addForm').submit();
+				return;
+			} else{
+				alert('파일이 첨부되지 않았습니다.');
+			}
+		});
+	
+	
+</script>
 </html>
 
