@@ -1,5 +1,6 @@
 package kr.co.gdu.lms.controller;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -15,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.gdu.lms.log.CF;
-import kr.co.gdu.lms.mapper.ManagerMapper;
-import kr.co.gdu.lms.mapper.TeacherMapper;
 import kr.co.gdu.lms.service.MemberService;
 import kr.co.gdu.lms.vo.Login;
 import kr.co.gdu.lms.vo.Manager;
@@ -139,18 +138,28 @@ public class MemberController {
 	// 멤버 사진 수정 액션
 	@PostMapping("/loginCheck/modifyMemberFile") 
 	public String modifyMemberFile (HttpSession session
+									, HttpServletRequest request
 									, @RequestParam(name="deleteMemberFileName") String memberFileName
 									, @RequestParam(name="insertMemberFile") MultipartFile insertMemberFile) {
 		
-	  String loginId = (String) session.getAttribute("sessionId");
-	  
-	  // 수정이 됐는지 확인 
-	  int row = memberService.modifyMemberFile(loginId, memberFileName);
-	 
-	  if(row == 1) { 
-		  return "redirect:/loginCheck/main"; 
-	  } else { 
-		  return "redirect:/loginCheck/modifyMemberFile"; }
+			log.debug(CF.GDH + "MemberController.modifyMemberFile.Post deleteMemberFileName : " + memberFileName + CF.RS);
+			log.debug(CF.GDH + "MemberController.modifyMemberFile.Post insertMemberFile : " + insertMemberFile + CF.RS);
+		
+			//세션으로 부터 아이디 받아오기
+			String loginId = (String) session.getAttribute("sessionId");
+			
+			// 1) 폴더에서 사진삭제
+			String path = request.getServletContext().getRealPath("/file/memberPhoto/");
+			log.debug(CF.GDH + "MemberController.modifyMemberFile.Post path : " + path + CF.RS);
+			memberService.removeMemberFile(path, memberFileName);
+			
+			// 2) DB에서 사진삭제 및 입력
+			int row = memberService.modifyMemberFile(loginId, memberFileName, insertMemberFile, path);
+			
+			if(row == 1) { 
+				return "redirect:/loginCheck/main"; 
+			} else { 
+				return "redirect:/loginCheck/getStudentOne"; }
 	}
 	 
 	// 매니저 목록 리스트

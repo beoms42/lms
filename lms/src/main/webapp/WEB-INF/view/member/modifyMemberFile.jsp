@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form method="post" action="${pageContext.request.contextPath}/member/modifyMemberFile">
+	<form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyMemberFile" enctype="multipart/form-data">
 		<input type="file" name = "insertMemberFile" >
 		<input type="text" name = "deleteMemberFileName" value="${memberFileName}" hidden="hidden">
 		<button>사진수정</button>

@@ -9,8 +9,8 @@ public interface MemberFileMapper {
 	// 파일선택
 	MemberFile selectMemberFile(String loginId);
 	
-	// 파일수정
-	int updateMemberFile(MemberFile memberFile);
+	// 파일 삭제
+	int deleteMemberFile(String loginId);
 	
 	// 파일 입력
 	int insertMemberFile(MemberFile memberFile);

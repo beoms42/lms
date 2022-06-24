@@ -1,12 +1,18 @@
 package kr.co.gdu.lms.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.mapper.ManagerMapper;
@@ -82,20 +88,57 @@ public class MemberService {
 		return row;
 	}
 	
+	// 멤버파일 폴더에서 삭제하기
+	public void removeMemberFile(String path, String memberFileName) {
+		log.debug(CF.GDH+"MemberService.removeMemberFile memberFileName : " + memberFileName + CF.RS);
+		log.debug(CF.GDH+"MemberService.removeMemberFile path : " + path + CF.RS);
+		
+		// 폴더 내에서 파일을 삭제
+		File f = new File(path + memberFileName);
+		f.delete();
+	}
+	
+	
 	// 멤버파일 수정하기
-	public int modifyMemberFile(String loginId, String memberFileName) {
+	public int modifyMemberFile(String loginId, String memberFileName, MultipartFile insertMemberFile, String path) {
 		log.debug(CF.GDH+"MemberService.modifyMemberFile loginId : " + loginId + CF.RS);
-		log.debug(CF.GDH+"MemberService.modifyMemberFile memberFileName : " + memberFileName + CF.RS);
+		log.debug(CF.GDH+"MemberService.modifyMemberFile path : " + path + CF.RS);
 		
-		// 파일에 담긴 사진 지우기(경로)
-		
-		// 사진 업데이트
+		// 사진
 		MemberFile memberFile =  new MemberFile();
 		
-		int row = memberFileMapper.updateMemberFile(memberFile);
-		log.debug(CF.GDH+"MemberService.updateMemberFile row : " + row + CF.RS);
-		
-		return row;
+		// DB사진삭제
+		int dmRow = memberFileMapper.deleteMemberFile(loginId);
+		log.debug(CF.GDH+"MemberService.updateMemberFile dmRow : " + dmRow + CF.RS);
+		if(dmRow == 1) {
+			// DB사진입력
+			String originalFileName = insertMemberFile.getOriginalFilename();
+			String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
+			// 파일을 저장할 때, 사용할 중복되지 않는 새로운 이름 필요(UUID API사용)
+			String fileName = UUID.randomUUID().toString();
+			fileName = fileName.replace("-", "");
+			fileName = fileName + ext;
+			memberFile.setMemberFileOriginName(originalFileName);
+			memberFile.setMemberFileName(fileName);
+			memberFile.setMemberFileType(insertMemberFile.getContentType());
+			memberFile.setMemberFileSize(insertMemberFile.getSize());
+			log.debug(CF.GDH+"MemberService.updateMemberFile memberFile : " + memberFile + CF.RS);
+
+			int imRow = memberFileMapper.insertMemberFile(memberFile);
+			log.debug(CF.GDH+"MemberService.updateMemberFile imRow : " + imRow + CF.RS);
+				if(imRow == 1) {
+					try {
+						insertMemberFile.transferTo(new File(path+fileName));
+					} catch (Exception e) {
+						e.printStackTrace();
+						// 새로운 예외 발생시켜줌 -> Transactional 작동
+						throw new RuntimeException(); // RuntimeExceiption은 예외처리를 하지 않아도 컴파일.
+					}
+					return imRow;
+				} 
+			return imRow;
+		}
+		return dmRow;
 	}
 	
 	
