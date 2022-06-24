@@ -112,4 +112,9 @@ public class LectureSerivce {
 		List<Map<String, Object>> mapList = lectureMapper.selectTextbookByLectureName(lectureName);
 		return mapList;
 	}
+	
+	// 수정용 - 실제 액션
+	public void updateLecture(Lecture lecture) {
+		lectureMapper.updateLecture(lecture);
+	}
 }

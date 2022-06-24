@@ -208,4 +208,33 @@ public class LectureController {
 		
 		return "redirect:/loginCheck/manageLecture";
 	}
+	
+	// 강의관리 - Post 수정 액션
+	@PostMapping("/loginCheck/updateLectureAction")
+	public String updateLectureAction(Model model
+			, HttpSession session
+			, @RequestParam(name = "lectureName") String lectureName
+			, @RequestParam(name = "lectureStartDate") String lectureStartDate
+			, @RequestParam(name = "lectureEndDate") String lectureEndDate
+			, @RequestParam(name = "teacherName") String teacherName
+			, @RequestParam(name = "managerName") String managerName
+			, @RequestParam(name = "lectureRoomName") String lectureRoomName
+			, @RequestParam(name = "maxStudent") int maxStudent
+			, @RequestParam(name = "loginId") String loginId) {
+		Lecture lect = new Lecture();
+		lect.setLectureName(lectureName);
+		lect.setLectureStartDate(lectureStartDate);
+		lect.setLectureEndDate(lectureEndDate);
+		lect.setTeacher(teacherName);
+		lect.setManager(managerName);
+		lect.setLectureRoomName(lectureRoomName);
+		lect.setLectureStudentCapacity(maxStudent);
+		lect.setLoginId(loginId);
+		
+		log.debug(CF.JYI+"LectureService.updateLectureAction.post lect : "+lect+CF.RS);
+		
+		lectureService.updateLecture(lect);
+		
+		return "redirect:/loginCheck/manageLecture";
+	}
 }

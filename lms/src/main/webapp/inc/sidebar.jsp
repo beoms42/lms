@@ -76,10 +76,11 @@
             </a>
             <div class="collapse" id="tables">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/tables/basic-table.html">Basic table</a></li>
+                <li class="nav-item"> <a class="nav-link" href="pages/tables/basic-table.html">문의하기</a></li>
               </ul>
             </div>
           </li>
+          
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#icons" aria-expanded="false" aria-controls="icons">
               <i class="icon-contract menu-icon"></i>
@@ -89,6 +90,21 @@
             <div class="collapse" id="icons">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="pages/icons/mdi.html">Mdi icons</a></li>
+              </ul>
+            </div>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#mana" aria-expanded="false" aria-controls="icons">
+              <i class="icon-contract menu-icon"></i>
+              <span class="menu-title">관리(level4)</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="mana">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="pages/icons/mdi.html">매니저 리스트</a></li>
+                <li class="nav-item"> <a class="nav-link" href="pages/icons/mdi.html">강사 리스트</a></li>
+                <li class="nav-item"> <a class="nav-link" href="pages/icons/mdi.html">학생 리스트</a></li>
               </ul>
             </div>
           </li>
