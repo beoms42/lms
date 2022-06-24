@@ -244,7 +244,6 @@
   <script src="${pageContext.request.contextPath}/vendors/datatables.net/jquery.dataTables.js"></script>
   <script src="${pageContext.request.contextPath}/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
   <script src="${pageContext.request.contextPath}/js/dataTables.select.min.js"></script>
-
   <!-- End plugin js for this page -->
   <!-- inject:js -->
   <script src="${pageContext.request.contextPath}/js/off-canvas.js"></script>
