@@ -29,10 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
-	@Autowired
-	private ManagerMapper managerMapper;
-	@Autowired
-	private TeacherMapper teacherMapper;
+
 
 	@GetMapping("/loginCheck/getStudentList")
 	public String getStudentList(Model model) {
@@ -248,14 +245,20 @@ public class MemberController {
 		}
 	 
 	 
-	 // 강사 정보 수정하기 
+
+	 // 강사 정보 수정액션
 	 @PostMapping("/loginCheck/modifyTeacher")
-	 public String modifyTeacher(Model model, Teacher teacher) {
+	 public String modifyTeacher(Teacher teacher
+			 ,HttpSession session
+			 ,HttpServletRequest request
+			 ) {
 		 int row = 0;
+		 String loginId = teacher.getLoginId();
 		 row = memberService.modifyTeacher(teacher);
 	 	 log.debug(CF.PSH+"MemberController.modifyTeacher :"+teacher+CF.RS);
-		 return "member/getTeacherList";
+		 return "redirect:/loginCheck/getTeacherOne?loginId="+loginId; 
 	 }
+	 
 	 
 		// 강사 정보 수정폼
 	 @GetMapping("/loginCheck/modifyTeacher")

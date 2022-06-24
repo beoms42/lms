@@ -144,17 +144,12 @@
             <div class="col-lg-10 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">${teacher.teacherName} 강사님</h4>
+                  <h4 class="card-title"><img src="<%=request.getContextPath()%>/images/member/${fileName}" width="100" height="100">${teacher.teacherName} 강사님</h4>
                   <p class="card-description">
                   </p>
                   <div class="table-responsive">
                     <table class="table">
                       <thead>
-                      	<tr>
-                          <td>프로필 사진</td>
-                          <td><img src="<%=request.getContextPath()%>/images/member/${fileName}" width="500" height="500"></td>
-                        </tr> 
-                        </tr> 
                         <tr>
                           <td>ID</td>
                           <td>${teacher.loginId}</td>
@@ -167,7 +162,11 @@
                           <td>생년월일</td>
                           <td>${teacher.teacherBirth}</td>
                         </tr>
-                         <tr> 
+                        <tr> 
+                          <td>성별</td>
+                          <td>${teacher.teacherGender}</td>
+                        </tr>
+                        <tr> 
                           <td>주소</td>
                           <td>${teacher.address}</td>
                         </tr>
@@ -188,13 +187,13 @@
                           <td>${teacher.graduate}</td>
                         </tr>
                         <tr>   
-                          <td>생성날짜</td>
+                          <td>가입날짜</td>
                           <td>${teacher.createDate}</td>
                         </tr>
                       </thead>
                     </table>
                      	<div>
-					   <a href="#"><button class="btn btn-primary"href="${pageContext.request.contextPath}/updateTeacherOneForm?loginId=${teacher.loginId}">수정</button></a>
+                     	<a class="btn btn-default" href="${pageContext.request.contextPath}/loginCheck/modifyTeacher?loginId=${teacher.loginId}">수정</button>
 					  <a href="#"><button class="btn btn-danger"href="${pageContext.request.contextPath}/deleteTeacherOne?loginId=${teacher.loginId}">회원탈퇴</button></a>
 					</div>
                   </div>
