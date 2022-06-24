@@ -31,13 +31,9 @@ public class LoginController {
 
 // 비밀번호 변경 액션
 	@PostMapping("/modifyLoginPw")
-	public String modifyLoginPw(Login login
-								, @RequestParam (name = "loginId") String loginId
-								, @RequestParam (name= "loginPw") String loginPw) {
+	public String modifyLoginPw(Login login) {
 		
 		log.debug(CF.PHW+"LoginController.modifyLoginPw.post login : "+login+CF.RS );
-		log.debug(CF.PHW+"LoginController.modifyLoginPw.post loginId : "+loginId+CF.RS );
-		log.debug(CF.PHW+"LoginController.modifyLoginPw.post loginPw : "+loginPw+CF.RS );
 		
 		loginService.modifyLoginPw(login);
 		loginService.addPwRecord(login);
