@@ -93,7 +93,9 @@ public class LoginService {
 		} else { // 둘다 아니라면 - 매니저
 			level = "3";
 		}
-	
+		
+		log.debug(CF.OHI+"LoginService.addMember level : "+level+CF.RS);
+		
 		// level vo에 값 지정
 		addMemberForm.setLevel(level);
 		
