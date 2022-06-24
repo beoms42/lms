@@ -185,7 +185,7 @@
 							            </div>
 						            </c:if>
 						            
-						            <button type="button" class="btn btn-primary mr-2" id="addMemberBtn">회원 가입</button>
+						            <button type="button" class="btn btn-primary mr-2" id="addMemberBtn" onclick="doSearch()">회원 가입</button>
 						            <button class="btn btn-light">입력 취소</button>
 					            </form>
 					        </div>
@@ -217,6 +217,8 @@
   <!-- End custom js for this page-->
   <script>
   var url="${pageContext.request.contextPath}";
+  
+  	// 아이디 중복 체크
   	$('#idChk').click(function() {
   		if($('#id').val().length > 3) {
   			$.ajax({
@@ -241,6 +243,7 @@
   		}
   	});
   	
+  	// 주소검색
   	$('#searchAddr').click(function() {
   		if($('#addr').val().length > 1) {
   			$.ajax({
@@ -267,6 +270,21 @@
   		}
   	});
   	
+  	// 파일 타입 체크
+ 	$('#customFile').blur(function() {
+  		if($('#customFile').val() != '') {
+  			var file = $('#customFile').val();
+  			console.log("file",file);
+  			if(file.indexOf('jpg') != -1 || file.indexOf('jpeg') != -1 || file.indexOf('png') != -1) {
+  				console.log("성공여부", file.indexOf("jpg"));
+  			} else {
+  				$('#imageHelper').text('이미지 타입이 아닙니다.');
+  			}
+  	  	}
+  	}); 
+  	
+  	
+  	// 버튼 눌렀을시 유효성 검사
   	$('#addMemberBtn').click(function() {
   		if($('#realId').val()=='') {
   			alert('아이디 중복 검사 해주세요');
@@ -300,10 +318,52 @@
   			$('#detailAddrHelper').text('');
   			$('#imageHelper').text('사진을 등록해주세요.');
   		} else {
-  			$('#addMemberForm').submit();	
+  			$('#addMemberForm').submit();
   		}
   	});
+
+  	// enter키 눌렀을때 유효성 검사
+  	$(document).keydown(function(event){
+  		if(event.keyCode==13) {
+  			event.preventDefault();
+  			if($('#realId').val()=='') {
+  	  			alert('아이디 중복 검사 해주세요');
+  	  		} else if($('#pw').val()=='') {
+  	  			$('#pwHelper').text('비밀번호를 입력해주세요.');
+  	  		} else if($('#name').val()=='') {
+  	  			$('#pwHelper').text('');
+  	  			$('#nameHelper').text('이름을 입력해주세요.');
+  	  		} else if($('#birth').val()==''){
+  	  			$('#nameHelper').text('');
+  	  			$('#birthHelper').text('생년월일을 입력해주세요.');
+  	  		} else if($('#email').val()=='') {
+  	  			$('#nameHelper').text('');
+  	  			$('#emailHelper').text('이메일을 입력해주세요.');
+  	  		} else if($('#email').val().indexOf('@') == -1 || $('#email').val().indexOf('.') == -1) {
+  	  			$('#emailHelper').text('');	
+  	  			$('#emailHelper').text('이메일 형식이 다릅니다.');	
+  	  		} else if($('#phone').val()=='') {
+  	  			$('#emailHelper').text('');
+  	  			$('#phoneHelper').text('휴대폰 번호를 입력해주세요.');
+  	  		} else if($('#phone').val().indexOf('-') != -1) {
+  	  			$('#phoneHelper').text('');
+  	  			$('#phoneHelper').text('-을 제외해서 입력해주세요.');
+  	  		} else if($('#addr').val()=='') {
+  	  			$('#phoneHelper').text('');
+  	  			$('#addrHelper').text('주소를 검색해주세요.');
+  	  		} else if($('#detailAddr').val()=='') {
+  	  			$('#addrHelper').text('');
+  	  			$('#detailAddrHelper').text('상세 주소를 입력해주세요.');
+  	  		} else if($('#customFile').val()=='') {
+  	  			$('#detailAddrHelper').text('');
+  	  			$('#imageHelper').text('사진을 등록해주세요.');
+  	  		} else {
+  	  			$('#addMemberForm').submit();
+  	  		}
+  		};
+  	})
   	
+  	// custom - file 사용위함 
   	$(".custom-file-input").on("change", function() {
   	  var fileName = $(this).val().split("\\").pop();
   	  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
