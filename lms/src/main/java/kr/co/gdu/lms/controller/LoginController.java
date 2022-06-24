@@ -1,5 +1,6 @@
 package kr.co.gdu.lms.controller;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -183,7 +184,47 @@ public class LoginController {
 	
 	// 메인페이지
 	@GetMapping("/loginCheck/main") 
-	public String main() {
+	public String main(Model model) {
+		LocalDate date = LocalDate.now();
+		String nowDate = date.toString().replace("-", "");
+		String year = nowDate.substring(0,4);
+		String month = null;
+		if(nowDate.substring(4,5).equals("0")) {
+			month = nowDate.substring(5,6);
+		} else {
+			month = nowDate.substring(4,6);
+		}
+		String day = nowDate.substring(6,8);
+		
+		int week = date.getDayOfWeek().getValue();
+		String dayOfWeek = null;
+		
+		if(week == 1) {
+			dayOfWeek = "월요일";
+		} else if(week == 2) {
+			dayOfWeek = "화요일";
+		} else if(week == 3) {
+			dayOfWeek = "수요일";
+		} else if(week == 4) {
+			dayOfWeek = "목요일";
+		} else if(week == 5) {
+			dayOfWeek = "금요일";
+		} else if(week == 6) {
+			dayOfWeek = "토요일";
+		} else {
+			dayOfWeek = "일요일";
+		}
+		
+		log.debug(CF.LCH + "LoginController.main.get year : " + year + CF.RS);
+		log.debug(CF.LCH + "LoginController.main.get month : " + month + CF.RS);
+		log.debug(CF.LCH + "LoginController.main.get day : " + day + CF.RS);
+		log.debug(CF.LCH + "LoginController.main.get dayOfWeek : " + dayOfWeek + CF.RS);
+		
+		model.addAttribute("year", year);
+		model.addAttribute("month", month);
+		model.addAttribute("day", day);
+		model.addAttribute("dayOfWeek", dayOfWeek);
+		
 		return "login/main";
 	}
 	
