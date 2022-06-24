@@ -33,9 +33,7 @@ public class LectureController {
 		List<String> teacherNameList = (List<String>)map.get("teacherNameList");
 		List<String> managerNameList = (List<String>)map.get("managerNameList");
 		List<LectureRoom> lectureRoomList = (List<LectureRoom>) map.get("lectureRoomList");
-		model.addAttribute("teacherNameList", teacherNameList); //얘는 List<String>
-		model.addAttribute("managerNameList", managerNameList); //얘도 List<String>
-		model.addAttribute("lectureRoomList", lectureRoomList); //얘가,, List<LectureRoom>
+		
 		
 		log.debug(CF.JYI+"LectureService.addLecture.get teacherNameList : "+teacherNameList+CF.RS);
 		log.debug(CF.JYI+"LectureService.addLecture.get managerNameList : "+managerNameList+CF.RS);
@@ -45,6 +43,10 @@ public class LectureController {
 		
 		log.debug(CF.JYI+"LectureService.addLecture.get loginId : "+loginId+CF.RS);
 		
+		
+		model.addAttribute("teacherNameList", teacherNameList); //얘는 List<String>
+		model.addAttribute("managerNameList", managerNameList); //얘도 List<String>
+		model.addAttribute("lectureRoomList", lectureRoomList); //얘가,, List<LectureRoom>
 		model.addAttribute("loginId", loginId);
 		return "lecture/addLecture";
 	}
@@ -186,9 +188,10 @@ public class LectureController {
 		
 		model.addAttribute("loginId", loginId);
 		
-		// 리스트로 강의과목을 받아서 개별 삭제하게 하는..그런
+		// 리스트로 강의과목을 받아서 개별 삭제하게 하는..
 		List<String> sublist = lectureService.selectSubjectListByLectureName(lectureName);
 		model.addAttribute("sublist", sublist);
+		
 		
 		// 리스트 과목관리에 포함된 책 보기
 		List<Map<String, Object>> bookMapList = lectureService.selectTextbookByLectureName(lectureName);

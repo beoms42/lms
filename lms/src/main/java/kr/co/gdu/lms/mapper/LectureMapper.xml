@@ -95,7 +95,7 @@
 	
 	<select id="selectNotAcceptLectureList"
 		resultType="kr.co.gdu.lms.vo.Lecture">
-	select
+	Select
 		lecture_name lectureName
 		, teacher
 		, manager
@@ -132,8 +132,13 @@
 	<insert id="insertSubject"
 		parameterType="String">
 		INSERT INTO lecture_subject(
-		lecture_name, subject_name)
-		VALUES(#{lectureName}, #{subjectName})
+			lecture_name
+			, subject_name
+		)
+		VALUES(
+			#{lectureName}
+			, #{subjectName}
+		)
 	</insert>
 	
 	<select id="selectSubjectListByLectureName"

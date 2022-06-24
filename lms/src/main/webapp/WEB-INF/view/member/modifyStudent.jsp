@@ -139,7 +139,7 @@
 	                  <table class="table">
 						<tr>
 							<th>사진</th>
-							<td><img src="${pageContext.request.contextPath}/file/memberFile/${memberFile.memberFileName}"></td>
+							<td><img src="${pageContext.request.contextPath}/file/memberPhoto/${memberFile.memberFileName}"></td>
 						</tr>
 						<tr>
 							<th>아이디</th>

@@ -249,7 +249,7 @@
   			$.ajax({
   				type:'get'
   				, url : url+'/searchAddr'
-  				, data : {keyword:$('#addr').val()}
+  				, data : {keyword:$('#addr').val()} //검색한 키워드
   				, success:function(a){
   					console.log(a);
   					console.log(typeof(a));
