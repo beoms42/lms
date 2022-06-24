@@ -24,6 +24,7 @@ public class LoginRestController {
 
 	@Autowired LoginService loginService;
 	
+	
 	// 바꾸는 비밀번호와 비밀번호 변경 이력 비교
 	@PostMapping("/lastLoginPwCheck")
 	public String lastLoginPwCheck(Login login) {
