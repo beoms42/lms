@@ -20,13 +20,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.gdu.lms.log.CF;
 import lombok.extern.slf4j.Slf4j;
 
-/*
-    @RestController : 기본으로 하위에 있는 메소드들은 모두 @ResponseBody를 가지게 된다.
-    @RequestBody : 클라이언트가 요청한 XML/JSON을 자바 객체로 변환해서 전달 받을 수 있다.
-    @ResponseBody : 자바 객체를 XML/JSON으로 변환해서 응답 객체의 Body에 실어 전송할 수 있다.
-            클라이언트에게 JSON 객체를 받아야 할 경우는 @RequestBody, 자바 객체를 클라이언트에게 JSON으로 전달해야할 경우에는 @ResponseBody 어노테이션을 붙여주면 된다. 
-    @ResponseBody를 사용한 경우 View가 아닌 자바 객체를 리턴해주면 된다.
-*/
 @Slf4j
 @RestController
 public class WeatherRestController {
@@ -39,6 +32,7 @@ public class WeatherRestController {
     	nowYear = nowYear.replace("-", "");
     	LocalTime time = LocalTime.now();
     	int hour = time.getHour();
+    	
     	if(hour > 1 && hour < 5) {
     		updateTime = "0200";
     	} else if(hour > 4 && hour < 8) {
@@ -57,7 +51,7 @@ public class WeatherRestController {
     		updateTime = "2300";
     	}
     	log.debug(CF.LCH+"nowYear : "+nowYear+CF.RS);
-    	log.debug(CF.LCH+"wdawfawfiawnfinawifnawifn : " + updateTime+CF.RS);
+    	log.debug(CF.LCH+"기상 갱신 시간 : " + updateTime+CF.RS);
         String url = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst"
             + "?serviceKey=kOeozc2PuA1Xw33w78Tvl1%2BhJxup98e1X297F77%2FcTkYVKHmhK6v0uswhBiZpqQmJIQYm63yZT%2BGVUQkTW712A%3D%3D"
             + "&dataType=JSON"            // JSON, XML

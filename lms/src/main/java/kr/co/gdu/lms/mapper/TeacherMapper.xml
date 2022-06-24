@@ -19,24 +19,27 @@
 				, teacher_name teacherName
 				, teacher_birth teacherBirth
 				, address 
+				, teacher_gender teacherGender
 				, detail_addr detailAddr
 				, teacher_email teacherEmail
 				, teacher_phone teacherPhone
 				, graduate 
 				, create_date createDate
 			FROM teacher 
+			
 			WHERE login_id = #{loginId}
 	</select>
 	
 	<update id="updateTeacher" parameterType="kr.co.gdu.lms.vo.Teacher" >
 			UPDATE teacher SET
-				teacher_name teacherName= #{teacherName}
-				, teacher_birth teacherBirth= #{teacherBirth}
+				teacher_name = #{teacherName}
+				, teacher_birth = #{teacherBirth}
+				, teacher_gender =#{teacherGender}
 				, address= #{address}
-				, detail_addr detailAddr= #{detailAddr}
-				, teacher_email= #{teacherName} 
-				, teacher_phone= #{teacherName}
-				, graduate= #{teacherName}
+				, detail_addr = #{detailAddr}
+				, teacher_email= #{teacherEmail} 
+				, teacher_phone= #{teacherPhone}
+				, graduate= #{graduate}
 				WHERE login_id = #{loginId}	
 	</update>
 		

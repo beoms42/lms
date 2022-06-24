@@ -1,6 +1,7 @@
 package kr.co.gdu.lms.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,7 +16,7 @@ public interface ManagerMapper {
 	List<Manager> selectManagerList();
 	
 	//매니저 정보 상세보기
-	Manager selectManagerOne(String loginId);
+	Map<String,Object> selectManagerOne(String loginId);
 	
 	//매니저 정보 수정
 	int updateManager(Manager manager);
@@ -26,10 +27,10 @@ public interface ManagerMapper {
 	//매니저 수정/삭제를 위한 패스워드 접근
 	int pwCheck(Login login);
 	
-	//매니저 회원가입 - 부서 이름 번호 
+	//매니저 - 부서 이름 번호 
 	List<Dept> selectDept();
 		
-	//매니저 회원가입 - 직급 이름 번호
+	//매니저  - 직급 이름 번호
 	List<Position> selectPosition();
 	
 }

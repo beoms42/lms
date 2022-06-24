@@ -148,13 +148,13 @@
                   <p class="card-description">
                     Basic form elements
                   </p>
-                  <form class="forms-sample" method="post" action="${pageContext.request.contextPath}/loginCheck/addLecture">
+                  <form class="forms-sample" method="post" action="${pageContext.request.contextPath}/loginCheck/updateLectureAction">
                     <div class="form-group">
-                      <label for="exampleInputName1">개설 강의명</label>
-                      <input type="text" class="form-control" id="exampleInputName1" placeholder="강의명" name="lectureName" value="${lect.lectureName}">
+                      <label for="exampleInputName1">개설 강의명[수정불가]</label>
+                      <input type="text" class="form-control" id="exampleInputName1" placeholder="강의명" name="lectureName" value="${lect.lectureName}" readonly="readonly">
                     </div>
                     <div class="form-group">
-                      <label for="exampleInputEmail3">강의 기간</label>
+                      <label for="exampleInputEmail3">강의 기간[상세 캘린더 설정시 수정불가]</label>
                       <br>
                       시작일 : <input type="date" name="lectureStartDate" value="${lect.lectureStartDate}"> 끝나는 날 : <input type="date" name="lectureEndDate" value="${lect.lectureEndDate}">
                     </div>
@@ -211,7 +211,7 @@
                       <input type="number" class="form-control" id="exampleInputCity1" placeholder="" max="30" name="maxStudent" value="${lect.lectureStudentCapacity}">
                     </div>
                     <div class="form-group">
-                      <label for="exampleInputPassword4">강의 개설자</label>
+                      <label for="exampleInputPassword4">강의 수정자</label>
                       <input type="text" class="form-control" id="exampleInputPassword4" value="${lect.loginId}" name="loginId" readonly="readonly">
                     </div>
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>

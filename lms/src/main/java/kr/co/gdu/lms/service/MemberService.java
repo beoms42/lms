@@ -1,21 +1,30 @@
 package kr.co.gdu.lms.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.mapper.ManagerMapper;
 import kr.co.gdu.lms.mapper.MemberFileMapper;
 import kr.co.gdu.lms.mapper.StudentMapper;
 import kr.co.gdu.lms.mapper.TeacherMapper;
+import kr.co.gdu.lms.vo.Dept;
 import kr.co.gdu.lms.vo.Login;
 import kr.co.gdu.lms.vo.Manager;
 import kr.co.gdu.lms.vo.MemberFile;
+import kr.co.gdu.lms.vo.Position;
 import kr.co.gdu.lms.vo.Student;
 import kr.co.gdu.lms.vo.Teacher;
 import lombok.extern.slf4j.Slf4j;
@@ -31,8 +40,6 @@ public class MemberService {
 	public Map<String, Object> getStudentOne(String loginId) {
 		// 로그인ID 디버깅
 		log.debug(CF.GDH+"MemberService.getStudentOne loginId : "+loginId+CF.RS);
-	
-				
 		
 		// 학생정보 Mapper연결
 		Student student = studentMapper.selectStudentOne(loginId);
@@ -40,12 +47,13 @@ public class MemberService {
 		
 		// 학생파일 Mapper연결
 		MemberFile memberFile = memberFileMapper.selectMemberFile(loginId);
-		log.debug(CF.GDH+"MemberService.getStudentOne memberFileList : "+memberFile+CF.RS);
+		log.debug(CF.GDH+"====================MemberService.getStudentOne memberFileList : "+memberFile+CF.RS);
 		
 		// 학생정보와 학생파일리스트 맵에 담기
 		Map<String, Object> returnMap = new HashMap<String, Object>();
 		returnMap.put("student", student);
 		returnMap.put("memberFile", memberFile);
+		
 		
 		return returnMap;
 } 
@@ -82,7 +90,60 @@ public class MemberService {
 		
 		return row;
 	}
+	
+	// 멤버파일 폴더에서 삭제하기
+	public void removeMemberFile(String path, String memberFileName) {
+		log.debug(CF.GDH+"MemberService.removeMemberFile memberFileName : " + memberFileName + CF.RS);
+		log.debug(CF.GDH+"MemberService.removeMemberFile path : " + path + CF.RS);
+		
+		// 폴더 내에서 파일을 삭제
+		File f = new File(path + memberFileName);
+		f.delete();
+	}
+	
+	
+	// 멤버파일 수정하기
+	public int modifyMemberFile(String loginId, String memberFileName, MultipartFile insertMemberFile, String path) {
+		log.debug(CF.GDH+"MemberService.modifyMemberFile loginId : " + loginId + CF.RS);
+		log.debug(CF.GDH+"MemberService.modifyMemberFile path : " + path + CF.RS);
+		
+		// 사진
+		MemberFile memberFile =  new MemberFile();
+		
+		// DB사진삭제
+		int dmRow = memberFileMapper.deleteMemberFile(loginId);
+		log.debug(CF.GDH+"MemberService.updateMemberFile dmRow : " + dmRow + CF.RS);
+		if(dmRow == 1) {
+			// DB사진입력
+			String originalFileName = insertMemberFile.getOriginalFilename();
+			String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
+			// 파일을 저장할 때, 사용할 중복되지 않는 새로운 이름 필요(UUID API사용)
+			String fileName = UUID.randomUUID().toString();
+			fileName = fileName.replace("-", "");
+			fileName = fileName + ext;
+			memberFile.setMemberFileOriginName(originalFileName);
+			memberFile.setMemberFileName(fileName);
+			memberFile.setMemberFileType(insertMemberFile.getContentType());
+			memberFile.setMemberFileSize(insertMemberFile.getSize());
+			log.debug(CF.GDH+"MemberService.updateMemberFile memberFile : " + memberFile + CF.RS);
 
+			int imRow = memberFileMapper.insertMemberFile(memberFile);
+			log.debug(CF.GDH+"MemberService.updateMemberFile imRow : " + imRow + CF.RS);
+				if(imRow == 1) {
+					try {
+						insertMemberFile.transferTo(new File(path+fileName));
+					} catch (Exception e) {
+						e.printStackTrace();
+						// 새로운 예외 발생시켜줌 -> Transactional 작동
+						throw new RuntimeException(); // RuntimeExceiption은 예외처리를 하지 않아도 컴파일.
+					}
+					return imRow;
+				} 
+			return imRow;
+		}
+		return dmRow;
+	}
+	
 	
 	@Autowired  private ManagerMapper managerMapper;
 	@Autowired  private TeacherMapper teacherMapper;
@@ -95,19 +156,34 @@ public class MemberService {
 		 }
 		 
 		 
-		// 매니저 정보 상세보기
-		 public Manager getManagerOne(String loginId) {
-		 	Manager manager = new Manager();
-		 	manager = managerMapper.selectManagerOne(loginId);
-		 	log.debug(CF.PSH+"MemberService.getManagerOne :"+loginId+CF.RS);
-		 	return manager;
-		 }
 		 
-		 // 매니저 정보 수정하기
-		 public int modifyManager(Manager loginId) {
+		// 매니저 정보 상세보기
+		 public Map<String,Object> getManagerOne(String loginId) {
+		 	Map<String,Object> managerMap = managerMapper.selectManagerOne(loginId);
+		 	log.debug(CF.PSH+"MemberService.getManagerOne :"+loginId+CF.RS);
+		 	return managerMap;
+		 }
+		// 부서리스트
+		public List<Dept> getDeptList() {
+			List<Dept> deptList = new ArrayList<Dept>();
+			deptList = managerMapper.selectDept();
+			log.debug(CF.PSH+"MemberService.getManagerOne :"+deptList+CF.RS);
+			return deptList;
+		}
+		 
+		// 직급 리스트
+		public List<Position> getPositions(){
+			List<Position> positionList = new ArrayList<Position>();
+			positionList = managerMapper.selectPosition();
+			log.debug(CF.PSH+"MemberService.getManagerOne :"+positionList+CF.RS);
+			return positionList;
+		}
+		
+		// 매니저 정보 수정하기
+		 public int modifyManager(Manager manager) {
 			 	int row = 0;
-			    row = managerMapper.updateManager(loginId);
-			 	log.debug(CF.PSH+"MemberService.modifyManager :"+loginId+CF.RS);
+			    row = managerMapper.updateManager(manager);
+			 	log.debug(CF.PSH+"MemberService.modifyManager :"+manager+CF.RS);
 			    return row;
 			}
 		 
@@ -123,7 +199,7 @@ public class MemberService {
 		 // 강사 리스트
 		 public List<Teacher> getTeacherList() {
 			 List<Teacher> list = teacherMapper.selectTeacherList();
-		 	 log.debug(CF.PSH+"MemberService.getTeacherList :"+CF.RS);
+		 	 log.debug(CF.PSH+"MemberService.getTeacherList :"+list+CF.RS);
 			 return list;
 		 }
 		 
@@ -149,19 +225,14 @@ public class MemberService {
 			public int deleteTeacher(String loginId) {
 				int row =0;
 				row = teacherMapper.deleteTeacher(loginId);
-				log.debug(CF.PSH+"MemberService.deleteTeacher :"+loginId+CF.RS);
+				log.debug(CF.PSH+"MemberService.deleteTeacher 삭제:"+loginId+CF.RS);
 				return row;
-
 				}
 			
 			// 사진 한장 불러오기
-			public String selectMemberFileOne(String loginId) {
+			public String getMemberFileOne(String loginId) {
 				MemberFile mem = memberFileMapper.selectMemberFile(loginId);
 				String fileName = mem.getMemberFileName();
 				return fileName;
 			}
 	}
-			 
-
-
-

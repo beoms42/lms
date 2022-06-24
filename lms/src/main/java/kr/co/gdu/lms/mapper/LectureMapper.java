@@ -51,4 +51,8 @@ public interface LectureMapper {
 	List<Map<String, Object>> selectTextbookByLectureName(String lectureName);
 	
 	// 강의이름 + 과목이름으로 과목 하나 삭제
+	void delSubjectOneByLectureName(String lectureName, String subjectName);
+	
+	// 업데이트 - 강의수정 액션
+	void updateLecture(Lecture lecture);
 }

@@ -6,6 +6,13 @@ import kr.co.gdu.lms.vo.MemberFile;
 
 @Mapper
 public interface MemberFileMapper {
-	// 파일목록
+	// 파일선택
 	MemberFile selectMemberFile(String loginId);
+	
+	// 파일 삭제
+	int deleteMemberFile(String loginId);
+	
+	// 파일 입력
+	int insertMemberFile(MemberFile memberFile);
+	
 }

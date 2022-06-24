@@ -180,4 +180,23 @@
 		WHERE lecture_name = #{lectureName}
 		ORDER BY ls.subject_name DESC;
 	</select>
+	
+	<delete id="delSubjectOneByLectureName"
+		parameterType="String">
+		
+	</delete>
+	
+	<update id="updateLecture"
+		parameterType="kr.co.gdu.lms.vo.Lecture">
+		UPDATE lecture
+		SET 
+			teacher = #{teacher}
+			, manager = #{manager}
+			, lecture_start_date = #{lectureStartDate}
+			, lecture_end_date = #{lectureEndDate}
+			, lecture_room_name = #{lectureRoomName}
+			, lecture_student_capacity = #{lectureStudentCapacity}
+		WHERE lecture_name = #{lectureName}
+	</update>
+	
 </mapper>

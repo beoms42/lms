@@ -1,5 +1,6 @@
 package kr.co.gdu.lms.controller;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.service.LoginService;
@@ -30,13 +32,9 @@ public class LoginController {
 
 // 비밀번호 변경 액션
 	@PostMapping("/modifyLoginPw")
-	public String modifyLoginPw(Login login
-								, @RequestParam (name = "loginId") String loginId
-								, @RequestParam (name= "loginPw") String loginPw) {
+	public String modifyLoginPw(Login login) {
 		
 		log.debug(CF.PHW+"LoginController.modifyLoginPw.post login : "+login+CF.RS );
-		log.debug(CF.PHW+"LoginController.modifyLoginPw.post loginId : "+loginId+CF.RS );
-		log.debug(CF.PHW+"LoginController.modifyLoginPw.post loginPw : "+loginPw+CF.RS );
 		
 		loginService.modifyLoginPw(login);
 		loginService.addPwRecord(login);
@@ -141,7 +139,7 @@ public class LoginController {
 	@GetMapping("/addMember")
 	public String addMemeber(Model model
 							, @RequestParam(value="addChk", defaultValue="student") String addChk) {
-		
+				
 		//디버깅
 		log.debug(CF.OHI+"LoginController.addMember addChk : "+addChk+CF.RS);
 		
@@ -162,10 +160,14 @@ public class LoginController {
 	public String addMember(HttpServletRequest request
 							, AddMemberForm addMemberForm) {
 		
+		String path = request.getServletContext().getRealPath("/file/memberPhoto/");
 		// 디버깅
+		log.debug(CF.OHI+"LoginController.addMember.Post path : "+path+CF.RS);
 		log.debug(CF.OHI+"LoginController.addMember.Post login : "+addMemberForm+CF.RS);
+		// 사진 이름 디버깅
+		log.debug(CF.OHI+"LoginController.addMember.Post fileName : "+addMemberForm.getCustomFile().getOriginalFilename());
 		
-		loginService.addMember(addMemberForm);
+		loginService.addMember(addMemberForm, path);
 		
 		// 회원 가입 성공했다면 login페이지로
 		return "redirect:/login";
@@ -182,11 +184,51 @@ public class LoginController {
 	
 	// 메인페이지
 	@GetMapping("/loginCheck/main") 
-	public String main() {
+	public String main(Model model) {
+		LocalDate date = LocalDate.now();
+		String nowDate = date.toString().replace("-", "");
+		String year = nowDate.substring(0,4);
+		String month = null;
+		if(nowDate.substring(4,5).equals("0")) {
+			month = nowDate.substring(5,6);
+		} else {
+			month = nowDate.substring(4,6);
+		}
+		String day = nowDate.substring(6,8);
+		
+		int week = date.getDayOfWeek().getValue();
+		String dayOfWeek = null;
+		
+		if(week == 1) {
+			dayOfWeek = "월요일";
+		} else if(week == 2) {
+			dayOfWeek = "화요일";
+		} else if(week == 3) {
+			dayOfWeek = "수요일";
+		} else if(week == 4) {
+			dayOfWeek = "목요일";
+		} else if(week == 5) {
+			dayOfWeek = "금요일";
+		} else if(week == 6) {
+			dayOfWeek = "토요일";
+		} else {
+			dayOfWeek = "일요일";
+		}
+		
+		log.debug(CF.LCH + "LoginController.main.get year : " + year + CF.RS);
+		log.debug(CF.LCH + "LoginController.main.get month : " + month + CF.RS);
+		log.debug(CF.LCH + "LoginController.main.get day : " + day + CF.RS);
+		log.debug(CF.LCH + "LoginController.main.get dayOfWeek : " + dayOfWeek + CF.RS);
+		
+		model.addAttribute("year", year);
+		model.addAttribute("month", month);
+		model.addAttribute("day", day);
+		model.addAttribute("dayOfWeek", dayOfWeek);
+		
 		return "login/main";
 	}
 	
-	// 로그인
+	// 로그인 폼
 	@GetMapping("/login") 
 	public String login(Model model
 						, HttpServletRequest request) {
@@ -208,6 +250,7 @@ public class LoginController {
 		return "login/login";
 	}
 	
+	// 로그인 액션
 	@PostMapping("/login")
 	public String login(HttpSession session
 						, HttpServletResponse response
