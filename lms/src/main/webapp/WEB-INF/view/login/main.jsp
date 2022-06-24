@@ -234,12 +234,6 @@
 						if(arr[i].category == 'TMP') {
 							$('#tmp').append(arr[i].fcstValue);
 						}
-						if(arr[i].category == 'REH') {
-							$('#reh').append(arr[i].fcstValue);
-						}
-						if(arr[i].category == 'SKY') {
-							$('#sky').append(arr[i].fcstValue);
-						}
 					}
 				} else {
 					console.log('fail ==>');
