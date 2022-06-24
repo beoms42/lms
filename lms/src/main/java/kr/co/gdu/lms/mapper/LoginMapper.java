@@ -9,7 +9,10 @@ import kr.co.gdu.lms.vo.Login;
 
 @Mapper
 public interface LoginMapper {
-
+	
+	// 바꾸는 비밀번호와 비밀번호 변경 이력 비교
+	String lastLoginPwCheck(Login login);
+	
 	// 학생, 강사, 매니저 비밀번호 변경 이력 테이블 삽입
 	int insertPwRecord(Login login);
 	

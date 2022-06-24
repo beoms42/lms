@@ -30,9 +30,17 @@ public class LoginService {
 	@Autowired private ManagerMapper managerMapper;
 	@Autowired private MemberFileMapper memberFileMapper;
 
+	// 바꾸는 비밀번호와 비밀번호 변경 이력 비교
+	public String lastLoginPwCheck(Login login) {
+		log.debug(CF.PHW+"LoginService.lastLoginPwCheck login : "+login+CF.RS );
+		return loginMapper.lastLoginPwCheck(login);
+	}
+	
 	// 학생, 강사, 매니저 비밀번호 변경 이력 테이블 삽입
 	public int addPwRecord(Login login) {
 		log.debug(CF.PHW+"LoginService.addPwRecord login : "+login+CF.RS );
+	
+		
 		return loginMapper.insertPwRecord(login);
 	}
 	

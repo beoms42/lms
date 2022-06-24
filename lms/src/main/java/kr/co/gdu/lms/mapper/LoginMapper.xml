@@ -2,6 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.gdu.lms.mapper.LoginMapper">
 
+	<!-- 바꾸는 비밀번호와 비밀번호 변경 이력 비교 -->
+	<select id="lastLoginPwCheck"
+			parameterType="kr.co.gdu.lms.vo.Login"
+			resultType="String">
+		SELECT login_pw = PASSWORD(#{loginPw}) loginPw
+		FROM pw_record
+		WHERE login_id = #{loginId}
+		ORDER BY update_date DESC
+		LIMIT 0,1;	
+	</select>
+
 	<!-- 로그인 - active가 1이고 로그인 아이디와 비밀번호 확인하여 맞다면 해당 level 출력  -->
 	<select id="loginAndSelectLevel"
 			parameterType="kr.co.gdu.lms.vo.Login"

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.service.LoginService;
+import kr.co.gdu.lms.vo.Login;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -22,6 +23,23 @@ import lombok.extern.slf4j.Slf4j;
 public class LoginRestController {
 
 	@Autowired LoginService loginService;
+	
+	// 바꾸는 비밀번호와 비밀번호 변경 이력 비교
+	@PostMapping("/lastLoginPwCheck")
+	public String lastLoginPwCheck(Login login) {
+		log.debug(CF.PHW+"LoginRestController.lastLoginPwCheck.post login : "+login+CF.RS );
+		
+		String pwCheck1 = loginService.lastLoginPwCheck(login);
+		String pwCheck = String.valueOf(pwCheck1);
+		
+		if(pwCheck.equals("1")) { // 최근 비밀번호가 바꾸려는 비밀번호랑 일치함
+			return "false"; 
+		}
+		
+		return "";
+	}
+	
+	
 	
 	@PostMapping("/idCheck")
 	public String idCheck(@RequestParam(value="id") String id) {
