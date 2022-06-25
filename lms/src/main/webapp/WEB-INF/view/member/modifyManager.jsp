@@ -178,18 +178,16 @@
                             </td>
                         </tr>
                         <tr>
-                        <td><div class="form-group">
-					            <label>주소</label></td>
-					            <td><input type="text" class="form-control button-bottom" placeholder="주소를 입력해주세요." id="addr">
-					            <button type="button" class="float-right btn btn-primary mr-2 button-bottom" id="searchAddr">주소 검색</button></td>
-					            <td><div id="addrHelper"> </div>
-				            </div>
-				            <div class="form-group">
-				            	<select name="address"  class = "form-control" id="searchAddrList">
-				            		<!-- 주소 들어올 공간 -->
-				            	</select>
-				            </div></td>
-				            </tr>
+				          <td>주소</td>
+				          <div class="form-group">
+				            <td><input type="text" class="form-control button-bottom" placeholder="주소를 입력해주세요." id="addr">
+				            <button type="button" class="float-right btn btn-primary mr-2 button-bottom" id="searchAddr">주소 검색</button>
+				            <div id="addrHelper"></div>
+						  </div>
+			            	<select name="address"  class = "form-control" id="searchAddrList">
+			            		<!-- 주소 들어올 공간 -->
+			            	</select>
+			            	</td>
                         <tr>  
                           <td>상세주소</td>
                           <td><input type="text" name="detailAddr" value="${manager.detailAddr}"></td>
@@ -206,7 +204,6 @@
                        	 <td>부서</td>
                        	 <td>
                        	 <select name="deptNo">
-                       	 <option value="${manager.deptNo}">${manager.deptName}</option>
 	                         <c:forEach var="d" items="${deptList}">
 	                         	<option value="${d.deptNo}">${d.deptName}</option>
 	                         </c:forEach>
@@ -217,7 +214,6 @@
                           <td>직급</td>
                           <td>
                           <select name="positionNo">
-                          	<option value="${manager.positionNo}">${manager.positionName}</option>
                           		<c:forEach var="p" items="${positionList}">
 									<option value="${p.positionNo}">${p.positionName}</option>                          		
                           		</c:forEach>
@@ -361,7 +357,6 @@
   			$('#addrHelper').text('검색할 주소를 입력해주세요.');
   		}
   	});
-  	
   </script>
 </body>
 </html>
