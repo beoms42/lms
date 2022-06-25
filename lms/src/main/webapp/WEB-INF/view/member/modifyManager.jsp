@@ -154,7 +154,7 @@
                       <thead>
                         <tr>
                           <td>프로필 사진</td>
-                          <td><img src="${pageContext.request.contextPath }/file/memberPhoto/${fileName}" width="100" height="100">${managerMap.managerName}매니저님</h4>
+                          <td><img src="${pageContext.request.contextPath }/file/memberPhoto/${fileName}" width="100" height="100"></td>
                         </tr> 
                         <tr>
                           <td>ID</td>
@@ -177,10 +177,19 @@
                             </select>
                             </td>
                         </tr>
-                         <tr> 
-                          <td>주소</td>
-                          <td><input type="text"  name="address" value="${manager.address}"></td>
-                        </tr>
+                        <tr>
+                        <td><div class="form-group">
+					            <label>주소</label></td>
+					            <td><input type="text" class="form-control button-bottom" placeholder="주소를 입력해주세요." id="addr">
+					            <button type="button" class="float-right btn btn-primary mr-2 button-bottom" id="searchAddr">주소 검색</button></td>
+					            <td><div id="addrHelper"> </div>
+				            </div>
+				            <div class="form-group">
+				            	<select name="address"  class = "form-control" id="searchAddrList">
+				            		<!-- 주소 들어올 공간 -->
+				            	</select>
+				            </div></td>
+				            </tr>
                         <tr>  
                           <td>상세주소</td>
                           <td><input type="text" name="detailAddr" value="${manager.detailAddr}"></td>
@@ -256,6 +265,103 @@
   <script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
   <script src="${pageContext.request.contextPath}/js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
-
+  <script>
+  var url="${pageContext.request.contextPath}";
+	// 주소검색
+	$('#searchAddr').click(function() {
+		$('#searchAddrList').empty();
+		if($('#addr').val().length > 1) {
+			$.ajax({
+				type:'get'
+				, url : url+'/searchAddr'
+				, data : {keyword:$('#addr').val()} //검색한 키워드
+				, success:function(a){
+					console.log(a);
+					console.log(typeof(a));
+					var a2 = JSON.parse(a);
+					console.log(typeof(a2));
+					console.log(a2);
+					
+					let arr = a2.results.juso;
+					console.log(arr);
+					for(let i=0; i<arr.length; i++) {
+						$('#searchAddrList').append('<option>'+arr[i].roadAddrPart1+'</option>');
+					}
+				}
+			})
+		} else {
+			$('#searchAddrList').val('');
+			$('#addrHelper').text('검색할 주소를 입력해주세요.');
+		}
+	});
+		// enter키 눌렀을때 유효성 검사
+  	$(document).keydown(function(event){
+  		if(event.keyCode==13) {
+  			event.preventDefault();
+  			if($('#realId').val()=='') {
+  	  			alert('아이디 중복 검사 해주세요');
+  	  		} else if($('#pw').val()=='') {
+  	  			$('#pwHelper').text('비밀번호를 입력해주세요.');
+  	  		} else if($('#name').val()=='') {
+  	  			$('#pwHelper').text('');
+  	  			$('#nameHelper').text('이름을 입력해주세요.');
+  	  		} else if($('#birth').val()==''){
+  	  			$('#nameHelper').text('');
+  	  			$('#birthHelper').text('생년월일을 입력해주세요.');
+  	  		} else if($('#email').val()=='') {
+  	  			$('#nameHelper').text('');
+  	  			$('#emailHelper').text('이메일을 입력해주세요.');
+  	  		} else if($('#email').val().indexOf('@') == -1 || $('#email').val().indexOf('.') == -1) {
+  	  			$('#emailHelper').text('');	
+  	  			$('#emailHelper').text('이메일 형식이 다릅니다.');	
+  	  		} else if($('#phone').val()=='') {
+  	  			$('#emailHelper').text('');
+  	  			$('#phoneHelper').text('휴대폰 번호를 입력해주세요.');
+  	  		} else if($('#phone').val().indexOf('-') != -1) {
+  	  			$('#phoneHelper').text('');
+  	  			$('#phoneHelper').text('-을 제외해서 입력해주세요.');
+  	  		} else if($('#addr').val()=='') {
+  	  			$('#phoneHelper').text('');
+  	  			$('#addrHelper').text('주소를 검색해주세요.');
+  	  		} else if($('#detailAddr').val()=='') {
+  	  			$('#addrHelper').text('');
+  	  			$('#detailAddrHelper').text('상세 주소를 입력해주세요.');
+  	  		} else if($('#customFile').val()=='') {
+  	  			$('#detailAddrHelper').text('');
+  	  			$('#imageHelper').text('사진을 등록해주세요.');
+  	  		} else {
+  	  			$('#addMemberForm').submit();
+  	  		}
+  		};
+  	})
+  			
+  	// 주소검색
+  	$('#searchAddr').click(function() {
+  		if($('#addr').val().length > 1) {
+  			$.ajax({
+  				type:'get'
+  				, url : url+'/searchAddr'
+  				, data : {keyword:$('#addr').val()} //검색한 키워드
+  				, success:function(a){
+  					console.log(a);
+  					console.log(typeof(a));
+  					var a2 = JSON.parse(a);
+  					console.log(typeof(a2));
+  					console.log(a2);
+  					
+  					let arr = a2.results.juso;
+  					console.log(arr);
+  					for(let i=0; i<arr.length; i++) {
+  						$('#searchAddrList').append('<option>'+arr[i].roadAddrPart1+'</option>');
+  					}
+  				}
+  			})
+  		} else {
+  			$('#searchAddrList').val('');
+  			$('#addrHelper').text('검색할 주소를 입력해주세요.');
+  		}
+  	});
+  	
+  </script>
 </body>
 </html>
