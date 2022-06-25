@@ -1,7 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.gdu.lms.mapper.LoginMapper">
-
+	<update id="updateAddMemberActiveDenied"
+			parameterType="String">
+		UPDATE login
+		SET login_active = '3'
+		WHERE login_id = #{loginId}
+	</update>
+	
+	<update id="updateAddMemberActive"
+			parameterType="String">
+		UPDATE login 
+		SET login_active = '1'
+		WHERE login_id = #{loginId}
+	</update>
+	
+	<select id="selectAddManagerList"
+			resultType="kr.co.gdu.lms.vo.Manager">
+		SELECT
+			m.login_id loginId
+			, m.manager_name managerName
+			, m.create_date createDate
+		FROM manager m JOIN login l
+		WHERE m.login_id = l.login_id AND l.login_active = '2';
+	</select>
+	
+	<select id="selectAddTeacherList"
+			resultType="kr.co.gdu.lms.vo.Teacher">
+		SELECT
+			t.login_id loginId
+			, t.teacher_name teacherName
+			, t.create_date createDate
+		FROM teacher t JOIN login l
+		WHERE t.login_id = l.login_id AND l.login_active = '2';
+	</select>
+	
+	<select id="selectAddStudentList"
+			resultType="kr.co.gdu.lms.vo.Student">
+		SELECT
+			s.login_id loginId
+			, s.student_name studentName
+			, s.create_date createDate
+		FROM student s JOIN login l
+		WHERE s.login_id = l.login_id AND l.login_active = '2';
+	</select>
+	
 	<!-- 바꾸는 비밀번호와 비밀번호 변경 이력 비교 -->
 	<select id="lastLoginPwCheck"
 			parameterType="kr.co.gdu.lms.vo.Login"
