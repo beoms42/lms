@@ -1,3 +1,33 @@
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@pseonho 
+GDJ-TFT
+/
+lms
+Public
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+lms/lms/src/main/webapp/WEB-INF/view/member/modifyManager.jsp
+
+user [박선호]modifyManager 주소 검색 api 추가 >주소검색 한번에 검색된 주소 목록들만 생성 되게 유효성 검사 추가
+…
+Latest commit e7c39c6 3 hours ago
+ History
+ 0 contributors
+362 lines (356 sloc)  15.5 KB
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -180,7 +210,7 @@
                         <tr>
 				          <td>주소</td>
 				          <div class="form-group">
-				            <td><input type="text" class="form-control button-bottom" placeholder="주소를 입력해주세요." id="addr">
+				            <td><input type="text" class="form-control button-bottom" placeholder="${manager.address}" id="addr">
 				            <button type="button" class="float-right btn btn-primary mr-2 button-bottom" id="searchAddr">주소 검색</button>
 				            <div id="addrHelper"></div>
 						  </div>
@@ -262,9 +292,13 @@
   <script src="${pageContext.request.contextPath}/js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
   <script>
+  
+  
   var url="${pageContext.request.contextPath}";
 	// 주소검색
+	$('#searchAddrList').hide();
 	$('#searchAddr').click(function() {
+		$('#searchAddrList').show();
 		$('#searchAddrList').empty();
 		if($('#addr').val().length > 1) {
 			$.ajax({
@@ -284,7 +318,7 @@
 						$('#searchAddrList').append('<option>'+arr[i].roadAddrPart1+'</option>');
 					}
 				}
-			})
+		})
 		} else {
 			$('#searchAddrList').val('');
 			$('#addrHelper').text('검색할 주소를 입력해주세요.');
