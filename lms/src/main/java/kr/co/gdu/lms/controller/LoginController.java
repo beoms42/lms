@@ -28,8 +28,34 @@ public class LoginController {
 
 	@Autowired private LoginService loginService;
 	
+	@GetMapping("/loginCheck/modifyAddMemberActiveDenied")
+	public String modifyAddMemberActiveDenied(@RequestParam(name="loginId") String loginId) {
+		log.debug(CF.LCH + "LoginController.modifyAddMemberActiveDenied.get loginId : " + loginId + CF.RS);
+		loginService.modifyAddMemberActiveDenied(loginId);
+		return "redirect:/loginCheck/acceptAddMember";
+	}
+	
+	@GetMapping("/loginCheck/modifyAddMemberActive")
+	public String modifyAddMemberActive(@RequestParam(name="loginId") String loginId) {
+		log.debug(CF.LCH + "LoginController.modifyAddMemberActive.get loginId : " + loginId + CF.RS);
+		loginService.modifyAddMemberActive(loginId);
+		return "redirect:/loginCheck/acceptAddMember";
+	}
+	
+	@GetMapping("/loginCheck/acceptAddMember")
+	public String acceptAddMember(Model model) {
+		Map<String, Object> returnMap = loginService.acceptAddMember();
+		
+		log.debug(CF.LCH + "LoginController.acceptAddMemeber.get returnMap : " + returnMap + CF.RS);
+		
+		model.addAttribute("managerList", returnMap.get("managerList"));
+		model.addAttribute("teacherList", returnMap.get("teacherList"));
+		model.addAttribute("studentList", returnMap.get("studentList"));
+		
+		return "login/acceptAddMemberList";
+	}
 
-// 비밀번호 변경 액션
+	// 비밀번호 변경 액션
 	@PostMapping("/modifyLoginPw")
 	public String modifyLoginPw(Login login) {
 		
@@ -38,7 +64,7 @@ public class LoginController {
 		loginService.modifyLoginPw(login);
 		loginService.addPwRecord(login);
 		
-		return "login/login";
+		return "redirect:/login";
 	}
 	
 	// 비밀번호 변경 폼

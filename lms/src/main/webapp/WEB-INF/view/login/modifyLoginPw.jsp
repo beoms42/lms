@@ -44,6 +44,7 @@
 					            <form id="modifyLoginPwForm" method="post" action="${pageContext.request.contextPath}/modifyLoginPw" class="forms-sample">
 						             <input type="hidden" name="loginId" value="${loginId}">
 						            <div class="form-group">
+						             	<span id="lastLoginPwCheckHelper"></span>
 							            <label>Insert Password</label>
 							            <input type="password" name="loginPw" class="form-control" placeholder="password" id="loginPw">
 							            <span id="loginPwHelper"></span>
@@ -84,6 +85,23 @@
   <!-- End custom js for this page-->
 
 <script>
+	
+	var url="${pageContext.request.contextPath}";
+	$('#changePw').click(function(){
+		$.ajax({
+			type : "POST"
+			, url : url+"/lastLoginPwCheck"
+			, data : {loginPw:$('#loginPw').val(), loginId:${loginId}}
+			, success : function(ck) {
+				console.log('ck:', ck);
+				if(ck=='false') {
+					$('#lastLoginPwCheckHelper').text('이전 비밀번호와 같은 비밀번호 입니다. 다른비밀번호를 설정해주세요.')
+				}
+			}
+			
+		})
+	});
+
 	
 	$('#loginPw').blur(function(){
 		if ($('#loginPw').val() == ''){

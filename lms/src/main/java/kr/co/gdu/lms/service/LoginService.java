@@ -18,8 +18,11 @@ import kr.co.gdu.lms.mapper.MemberFileMapper;
 import kr.co.gdu.lms.vo.AddMemberForm;
 import kr.co.gdu.lms.vo.Dept;
 import kr.co.gdu.lms.vo.Login;
+import kr.co.gdu.lms.vo.Manager;
 import kr.co.gdu.lms.vo.MemberFile;
 import kr.co.gdu.lms.vo.Position;
+import kr.co.gdu.lms.vo.Student;
+import kr.co.gdu.lms.vo.Teacher;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -30,9 +33,45 @@ public class LoginService {
 	@Autowired private ManagerMapper managerMapper;
 	@Autowired private MemberFileMapper memberFileMapper;
 
+	public void modifyAddMemberActiveDenied(String loginId) {
+		log.debug(CF.LCH + "LoginService.modifyAddMemberActiveDenied loginId : " + loginId + CF.RS);
+		loginMapper.updateAddMemberActiveDenied(loginId);
+	}
+	
+	public void modifyAddMemberActive(String loginId) {
+		log.debug(CF.LCH + "LoginService.modifyAddMemberActive loginId : " + loginId + CF.RS);
+		loginMapper.updateAddMemberActive(loginId);
+	}
+	
+	// 회원가입 승인 기다리는 사람들 리스트 뿌려주는 서비스
+	public Map<String, Object> acceptAddMember() {
+		List<Manager> managerList = loginMapper.selectAddManagerList();
+		List<Student> studentList = loginMapper.selectAddStudentList();
+		List<Teacher> teacherList = loginMapper.selectAddTeacherList();
+		
+		log.debug(CF.LCH + "LoginService.acceptAddMember managerList : " + managerList + CF.RS);
+		log.debug(CF.LCH + "LoginService.acceptAddMember studentList : " + studentList + CF.RS);
+		log.debug(CF.LCH + "LoginService.acceptAddMember teacherList : " + teacherList + CF.RS);
+		
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("managerList", managerList);
+		returnMap.put("studentList", studentList);
+		returnMap.put("teacherList", teacherList);
+		
+		return returnMap;
+	}
+	
+	// 바꾸는 비밀번호와 비밀번호 변경 이력 비교
+	public String lastLoginPwCheck(Login login) {
+		log.debug(CF.PHW+"LoginService.lastLoginPwCheck login : "+login+CF.RS );
+		return loginMapper.lastLoginPwCheck(login);
+	}
+	
 	// 학생, 강사, 매니저 비밀번호 변경 이력 테이블 삽입
 	public int addPwRecord(Login login) {
 		log.debug(CF.PHW+"LoginService.addPwRecord login : "+login+CF.RS );
+	
+		
 		return loginMapper.insertPwRecord(login);
 	}
 	
