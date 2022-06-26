@@ -43,10 +43,8 @@ public class LoginRestController {
 		return "";
 	}
 	
-	
-	
-	@PostMapping("/idCheck")
-	public String idCheck(@RequestParam(value="id") String id) {
+	@GetMapping("/id")
+	public String id(@RequestParam(value="id") String id) {
 		
 		// id 중복 체크해서 중복된 아이디 개수 받아오기
 		int count = loginService.idCheck(id);

@@ -85,9 +85,14 @@
 							            </div>
 							        </div>
 						            <div class="form-group">
-							            <label>비밀번호</label>
+							            <label>비밀번호 (비밀번호는 8자 이상, 특수문자 포함해주셔야 합니다.)</label>
 							            <input type="password" name="loginPw" class="form-control" placeholder="비밀번호" id="pw">
 							            <span id="pwHelper"></span>
+						            </div>
+						            <div class="form-group">
+							            <label>비밀번호 확인</label>
+							            <input type="password" class="form-control" placeholder="비밀번호 확인" id="pwCk">
+							            <span id="pwCkHelper"></span>
 						            </div>
 						            <div class="form-group">
 							            <label>이름</label>
@@ -222,8 +227,8 @@
   	$('#idChk').click(function() {
   		if($('#id').val().length > 3) {
   			$.ajax({
-  				type:'post'
-  				, url : url+'/idCheck'
+  				type:'get'
+  				, url : url+'/id'
   				, data : {id:$('#id').val()}
   				, success:function(ck) {
   					console.log('ck:', ck);
@@ -244,7 +249,10 @@
   	});
   	
   	// 주소검색
+  	$('#searchAddrList').hide();
   	$('#searchAddr').click(function() {
+  		$('#searchAddrList').show();
+		$('#searchAddrList').empty();
   		if($('#addr').val().length > 1) {
   			$.ajax({
   				type:'get'
@@ -283,6 +291,82 @@
   	  	}
   	}); 
   	
+  	var spc = RegExp(/[~!@#$%^&*()|<>?:{}]/); // RegExp는 정규표현식을 사용하기 위한 객체  , 정규표현식은 /와 /사이에 식을 넣어서 사용한다.
+  	
+  	//유효성 
+  	$('#pw').blur(function() {
+  		if($('#pw').val()=='') {
+  			$('#pwHelper').text('비밀번호를 입력해주세요.');
+  		} else if(!spc.test($('#pw').val())) { // pw에 spc가 없다면
+  			$('#pwHelper').text('비밀번호에 특수문자를 포함해주세요.');
+  		} else if($('#pw').val().length <9) {
+  			$('#pwHelper').text('비밀번호를 8자 이상 입력해주세요.');
+  		} else {
+  			$('#pwHelper').text('');
+  		}
+  	})
+  	
+  	$('#pwCk').blur(function() {
+  		 if($('#pwCk').val()=='') {
+   			$('#pwCkHelper').text('확인 할 비밀번호를 입력하세요');
+  		 } else if($('#pw').val() != $('#pwCk').val()) {
+   			$('#pwCkHelper').text('비밀번호와 일치하지 않습니다.');
+  		 } else {
+  			$('#pwCkHelper').text('');
+  		 }
+  	})
+  	
+  	$('#name').blur(function() {
+  		if($('#name').val()=='') {
+  			$('#nameHelper').text('이름을 입력해주세요.');
+  		} else {
+  			$('#nameHelper').text('');
+  		}
+  	})
+  	
+  	$('#birth').blur(function() {
+  		if($('#birth').val()=='') {
+  			$('#birthHelper').text('생년월일을 입력해주세요.');
+  		} else {
+  			$('#birthHelper').text('');
+  		}
+  	})
+  	
+  	$('#email').blur(function() {
+  		if($('#email').val()=='') {
+  			$('#emailHelper').text('이메일을 입력해주세요.');
+  		} else if($('#email').val().indexOf('@') == -1 || $('#email').val().indexOf('.') == -1) {
+  			$('#emailHelper').text('이메일 형식이 다릅니다.');	
+  		} else {
+  			$('#emailHelper').text('');
+  		}
+  	})
+  	
+  	$('#phone').blur(function() {
+  		if($('#phone').val()=='') {
+  			$('#phoneHelper').text('휴대폰 번호를 입력해주세요.');
+  		} else if($('#phone').val().indexOf('-') != -1) {
+  			$('#phoneHelper').text('-을 제외해서 입력해주세요.');
+  		} else {
+  			$('#phoneHelper').text('');
+  		}
+  	})
+  	
+  	$('#addr').blur(function() {
+  		if($('#addr').val()=='') {
+  			$('#addrHelper').text('주소를 검색해주세요.');
+  		} else {
+  			$('#addrHelper').text('');
+  		}
+  	})
+  	
+  	$('#detailAddr').blur(function() {
+  		if($('#detailAddr').val()=='') {
+  			$('#detailAddrHelper').text('상세 주소를 입력해주세요.');
+  		} else {
+  			$('#detailAddrHelper').text('');
+  		}
+  	})
   	
   	// 버튼 눌렀을시 유효성 검사
   	$('#addMemberBtn').click(function() {
@@ -290,16 +374,26 @@
   			alert('아이디 중복 검사 해주세요');
   		} else if($('#pw').val()=='') {
   			$('#pwHelper').text('비밀번호를 입력해주세요.');
-  		} else if($('#name').val()=='') {
+  		} else if(!spc.test($('#pw').val())) { // pw에 spc가 없다면
+  			$('#pwHelper').text('비밀번호에 특수문자를 포함해주세요.');
+  		} else if($('#pw').val().length <9) {
+  			$('#pwHelper').text('비밀번호를 8자 이상 입력해주세요.');
+  		} else if($('#pwCk').val()=='') {
   			$('#pwHelper').text('');
+  			$('#pwCkHelper').text('확인 할 비밀번호를 입력하세요');
+  		} else if($('#pw').val() != $('#pwCk').val()) {
+  			$('#pwCkHelper').text('비밀번호와 일치하지 않습니다.');
+  		} else if($('#name').val()=='') {
+  			$('#pwCkHelper').text('');
   			$('#nameHelper').text('이름을 입력해주세요.');
   		} else if($('#birth').val()==''){
   			$('#nameHelper').text('');
   			$('#birthHelper').text('생년월일을 입력해주세요.');
   		} else if($('#email').val()=='') {
-  			$('#nameHelper').text('');
+  			$('#birthHelper').text('');
   			$('#emailHelper').text('이메일을 입력해주세요.');
   		} else if($('#email').val().indexOf('@') == -1 || $('#email').val().indexOf('.') == -1) {
+  			$('#birthHelper').text('');
   			$('#emailHelper').text('');	
   			$('#emailHelper').text('이메일 형식이 다릅니다.');	
   		} else if($('#phone').val()=='') {
@@ -312,6 +406,7 @@
   			$('#phoneHelper').text('');
   			$('#addrHelper').text('주소를 검색해주세요.');
   		} else if($('#detailAddr').val()=='') {
+  			$('#phoneHelper').text('');
   			$('#addrHelper').text('');
   			$('#detailAddrHelper').text('상세 주소를 입력해주세요.');
   		} else if($('#customFile').val()=='') {
@@ -330,16 +425,26 @@
   	  			alert('아이디 중복 검사 해주세요');
   	  		} else if($('#pw').val()=='') {
   	  			$('#pwHelper').text('비밀번호를 입력해주세요.');
-  	  		} else if($('#name').val()=='') {
+  	  		} else if(!spc.test($('#pw').val())) { // pw에 spc가 없다면
+  	  			$('#pwHelper').text('비밀번호에 특수문자를 포함해주세요.');
+  	  		} else if($('#pw').val().length <9) {
+  	  			$('#pwHelper').text('비밀번호를 8자 이상 입력해주세요.');
+  	  		} else if($('#pwCk').val()=='') {
   	  			$('#pwHelper').text('');
+  	  			$('#pwCkHelper').text('확인 할 비밀번호를 입력하세요');
+  	  		} else if($('#pw').val() != $('#pwCk').val()) {
+  	  			$('#pwCkHelper').text('비밀번호와 일치하지 않습니다.');
+  	  		} else if($('#name').val()=='') {
+  	  			$('#pwCkHelper').text('');
   	  			$('#nameHelper').text('이름을 입력해주세요.');
   	  		} else if($('#birth').val()==''){
   	  			$('#nameHelper').text('');
   	  			$('#birthHelper').text('생년월일을 입력해주세요.');
   	  		} else if($('#email').val()=='') {
-  	  			$('#nameHelper').text('');
+  	  			$('#birthHelper').text('');
   	  			$('#emailHelper').text('이메일을 입력해주세요.');
   	  		} else if($('#email').val().indexOf('@') == -1 || $('#email').val().indexOf('.') == -1) {
+  	  			$('#birthHelper').text('');
   	  			$('#emailHelper').text('');	
   	  			$('#emailHelper').text('이메일 형식이 다릅니다.');	
   	  		} else if($('#phone').val()=='') {
@@ -352,6 +457,7 @@
   	  			$('#phoneHelper').text('');
   	  			$('#addrHelper').text('주소를 검색해주세요.');
   	  		} else if($('#detailAddr').val()=='') {
+  	  			$('#phoneHelper').text('');
   	  			$('#addrHelper').text('');
   	  			$('#detailAddrHelper').text('상세 주소를 입력해주세요.');
   	  		} else if($('#customFile').val()=='') {
