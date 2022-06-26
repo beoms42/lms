@@ -44,7 +44,7 @@
 					            <form id="modifyLoginPwForm" method="post" action="${pageContext.request.contextPath}/modifyLoginPw" class="forms-sample">
 						             <input type="hidden" name="loginId" value="${loginId}">
 						            <div class="form-group">
-						             	<span id="lastLoginPwCheckHelper"></span>
+						             	<span id="lastLoginPwCheckHelper" style="color:red;"></span><br/>
 							            <label>Insert Password</label>
 							            <input type="password" name="loginPw" class="form-control" placeholder="password" id="loginPw">
 							            <span id="loginPwHelper"></span>
@@ -88,18 +88,34 @@
 	
 	var url="${pageContext.request.contextPath}";
 	$('#changePw').click(function(){
-		$.ajax({
-			type : "POST"
-			, url : url+"/lastLoginPwCheck"
-			, data : {loginPw:$('#loginPw').val(), loginId:${loginId}}
-			, success : function(ck) {
-				console.log('ck:', ck);
-				if(ck=='false') {
-					$('#lastLoginPwCheckHelper').text('이전 비밀번호와 같은 비밀번호 입니다. 다른비밀번호를 설정해주세요.')
-				}
-			}
-			
-		})
+		
+		if($('#loginPw').val() == ''){
+  			$('#loginPwHelper').text('비밀번호를 입력하세요.');
+  		} else if($('#loginPwChk').val() == ''){
+  			$('#loginPwHelper').text('');
+  			$('#loginPwChkHelper').text('비밀번호를 입력하세요.');
+  		} else if($('#loginPw').val() != $('#loginPwChk').val()){
+  			$('#loginPwChkHelper').text('');
+  			$('#loginPwChkHelper').text('비밀번호가 일치하지 않습니다.')
+  		} else{
+  			
+  			$.ajax({
+  				type : "POST"
+  				, url : url+"/lastLoginPwCheck"
+  				, data : {loginPw:$('#loginPw').val(), loginId:"${loginId}"}
+  				, success : function(ck) {
+  					console.log('ck:', ck);
+  					if(ck=='false') {
+  						$('#lastLoginPwCheckHelper').text('이전 비밀번호와 같은 비밀번호 입니다. 다른비밀번호를 설정해주세요.')
+  					}else{
+  						$('#modifyLoginPwForm').submit();
+  					}
+  				}
+  				
+  			})
+  			
+  		}
+		
 	});
 
 	
@@ -126,20 +142,6 @@
 		}
 	});
 
-	$('#changePw').click(function(){
-  		if($('#loginPw').val() == ''){
-  			$('#loginPwHelper').text('비밀번호를 입력하세요.');
-  		} else if($('#loginPwChk').val() == ''){
-  			$('#loginPwHelper').text('');
-  			$('#loginPwChkHelper').text('비밀번호를 입력하세요.');
-  		} else if($('#loginPw').val() != $('#loginPwChk').val()){
-  			$('#loginPwChkHelper').text('');
-  			$('#loginPwChkHelper').text('비밀번호가 일치하지 않습니다.')
-  		} else{
-  			$('#modifyLoginPwForm').submit();
-  		}
-  	});
-	
 </script>
 </body>
 </html>
