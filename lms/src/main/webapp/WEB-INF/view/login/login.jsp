@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -43,13 +44,26 @@
               <form id="signupForm" class="pt-3" method="post" action="${pageContext.request.contextPath}/login">
 	              <div class="form-group">
 	               	ID
-	                 <input type="text" name="loginId" class="form-control form-control-lg" id="loginId" placeholder="아이디" value="${cookieId}">
-	                 <span id="idHelper"></span>
+	               	 <c:choose>
+	               	 	<c:when test="${cookieId != null}">
+			                <input type="text" name="loginId" class="form-control form-control-lg" id="loginId" placeholder="아이디" value="${cookieId}">
+			                <span id="idHelper"></span>
+	               	 	</c:when>
+	               	 	<c:otherwise>
+	               	 		<input type="text" name="loginId" class="form-control form-control-lg" id="loginId" placeholder="아이디" value="admin">
+			                <span id="idHelper"></span>
+	               	 	</c:otherwise>
+	               	 </c:choose>
 	               </div>
 	               <div class="form-group">
 	               	 Password
-	                 <input type="password" name="loginPw" class="form-control form-control-lg" id="loginPw" placeholder="비밀번호">
+	                 <input type="password" name="loginPw" class="form-control form-control-lg" id="loginPw" placeholder="비밀번호" value="1234">
 	                 <span id="pwHelper"></span>
+	               </div>
+	               <div>
+	                   <h4>managerID : manager</h4>
+	                   <h4>teacherID : teacher</h4>
+	                   <h4>studentID : student</h4>
 	               </div>
 	               <div class="mt-3">
 	                 <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn up" id="signIn">SIGN IN</button>
