@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.service.LoginService;
+import kr.co.gdu.lms.service.MemberService;
 import kr.co.gdu.lms.vo.AddMemberForm;
 import kr.co.gdu.lms.vo.Login;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 public class LoginController {
 
 	@Autowired private LoginService loginService;
+	@Autowired private MemberService memberService;
 	
 	@GetMapping("/loginCheck/modifyAddMemberActiveDenied")
 	public String modifyAddMemberActiveDenied(@RequestParam(name="loginId") String loginId) {
@@ -209,7 +211,15 @@ public class LoginController {
 	
 	// 메인페이지
 	@GetMapping("/loginCheck/main") 
-	public String main(Model model) {
+	public String main(Model model, HttpSession session) {
+		
+		// 세션을 통해 로그인ID 받아오기
+		String loginId = (String) session.getAttribute("sessionId");
+		
+		// 멤버사진 받아오기
+		Map<String, Object> returnMap = memberService.getStudentOne(loginId);
+		log.debug(CF.GDH + "LoginController.main returnMap : " + returnMap + CF.RS);
+		
 		LocalDate date = LocalDate.now();
 		String nowDate = date.toString().replace("-", "");
 		String year = nowDate.substring(0,4);
@@ -240,11 +250,13 @@ public class LoginController {
 			dayOfWeek = "일요일";
 		}
 		
+		log.debug(CF.GDH + "LoginController.main.get loginId : " + loginId + CF.RS);
 		log.debug(CF.LCH + "LoginController.main.get year : " + year + CF.RS);
 		log.debug(CF.LCH + "LoginController.main.get month : " + month + CF.RS);
 		log.debug(CF.LCH + "LoginController.main.get day : " + day + CF.RS);
 		log.debug(CF.LCH + "LoginController.main.get dayOfWeek : " + dayOfWeek + CF.RS);
 		
+		model.addAttribute("memberFile", returnMap.get("memberFile"));
 		model.addAttribute("year", year);
 		model.addAttribute("month", month);
 		model.addAttribute("day", day);
