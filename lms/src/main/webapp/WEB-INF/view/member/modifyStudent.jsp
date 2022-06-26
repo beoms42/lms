@@ -209,7 +209,7 @@
 							</td>
 						</tr>
 					</table>
-					<button id="modify">수정</button>
+					<button class="btn btn-primary"  id="modify">수정</button>
 				</form>
                 </div>
                 <div class="col-12 col-xl-4">

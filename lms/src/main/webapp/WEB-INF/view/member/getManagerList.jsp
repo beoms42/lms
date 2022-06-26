@@ -158,13 +158,16 @@
                       </thead>
                       <tbody>
                       <c:forEach var="m" items="${managerlist}">
+                      <c:forEach var="p" items="${positionList}">
+                      
                          <tr>
                             <td><a href="${pageContext.request.contextPath}/loginCheck/getmanagerOne?loginId=${m.loginId}">${m.loginId}</a></td>
                             <td>${m.managerName}</td>
-                            <td>${m.positionNo}</td>
+                            <td>${p.positionName}</td>
                             <td>${m.createDate}</td>
                          </tr>
-                      </c:forEach>                
+                      </c:forEach> 
+                      </c:forEach>               
                       </tbody>
                     </table>
                   </div>

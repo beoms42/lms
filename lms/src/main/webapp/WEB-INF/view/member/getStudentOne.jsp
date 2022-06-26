@@ -179,8 +179,8 @@
 					</tr>
 				</table>
 				<div>
-					<a href="${pageContext.request.contextPath}/loginCheck/modifyPwCheck">수정</a>
-					<a href="${pageContext.request.contextPath}/loginCheck/removePwCheck">삭제</a>
+					<a class="btn btn-primary" href="${pageContext.request.contextPath}/loginCheck/modifyPwCheck">수정</a>
+					<a class="btn btn-danger" href="${pageContext.request.contextPath}/loginCheck/removePwCheck">삭제</a>
 				</div>
                 </div>
                 <div class="col-12 col-xl-4">

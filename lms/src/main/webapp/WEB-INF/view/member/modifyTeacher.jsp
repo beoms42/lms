@@ -214,7 +214,7 @@
                       </thead>
                     </table>
                      	<div>
-                     	<input type ="submit" value="수정">
+                     	<input class="btn btn-primary"  type ="submit" value="수정">
 					   <a href="#"><button class="btn btn-danger"href="${pageContext.request.contextPath}/deleteTeacherOne?loginId=${manager.loginId}">회원탈퇴</button></a>
 					  </form>
 					</div>

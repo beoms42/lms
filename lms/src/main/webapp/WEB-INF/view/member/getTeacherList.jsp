@@ -152,7 +152,7 @@
                       <thead>
                         <tr>
                           <th>ID</th>
-                          <th>매니저명</th>
+                          <th>강사명</th>
                           <th>생년월일</th>
                           <th>생성날짜</th>
                         </tr>

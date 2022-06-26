@@ -167,9 +167,12 @@ public class MemberController {
 	// 매니저 목록 리스트
 		@GetMapping("/loginCheck/getmanagerList")
 		 public String getManagerList(Model model) {
-			 log.debug(CF.PSH+"MemberController.getManagerList :"+ CF.RS);
 			 List<Manager> managerlist = memberService.getManagerList();
+			 List<Position> positionList = memberService.getPositions();
 			 model.addAttribute("managerlist", managerlist );
+			 model.addAttribute("positionList", positionList );
+			 log.debug(CF.PSH+"MemberController.managerlist :"+ CF.RS);
+			 log.debug(CF.PSH+"MemberController.deptList :"+ CF.RS);
 		 return "member/getManagerList";   
 		 }
 		 

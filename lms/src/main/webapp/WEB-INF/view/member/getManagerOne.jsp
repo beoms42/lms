@@ -197,7 +197,7 @@
                       </thead>
                     </table>
                      	<div>
-					    <a class="btn btn-default" href="${pageContext.request.contextPath}/loginCheck/modifyManager?loginId=${managerMap.loginId}">수정</a>
+					    <a class="btn btn-primary" href="${pageContext.request.contextPath}/loginCheck/modifyManager?loginId=${managerMap.loginId}">수정</a>
 					  	 <a href="#"><button class="btn btn-danger"href="${pageContext.request.contextPath}/deleteTeacherOne?loginId=${managerMap.loginId}">회원탈퇴</button></a>
 					</div>
                   </div>
