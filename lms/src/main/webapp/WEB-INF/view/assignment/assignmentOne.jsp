@@ -4,6 +4,7 @@
     
 <!DOCTYPE html>
 <html>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -146,12 +147,12 @@
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
 					<div class="container col_12">
-						<table class="table">
+						<table class="table table">
 					        <tbody>
 					        	<c:forEach var="n" items="${assignmentList}">
 						                <tr>
 								        	<td>제목</td>
-						                	<td>${n.assignmentExamTitle}</td>
+						                	<td >${n.assignmentExamTitle}</td>
 						               </tr>
 						                <tr>
 						                	<td>과목</td>
@@ -182,39 +183,64 @@
 					                	<td>
 					                </tr>
 									<tr>	
-									<td>파일</td>								
-									<c:forEach var="f" items="${fileList}">
-							  				
-							  				<c:if test="${f.assignmentFileType.equals('image/jpeg')}">
-							  					<c:forEach var="n" items="${fileList}">
-								  					<td
-								  					
-								  					
-								  					
-								  					><img src="${pageContext.request.contextPath}/file/assignmentFile/${f.assignmentFileName}"></td>
-							  					</c:forEach>
-							  				</c:if>
-							  				<c:if test="${f.assignmentFileType.equals('application/octet-stream')}">
-							  					<td><a href="${pageContext.request.contextPath}/file/assignmentFile/${f.assignmentFileName}">${f.assignmentFileName}</a></td>
-							  				</c:if>
-							  	
-							 	 	</c:forEach>
+							
+
 							 	 	</tr>
 					        </tbody>
 					    </table>
-					  	<form method="post" action="${pageContext.request.contextPath}/uploadSignFile" id="addForm" enctype="multipart/form-data">
-						    <Strong>제출</Strong>
-						
-						    <div><textarea  rows="5" cols="50" name="assignmentExamContent" id="assignmentExamContent"></textarea></div>
-							<button type="button" id="addFileupload">파일 업로드 추가</button>
-							<div id="fileSection">
-									<!-- 파일 업로드 input 태그가 추가될 영역 -->
-							</div>	
+					    <div>제출</div>
+					    <c:if test="${fn:length(assignmentSubmit) == 0}">
+						  	<form method="POST" action="${pageContext.request.contextPath}/loginCheck/getAssignmentOne?assignmentExamNo=${assignmentExamNo}" id="addForm" enctype="multipart/form-data">
+							  <div>
+								   <textarea name="assignmentSubmitContent" id="summernote"></textarea>
+									<script>
+										$('#summernote').summernote({
+										  tabsize: 2,
+										  height: 400
+										});
+										$(".note-editor button[aria-label='Picture']").hide();
+										$(".note-editor button[aria-label='Video']").hide();
+										$(".note-editor .note-view").hide();
+									</script>
+								</div>
+								<button type="button" id="addFileupload">파일 업로드 추가</button>
+								<div id="fileSection">
+										<!-- 파일 업로드 input 태그가 추가될 영역 -->
+								</div>
+								<button type="button" class="btn btn-primary" id="addAssignment">제출</button>
+								</form>
+							</c:if>
+							<c:if test="${fn:length(assignmentSubmit) != 0}">
+								<c:forEach var="m" items="${assignmentSubmit}">
+									<table class="table table-hover">
+										<thead>
+											<tr>
+												<th>내용</th>
+												<th>제출 시간</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>${m.assignmentSubmitContent }</td>
+												<td>${m.createDate}</td>
+											</tr>
+										</tbody>
+									</table>
+								</c:forEach>
+								<c:forEach var="f" items="${fileList}">
+					  				<c:if test="${f.assignmentFileType.equals('image/jpeg')}">
+						  					<td><img src="${pageContext.request.contextPath}/file/assignmentFile/${f.assignmentFileName}"></td>
+					  				</c:if>
+					  				<c:if test="${f.assignmentFileType.equals('application/octet-stream')}">
+					  					<td><a href="${pageContext.request.contextPath}/file/assignmentFile/${f.assignmentFileName}">${f.assignmentFileName}</a></td>
+					  				</c:if>
+					  	
+								</c:forEach>	
+							</c:if>
 							<BR>	
-							<button type="button" class="btn btn-primary" id="addAssignment">제출</button>
-							<a href="${pageContext.request.contextPath}/loginCheck/getAssignmentExam" class="btn btn-primary">목록</a></td>
-							<a href="${pageContext.request.contextPath}/loginCheck/modifyAssignment" class="btn btn-primary">수정</a>
-						</form>
+
+							
+					
 					</div>
 
                 </div>
@@ -270,20 +296,19 @@
   <script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
   <script src="${pageContext.request.contextPath}/js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
-</body>
 <script>
 
 	$('#addFileupload').click(function(){
 		let flag = true;
 
-		$('.assignmentFileList').each(function(){
+		$('.assignmentSubmitFileList').each(function(){
 			if($(this).val() == ''){
 					flag = false;
 			}
 		});
 		
 		if(flag){
-			$('#fileSection').append("<div><input type='file' class='assignmentFileList' name='assignmentFileList'></div> ");
+			$('#fileSection').append("<div><input type='file' class='assignmentSubmitFileList' name='assignmentSubmitFileList'></div>");
 		}else{
 			alert('파일이 첨부되지 않은 assignmentFileList가 존재합니다.');
 		}
@@ -302,5 +327,7 @@
 	
 	
 </script>
+</body>
+
 </html>
 

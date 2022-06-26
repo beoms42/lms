@@ -6,11 +6,9 @@ import lombok.Data;
 public class AssignmentSubmit {
 	private int assignmentExamNo;
 	private int educationNo;
-	private String assignmentSignfileName;
-	private String assignmentSignfileOriginName;
-	private String assignmentSignfileType;
-	private int assignmentSignfileSize;
+	private String assignmentSignfileURL;
+	private String assignmentSubmitContent;
 	private String createDate;
 	private String updateDate;
-	private int assignmentSubmitScore;
+	private String assignmentSubmitScore;
 }

@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.ibatis.ognl.ASTAssign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.gdu.lms.log.CF;
@@ -17,6 +19,8 @@ import kr.co.gdu.lms.mapper.AssignmentfileMapper;
 import kr.co.gdu.lms.vo.AssignmentAddForm;
 import kr.co.gdu.lms.vo.AssignmentExam;
 import kr.co.gdu.lms.vo.AssignmentFile;
+import kr.co.gdu.lms.vo.AssignmentSubmit;
+import kr.co.gdu.lms.vo.AssignmentSubmitForm;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -132,6 +136,75 @@ public class AssignmentService {
 		}
 		
 		return row;
+	}
+	public int getEducationNo(@RequestParam (name="sessionMemberId") String loginId) {
+		int educationNo = assignmentmapper.selectEducationNo(loginId);
+		return educationNo;
+	}
+	public void addAssignmentSubmit(AssignmentSubmit assignmentSubmit) {
+		assignmentmapper.insertAssignmentSubmit(assignmentSubmit); 
+	}
+	public List<AssignmentSubmit> getAssignmentSubmit(int assignmentExamNo){
+		List<AssignmentSubmit> assignmentSubmit = assignmentmapper.selectAssignmentSubmit(assignmentExamNo);
+		return assignmentSubmit;
+	}
+	public void addAssignmentSubmitFile(AssignmentSubmitForm assignmentSubmitForm
+									,String path
+									,@RequestParam (name="assignmentExamNo") int assignmentExamNo)  {
+		
+		
+		log.debug(CF.GMC+"AssignmentService.addAssignment.param path : " + path + CF.RS);
+		log.debug(CF.GMC+"AssignmentService.addAssignment.param assignmentfileList : " + assignmentSubmitForm.getAssignmentSubmitFileList() +CF.RS);
+		
+		String loginId = assignmentSubmitForm.getLoginId();
+		// 과제가 하나 이상이고 입력도 성공했을때
+		if( assignmentSubmitForm.getAssignmentSubmitFileList() != null &&  assignmentSubmitForm.getAssignmentSubmitFileList().get(0).getSize() > 0 
+				&&  assignmentSubmitForm.getAssignmentSubmitFileList().size() > 0 ) {
+			
+			log.debug(CF.GMC + "AssignmentService.addAssignmentExam : "+ "첨부된 파일이 있습니다" + CF.RS);
+			for(MultipartFile mf :  assignmentSubmitForm.getAssignmentSubmitFileList()) {
+				AssignmentFile assignmentFile = new AssignmentFile();
+				//원본 이름
+				String originName = mf.getOriginalFilename();
+				
+				//TYPE
+				String ext = originName.substring(originName.lastIndexOf("."));
+				
+				//중복 방지
+				String filename = UUID.randomUUID().toString(); // 16진수 문자열로 만든 절대 중복될 수 없는 문자 만들어줌
+				
+				//UUID 새로운 이름 
+				filename = filename.replace("-", "");
+				filename = filename + ext;
+				
+				log.debug(CF.GMC + "AssignmentService.addAssignmentExam originName:" +originName +CF.RS);
+				log.debug(CF.GMC + "AssignmentService.addAssignmentExam ext: " +ext+CF.RS);
+				log.debug(CF.GMC + "AssignmentService.addAssignmentExam filename:" + filename +CF.RS);
+				log.debug(CF.GMC + "AssignmentService.addAssignmentExam assignmentExamNo:" + assignmentExamNo+CF.RS);
+				log.debug(CF.GMC + "AssignmentService.addAssignmentExam : mf.getSize()"+mf.getSize() +CF.RS);
+				log.debug(CF.GMC + "AssignmentService.addAssignmentExam : mf.getContentType()"+mf.getContentType() +CF.RS);
+				
+				
+				assignmentFile.setAssignmentExamNo(assignmentExamNo);
+				assignmentFile.setAssignmentFileName(filename);
+				assignmentFile.setAssignmentFileOriginName(originName);
+				assignmentFile.setAssignmentFileSize(mf.getSize());
+				assignmentFile.setAssignmentFileType(mf.getContentType());
+				assignmentFile.setLoginId(loginId);
+				assignmentfilemapper.insertAssingmentfile(assignmentFile);
+				
+				//파일 저장
+				try {
+					mf.transferTo(new File(path+filename));
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new RuntimeException();
+				}
+			}
+			
+		
+		}
+				
 	}
 	
 }
