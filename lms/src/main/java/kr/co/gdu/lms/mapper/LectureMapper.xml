@@ -204,4 +204,92 @@
 		WHERE lecture_name = #{lectureName}
 	</update>
 	
+	<!-- 전체 시간표리스트보기 -->
+	<select id="selectScheduleList" parameterType="java.util.Map" resultType="kr.co.gdu.lms.vo.CalendarMap">
+		SELECT 
+			s.schedule_no scheduleNo
+			, ls.lecture_name lectureName
+			, ls.subject_name subjectName
+			, day(s.schedule_date) scheduleDateDay
+		FROM 
+			schedule s
+		INNER JOIN 
+			lecture_subject ls
+		ON 
+			s.lecture_subject_no = ls.lecture_subject_no
+		WHERE 
+			MONTH(s.schedule_date) = #{m} AND YEAR(s.schedule_date) = #{y};
+	</select>
+	
+	<!-- 시간표추가 -->
+	<insert id="insertSchedule" parameterType="kr.co.gdu.lms.vo.Schedule">
+		INSERT INTO schedule(
+			schedule_date
+			,lecture_subject_no
+			,create_date
+			,update_date
+		) VALUES(
+			#{scheduleDate}
+			,#{lectureSubjectNo}
+			,NOW()
+			,NOW());
+	</insert>
+	
+	<!-- 시간표수정 -->
+	<update id="updateSchedule" parameterType="kr.co.gdu.lms.vo.Schedule">
+		UPDATE schedule SET 
+			schedule_date = #{scheduleDate}
+			,lecture_subject_no = #{lectureSubjectNo}
+			,update_date = NOW() 
+		WHERE schedule_no = #{scheduleNo}
+	</update>
+	
+	<!-- 시간표삭제 -->
+	<delete id="deleteSchedule" parameterType="int">
+		DELETE FROM schedule 
+		WHERE schedule_no = #{scheduleNo};
+	</delete>
+	
+	<!-- 강의과목리스트 -->
+	<select id="selectLectureSubjecList" resultType="kr.co.gdu.lms.vo.LectureSubject">
+		SELECT 
+			lecture_subject_no lectureSubjectNo
+			,lecture_name lectureName
+			,subject_name subjectName 
+		FROM lecture_subject;
+	</select>
+	
+	<!-- 시간표상세보기 -->
+	<select id="selectScheduleOne" parameterType="int" resultType="java.util.Map">
+		SELECT 
+			s.schedule_no scheduleNo
+			, s.schedule_date scheduleDate
+			, s.lecture_subject_no lectureSubjectNo
+			, ls.lecture_name lectureName
+			, ls.subject_name subjectName
+		FROM schedule s
+		INNER JOIN lecture_subject ls
+		ON s.lecture_subject_no = ls.lecture_subject_no
+		where s.schedule_no = #{scheduleNo};
+	</select>
+	
+	<!-- 멤버별 강의시간표 보기 -->
+	<select id="selectMemberSchedule" parameterType="java.util.Map" resultType="kr.co.gdu.lms.vo.CalendarMap">
+		SELECT 
+			s.schedule_no scheduleNo
+			, day(s.schedule_date) scheduleDateDay
+			, s.lecture_subject_no lectureSubjectNo
+			, ed.lecture_name lectureName
+			, ls.subject_name subjectName
+		FROM schedule s
+		INNER JOIN lecture_subject ls
+			ON s.lecture_subject_no = ls.lecture_subject_no
+		INNER JOIN lecture l
+			ON l.lecture_name = ls.lecture_name
+		INNER JOIN education ed
+			ON ed.lecture_name = l.lecture_name
+		INNER JOIN login lo
+			ON lo.login_id = ed.login_id
+		WHERE lo.login_id = #{loginId} AND MONTH(s.schedule_date) = #{m} AND YEAR(s.schedule_date) = #{y};
+	</select>
 </mapper>

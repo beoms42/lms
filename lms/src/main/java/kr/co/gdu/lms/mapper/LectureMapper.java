@@ -55,4 +55,28 @@ public interface LectureMapper {
 	
 	// 업데이트 - 강의수정 액션
 	void updateLecture(Lecture lecture);
+	
+// 시간표
+	
+	// 전체시간표리스트보기
+	List<CalendarMap> selectScheduleList(Map<String, Object> map);
+	
+	// 멤버별시간표리스트보기
+	List<CalendarMap> selectMemberSchedule(Map<String, Object> map);
+	
+	// 시간표추가
+	int insertSchedule(Schedule schedule);
+	
+	// 시간표수정
+	int updateSchedule(Schedule schedule);
+	
+	// 시간표삭제
+	int deleteSchedule(int scheduleNo);
+	
+	// 강의과목리스트
+	List<LectureSubject>selectLectureSubjecList();
+	
+	// 시간표상세보기
+	Map<String, Object>selectScheduleOne(int scheduleNo);
+	
 }
