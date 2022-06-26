@@ -5,6 +5,7 @@
 			parameterType="String"
 			resultType="kr.co.gdu.lms.vo.MemberFile">
 		SELECT member_file_no memberFileNo
+		, login_id loginId
 		, member_file_name memberFileName
 		, member_file_origin_name memberFileOriginName
 		, member_file_type memberFileType

@@ -128,16 +128,19 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                  <h1>회원수정</h1>
+                  <h3 style="font-weight: bold;">회원수정</h3><br>
 	                <form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyPwCheck">
 						<table class="table">
 							<tr>
-								<th>비밀번호 입력</th>
-								<td><input type="password" name="loginPw"></td>
+								<th>아이디</th>
 								<td><input type="text" name="loginId" value="${loginId}" readonly="readonly"></td>
 							</tr>
-						</table>
-						<button>비밀번호 입력</button>
+							<tr>
+								<th>비밀번호 입력</th>
+								<td><input type="password" name="loginPw"></td>
+							</tr>
+						</table><br>
+						<button class="btn btn-secondary" style="border-radius: 0%;">비밀번호 입력</button>
 					</form>
                 </div>
                 <div class="col-12 col-xl-4">

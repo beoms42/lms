@@ -15,6 +15,8 @@ public class AssignmentExam {
 	private String assignmentDeadLine;
 	private String createDate;
 	private List<MultipartFile> assignmentFileList;
+	private String assignmentSignfileURL;
+	private String assignmentSubmitScore;
 	private String loginId;
 
 }

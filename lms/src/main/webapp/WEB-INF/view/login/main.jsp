@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -96,10 +96,24 @@
               <img src="${pageContext.request.contextPath}/file/memberPhoto/${memberFile.memberFileName}" alt="profile"/>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item">
-                <i class="ti-settings text-primary"></i>
-                Settings
-              </a>
+              <c:choose>
+              	<c:when test ="${level==1}">
+              		<a class="dropdown-item" href="${pageContext.request.contextPath}/loginCheck/getStudentOne?loginId=${memberFile.loginId}">
+              		<i class="ti-settings text-primary"></i> MyPage 
+              		</a>
+             	</c:when>
+             	<c:when test ="${level==2}">
+             		<a class="dropdown-item" href="${pageContext.request.contextPath}/loginCheck/getTeacherOne?loginId=${memberFile.loginId}">
+             		<i class="ti-settings text-primary"></i> MyPage 
+             		</a>
+             	</c:when>
+             	<c:when test ="${level==3}">
+             		<a class="dropdown-item" href="${pageContext.request.contextPath}/loginCheck/getmanagerOne?loginId=${memberFile.loginId}">
+             		<i class="ti-settings text-primary"></i> MyPage 
+             		</a>
+             	</c:when>
+              </c:choose>  
+               
               <a class="dropdown-item" href="${pageContextPath.request.getContextPath}/lms/loginCheck/logout">
                 <i class="ti-power-off text-primary"></i>
                 Logout

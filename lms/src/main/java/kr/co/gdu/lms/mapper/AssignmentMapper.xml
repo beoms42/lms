@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.gdu.lms.mapper.AssignmentMapper">
+
 	<select id="selectAssignmentExam"
 			parameterType = "java.util.Map"
 			resultType="kr.co.gdu.lms.vo.AssignmentExam">
-		SELECT assignment_exam_no assignmentExamNo
-				,lecture_name lectureName
-				,assignment_exam_title assignmentExamTitle
-				,assignment_exam_content assignmentExamContent
-				,assignment_deadline assignmentDeadLine
-				,create_date createDate
-		FROM assignment_exam
+		SELECT a.assignment_exam_no assignmentExamNo
+				,a.lecture_name lectureName
+				,a.assignment_exam_title assignmentExamTitle
+				,a.assignment_exam_content assignmentExamContent
+				,a.assignment_deadline assignmentDeadLine
+				,a.create_date createDate
+				,s.assignment_signfile_url assignmentSignfileURL
+				,s.assignment_submit_score assignmentSubmitScore
+		FROM assignment_exam a LEFT JOIN assignment_submit s
+		ON a.assignment_exam_no = s.assignment_exam_no
 		WHERE lecture_name = #{lectureName}
 		LIMIT #{beginRow},#{rowPerPage}
 	</select>
@@ -30,6 +34,27 @@
 			,NOW()
 		)
 	</insert>
+	<insert id="insertAssignmentSubmit"
+			parameterType="kr.co.gdu.lms.vo.AssignmentSubmit">
+		INSERT INTO assignment_submit(
+			assignment_exam_no
+			,education_no 
+			,assignment_signfile_url 
+			,assignment_submit_content 
+			,create_date 
+			,update_date 
+			,assignment_submit_score 
+		)VALUES(
+			#{assignmentExamNo}
+			,#{educationNo}
+			,#{assignmentSignfileURL}
+			,#{assignmentSubmitContent}
+			,NOW()
+			,NOW()
+			,'채점중'
+		)
+		
+	</insert>
 	<select id="selectassignmentExamNo"
 			resultType="int">
 			SELECT assignment_exam_no assignmentExamNo FROM assignment_exam WHERE create_date = NOW()
@@ -47,6 +72,33 @@
 		FROM assignment_exam
 		WHERE assignment_exam_no = #{assignmentExamNo}
 	</select>
+	<select id="selectEducationNo"
+				resultType="int"
+				parameterType="String">
+		SELECT education_no educationNo FROM education WHERE login_id = #{loginId}
+	</select>
+	<select id="selectAssignmentSubmit"
+			parameterType="int"
+			resultType="kr.co.gdu.lms.vo.AssignmentSubmit">
+		SELECT 
+			assignment_exam_no assignmentExamNo
+			,education_no educationNo
+			,assignment_signfile_url assignmentSignfileURL
+			,assignment_submit_content assignmentSubmitContent
+			,create_date createDate
+			,update_date updateDate
+			,assignment_submit_score assignmentSubmitScore
+		FROM assignment_submit
+		WHERE assignment_exam_no = ${assignmentExamNo}
+	</select>
+	<select id="selectAssignmentSignfile"
+			resultType="kr.co.gdu.lms.vo.AssignmentSubmit">
+		SELECT 
+			
+		FROM assignment_submit s INNER JOIN assignment_exam a
+		ON s.assignment_exam_no = a.assignment_exam_no
+	</select>
+
 	<select	id="selectAssignmentTotalCount"
 			resultType="int">
 		SELECT COUNT(*) cnt FROM assignment_exam

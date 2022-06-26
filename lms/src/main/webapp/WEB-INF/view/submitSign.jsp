@@ -29,7 +29,7 @@
     </style>  
 </head>
 <body>
-<form method="post" action="${pageContext.request.contextPath}/loginCheck/saveImage" id="addForm" enctype="multipart/form-data">
+<form method="get" action="${pageContext.request.contextPath}/loginCheck/addAssignmentSubmit" id="addForm">
 <div class="container">
    <div class="row">
        <div class="col-md-6 offset-md-3 mt-5">
@@ -52,6 +52,8 @@
        </div>
    </div>
 </div>
+<input type="hidden" name="assignmentSubmitContent" value="${assignmentSubmitContent}">
+<input type="hidden" name="assignmentExamNo" value="${assignmentExamNo}">
 <div id="photoSection"></div>
 </form>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
@@ -80,7 +82,7 @@
     		alert(sigpad.signature('toDataURL'));
     		var ImageURL = sigpad.signature('toDataURL');
     		console.log(ImageURL);
-    		$('#photoSection').append("<img src='"+ImageURL+"'>")
+    		$('#photoSection').append("<input type=text value='"+ImageURL+"' name='ImageURL'>")
     		var block = ImageURL.split(";");
     		console.log(block);
     		var contentType = block[0].split(":")[1];     // In this case "image/gif"
@@ -88,8 +90,11 @@
     		var realData = block[1].split(",")[1];   
     		console.log(realData);
     		
-		
+    		$('#addForm').submit();
+    		
+					
     	});
+    	
     	
     		
     	});

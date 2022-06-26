@@ -150,21 +150,36 @@
 														<th>시작일</th>
 														<th>기한</th>
 														<th>점수</th>
+														<th>싸인</th>
 													</tr>
 												</theads>	 
-												<c:forEach var="m" items="${assignmentExamList}" >								
 												<tbody>
+														<c:forEach var="m" items="${assignmentExamList}" >								
 													<tr>
-										
 														<td><a href="${pageContext.request.contextPath}/loginCheck/getAssignmentOne?assignmentExamNo=${m.assignmentExamNo}">${m.assignmentExamTitle}</a></td>
 														<td>${m.createDate}</td>
 														<td>${m.assignmentDeadLine}</td>
 														<td><a href="#">입력</a></td>
-													</tr>
-															
-												</tbody>
-					 						</c:forEach>
-					 			
+														
+															<c:if test="${m.assignmentSignfileURL eq null}">
+																<td></td>
+															</c:if>
+															<c:if test="${m.assignmentSignfileURL!= null}">
+																<td>
+																	<img src="${m.assignmentSignfileURL}">
+																</td>
+															</c:if>
+													</tr>		
+														</c:forEach>
+														
+																				
+											
+										
+													
+														
+					 							
+					 							</tbody>
+											
 					 					</table>
 						 				<c:if test="${level>=2}">
 						 					<button type="submit" class="btn btn-primary ">과제 입력</button>

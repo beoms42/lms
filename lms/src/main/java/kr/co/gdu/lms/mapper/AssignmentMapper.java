@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import kr.co.gdu.lms.vo.AssignmentAddForm;
 import kr.co.gdu.lms.vo.AssignmentExam;
+import kr.co.gdu.lms.vo.AssignmentSubmit;
 
 @Mapper
 public interface AssignmentMapper {
@@ -15,4 +16,7 @@ public interface AssignmentMapper {
 	int insertAssignmentExam(AssignmentAddForm assignmentAddForm);
 	List<AssignmentExam> selectAssignmentOne(int assignmentExamNo);
 	int selectassignmentExamNo();
+	int selectEducationNo(String loginId);
+	void insertAssignmentSubmit(AssignmentSubmit assignmentsubmit);
+	List<AssignmentSubmit> selectAssignmentSubmit(int assignmentExamNo);
 }

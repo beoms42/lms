@@ -146,7 +146,7 @@
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
 						<div class="container">
 							<h1>과제 입력</h1>
-							<form method="post" action="${pageContext.request.contextPath}/loginCheck/addAssignment" id="addForm" enctype="multipart/form-data">
+							<form method="POST" action="${pageContext.request.contextPath}/loginCheck/addAssignment" id="addForm" enctype="multipart/form-data">
 								<table class="table table-striped">
 									<tr>
 										<td>과목</td>
@@ -178,11 +178,8 @@
 					
 						
 								</table>
-								<button type="button" id="addFileupload">파일 업로드 추가</button>
-								<div id="fileSection">
-									<!-- 파일 업로드 input 태그가 추가될 영역 -->
-								</div>		
-								<button type="button" class="btn btn-primary" id="addAssignment">입력</button>
+
+								<button type="submit" class="btn btn-primary" >입력</button>
 							</form>
 						</div>
 						<div>
@@ -240,47 +237,7 @@
   <script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
   <script src="${pageContext.request.contextPath}/js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
-<script>
-	$('#addFileupload').click(function(){
-		let flag = true;
 
-		$('.assignmentFileList').each(function(){
-			if($(this).val() == ''){
-					flag = false;
-			}
-		});
-		
-		if(flag){
-			$('#fileSection').append("<div><input type='file' class='assignmentFileList' name='assignmentFileList'></div> ");
-		}else{
-			alert('파일이 첨부되지 않은 assignmentFileList가 존재합니다.');
-		}
-	});
-	
-	let flag = true;
-	
-	$('#addAssignment').click(function(){
-		if($('#assignmentExamTitle').val() == ''){
-			alert("과제 제목이 입력되지 않았습니다.")
-		}else if($('#assignmentExamCotnent').val() == ''){
-			alert("과제 내용을 입력해주세요");
-		}else{
-			$('.assignmentFileList').each(function(){
-				if($(this).val() == ''){
-						flag = false;
-				}
-			});
-			if(flag){
-				$('#addForm').submit();
-				return;
-			} else{
-				alert('파일이 첨부되지 않았습니다.');
-			}
-		}
-	});
-	
-	
-</script>
 </body>
 </html>
 

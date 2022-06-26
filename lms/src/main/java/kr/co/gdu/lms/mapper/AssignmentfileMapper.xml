@@ -34,7 +34,7 @@
 			,assignment_file_create_date assignmentFileCreateDate
 		FROM assignment_file
 		WHERE assignment_exam_no = #{assignmentExamNo} 
-		AND login_id = #{loginId}
+		
 		
 	</select>
 

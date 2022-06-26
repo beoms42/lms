@@ -20,6 +20,8 @@ import kr.co.gdu.lms.service.AssignmentService;
 import kr.co.gdu.lms.vo.AssignmentAddForm;
 import kr.co.gdu.lms.vo.AssignmentExam;
 import kr.co.gdu.lms.vo.AssignmentFile;
+import kr.co.gdu.lms.vo.AssignmentSubmit;
+import kr.co.gdu.lms.vo.AssignmentSubmitForm;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -27,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AssignmentController {
 	@Autowired private AssignmentService assingmentservice;
 	@GetMapping("/loginCheck/getAssignmentExam")
+	//과제 리스트 출력
 	public String getAssignment(HttpServletRequest request
 								,Model model
 								,@RequestParam (name="assignmentCurrentPage",defaultValue="1") int assignmentCurrentPage
@@ -40,10 +43,13 @@ public class AssignmentController {
 		paramMap.put("lectureName", lectureName);
 		paramMap.put("assignmentCurrentPage", assignmentCurrentPage);
 		paramMap.put("rowPerPage", rowPerPage);
-
+		
+		
 		Map<String,Object> returnMap = assingmentservice.getAssignmentExam(paramMap);
 		List<AssignmentExam> assignmentExamList = (List<AssignmentExam>)returnMap.get("assignmentExamList");
 		int lastPage = (int)returnMap.get("lastPage");
+		
+		
 		
 		model.addAttribute("lectureName",lectureName);
 		model.addAttribute("assignmentExamList",assignmentExamList);
@@ -54,7 +60,7 @@ public class AssignmentController {
 		
 		return "/assignment/assignmentExam";
 	}
-	
+	//과제 제출 페이지
 	@PostMapping("/loginCheck/getAssignmentExam")
 	public String addAssignmentExam(HttpServletRequest request
 									,Model model) {
@@ -66,10 +72,12 @@ public class AssignmentController {
 		return "/assignment/addAssignmentExam";
 			
 	}
+	//과제 입력
 	@PostMapping("/loginCheck/addAssignment")
 	public String addAssignmentExam(Model model
 									,HttpServletRequest request
-									,AssignmentAddForm assignmentAddForm) {
+									,AssignmentAddForm assignmentAddForm
+									) {
 		
 		//아이디 세션/레벨 받아오기
 		HttpSession session = request.getSession();
@@ -100,6 +108,7 @@ public class AssignmentController {
 		model.addAttribute("level",level);
 		return "redirect:/loginCheck/getAssignmentExam";
 	}
+	//과제 제출 페이지
 	@GetMapping("/loginCheck/getAssignmentOne")
 	public String getAssignmentOne(Model model
 									,HttpServletRequest request
@@ -117,29 +126,107 @@ public class AssignmentController {
 		for(AssignmentFile f :fileList) {
 			log.debug(CF.GMC+f.getAssignmentExamNo()+CF.RS);
 		}
-
+		List<AssignmentSubmit> assignmentSubmit = assingmentservice.getAssignmentSubmit(assignmentExamNo);
 		
 		model.addAttribute("assignmentList", (List<AssignmentExam>)returnMap.get("assignmentList"));
 		model.addAttribute("fileList",fileList);
+		model.addAttribute("assignmentSubmit",assignmentSubmit);
+		model.addAttribute("assignmentExamNo",assignmentExamNo);
+		model.addAttribute("level",level);
 		return "/assignment/assignmentOne";
 	}
-	@GetMapping("/loginCheck/modifiyAssignment")
-	public String modifyAssignment() {
-		return "modifyAssingment";
+	
+	
+	@PostMapping("/loginCheck/getAssignmentOne")
+	public String addAssignmentSubmit(AssignmentSubmitForm assignmentSubmitForm
+									,HttpServletRequest request
+									,Model model
+									,@RequestParam (name="assignmentExamNo") int assignmentExamNo){
+		//학생 파일 제출
+		//아이디 세션/레벨 받아오기
+		HttpSession session = request.getSession();
+		String sessionMemberId=(String)session.getAttribute("sessionId");
+		int level = (int)session.getAttribute("sessionLv");
+	
+		//아이디 세션 값 디버깅
+		log.debug(CF.GMC+"AssignmentController.addAssignmentExam loginId:"+sessionMemberId + CF.GMC);
+		assignmentSubmitForm.setLoginId(sessionMemberId);
+		
+		//경로 지정
+		String path = request.getServletContext().getRealPath("/file/assignmentSubmitFile/");
+		
+		List<MultipartFile> assignmentFileList = assignmentSubmitForm.getAssignmentSubmitFileList();	
+		assignmentSubmitForm.setLoginId(sessionMemberId);
+		// 과제 제출 내용
+		String assignmentSubmitContent = assignmentSubmitForm.getAssignmentSubmitContent();
+		
+		log.debug(CF.GMC+"AssignmentController.addAssignmentExam assignmentFileList:"+assignmentFileList + CF.GMC);
+		if(assignmentFileList!=null && assignmentFileList.get(0).getSize() > 0) { // 하나 이상의 파일이 업로드 되면
+			for(MultipartFile mf : assignmentFileList) {
+				log.debug(CF.GMC+"addAssignmentExam.assignmentFileList name : "+mf.getOriginalFilename());
+			}
+		}
+		
+		
+		log.debug(CF.GMC+"AssignmentController.assignmentSubmit path : "+path + CF.RS);
+		log.debug(CF.GMC+"AssignmentController.assignmentSubmit assignmentSubmitForm : "+assignmentSubmitForm + CF.RS);
+		assingmentservice.addAssignmentSubmitFile(assignmentSubmitForm, path,assignmentExamNo);
+	
+		
+		model.addAttribute("assignmentSubmitContent",assignmentSubmitContent);
+		model.addAttribute("level",level);
+		model.addAttribute("assignmentExamNo",assignmentExamNo);
+		return "submitSign";
 	}
 	
 	
-	@GetMapping("/loginCheck/saveImage")
-	public String uploadSignFile() {
-		return "uploadSign";
-	}
-	
-	@PostMapping("/loginCheck/saveImage")
-	public String uploadSigmFile(Model model
-								,@RequestParam (name="ImageURL") String ImageURL) {
-		log.debug(CF.GMC+"saveImage.ImageURL"+ImageURL+CF.RS);
-		model.addAttribute("ImageURL",ImageURL);
-		return "redirect:/loginCheck/getAssignmentExam";
+	@GetMapping("/loginCheck/addAssignmentSubmit")
+	public String assignmentSubmit(Model model
+								,HttpServletRequest request
+								,@RequestParam (name="ImageURL") String ImageURL
+								,@RequestParam (name="assignmentCurrentPage",defaultValue="1") int assignmentCurrentPage
+								,@RequestParam (name="rowPerPage",defaultValue="10")int rowPerPage
+								,@RequestParam (name="lecturName",defaultValue="자바") String lectureName
+								,@RequestParam (name="assignmentSubmitContent") String assignmentSubmitContent
+								,@RequestParam (name="assignmentExamNo") int assignmentExamNo) {
+		//과제 창 보여주는 코드
+		HttpSession session = request.getSession();
+		String sessionMemberId=(String)session.getAttribute("sessionId");
+		int level = (int)session.getAttribute("sessionLv");
+		
+		log.debug(CF.GMC+"AssignmentController.assignmentSubmit assignmentSubmit.assignmentSubmit.sessionMemberId() : "+sessionMemberId+ CF.RS);
+		
+		Map<String,Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("lectureName", lectureName);
+		paramMap.put("assignmentCurrentPage", assignmentCurrentPage);
+		paramMap.put("rowPerPage", rowPerPage);
+
+		Map<String,Object> returnMap = assingmentservice.getAssignmentExam(paramMap);
+		List<AssignmentExam> assignmentExamList = (List<AssignmentExam>)returnMap.get("assignmentExamList");
+		int lastPage = (int)returnMap.get("lastPage");
+		
+		//학생 과제 입력 
+		int educationNo = assingmentservice.getEducationNo(sessionMemberId);
+		AssignmentSubmit assignmentSubmit = new AssignmentSubmit();
+		assignmentSubmit.setAssignmentSubmitContent(assignmentSubmitContent);
+		assignmentSubmit.setAssignmentExamNo(assignmentExamNo);
+		assignmentSubmit.setAssignmentSignfileURL(ImageURL);
+		assignmentSubmit.setEducationNo(educationNo);
+		log.debug(CF.GMC+"AssignmentController.assignmentSubmit assignmentSubmit.assignmentSubmit.getAssignmentSubmitContent() : "+assignmentSubmit.getAssignmentSubmitContent()+ CF.RS);
+		log.debug(CF.GMC+"AssignmentController.assignmentSubmit assignmentSubmit.setAssignmentExamNo(assignmentExamNo) : "+assignmentSubmit.getAssignmentExamNo()+ CF.RS);
+		log.debug(CF.GMC+"AssignmentController.assignmentSubmit assignmentSubmit.setAssignmentExamNo(assignmentExamNo) : "+assignmentSubmit.getAssignmentSignfileURL()+ CF.RS);
+		log.debug(CF.GMC+"AssignmentController.assignmentSubmit assignmentSubmit.setAssignmentExamNo(assignmentExamNo) : "+assignmentSubmit.getEducationNo()+ CF.RS);
+		
+		assingmentservice.addAssignmentSubmit(assignmentSubmit);
+		
+		
+		log.debug(CF.GMC+"assignmentSubmit.ImageURL"+ImageURL+CF.RS);
+		model.addAttribute("lectureName",lectureName);
+		model.addAttribute("assignmentExamList",assignmentExamList);
+		model.addAttribute("lastPage",lastPage);
+		model.addAttribute("assignmentCurrentPage",assignmentCurrentPage);
+		model.addAttribute("level",level);
+		return "/assignment/assignmentExam";
 	}
 
 
