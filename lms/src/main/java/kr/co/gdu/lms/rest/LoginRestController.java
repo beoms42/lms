@@ -30,8 +30,11 @@ public class LoginRestController {
 	public String lastLoginPwCheck(Login login) {
 		log.debug(CF.PHW+"LoginRestController.lastLoginPwCheck.post login : "+login+CF.RS );
 		
-		String pwCheck1 = loginService.lastLoginPwCheck(login);
-		String pwCheck = String.valueOf(pwCheck1);
+		String pwCheckType = loginService.lastLoginPwCheck(login);
+		log.debug(CF.PHW+"LoginRestController.lastLoginPwCheck.post pwCheckType : "+pwCheckType+CF.RS );
+		
+		String pwCheck = String.valueOf(pwCheckType); // String 형변환
+		log.debug(CF.PHW+"LoginRestController.lastLoginPwCheck.post pwCheck : "+pwCheck+CF.RS );
 		
 		if(pwCheck.equals("1")) { // 최근 비밀번호가 바꾸려는 비밀번호랑 일치함
 			return "false"; 
