@@ -119,13 +119,18 @@
       <!-- partial:partials/_settings-panel.html -->
       
       <!-- partial -->
+      <!-- partial:partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <jsp:include page="/inc/sidebar.jsp"/>
+      </nav>
+      <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">
           <div class="row">
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                  <h1>[강의관리]</h1>
+                  <h1>[QnA]</h1>
                 </div>
                 <div class="col-12 col-xl-4">
                  <div class="justify-content-end d-flex">
@@ -134,47 +139,37 @@
               </div>
             </div>
           </div>
-          <!-- 강의개설 실제부분 --> 
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.html -->
+        <!-- partial -->
+        
+        <!-- 강의개설 실제부분 --> 
           <div class="row">
-            <div class="col-lg-11 grid-margin stretch-card">
+            <div class="col-lg-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">현재 승인된 강의리스트</h4>
+                  <h4 class="card-title">문의리스트</h4>
                   <p class="card-description">
                   </p>
                   <div class="table-responsive">
                     <table class="table">
                       <thead>
                         <tr>
-                          <th>강의명(상세보기)</th>
-                          <th>강사명</th>
-                          <th>매니저</th>
-                          <th>시작일</th>
-                          <th>수료일</th>
-                          <th>강의실</th>
-                          <th>인원수</th>
-                          <th>개설일</th>
-                          <th>현재상태</th>
-                          <th>기타</th>
+                          <th>제목</th>
+                          <th>작성자</th>
+                          <th>시간</th>
+                          <th>공개여부</th>
+                          <th>답변여부</th>
                         </tr>
                       </thead>
                       <tbody>
-                      <c:forEach var="lect" items="${lectList}">
+                      <c:forEach var="qna" items="${qnaList}">
                       	<tr>
-                      		<td><a href="#">${lect.lectureName}</a></td>
-                      		<td>${lect.teacher}</td>
-                      		<td>${lect.manager}</td>
-                      		<td>${lect.lectureStartDate}</td>
-                      		<td>${lect.lectureEndDate}</td>
-                      		<td>${lect.lectureRoomName}</td>
-                      		<td>${lect.lectureStudentCapacity}</td>
-                      		<td>${lect.createDate}</td>
-                      		<td><label class="badge badge-success">개설 승인됨</label></td>
-                      		<td>
-                      		<a href="${pageContext.request.contextPath}/loginCheck/addSubjectInLecture?lectureName=${lect.lectureName}"><label class="badge badge-warning">과목설정</label></a>
-                      		<a href="${pageContext.request.contextPath}/loginCheck/updateLectureForm?lectureName=${lect.lectureName}"><label class="badge badge-info">수정</label></a>
-                      		<a href="#"><label class="badge badge-danger">삭제</label></a>
-                      		</td>
+                      		<td>${qna.qnaTitle}</td>
+                      		<td>${qna.loginId}</td>
+                      		<td>${qna.createDate}</td>
+                      		<td>${qna.qnaDisclosure}</td>
+                      		<td>${qna.qnaState}</td>
                       	</tr>
                       </c:forEach>                
                       </tbody>
@@ -186,9 +181,6 @@
           
           </div>
           <!-- 강의개설 끝 -->
-        <!-- content-wrapper ends -->
-        <!-- partial:partials/_footer.html -->
-        <!-- partial -->
       </div>
       <!-- main-panel ends -->
     </div>   

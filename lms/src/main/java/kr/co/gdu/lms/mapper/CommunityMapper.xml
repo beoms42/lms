@@ -187,4 +187,21 @@
 		FROM community_comment
 		WHERE #{communityNo};
 	</select>
+	
+	<!-- selectQnAlist 영인 -->
+	<select id="selectQnaList"
+		resultType="kr.co.gdu.lms.vo.Qna">
+		SELECT
+			qna_no qnaNo
+			, qna_title qnaTitle
+			, qna_content qnaContent
+			, login_id loginId
+			, create_date createDate
+			, qna_disclosure qnaDisclosure
+			, qna_kind qnaKind
+			, qna_state qnaState
+		FROM qna
+		WHERE qna_kind = '문의'
+	</select>
+	
 </mapper>
