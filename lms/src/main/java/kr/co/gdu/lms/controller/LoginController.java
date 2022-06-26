@@ -220,6 +220,10 @@ public class LoginController {
 		Map<String, Object> returnMap = memberService.getStudentOne(loginId);
 		log.debug(CF.GDH + "LoginController.main returnMap : " + returnMap + CF.RS);
 		
+		// 레벨 받아오기
+		int level = (int)session.getAttribute("sessionLv");
+		log.debug(CF.GDH + "LoginController.main level : " + level + CF.RS);
+		
 		LocalDate date = LocalDate.now();
 		String nowDate = date.toString().replace("-", "");
 		String year = nowDate.substring(0,4);
@@ -257,6 +261,7 @@ public class LoginController {
 		log.debug(CF.LCH + "LoginController.main.get dayOfWeek : " + dayOfWeek + CF.RS);
 		
 		model.addAttribute("memberFile", returnMap.get("memberFile"));
+		model.addAttribute("level", level);
 		model.addAttribute("year", year);
 		model.addAttribute("month", month);
 		model.addAttribute("day", day);
