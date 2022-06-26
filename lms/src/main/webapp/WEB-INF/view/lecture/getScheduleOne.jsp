@@ -162,8 +162,11 @@
 								</tr>
 								<tr>
 									<td>
-										<a class="btn btn-primary" href="${pageContext.request.contextPath}/loginCheck/modifySchedule?scheduleNo=${getScheduleOne.scheduleNo}&y=${y}&m=${m}">수정</a>
-										<button  class="btn btn-danger" type="button" class="site-btn" data-toggle="modal" data-target="#deleteScheduleModal">삭제</button>
+										<c:if test="${loginLv > 2}">
+											<a class="btn btn-primary" href="${pageContext.request.contextPath}/loginCheck/modifySchedule?scheduleNo=${getScheduleOne.scheduleNo}&y=${y}&m=${m}">수정</a>
+											<button  class="btn btn-danger" type="button" class="site-btn" data-toggle="modal" data-target="#deleteScheduleModal">삭제</button>
+										</c:if>
+										<a class="btn bg-dark text-white" href="${pageContext.request.contextPath}/loginCheck/getSheduleListByMonth?y=${y}&m=${m}">취소</a>
 									<td>
 								</tr>
 					        </tbody>

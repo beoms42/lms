@@ -251,15 +251,15 @@ public class LectureController {
 										,@RequestParam(name="m" ,defaultValue = "-1")int m
 										,@RequestParam(name="y",defaultValue = "-1") int y
 										) {
-		int level = 1;
+		int loginLv = (int)session.getAttribute("sessionLv");
 		String loginId = (String)session.getAttribute("sessionId");
 		// 디버깅
 		log.debug(CF.HJI+"LectureController.request y : "+y+CF.RS);
 		log.debug(CF.HJI+"LectureController.request m : "+m+CF.RS);
-		log.debug(CF.HJI+"LectureController.request level : "+level+CF.RS);
+		log.debug(CF.HJI+"LectureController.request level : "+loginLv+CF.RS);
 		log.debug(CF.HJI+"LectureController.request loginId : "+loginId+CF.RS);
 		
-		Map<String, Object> scheduleList = lectureService.getSheduleListByMonth(y, m, level, loginId);
+		Map<String, Object> scheduleList = lectureService.getSheduleListByMonth(y, m, loginLv, loginId);
 		List<CalendarMap> list = (List<CalendarMap>)scheduleList.get("list");
 		List<LectureSubject> lectureSubjectList = (List<LectureSubject>)scheduleList.get("lectureSubjectList");
 		int startBlank = (int)scheduleList.get("startBlank");
@@ -279,6 +279,8 @@ public class LectureController {
 		log.debug(CF.HJI+"LectureController.getSheduleListByMonth totalTd : "+totalTd+CF.RS);
 		log.debug(CF.HJI+"LectureController.getSheduleListByMonth y : "+y+CF.RS);
 		log.debug(CF.HJI+"LectureController.getSheduleListByMonth m : "+m+CF.RS);
+		log.debug(CF.HJI+"LectureController.getSheduleListByMonth sessionId : "+loginId+CF.RS);
+		log.debug(CF.HJI+"LectureController.getSheduleListByMonth sessionLv : "+loginLv+CF.RS);
 		
 		
 		// model로 보내기
@@ -290,6 +292,8 @@ public class LectureController {
 		model.addAttribute("totalTd",totalTd);
 		model.addAttribute("m",m);
 		model.addAttribute("y",y);
+		model.addAttribute("LoginLv",loginLv);
+		model.addAttribute("LoginId",loginId);
 	return "/lecture/getSheduleListByMonth";
 	}
 	
@@ -357,11 +361,12 @@ public class LectureController {
 	
 	// 시간표 수정폼
 	@GetMapping("/loginCheck/modifySchedule")
-	public String modifySchedule(Model model
+	public String modifySchedule(Model model, HttpSession session
 								,@RequestParam(name="scheduleNo") int scheduleNo
 								,@RequestParam(name="m")int m
-								,@RequestParam(name="y")int y
-								,HttpSession session) {
+								,@RequestParam(name="y")int y) {
+		int loginLv = (int)session.getAttribute("sessionLv");
+		String loginId = (String)session.getAttribute("sessionId");
 		log.debug(CF.HJI+"LectureController.modifyScheduleForm scheduleNo : "+scheduleNo+CF.RS);
 		log.debug(CF.HJI+"LectureController.modifyScheduleForm m : "+m+CF.RS);
 		log.debug(CF.HJI+"LectureController.modifyScheduleForm y : "+y+CF.RS);
@@ -381,6 +386,8 @@ public class LectureController {
 		log.debug(CF.HJI+"LectureController.modifyScheduleForm shceduleDate : "+scheduleDate+CF.RS);
 		log.debug(CF.HJI+"LectureController.modifyScheduleForm m : "+m+CF.RS);
 		log.debug(CF.HJI+"LectureController.modifyScheduleForm y : "+y+CF.RS);
+		log.debug(CF.HJI+"LectureController.modifyScheduleForm loginLv : "+loginLv+CF.RS);
+		log.debug(CF.HJI+"LectureController.modifyScheduleForm loginId : "+loginId+CF.RS);
 		
 		// 모델로 보개기
 		model.addAttribute(lectureSubjectList);
@@ -389,6 +396,8 @@ public class LectureController {
 		model.addAttribute(scheduleDate);
 		model.addAttribute(m);
 		model.addAttribute(y);
+		model.addAttribute(loginLv);
+		model.addAttribute(loginId);
 	return "/lecture/modifySchedule";
 	}
 	

@@ -120,7 +120,7 @@ public class LectureSerivce {
 	}
 	
 	// 시간표리스트보기
-	public Map<String, Object> getSheduleListByMonth(int y, int m, int level, String loginId) {
+	public Map<String, Object> getSheduleListByMonth(int y, int m, int loginLv, String loginId) {
 		
 		Calendar now = Calendar.getInstance(); // ex) 2022.06.22
 		
@@ -181,7 +181,7 @@ public class LectureSerivce {
 		
 		// 한번에 map으로 전환히야 Mapper로 보내기 위한 준비
 		Map<String, Object> mapMapper = new HashMap<>();
-		if(level == 4 || level == 3) {
+		if(loginLv == 4 || loginLv == 3) {
 			mapMapper.put("m", m);
 			mapMapper.put("y", y);
 		} else {
@@ -195,7 +195,7 @@ public class LectureSerivce {
 		
 		// mapper
 		List<CalendarMap> list = new ArrayList<CalendarMap>();
-		if(level == 4 || level == 3) {	// 관리자, 강사
+		if(loginLv == 4 || loginLv == 3) {	// 관리자, 강사
 			list = lectureMapper.selectScheduleList(mapMapper);
 			log.debug(CF.HJI+"LectureService.getSheduleListByMonth mapMapper list : "+list+CF.RS);
 		} else {	// 강사, 학생
