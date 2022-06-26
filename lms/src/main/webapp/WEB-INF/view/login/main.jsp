@@ -98,18 +98,22 @@
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
               <c:choose>
               	<c:when test ="${level==1}">
-              		<a class="dropdown-item" href="${pageContext.request.contextPath}/loginCheck/getStudentOne?loginId=${memberFile.loginId}">MyPage </a>
+              		<a class="dropdown-item" href="${pageContext.request.contextPath}/loginCheck/getStudentOne?loginId=${memberFile.loginId}">
+              		<i class="ti-settings text-primary"></i> MyPage 
+              		</a>
              	</c:when>
              	<c:when test ="${level==2}">
-             		<a class="dropdown-item" href="${pageContext.request.contextPath}/loginCheck/getTeacherOne?loginId=${memberFile.loginId}">MyPage </a>
+             		<a class="dropdown-item" href="${pageContext.request.contextPath}/loginCheck/getTeacherOne?loginId=${memberFile.loginId}">
+             		<i class="ti-settings text-primary"></i> MyPage 
+             		</a>
              	</c:when>
              	<c:when test ="${level==3}">
-             		<a class="dropdown-item" href="${pageContext.request.contextPath}/loginCheck/getmanagerOne?loginId=${memberFile.loginId}">MyPage </a>
+             		<a class="dropdown-item" href="${pageContext.request.contextPath}/loginCheck/getmanagerOne?loginId=${memberFile.loginId}">
+             		<i class="ti-settings text-primary"></i> MyPage 
+             		</a>
              	</c:when>
               </c:choose>  
-                <i class="ti-settings text-primary"></i>
-                
-             
+               
               <a class="dropdown-item" href="${pageContextPath.request.getContextPath}/lms/loginCheck/logout">
                 <i class="ti-power-off text-primary"></i>
                 Logout
