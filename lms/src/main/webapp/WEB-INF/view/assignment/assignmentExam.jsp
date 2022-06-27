@@ -141,8 +141,21 @@
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
 						<div class="container">
+					 		
+			
 					 		<form action="${pageContext.request.contextPath}/loginCheck/getAssignmentExam" method="post">
-					 					<h1>${lectureName}</h1>
+					 				
+					 				<select id="lectureName"   >
+					 						<c:if test="${level>=3}">
+					 							<c:forEach var="m" items="${lectureNameList}">
+								 					<option value="${m.lectureName}">${m.lectureName}</option>
+							 					</c:forEach>
+							 				</c:if>
+							 		</select>
+							 			<c:if test="${level<3 }">
+							 				<div>${lectureName}</div>
+							 			</c:if>
+							 	
 					 					<table class="table table-hover">
 												<thead>
 													<tr>
@@ -172,14 +185,14 @@
 															<c:if test="${m.assignmentSubmitScore != '채점중'}">
 																	<td>${m.assignmentSubmitScore}</td>
 															</c:if>
-																<c:if test="${m.assignmentSignfileURL eq null}">
+															<c:if test="${m.assignmentSignfileURL eq null}">
 																	<td></td>
-																</c:if>
-																<c:if test="${m.assignmentSignfileURL!= null}">
-																	<td>
-																		<img src="${m.assignmentSignfileURL}">
-																	</td>
-																</c:if>
+															</c:if>
+															<c:if test="${m.assignmentSignfileURL!= null}">
+																<td>
+																	<img src="${m.assignmentSignfileURL}">
+																</td>
+															</c:if>
 														</tr>		
 														</c:forEach>
 					 							</tbody>
@@ -224,6 +237,12 @@
 
   <!-- plugins:js -->
   <script src="${pageContext.request.contextPath}/vendors/js/vendor.bundle.base.js"></script>
+<script>
+    function changeBoard(value) {
+
+        location.href = "/loginCheck/getAssignmentExam?lectureName=" + value;
+    }
+</script>
   <!-- endinject -->
   <!-- Plugin js for this page -->
   <script src="${pageContext.request.contextPath}/vendors/chart.js/Chart.min.js"></script>

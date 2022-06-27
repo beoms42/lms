@@ -1,3 +1,10 @@
+
+
+
+
+
+
+
 package kr.co.gdu.lms.mapper;
 
 import java.util.List;
@@ -8,6 +15,7 @@ import org.apache.ibatis.annotations.Mapper;
 import kr.co.gdu.lms.vo.AssignmentAddForm;
 import kr.co.gdu.lms.vo.AssignmentExam;
 import kr.co.gdu.lms.vo.AssignmentSubmit;
+import kr.co.gdu.lms.vo.Lecture;
 
 @Mapper
 public interface AssignmentMapper {
@@ -23,4 +31,5 @@ public interface AssignmentMapper {
 	void updateAssignmentExam(AssignmentExam assignmentexm);
 	void deleteAssignment(int assignmentExamNo);
 	String selectLectureName(String loginId);
+	List<Lecture> selectLectureNameList();
 }

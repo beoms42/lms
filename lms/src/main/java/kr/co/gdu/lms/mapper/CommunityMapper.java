@@ -17,4 +17,10 @@ public interface CommunityMapper {
 	
 	// 희원 - Community 게시글 총 개수
 	int countCommunityList();
+	
+	// 희원 - Community 게시글 1개 선택
+	Community selectCommunityOne(int communityNo);
+	
+	// 희원 - Community 게시글 1개의 file List 가져오기
+	List<String> selectCommunityFileOne(int communityNo);
 }

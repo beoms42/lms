@@ -22,6 +22,7 @@ import kr.co.gdu.lms.vo.AssignmentExam;
 import kr.co.gdu.lms.vo.AssignmentFile;
 import kr.co.gdu.lms.vo.AssignmentSubmit;
 import kr.co.gdu.lms.vo.AssignmentSubmitForm;
+import kr.co.gdu.lms.vo.Lecture;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -51,8 +52,10 @@ public class AssignmentController {
 		List<AssignmentExam> assignmentExamList = (List<AssignmentExam>)returnMap.get("assignmentExamList");
 		int lastPage = (int)returnMap.get("lastPage");
 		
+		List<Lecture> lectureNameList = assingmentservice.getLectureNameList();
 		
-		
+		model.addAttribute("lectureNameList",lectureNameList);
+		model.addAttribute("lectureName",lectureName);
 		model.addAttribute("assignmentExamList",assignmentExamList);
 		model.addAttribute("lastPage",lastPage);
 		model.addAttribute("assignmentCurrentPage",assignmentCurrentPage);
@@ -191,24 +194,11 @@ public class AssignmentController {
 								,@RequestParam (name="ImageURL") String ImageURL
 								,@RequestParam (name="assignmentCurrentPage",defaultValue="1") int assignmentCurrentPage
 								,@RequestParam (name="rowPerPage",defaultValue="10")int rowPerPage
-								,@RequestParam (name="lecturName",defaultValue="자바") String lectureName
 								,@RequestParam (name="assignmentSubmitContent") String assignmentSubmitContent
 								,@RequestParam (name="assignmentExamNo") int assignmentExamNo) {
-		//과제 창 보여주는 코드
 		HttpSession session = request.getSession();
 		String sessionMemberId=(String)session.getAttribute("sessionId");
 		int level = (int)session.getAttribute("sessionLv");
-		
-		log.debug(CF.GMC+"AssignmentController.assignmentSubmit assignmentSubmit.assignmentSubmit.sessionMemberId() : "+sessionMemberId+ CF.RS);
-		
-		Map<String,Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("lectureName", lectureName);
-		paramMap.put("assignmentCurrentPage", assignmentCurrentPage);
-		paramMap.put("rowPerPage", rowPerPage);
-
-		Map<String,Object> returnMap = assingmentservice.getAssignmentExam(paramMap);
-		List<AssignmentExam> assignmentExamList = (List<AssignmentExam>)returnMap.get("assignmentExamList");
-		int lastPage = (int)returnMap.get("lastPage");
 		
 		//학생 과제 입력 
 		int educationNo = assingmentservice.getEducationNo(sessionMemberId);
@@ -225,7 +215,26 @@ public class AssignmentController {
 		assingmentservice.addAssignmentSubmit(assignmentSubmit);
 		
 		
+		int edcuationNo = assingmentservice.getEducationNo(sessionMemberId);
+		String lectureName=assingmentservice.getLectureName(sessionMemberId);
+		
+		Map<String,Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("assignmentCurrentPage", assignmentCurrentPage);
+		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("lectureName", lectureName);
+		
+		
+		Map<String,Object> returnMap = assingmentservice.getAssignmentExam(paramMap);
+		List<AssignmentExam> assignmentExamList = (List<AssignmentExam>)returnMap.get("assignmentExamList");
+		int lastPage = (int)returnMap.get("lastPage");
+		
+		
+		
+	
+		
+		
 		log.debug(CF.GMC+"assignmentSubmit.ImageURL"+ImageURL+CF.RS);
+		
 		model.addAttribute("lectureName",lectureName);
 		model.addAttribute("assignmentExamList",assignmentExamList);
 		model.addAttribute("lastPage",lastPage);
