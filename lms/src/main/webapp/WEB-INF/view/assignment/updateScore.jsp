@@ -4,22 +4,16 @@
     
 <!DOCTYPE html>
 <html>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
- <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-   <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>  <!-- endinject -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 <head>
 <meta charset="UTF-8">
   <!-- Required meta tags -->
@@ -146,103 +140,51 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-					<div class="container col_12">
-						<table class="table table">
-					        <tbody>
-					        	<c:forEach var="n" items="${assignmentList}">
-						                <tr>
-								        	<td>제목</td>
-						                	<td >${n.assignmentExamTitle}</td>
-						               </tr>
-						                <tr>
-						                	<td>과목</td>
-						                	<td>${n.lectureName}</td>
-						                </tr>
-						
-						                <tr>
-						                	<td>제출 기한</td>
-						                	<td>${n.assignmentDeadLine}</td>
-						                </tr> 
-							                <tr>
-									            <td>
-									            	${n.assignmentExamContent}
-													<script>
-														$('#summernote').summernote({
-														  tabsize: 2,
-														  height: 400
-														});
-														$(".note-editor button[aria-label='Picture']").hide();
-														$(".note-editor button[aria-label='Video']").hide();
-														$(".note-editor .note-view").hide();
-													</script>
-												</td>
-									        </tr>
-								      		<c:if test="${level>=2 }">
-								      			<tr>
-								      				<td>
-										      			<a href="${pageContext.request.contextPath}/loginCheck/modifyAssignment?assignmentExamNo=${n.assignmentExamNo}">수정</a>
-										      			<a href="${pageContext.request.contextPath}/loginCheck/deleteAssignment?assignmentExamNo=${n.assignmentExamNo}">삭제</a>
-									      			</td>
-								      			</tr>
-								      		</c:if>
-							        </c:forEach>
-					        </tbody>
-					    </table>
-					    <div>제출</div>
-					    <c:if test="${fn:length(assignmentSubmit) == 0}">
-						  	<form method="POST" action="${pageContext.request.contextPath}/loginCheck/getAssignmentOne?assignmentExamNo=${assignmentExamNo}" id="addForm" enctype="multipart/form-data">
-							  <div>
-								   <textarea name="assignmentSubmitContent" id="summernote"></textarea>
-									<script>
-										$('#summernote').summernote({
-										  tabsize: 2,
-										  height: 400
-										});
-										$(".note-editor button[aria-label='Picture']").hide();
-										$(".note-editor button[aria-label='Video']").hide();
-										$(".note-editor .note-view").hide();
-									</script>
-								</div>
-								<button type="button" id="addFileupload">파일 업로드 추가</button>
-								<div id="fileSection">
-										<!-- 파일 업로드 input 태그가 추가될 영역 -->
-								</div>
-								<button type="button" class="btn btn-primary" id="addAssignment">제출</button>
-								</form>
-							</c:if>
-							<c:if test="${fn:length(assignmentSubmit) != 0}">
-								<c:forEach var="m" items="${assignmentSubmit}">
-									<table class="table table-hover">
-										<thead>
-											<tr>
-												<th>내용</th>
-												<th>제출 시간</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td>${m.assignmentSubmitContent }</td>
-												<td>${m.createDate}</td>
-											</tr>
-										</tbody>
-									</table>
-								</c:forEach>
-								<c:forEach var="f" items="${fileList}">
-					  				<c:if test="${f.assignmentFileType.equals('image/jpeg')}">
-						  					<td><img src="${pageContext.request.contextPath}/file/assignmentFile/${f.assignmentFileName}"></td>
-					  				</c:if>
-					  				<c:if test="${f.assignmentFileType.equals('application/octet-stream')}">
-					  					<td><a href="${pageContext.request.contextPath}/file/assignmentFile/${f.assignmentFileName}">${f.assignmentFileName}</a></td>
-					  				</c:if>
-					  	
-								</c:forEach>	
-							</c:if>
-							<BR>	
-
-							
-					
-					</div>
-
+						<div class="container">
+					 		<form action="${pageContext.request.contextPath}/loginCheck/updateScore" method="POST">
+					 					<h1>${lectureName}</h1>
+					 					<table class="table table-hover">
+												<thead>
+													<tr>
+														<th>과제 이름</th>
+														<th>시작일</th>
+														<th>기한</th>
+														<th>점수</th>
+														<th>싸인</th>
+													</tr>
+												</theads>	 
+												<tbody>
+														<c:forEach var="m" items="${assignmentExamList}" >								
+														<tr>
+															<td><a href="${pageContext.request.contextPath}/loginCheck/getAssignmentOne?assignmentExamNo=${m.assignmentExamNo}">${m.assignmentExamTitle}</a></td>
+															<td>${m.createDate}</td>
+															<td>${m.assignmentDeadLine}</td>
+																<c:if test="${m.assignmentSubmitScore != '채점중'}">
+																		<td>${m.assignmentSubmitScore}</td>
+																</c:if>
+																<c:if test="${m.assignmentSubmitScore eq '채점중'}">
+																	<td>
+																		<input type="number" max="100" step="10" min="0" name="assignmentSubmitScore" >
+																		<input type="text" name="assignmentExamNo" value="${m.assignmentExamNo}">
+																		<button type="submit">점수 입력</button>
+																	</td>
+																</c:if>
+												
+																<c:if test="${m.assignmentSignfileURL eq null}">
+																	<td></td>
+																</c:if>
+																<c:if test="${m.assignmentSignfileURL!= null}">
+																	<td>
+																		<img src="${m.assignmentSignfileURL}">
+																	</td>
+																</c:if>
+														</tr>		
+														</c:forEach>
+					 							</tbody>
+					 					</table>
+				 					</form>
+							</div>
+ 
                 </div>
                 <div class="col-12 col-xl-4">
                  <div class="justify-content-end d-flex">
@@ -296,37 +238,6 @@
   <script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
   <script src="${pageContext.request.contextPath}/js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
-<script>
-
-	$('#addFileupload').click(function(){
-		let flag = true;
-
-		$('.assignmentSubmitFileList').each(function(){
-			if($(this).val() == ''){
-					flag = false;
-			}
-		});
-		
-		if(flag){
-			$('#fileSection').append("<div><input type='file' class='assignmentSubmitFileList' name='assignmentSubmitFileList'></div>");
-		}else{
-			alert('파일이 첨부되지 않은 assignmentFileList가 존재합니다.');
-		}
-	});
-	
-	let flag = true;
-	
-	$('#addAssignment').click(function(){
-			if(flag){
-				$('#addForm').submit();
-				return;
-			} else{
-				alert('파일이 첨부되지 않았습니다.');
-			}
-		});
-	
-	
-</script>
 </body>
 
 </html>

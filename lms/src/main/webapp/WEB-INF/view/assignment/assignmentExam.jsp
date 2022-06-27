@@ -155,37 +155,39 @@
 												</theads>	 
 												<tbody>
 														<c:forEach var="m" items="${assignmentExamList}" >								
-													<tr>
-														<td><a href="${pageContext.request.contextPath}/loginCheck/getAssignmentOne?assignmentExamNo=${m.assignmentExamNo}">${m.assignmentExamTitle}</a></td>
-														<td>${m.createDate}</td>
-														<td>${m.assignmentDeadLine}</td>
-														<td><a href="#">입력</a></td>
-														
-															<c:if test="${m.assignmentSignfileURL eq null}">
-																<td></td>
+														<tr>
+															<td><a href="${pageContext.request.contextPath}/loginCheck/getAssignmentOne?assignmentExamNo=${m.assignmentExamNo}">${m.assignmentExamTitle}</a></td>
+															<td>${m.createDate}</td>
+															<td>${m.assignmentDeadLine}</td>
+															<c:if test="${m.assignmentSubmitScore eq '채점중' }">
+																<c:if test="${level >=2 }">
+																	<td>
+																		<a href="${pageContext.request.contextPath}/loginCheck/updateScore?assignmentExamNo=${m.assignmentExamNo}">입력</a>
+																	</td>
+																</c:if>
+																<c:if test="${level< 2}">
+																	<td>${m.assignmentSubmitScore}</td>
+																</c:if>
 															</c:if>
-															<c:if test="${m.assignmentSignfileURL!= null}">
-																<td>
-																	<img src="${m.assignmentSignfileURL}">
-																</td>
+															<c:if test="${m.assignmentSubmitScore != '채점중'}">
+																	<td>${m.assignmentSubmitScore}</td>
 															</c:if>
-													</tr>		
+																<c:if test="${m.assignmentSignfileURL eq null}">
+																	<td></td>
+																</c:if>
+																<c:if test="${m.assignmentSignfileURL!= null}">
+																	<td>
+																		<img src="${m.assignmentSignfileURL}">
+																	</td>
+																</c:if>
+														</tr>		
 														</c:forEach>
-														
-																				
-											
-										
-													
-														
-					 							
 					 							</tbody>
-											
 					 					</table>
 						 				<c:if test="${level>=2}">
 						 					<button type="submit" class="btn btn-primary ">과제 입력</button>
 						 				</c:if>
 				 					</form>
-				 					
 							</div>
  
                 </div>

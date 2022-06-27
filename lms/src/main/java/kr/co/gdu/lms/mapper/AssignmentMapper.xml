@@ -6,28 +6,30 @@
 			parameterType = "java.util.Map"
 			resultType="kr.co.gdu.lms.vo.AssignmentExam">
 		SELECT a.assignment_exam_no assignmentExamNo
-				,a.lecture_name lectureName
+				,a.education_no educationNo
 				,a.assignment_exam_title assignmentExamTitle
 				,a.assignment_exam_content assignmentExamContent
 				,a.assignment_deadline assignmentDeadLine
 				,a.create_date createDate
 				,s.assignment_signfile_url assignmentSignfileURL
 				,s.assignment_submit_score assignmentSubmitScore
+				,e.lecture_name lectureName
 		FROM assignment_exam a LEFT JOIN assignment_submit s
 		ON a.assignment_exam_no = s.assignment_exam_no
+		INNER JOIN education e ON a.education_no = e.education_no
 		WHERE lecture_name = #{lectureName}
 		LIMIT #{beginRow},#{rowPerPage}
 	</select>
 	<insert id="insertAssignmentExam"
 			parameterType="kr.co.gdu.lms.vo.AssignmentExam">
 		INSERT INTO assignment_exam(
-			lecture_name
+			education_no
 			,assignment_exam_title
 			,assignment_exam_content
 			,assignment_deadline
 			,create_date
 		)VALUES(
-			#{lectureName}
+			#{educationNo}
 			,#{assignmentExamTitle}
 			,#{assignmentExamContent}
 			,#{assignmentDeadLine}
@@ -58,13 +60,12 @@
 	<select id="selectassignmentExamNo"
 			resultType="int">
 			SELECT assignment_exam_no assignmentExamNo FROM assignment_exam WHERE create_date = NOW()
-		
 	</select>
 	<select id ="selectAssignmentOne"
 			resultType="kr.co.gdu.lms.vo.AssignmentExam"
 			parameterType="int">
 			SELECT assignment_exam_no assignmentExamNo
-				,lecture_name lectureName
+				,education_no educationNo
 				,assignment_exam_title assignmentExamTitle
 				,assignment_exam_content assignmentExamContent
 				,assignment_deadline assignmentDeadLine
@@ -75,7 +76,14 @@
 	<select id="selectEducationNo"
 				resultType="int"
 				parameterType="String">
-		SELECT education_no educationNo FROM education WHERE login_id = #{loginId}
+		SELECT education_no educationNo
+		FROM education WHERE login_id = #{loginId}
+	</select>
+	<select id="selectLectureName"
+			resultType="String"
+			parameterType="String">
+		SELECT lecture_name lectureName
+		FROM education WHERE login_id = #{loginId}
 	</select>
 	<select id="selectAssignmentSubmit"
 			parameterType="int"
@@ -91,16 +99,28 @@
 		FROM assignment_submit
 		WHERE assignment_exam_no = ${assignmentExamNo}
 	</select>
-	<select id="selectAssignmentSignfile"
-			resultType="kr.co.gdu.lms.vo.AssignmentSubmit">
-		SELECT 
-			
-		FROM assignment_submit s INNER JOIN assignment_exam a
-		ON s.assignment_exam_no = a.assignment_exam_no
-	</select>
-
+	<update id="updateScore"
+			parameterType="java.util.Map">
+		UPDATE assignment_submit 
+		SET assignment_submit_score = #{assignmentSubmitScore}  
+		WHERE assignment_exam_no = #{assignmentExamNo} 
+		AND education_no= #{educationNo}
+	</update>
+	<update id="updateAssignmentExam"
+			parameterType="kr.co.gdu.lms.vo.AssignmentExam">
+		UPDATE assignment_exam 
+		SET lecture_name = #{lectureName} 
+		,assignment_exam_title = #{assignmentExamTitle}
+		, assignment_deadline = #{assignmentDeadLine}
+		,assignment_exam_content = #{assignmentExamContent}
+		WHERE assignment_exam_no = #{assignmentExamNo} 
+	</update>
 	<select	id="selectAssignmentTotalCount"
 			resultType="int">
 		SELECT COUNT(*) cnt FROM assignment_exam
 	</select>
+	<delete id="deleteAssignment"
+			parameterType="int">
+		DELETE assignment_exam WHERE assignment_exam_no = #{assignmentExamNo}
+	</delete>
 </mapper>

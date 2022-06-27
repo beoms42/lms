@@ -141,6 +141,10 @@ public class AssignmentService {
 		int educationNo = assignmentmapper.selectEducationNo(loginId);
 		return educationNo;
 	}
+	public String getLectureName(@RequestParam (name="sessionMemberId")String loginId) {
+		String lectureName = assignmentmapper.selectLectureName(loginId);
+		return lectureName;
+	}
 	public void addAssignmentSubmit(AssignmentSubmit assignmentSubmit) {
 		assignmentmapper.insertAssignmentSubmit(assignmentSubmit); 
 	}
@@ -205,6 +209,15 @@ public class AssignmentService {
 		
 		}
 				
+	}
+	public void modifiyAssignmentExam(AssignmentExam assignmentExam) {
+		assignmentmapper.updateAssignmentExam(assignmentExam);
+	}
+	public void updateScore(Map<String,Object> paramMap) {
+		assignmentmapper.updateScore(paramMap);
+	}
+	public void deleteAssignment(int assignmentExamNo) {
+		assignmentmapper.deleteAssignment(assignmentExamNo);
 	}
 	
 }
