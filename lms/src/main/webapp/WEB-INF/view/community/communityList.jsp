@@ -130,7 +130,7 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                  <h1>[QnA]</h1>
+                  <h1>[TFT인들 모여라~!]</h1>
                 </div>
                 <div class="col-12 col-xl-4">
                  <div class="justify-content-end d-flex">
@@ -139,37 +139,37 @@
               </div>
             </div>
           </div>
+          		<div>
+                <a href="${pageContext.request.contextPath}/addCommunity">게시글 입력</a>
+                </div>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
         <!-- partial -->
         
-        <!-- 강의개설 실제부분 --> 
           <div class="row">
             <div class="col-lg-10 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">문의리스트</h4>
+                  <h4 class="card-title">커뮤니티 게시판</h4>
                   <p class="card-description">
                   </p>
                   <div class="table-responsive">
                     <table class="table">
                       <thead>
                         <tr>
-                          <th>제목</th>
-                          <th>작성자</th>
-                          <th>시간</th>
-                          <th>공개여부</th>
-                          <th>답변여부</th>
+                          <th>게시글 번호</th>
+                          <th>게시글 제목</th>
+                          <th>게시글 작성자</th>
+                          <th>작성 날짜</th>
                         </tr>
                       </thead>
                       <tbody>
-                      <c:forEach var="qna" items="${qnaList}">
+                      <c:forEach var="cl" items="${communityList}">
                       	<tr>
-                      		<td>${qna.qnaTitle}</td>
-                      		<td>${qna.loginId}</td>
-                      		<td>${qna.createDate}</td>
-                      		<td>${qna.qnaDisclosure}</td>
-                      		<td>${qna.qnaState}</td>
+                      		<td>${cl.communityNo}</td>
+                      		<td><a href="${pageContext.request.contextPath}/getCommunityOnt?communityNo=${cl.communityNo}">${cl.communityTitle}</a></td>
+                      		<td>${cl.loginId}</td>
+                      		<td>${cl.createDate}</td>
                       	</tr>
                       </c:forEach>                
                       </tbody>
@@ -178,10 +178,19 @@
                 </div>
               </div>
             </div>
-          
           </div>
-          <!-- 강의개설 끝 -->
+		<c:if test="${currentPage > 1}">
+			<a href="${pageContext.request.contextPath}/loginCheck/communityList?currentPage=${currentPage-1}">이전</a>
+		</c:if>
+		
+		<c:if test="${currentPage < lastPage}">
+			<a href="${pageContext.request.contextPath}/loginCheck/communityList?currentPage=${currentPage+1}">다음</a>
+		</c:if>
+			
       </div>
+      
+      
+      
       <!-- main-panel ends -->
     </div>   
     <!-- page-body-wrapper ends -->

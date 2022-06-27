@@ -34,8 +34,8 @@
 	</select>
 	
 	<!--커뮤니티 게시글 List-->
-	<select id="selectListCommunity"
-			parameterType="String"
+	<select id="selectCommunityList"
+			parameterType="java.util.Map"
 			resultType="kr.co.gdu.lms.vo.Community">
 		SELECT
 			community_no communityNo
@@ -44,8 +44,15 @@
 			, create_date createDate
 		FROM community
 		ORDER BY create_date DESC
-		LIMIT 1,10;
+		limit #{startRow}, #{rowPerPage};
 	</select>
+	
+	<!-- 커뮤니티 게시글 총 개수 -->
+	<select id="countCommunityList"
+			resultType="int">
+		SELECT COUNT(*) FROM community;
+	</select>
+	
 	
 	<!--커뮤니티 게시글 수정-->
 	<update id="updateCommunity"
@@ -76,7 +83,7 @@
 			, community_file_type
 			, community_file_origin_name
 			, community_file_size
-			, create_date)
+			, community_file_create_date)
 		VALUES(
 			#{communityNo}
 			, #{loginId}
