@@ -347,8 +347,10 @@ public class LectureController {
 								@RequestParam(name="scheduleNo") int scheduleNo
 								,@RequestParam(name="m")int m
 								,@RequestParam(name="y")int y
-								) {
+								) {		
 		log.debug(CF.HJI+"LectureController.removeSchedule scheduleNo : "+scheduleNo+CF.RS);
+		log.debug(CF.HJI+"LectureController.removeSchedule m : "+m+CF.RS);
+		log.debug(CF.HJI+"LectureController.removeSchedule y : "+y+CF.RS);
 		
 		int row = lectureService.removeSchedule(scheduleNo);
 		if(row == 1) {
@@ -390,14 +392,14 @@ public class LectureController {
 		log.debug(CF.HJI+"LectureController.modifyScheduleForm loginId : "+loginId+CF.RS);
 		
 		// 모델로 보개기
-		model.addAttribute(lectureSubjectList);
-		model.addAttribute(scheduleNo);
-		model.addAttribute(lectureSubjectNo);
-		model.addAttribute(scheduleDate);
-		model.addAttribute(m);
-		model.addAttribute(y);
-		model.addAttribute(loginLv);
-		model.addAttribute(loginId);
+		model.addAttribute("lectureSubjectList", lectureSubjectList);
+		model.addAttribute("scheduleNo", scheduleNo);
+		model.addAttribute("lectureSubjectNo", lectureSubjectNo);
+		model.addAttribute("scheduleDate", scheduleDate);
+		model.addAttribute("m",m);
+		model.addAttribute("y",y);
+		model.addAttribute("loginLv", loginLv);
+		model.addAttribute("loginLv",loginId);
 	return "/lecture/modifySchedule";
 	}
 	
@@ -412,12 +414,13 @@ public class LectureController {
 		log.debug(CF.HJI+"LectureController.modifyScheduleAction y : "+y+CF.RS);
 			
 		int row = lectureService.modifyScheduleAction(schedule);
+		int scheduleNo = schedule.getScheduleNo();
 		if(row == 1) {
 			log.debug(CF.HJI+"LectureController.modifyScheduleAction 성공! : "+row+CF.RS);
 		} else {
 			log.debug(CF.HJI+"LectureController.modifyScheduleAction 실패! : "+row+CF.RS);
 		}
-	return "redirect:/lecture/getScheduleOne?m="+m+"&y="+y;
+	return "redirect:/loginCheck/getScheduleOne?scheduleNo="+scheduleNo+"&m="+m+"&y="+y;
 	} 
 	
 

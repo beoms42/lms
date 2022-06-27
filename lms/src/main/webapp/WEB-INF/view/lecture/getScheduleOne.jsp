@@ -162,7 +162,9 @@
 								</tr>
 								<tr>
 									<td>
-										<c:if test="${loginLv > 2}">
+										<a class="btn btn-primary" href="${pageContext.request.contextPath}/loginCheck/modifySchedule?scheduleNo=${getScheduleOne.scheduleNo}&y=${y}&m=${m}">수정</a>
+											<button  class="btn btn-danger" type="button" class="site-btn" data-toggle="modal" data-target="#deleteScheduleModal">삭제</button>
+										<c:if test="${LoginLv > 2}">
 											<a class="btn btn-primary" href="${pageContext.request.contextPath}/loginCheck/modifySchedule?scheduleNo=${getScheduleOne.scheduleNo}&y=${y}&m=${m}">수정</a>
 											<button  class="btn btn-danger" type="button" class="site-btn" data-toggle="modal" data-target="#deleteScheduleModal">삭제</button>
 										</c:if>

@@ -153,7 +153,7 @@
 		<a class="btn bg-dark text-white" href="${pageContext.request.contextPath}/loginCheck/getSheduleListByMonth?y=${y}&m=${m-1}">이전달</a>&nbsp;&nbsp;
 		<a class="btn bg-dark text-white" href="${pageContext.request.contextPath}/loginCheck/getSheduleListByMonth?y=${y}&m=${m+1}">다음달</a>
 		<div class="float-right bottom">
-      		<c:if test="${loginLv > 2}">
+      		<c:if test="${LoginLv > 2}">
       			<button type="button" class="btn bg-dark text-white" data-toggle="modal" data-target="#addScheduleModal">일정추가</button>
       		</c:if>
 		</div>
