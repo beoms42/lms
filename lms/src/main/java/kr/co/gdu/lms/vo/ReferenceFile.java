@@ -1,6 +1,9 @@
 package kr.co.gdu.lms.vo;
 
-public class Reference_file {
+import lombok.Data;
+
+@Data
+public class ReferenceFile {
 	private int referenceFileNo;
 	private String referenceFileName;
 	private String referenceFileOrgin;
