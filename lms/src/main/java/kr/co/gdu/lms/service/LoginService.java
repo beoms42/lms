@@ -32,18 +32,34 @@ public class LoginService {
 	@Autowired private LoginMapper loginMapper;
 	@Autowired private ManagerMapper managerMapper;
 	@Autowired private MemberFileMapper memberFileMapper;
+	
+	// 마지막 로그인 날짜 업데이트
+	public void modifyLastChangePwDate(String loginId) {
+		log.debug(CF.LCH + "LoginService.modifyLastChangePwDate loginId : " + loginId + CF.RS);
+		String pwRecordDate = loginMapper.selectPwRecordDate(loginId);
+		log.debug(CF.LCH + "LoginService.modifyLastChangePwDate pwRecordDate : " + pwRecordDate + CF.RS);
+		loginMapper.updatePwRecord(pwRecordDate);
+	}
+	
+	// 비밀번호 변경한지 얼마나 지났는지 출력
+	public int getDiffDay(String loginId) {
+		log.debug(CF.LCH + "LoginService.getDiffDay loginId : " + loginId + CF.RS);
+		return loginMapper.selectDiffDay(loginId);
+	}
 
+	// 회원가입 거절
 	public void modifyAddMemberActiveDenied(String loginId) {
 		log.debug(CF.LCH + "LoginService.modifyAddMemberActiveDenied loginId : " + loginId + CF.RS);
 		loginMapper.updateAddMemberActiveDenied(loginId);
 	}
 	
+	// 회원가입 승인
 	public void modifyAddMemberActive(String loginId) {
 		log.debug(CF.LCH + "LoginService.modifyAddMemberActive loginId : " + loginId + CF.RS);
 		loginMapper.updateAddMemberActive(loginId);
 	}
 	
-	// 회원가입 승인 기다리는 사람들 리스트 뿌려주는 서비스
+	// 회원가입 승인 기다리는 사람들 리스트
 	public Map<String, Object> acceptAddMember() {
 		List<Manager> managerList = loginMapper.selectAddManagerList();
 		List<Student> studentList = loginMapper.selectAddStudentList();
@@ -98,7 +114,7 @@ public class LoginService {
 		
 		// 로그인 정보 넣어서 맞다면 로그인아이디와 level 들고오기
 		Login login = loginMapper.loginAndSelectLevel(loginTest);
-		int row = loginMapper.updateLastLoginDate(loginTest);
+		int row = loginMapper.updateLastLoginDate(loginTest.getLoginId());
 		
 		log.debug(CF.OHI+"LoginService.login.selectLevel login : "+login+CF.RS);
 		log.debug(CF.OHI+"LoginService.login.updateLoginDate row : "+row+CF.RS);

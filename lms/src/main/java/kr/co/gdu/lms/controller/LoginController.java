@@ -30,6 +30,17 @@ public class LoginController {
 	@Autowired private LoginService loginService;
 	@Autowired private MemberService memberService;
 	
+	@GetMapping("/changePw")
+	public String changePw(@RequestParam(value = "changePwLater", defaultValue = "") String changePwLater
+						, @RequestParam(value = "loginId") String loginId)  {
+		log.debug(CF.LCH+"LoginController.login.post changePwLater : "+changePwLater+CF.RS);
+		if("on".equals(changePwLater)) {
+			loginService.modifyLastChangePwDate(loginId);
+			return "redirect:/loginCheck/main";
+		}
+		return "redirect:/modifyLoginPw?loginId="+loginId;
+	}
+	
 	@GetMapping("/loginCheck/modifyAddMemberActiveDenied")
 	public String modifyAddMemberActiveDenied(@RequestParam(name="loginId") String loginId) {
 		log.debug(CF.LCH + "LoginController.modifyAddMemberActiveDenied.get loginId : " + loginId + CF.RS);
@@ -294,13 +305,22 @@ public class LoginController {
 	
 	// 로그인 액션
 	@PostMapping("/login")
-	public String login(HttpSession session
+	public String login(Model model
+						, HttpSession session
 						, HttpServletResponse response
 						, Login loginTest
 						, @RequestParam(value="idSave", defaultValue="") String idSave) {
 		
 		log.debug(CF.OHI+"LoginController.login.post login : "+loginTest+CF.RS);
 		log.debug(CF.OHI+"LoginController.login.post idSave : "+idSave+CF.RS);
+		
+		int diffDay = loginService.getDiffDay(loginTest.getLoginId());
+		log.debug(CF.LCH + "LoginController.login.post diffDay : " + diffDay + CF.RS);
+		
+		if(diffDay > 90) {
+			model.addAttribute("loginId", loginTest.getLoginId());
+			return "login/changePwByThreeMonths";
+		}
 		
 		// 로그인 정보 넣어서 맞다면 로그인아이디와 level 들고오기   
 		Login login = loginService.login(loginTest);

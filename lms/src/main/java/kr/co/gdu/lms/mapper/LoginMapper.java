@@ -13,6 +13,15 @@ import kr.co.gdu.lms.vo.Teacher;
 
 @Mapper
 public interface LoginMapper {
+	// 해당 아이디가 비밀번호 변경한 최근 날짜 출력
+	String selectPwRecordDate(String loginId);
+	
+	// 비밀번호 변경이력 업데이트
+	int updatePwRecord(String updateDate);
+	
+	// 마지막 로그인 날짜로부터 며칠이 지났는지
+	int selectDiffDay(String loginId);
+	
 	// 회원가입 거절
 	int updateAddMemberActiveDenied(String loginId);
 	
@@ -47,7 +56,7 @@ public interface LoginMapper {
 	Login loginAndSelectLevel(Login loginTest);
 		
 	// 로그인 - 마지막 로그인날짜 업데이트
-	int updateLastLoginDate(Login loginTest);
+	int updateLastLoginDate(String loginId);
 	
 	// id 중복 체크 위해 id 리스트 받기
 	int selectIdCnt(String id);

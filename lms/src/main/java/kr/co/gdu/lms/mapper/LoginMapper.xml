@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.gdu.lms.mapper.LoginMapper">
+	<!-- 해당 아이디가 비밀번호 변경한 최근 날짜 출력 -->
+	<select id="selectPwRecordDate"
+			parameterType="String"
+			resultType="String">
+		SELECT
+			update_date
+		FROM pw_record
+		WHERE login_id = #{loginId}
+		ORDER BY update_date DESC
+		LIMIT 1		
+	</select>
+	
+	<!-- 비밀번호 변경이력 날짜 업데이트 -->
+	<update id="updatePwRecord"
+			parameterType="String">
+		UPDATE pw_record
+		SET update_date = NOW()
+		WHERE update_date = #{updateDate}
+	</update>
+
+	<!-- 비밀번호 변경 며칠이 지났는지 -->
+	<select id="selectDiffDay"
+			parameterType="String"
+			resultType="int">
+		SELECT
+			TIMESTAMPDIFF(DAY, update_date, NOW())
+		FROM pw_record
+		WHERE login_id = #{loginId}
+		ORDER BY update_date DESC
+		LIMIT 0, 1;
+	</select>
+	
 	<update id="updateAddMemberActiveDenied"
 			parameterType="String">
 		UPDATE login
@@ -129,7 +161,7 @@
 	</insert>
 	<!-- 로그인 - 마지막 로그인날짜 업데이트 -->
 	<update id="updateLastLoginDate"
-			parameterType="kr.co.gdu.lms.vo.Login">
+			parameterType="String">
 		UPDATE login
 		SET last_login_date = now()
 		WHERE login_id=#{loginId}
