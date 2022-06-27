@@ -296,7 +296,7 @@ public class LectureSerivce {
 	}
 	
 	// 자료실 리스트(selectLectureReferenceList(lectureName)) 
-		public List<Reference> selectLectureReferenceList(String lectureName) {
+		public List<Reference> getLectureReferenceList(String lectureName) {
 			log.debug(CF.HJI+"LectureService.selectLectureReferenceList lectureName : "+lectureName+CF.RS);
 			List<Reference> list = new ArrayList<Reference>();
 			list = lectureMapper.selectLectureReferenceList(lectureName);
@@ -306,7 +306,7 @@ public class LectureSerivce {
 		}
 		
 		// 자료실 상세보기(selectReferenceOne(referenceNo),selectReferenceFileList(referenceNo));
-		public Map<String,Object> selectReferenceOne(int referenceNo) {
+		public Map<String,Object> getReferenceOne(int referenceNo) {
 			log.debug(CF.HJI+"LectureService.selectReferenceOne referenceNo : "+referenceNo+CF.RS);
 			
 			Reference reference = new Reference();

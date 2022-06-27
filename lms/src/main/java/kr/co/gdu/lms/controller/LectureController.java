@@ -444,5 +444,67 @@ public class LectureController {
 		}
 	return "redirect:/loginCheck/getScheduleOne?scheduleNo="+scheduleNo+"&m="+m+"&y="+y;
 	} 
-
+	
+// 자료실
+	
+	// 자료실 리스트
+	@GetMapping("/loginCheck/getLectureReferenceList")
+	public String getLectureReferenceList() {
+		
+	return "/lecture/getLectureReferenceList";
+	}
+	
+	// 자료실 상세보기
+	@GetMapping("/loginCheck/getReferenceOne")
+	public String getReferenceOne() {
+		
+	return "/lecture/getReferenceOne";
+	}
+	
+	// 자료실 입력
+	@GetMapping("/loginCheck/addReferenceForm")
+	public String addReferenceForm() {
+	
+	return "/lecture/addReferenceForm";
+	}
+	
+	@PostMapping("/addReferenceAction")
+	public String addReferenceAction() {
+		
+	return "redirect:/loginCheck/getLectureReferenceList";
+	}
+	
+	// 자료실 수정
+	@GetMapping("/updateAddReferenceForm")
+	public String updateAddReferenceForm() {
+	
+	return "/lecture/updateAddReferenceForm";
+	}
+	
+	@PostMapping("/updateAddReferenceAction")
+	public String updateAddReferenceAction() {
+	
+	return "redirect:/loginCheck/getReferenceOne";
+	}
+	
+	// 자료실 삭제
+	@GetMapping("/removeReference")
+	public String removeReference() {
+	
+	return "/lecture/getReferenceOne";
+	}
+	
+	// 자료실 파일 삭제
+	@PostMapping("/removeReferenceFile")
+	public String removeReferenceFile() {
+	
+	return "redirect:/loginCheck/updateAddReferenceForm";
+	}
+	
+	// 자료실 파일 수정
+	@PostMapping("/updateReferencefile")
+	public String updateReferencefile() {
+	
+	return "redirect:/loginCheck/updateAddReferenceForm";
+	}
 }
