@@ -167,7 +167,7 @@
                       <c:forEach var="cl" items="${communityList}">
                       	<tr>
                       		<td>${cl.communityNo}</td>
-                      		<td><a href="${pageContext.request.contextPath}/getCommunityOnt?communityNo=${cl.communityNo}">${cl.communityTitle}</a></td>
+                      		<td><a href="${pageContext.request.contextPath}/getCommunityOne?communityNo=${cl.communityNo}">${cl.communityTitle}</a></td>
                       		<td>${cl.loginId}</td>
                       		<td>${cl.createDate}</td>
                       	</tr>
@@ -180,11 +180,11 @@
             </div>
           </div>
 		<c:if test="${currentPage > 1}">
-			<a href="${pageContext.request.contextPath}/loginCheck/communityList?currentPage=${currentPage-1}">이전</a>
+			<a href="${pageContext.request.contextPath}/loginCheck/getCommunityListByPage?currentPage=${currentPage-1}">이전</a>
 		</c:if>
 		
 		<c:if test="${currentPage < lastPage}">
-			<a href="${pageContext.request.contextPath}/loginCheck/communityList?currentPage=${currentPage+1}">다음</a>
+			<a href="${pageContext.request.contextPath}/loginCheck/getCommunityListByPage?currentPage=${currentPage+1}">다음</a>
 		</c:if>
 			
       </div>

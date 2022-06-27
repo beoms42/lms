@@ -64,7 +64,7 @@
             </a>
             <div class="collapse" id="charts">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/communityList">게시글</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/getCommunityListByPage">게시글</a></li>
               </ul>
             </div>
           </li>
@@ -76,7 +76,7 @@
             </a>
             <div class="collapse" id="tables">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/qnaList">문의하기</a></li>
+                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/getQnaListByPage">문의하기</a></li>
               </ul>
             </div>
           </li>

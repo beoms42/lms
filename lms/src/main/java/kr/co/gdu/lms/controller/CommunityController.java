@@ -21,17 +21,17 @@ public class CommunityController {
 	@Autowired private CommunityService communityService;
 	
 	// 영인 - get방식 qnaList호출
-	@GetMapping("/loginCheck/qnaList")
+	@GetMapping("/loginCheck/getQnaListByPage")
 	public String getQnaList(Model model) {
 		List<Qna> qnaList = communityService.getQnaList();
 		
 		log.debug(CF.JYI+"CommunityController.qnaList.get qnaList : "+qnaList+CF.RS);
 		
 		model.addAttribute("qnaList", qnaList);
-		return "community/qnaList";
+		return "community/getQnaListByPage";
 	}
 	
-	@GetMapping("/loginCheck/communityList")
+	@GetMapping("/loginCheck/getCommunityListByPage")
 	public String getCommunityList(Model model
 								, @RequestParam (name="currentPage", defaultValue = "1") int currentPage
 								, @RequestParam (name="rowPerPage", defaultValue = "10") int rowPerPage) {
@@ -47,7 +47,7 @@ public class CommunityController {
 		model.addAttribute("lastPage", map.get("lastPage"));
 		model.addAttribute("currentPage", currentPage);
 		
-		return "community/communityList";
+		return "community/getCommunityListByPage";
 	}
 	
 }
