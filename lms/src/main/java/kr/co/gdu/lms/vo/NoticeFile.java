@@ -11,5 +11,5 @@ public class NoticeFile {
 	private String noticeFileOriginName;
 	private String noticeFileType;
 	private int noticeFileSize;
-	private String createDate;
+	private String noticeFileCreateDate;
 }
