@@ -40,7 +40,7 @@
         <ul class="navbar-nav mr-lg-2">
           <li class="nav-item nav-search d-none d-lg-block">
             <div class="input-group">
-            	
+               
             </div>
           </li>
         </ul>
@@ -130,7 +130,7 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                  <h1>[강의관리]</h1>
+                  <h3>학생 배정 리스트[배정된 학생 제외]</h3>
                 </div>
                 <div class="col-12 col-xl-4">
                  <div class="justify-content-end d-flex">
@@ -141,47 +141,32 @@
           </div>
           <!-- 강의개설 실제부분 --> 
           <div class="row">
-            <div class="col-lg-12 grid-margin stretch-card">
+            <div class="col-lg-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">현재 승인된 강의리스트</h4>
+                  <h4 class="card-title">학생</h4>
                   <p class="card-description">
                   </p>
                   <div class="table-responsive">
                     <table class="table">
                       <thead>
                         <tr>
-                          <th>강의명(상세보기)</th>
-                          <th>강사명</th>
-                          <th>매니저</th>
-                          <th>시작일</th>
-                          <th>수료일</th>
-                          <th>강의실</th>
-                          <th>인원수</th>
-                          <th>개설일</th>
-                          <th>현재상태</th>
-                          <th>기타</th>
+                          <th>check</th>
+                          <th>ID</th>
+                          <th>학생명</th>
+                          <th>생년월일</th>
+                          <th>생성날짜</th>
                         </tr>
                       </thead>
                       <tbody>
-                      <c:forEach var="lect" items="${lectList}">
-                      	<tr>
-                      		<td><a href="#">${lect.lectureName}</a></td>
-                      		<td>${lect.teacher}</td>
-                      		<td>${lect.manager}</td>
-                      		<td>${lect.lectureStartDate}</td>
-                      		<td>${lect.lectureEndDate}</td>
-                      		<td>${lect.lectureRoomName}</td>
-                      		<td>${lect.lectureStudentCapacity}</td>
-                      		<td>${lect.createDate}</td>
-                      		<td><label class="badge badge-success">승인됨</label></td>
-                      		<td>
-                      		<a href="${pageContext.request.contextPath}/loginCheck/addSubjectInLecture?lectureName=${lect.lectureName}"><label class="badge badge-warning">과목설정</label></a>
-                      		<a href="${pageContext.request.contextPath}/loginCheck/addStudentInLectureForm?lectureName=${lect.lectureName}"><label class="badge badge-success">학생배정</label></a>
-                      		<a href="${pageContext.request.contextPath}/loginCheck/updateLectureForm?lectureName=${lect.lectureName}"><label class="badge badge-info">수정</label></a>
-                      		<a href="#"><label class="badge badge-danger">삭제</label></a>
-                      		</td>
-                      	</tr>
+                      <c:forEach var="s" items="${studentlist}">
+                         <tr>
+                         	<td><input style="zoom:2.0;" type="checkbox" class="checkbox" name="checkedSubject" value="${s.loginId}"></td>
+                            <td><a href="${pageContext.request.contextPath}/loginCheck/getStudentOne?loginId=${s.loginId}">${s.loginId}</a></td>
+                            <td>${s.studentName}</td>
+                            <td>${s.studentBirth}</td>
+                            <td>${s.createDate}</td>
+                         </tr>
                       </c:forEach>                
                       </tbody>
                     </table>
@@ -191,51 +176,6 @@
             </div>
           
           </div>
-          <!-- 강의개설 끝 -->
-          
-          <!-- 상세보기 시작 -->
-          <div class="row">
-            <div class="col-md-12 grid-margin">
-              <div class="row">
-                <div class="col-12 col-xl-4">
-                 <div class="justify-content-end d-flex">
-                 </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- 상세보기 실제부분 --> 
-          <div class="row">
-            <div class="col-lg-11 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">상세보기</h4>
-                  <p class="card-description">
-                  </p>
-                  <div class="table-responsive">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th>강의명</th>
-                          <th>현재상태</th>
-                          <th>과목</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      <c:forEach var="lect" items="${lectList}">
-                      	<tr>
-
-                      	</tr>
-                      </c:forEach>                
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          
-          </div>
-          <!-- 상세보기 끝 -->
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
         <!-- partial -->
@@ -270,4 +210,3 @@
 
 </body>
 </html>
-

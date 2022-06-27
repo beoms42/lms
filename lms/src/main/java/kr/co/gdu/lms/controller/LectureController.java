@@ -15,19 +15,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.service.LectureSerivce;
+import kr.co.gdu.lms.service.MemberService;
 import kr.co.gdu.lms.vo.CalendarMap;
 import kr.co.gdu.lms.vo.Lecture;
 import kr.co.gdu.lms.vo.LectureRoom;
 import kr.co.gdu.lms.vo.LectureSubject;
 import kr.co.gdu.lms.vo.Login;
 import kr.co.gdu.lms.vo.Schedule;
+import kr.co.gdu.lms.vo.Student;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
 public class LectureController {
 	@Autowired private LectureSerivce lectureService;
-	
+	@Autowired private MemberService memberService;
 	@GetMapping("/loginCheck/addLecture")
 	public String addLecture(Model model
 			, HttpSession session) {
@@ -442,6 +444,5 @@ public class LectureController {
 		}
 	return "redirect:/loginCheck/getScheduleOne?scheduleNo="+scheduleNo+"&m="+m+"&y="+y;
 	} 
-	
 
 }
