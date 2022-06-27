@@ -10,6 +10,6 @@ public class NoticeFile {
 	private String noticeFileName;
 	private String noticeFileOriginName;
 	private String noticeFileType;
-	private int noticeFileSize;
+	private long noticeFileSize;
 	private String noticeFileCreateDate;
 }

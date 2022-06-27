@@ -17,13 +17,13 @@ public interface NoticeMapper {
 	List<Notice> selectNoticeListByPage(Map<String, Object> map);
 	
 	// 공지사항 상세보기
-	Notice selectNoticeOne(String noticeNo);
+	Notice selectNoticeOne(int noticeNo);
 	
 	// 공지사항 입력
 	int insertNotice(Notice notice);
 	
 	// 공지사항 삭제
-	int deleteNotice(String noticeNo);
+	int deleteNotice(int noticeNo);
 	
 	// 공지사항 수정
 	int updateNotice(Notice notice);

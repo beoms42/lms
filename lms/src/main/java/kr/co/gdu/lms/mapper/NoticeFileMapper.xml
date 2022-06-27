@@ -4,7 +4,7 @@
 
 	<!-- 공지사항 파일 -->
 	<select id = "selectNoticeFile"
-			parameterType="String"
+			parameterType="int"
 			resultType="kr.co.gdu.lms.vo.NoticeFile">
 		SELECT 
 			notice_file_no noticeFileNo
@@ -14,14 +14,14 @@
 			, notice_file_origin_name noticeFileOriginName
 			, notice_file_type noticeFileType
 			, notice_file_size noticeFileSize
-			, create_date createDate
+			, notice_file_create_date noticeFileCreateDate
 		FROM notice_file
 		WHERE notice_no=#{noticeNo}
 	</select>
 	
 	<!-- 공지사항 파일 삭제 -->
 	<delete id="deleteNoticeFile"
-			parameterType="String">
+			parameterType="int">
 		DELETE FROM notice_file
 		WHERE notice_no=#{noticeNo}
 	</delete>
@@ -30,19 +30,21 @@
 	<insert id="insertNoticeFile"
 			parameterType="kr.co.gdu.lms.vo.NoticeFile">
 		INSERT INTO notice_file (
-			login_id
+			notice_no
+			, login_id
 			, notice_file_name
 			, notice_file_origin_name
 			, notice_file_type
 			, notice_file_size
 			, notice_file_create_date
 		) VALUES (
-			#{loginId}
+			#{noticeNo}
+			, #{loginId}
 			, #{noticeFileName}
 			, #{noticeFileOriginName}
 			, #{noticeFileType}
 			, #{noticeFileSize}
-			, #{noticeFileCreateDate}
+			, NOW()
 		)
 	</insert>
 </mapper>

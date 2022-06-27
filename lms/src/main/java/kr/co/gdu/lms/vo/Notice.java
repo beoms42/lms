@@ -7,6 +7,7 @@ public class Notice {
 	private int noticeNo;
 	private String noticeTitle;
 	private String noticeContent;
+	private String noticePw;
 	private String loginId;
 	private String createDate;
 	private String updateDate;

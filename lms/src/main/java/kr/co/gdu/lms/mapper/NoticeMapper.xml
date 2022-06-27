@@ -26,7 +26,7 @@
 	
 	<!-- 공지사항 상세보기 -->
 	<select id="selectNoticeOne"
-			parameterType="String"
+			parameterType="int"
 			resultType="kr.co.gdu.lms.vo.Notice">
 		SELECT 
 			notice_no noticeNo
@@ -42,15 +42,20 @@
 	<!-- 공지사항 입력 -->
 	<insert id="insertNotice"
 			parameterType="kr.co.gdu.lms.vo.Notice">
+		<selectKey resultType="int" keyProperty="noticeNo" order="AFTER">
+			select LAST_INSERT_ID()
+		</selectKey>
 		INSERT INTO notice (
 			notice_title
 			, notice_content
+			, notice_pw
 			, login_id
 			, create_date
 			, update_date
 		) VALUES (
 			#{noticeTitle}
 			, #{noticeContent}
+			, PASSWORD(#{noticePw})
 			, #{loginId}
 			, NOW()
 			, NOW()		
@@ -59,9 +64,9 @@
 	
 	<!-- 공지사항 삭제 -->
 	<delete id="deleteNotice"
-			parameterType="String">
+			parameterType="java.util.Map">
 		DELETE FROM notice
-		WHERE notice_no = #{noticeNo}		
+		WHERE notice_no = #{noticeNo} AND notice_pw=PASSWORD(#{noticePw})
 	</delete>
 			
 	<!-- 공지사항 수정 -->
@@ -71,7 +76,7 @@
 			notice_title = #{noticeTitle}
 			, notice_content = #{noticeContent}
 			, update_date = NOW()
-		WHERE notice_no = #{noticeNo}
+		WHERE notice_no = #{noticeNo} AND notice_pw=PASSWORD(#{noticePW})
 	</update>
 	
 </mapper>

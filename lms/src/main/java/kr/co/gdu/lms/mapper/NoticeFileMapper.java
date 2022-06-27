@@ -8,10 +8,10 @@ import kr.co.gdu.lms.vo.NoticeFile;
 public interface NoticeFileMapper {
 	
 	// 공지사항 파일 
-	NoticeFile selectNoticeFile(String noticeNo);
+	NoticeFile selectNoticeFile(int noticeNo);
 	
 	// 공지사항 파일 삭제
-	int deleteNoticeFile(String noticeNo);
+	int deleteNoticeFile(int noticeNo);
 	
 	// 공지사항 파일 추가
 	int insertNoticeFile(NoticeFile noticeFile);

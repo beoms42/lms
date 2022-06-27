@@ -147,6 +147,9 @@
             <div class="col-lg-10 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body"><h3 class="bottom">[공지사항]</h3>
+                <c:if test="${sessionLv >= 3}">
+                    <a class="float-right btn btn-inverse-info" href="${pageContext.request.contextPath}/loginCheck/addNotice">게시글 입력</a>
+                </c:if>
                   <div class="table-responsive">
                     <table class="table">
 				        <thead>
@@ -161,7 +164,7 @@
 			        		<c:forEach var="n" items="${list}">
 				        		<tr>
 					        		<td>${n.noticeNo}</td>
-					        		<td>${n.noticeTitle}</td>
+					        		<td><a href="${pageContext.request.contextPath}/loginCheck/getNoticeOne?noticeNo=${n.noticeNo}">${n.noticeTitle}</a></td>
 					        		<td>${n.loginId}</td>
 					        		<td>${n.createDate}</td>
 					        	</tr>
@@ -169,10 +172,10 @@
 				        </tbody>
 				    </table>
 				    <c:if test="${currentPage > 1}">
-				    	<a href="${pageContext.request.contextPath}/getNoticeListByPage?currentPage=${currentPage-1}">이전</a>
+				    	<a href="${pageContext.request.contextPath}/loginCheck/getNoticeListByPage?currentPage=${currentPage-1}">이전</a>
 				    </c:if>
 				    <c:if test="${currentPage < lastPage}">
-				    	<a href="${pageContext.request.contextPath}/getNoticeListByPage?currentPage=${currentPage+1}">다음</a>
+				    	<a href="${pageContext.request.contextPath}/loginCheck/getNoticeListByPage?currentPage=${currentPage+1}">다음</a>
 				    </c:if>
                   </div>
                 </div>
