@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.apache.ibatis.ognl.ASTAssign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +20,7 @@ import kr.co.gdu.lms.vo.AssignmentExam;
 import kr.co.gdu.lms.vo.AssignmentFile;
 import kr.co.gdu.lms.vo.AssignmentSubmit;
 import kr.co.gdu.lms.vo.AssignmentSubmitForm;
+import kr.co.gdu.lms.vo.Lecture;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -218,6 +218,10 @@ public class AssignmentService {
 	}
 	public void deleteAssignment(int assignmentExamNo) {
 		assignmentmapper.deleteAssignment(assignmentExamNo);
+	}
+	public List<Lecture> getLectureNameList() {
+		List<Lecture> lectureNameList = assignmentmapper.selectLectureNameList();
+		return lectureNameList;
 	}
 	
 }

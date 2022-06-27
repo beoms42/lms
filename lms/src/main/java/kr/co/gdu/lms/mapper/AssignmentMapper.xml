@@ -119,6 +119,10 @@
 			resultType="int">
 		SELECT COUNT(*) cnt FROM assignment_exam
 	</select>
+	<select id="selectLectureNameList"
+			resultType="kr.co.gdu.lms.vo.Lecture">
+		SELECT lecture_name lectureName FROM lecture
+	</select>
 	<delete id="deleteAssignment"
 			parameterType="int">
 		DELETE assignment_exam WHERE assignment_exam_no = #{assignmentExamNo}
