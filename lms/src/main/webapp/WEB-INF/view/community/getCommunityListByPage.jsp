@@ -139,9 +139,11 @@
               </div>
             </div>
           </div>
+          <form>
           		<div>
-                <a href="${pageContext.request.contextPath}/addCommunity">게시글 입력</a>
+                <a href="${pageContext.request.contextPath}/loginCheck/addCommunity">게시글 입력</a>
                 </div>
+          </form>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
         <!-- partial -->
@@ -167,7 +169,7 @@
                       <c:forEach var="cl" items="${communityList}">
                       	<tr>
                       		<td>${cl.communityNo}</td>
-                      		<td><a href="${pageContext.request.contextPath}/getCommunityOne?communityNo=${cl.communityNo}">${cl.communityTitle}</a></td>
+                      		<td><a href="${pageContext.request.contextPath}/loginCheck/getCommunityOne?communityNo=${cl.communityNo}">${cl.communityTitle}</a></td>
                       		<td>${cl.loginId}</td>
                       		<td>${cl.createDate}</td>
                       	</tr>

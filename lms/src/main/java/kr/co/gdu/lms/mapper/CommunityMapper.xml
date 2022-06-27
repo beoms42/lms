@@ -18,8 +18,8 @@
 	</insert>
 	
 	<!--커뮤니티 게시글 selectOne-->
-	<select id="selectOneCommunity"
-			parameterType="String"
+	<select id="selectCommunityOne"
+			parameterType="int"
 			resultType="kr.co.gdu.lms.vo.Community">
 		SELECT
 			community_no communityNo
@@ -95,8 +95,8 @@
 	</insert>
 	
 	<!--커뮤니티 파일 selectOne-->
-	<select id="selectOneCommunityFile"
-			parameterType="String"
+	<select id="selectCommunityFileOne"
+			parameterType="int"
 			resultType="kr.co.gdu.lms.vo.CommunityFile">
 		SELECT
 			community_file_no communityFileNo
