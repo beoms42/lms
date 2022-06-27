@@ -292,4 +292,12 @@
 			ON lo.login_id = ed.login_id
 		WHERE lo.login_id = #{loginId} AND MONTH(s.schedule_date) = #{m} AND YEAR(s.schedule_date) = #{y};
 	</select>
+	
+	<select id="selectLectureName"
+		parameterType="String"
+		resultType="int">
+	SELECT COUNT(*)
+	FROM lecture
+	WHERE lecture_name = #{lectureName}
+	</select>
 </mapper>

@@ -86,7 +86,7 @@
 
 <script>
 	
-	var url="${pageContext.request.contextPath}";
+	var url='${pageContext.request.contextPath}';
 	$('#changePw').click(function(){
 		
 		if($('#loginPw').val() == ''){

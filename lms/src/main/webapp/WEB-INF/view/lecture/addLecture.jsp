@@ -144,19 +144,23 @@
             <div class="col-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Basic form elements</h4>
-                  <p class="card-description">
-                    Basic form elements
-                  </p>
-                  <form class="forms-sample" method="post" action="${pageContext.request.contextPath}/loginCheck/addLecture">
-                    <div class="form-group">
-                      <label for="exampleInputName1">개설 강의명</label>
-                      <input type="text" class="form-control" id="exampleInputName1" placeholder="강의명" name="lectureName">
-                    </div>
+                  <form class="forms-sample" method="post" action="${pageContext.request.contextPath}/loginCheck/addLecture" id="addLectureForm">
+                  	<div class="row">
+			            <div class="form-group col">
+				            <label>강의명</label>
+				            <input type="text" class="form-control button-bottom" placeholder="강의명을 입력해 주세요." id="lectureNameNeedConfirm">
+				            <span id="lectureNameHelper"></span>
+				            <button type="button" class="float-right btn btn-primary mr-2" id="lectureNameCheck">강의명 중복 검사</button>
+			            </div>
+			            <div class="form-group col">
+				            <label>중복 검사된 강의명</label>
+				            <input type="text" name="lectureName" class="form-control" placeholder="강의명" readonly="readonly" id="lectureName">
+			            </div>
+			        </div>
                     <div class="form-group">
                       <label for="exampleInputEmail3">강의 기간</label>
                       <br>
-                      시작일 : <input type="date" name="lectureStartDate"> 끝나는 날 : <input type="date" name="lectureEndDate">
+                      시작일 : <input type="date" name="lectureStartDate" id="lectureStartDate"> 끝나는 날 : <input type="date" name="lectureEndDate" id="lectureEndDate">
                     </div>
                     <div class="form-group">
                       <label for="exampleInputPassword4">담당 강사</label>
@@ -208,16 +212,17 @@
                    	  </div>
                     <div class="form-group">
                       <label for="exampleInputCity1">학생 정원</label>
-                      <input type="number" class="form-control" id="exampleInputCity1" placeholder="" max="30" name="maxStudent">
+                      <input type="number" class="form-control" id="maxStudent" placeholder="" max="30" name="maxStudent">
                     </div>
                     <div class="form-group">
                       <label for="exampleInputPassword4">강의 개설자</label>
                       <input type="text" class="form-control" id="exampleInputPassword4" value="${loginId}" name="loginId" readonly="readonly">
                     </div>
-                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    
+                    </form>
+                    <button class="btn btn-primary mr-2" id="submitCheck">Submit</button>
                     <button class="btn btn-light">Cancel</button>
-                    </div>
-                  </form>
+                    </div>        
                   </div> 
                 </div>
               </div>
@@ -231,10 +236,6 @@
         <!-- partial -->
       </div>
       <!-- main-panel ends -->
-    </div>   
-    <!-- page-body-wrapper ends -->
-  </div>
-  <!-- container-scroller -->
 
   <!-- plugins:js -->
   <script src="${pageContext.request.contextPath}/vendors/js/vendor.bundle.base.js"></script>
@@ -259,7 +260,6 @@
   <!-- End custom js for this page-->
   <script type="text/javascript">
 	$('.clickTeacherMenu').click(function() {
-			console.log('dsdsdsdsdsd');
 			$('#teacherName').val($('.clickTeacherMenu').text());
 	});
 	
@@ -276,6 +276,53 @@
 	$('.lectureRoomNames').change(function() {
 	    var value = $(this).val();
 	    $('#lectureRoomName').val(value);
+	});
+	
+	// 강의명 중복체크 ajax
+	var url='${pageContext.request.contextPath}';
+	$('#lectureNameCheck').click(function(){
+			
+  			$.ajax({
+  				type : "POST"
+  				, url : url+"/isExistLeuctre"
+  				, data : {lectureName:$('#lectureNameNeedConfirm').val()}
+  				, success : function(result) {
+  					console.log('result:', result);
+  					if(result=='false') {
+  						$('#lectureNameHelper').text('현재 존재하는 강의입니다.')
+  					}else{
+  						$('#lectureNameHelper').text('사용 가능한 강의명입니다.')
+
+  						$('#lectureName').val(result);
+  						
+  					}
+  				}
+  				
+  			})
+			
+		
+	});
+	
+	// submit 했을때 중복체크
+	$('#submitCheck').click(function() {
+		// 그.. 강의명 체크
+  		if($('#lectureName').val().trim() == '') {
+  			alert('강의명 중복 검사 해주세요');
+  		} else if($('#lectureStartDate').val().trim() == '') {
+  			alert('강의 시작날 체크해주세요');
+  		} else if($('#lectureEndDate').val().trim() == '') {
+  			alert('강의 종료일 체크해주세요');
+		} else if($('#teacherName').val().trim() == '') {
+  			alert('강사 선택해주세요');
+		} else if($('#managerName').val().trim() == '') {
+  			alert('매니저 선택해주세요');
+		} else if($('#lectureRoomName').val().trim() == '') {
+  			alert('강의실 선택해주세요');
+		} else if($('#maxStudent').val().trim() == '') {
+  			alert('학생 정원 입력해주세요');
+		} else {
+			$('#addLectureForm').submit();
+		}
 	});
   </script>
 </body>

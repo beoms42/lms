@@ -57,6 +57,13 @@ public class LectureSerivce {
 		return map;
 	}
 	
+	// 강의개설 강의명중복 ajax
+	public int selectLectureName(String lectureName) {
+		int row = lectureMapper.selectLectureName(lectureName);
+		
+		return row;
+	}
+		
 	public void addLecutre(Lecture lecture) {
 		lectureMapper.insertLecture(lecture);
 		

@@ -23,6 +23,9 @@ public interface LectureMapper {
 	// 강의 개설
 	int insertLecture(Lecture lecture);
 	
+	// 강의 개설 - RestController ajax 강의명 중복검사
+	int selectLectureName(String lectureName);
+	
 	// 강의 관리 - 액티브가 1인 강의리스트만 필요
 	List<Lecture> selectLectureList();
 	
