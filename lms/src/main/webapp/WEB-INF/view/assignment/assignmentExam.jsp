@@ -141,21 +141,10 @@
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
 						<div class="container">
-					 		
-			
 					 		<form action="${pageContext.request.contextPath}/loginCheck/getAssignmentExam" method="post">
-					 				
-					 				<select id="lectureName"   >
-					 						<c:if test="${level>=3}">
-					 							<c:forEach var="m" items="${lectureNameList}">
-								 					<option value="${m.lectureName}">${m.lectureName}</option>
-							 					</c:forEach>
-							 				</c:if>
-							 		</select>
-							 			<c:if test="${level<3 }">
+							 			<c:if test="${level<3}">
 							 				<div>${lectureName}</div>
 							 			</c:if>
-							 	
 					 					<table class="table table-hover">
 												<thead>
 													<tr>
@@ -172,27 +161,9 @@
 															<td><a href="${pageContext.request.contextPath}/loginCheck/getAssignmentOne?assignmentExamNo=${m.assignmentExamNo}">${m.assignmentExamTitle}</a></td>
 															<td>${m.createDate}</td>
 															<td>${m.assignmentDeadLine}</td>
-															<c:if test="${m.assignmentSubmitScore eq '채점중' }">
-																<c:if test="${level >=2 }">
-																	<td>
-																		<a href="${pageContext.request.contextPath}/loginCheck/updateScore?assignmentExamNo=${m.assignmentExamNo}">입력</a>
-																	</td>
-																</c:if>
-																<c:if test="${level< 2}">
-																	<td>${m.assignmentSubmitScore}</td>
-																</c:if>
-															</c:if>
-															<c:if test="${m.assignmentSubmitScore != '채점중'}">
-																	<td>${m.assignmentSubmitScore}</td>
-															</c:if>
-															<c:if test="${m.assignmentSignfileURL eq null}">
-																	<td></td>
-															</c:if>
-															<c:if test="${m.assignmentSignfileURL!= null}">
-																<td>
-																	<img src="${m.assignmentSignfileURL}">
-																</td>
-															</c:if>
+													
+															
+
 														</tr>		
 														</c:forEach>
 					 							</tbody>

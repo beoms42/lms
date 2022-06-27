@@ -134,7 +134,7 @@ public class AssignmentController {
 		for(AssignmentFile f :fileList) {
 			log.debug(CF.GMC+f.getAssignmentExamNo()+CF.RS);
 		}
-		List<AssignmentSubmit> assignmentSubmit = assingmentservice.getAssignmentSubmit(assignmentExamNo);
+		List<AssignmentSubmit> assignmentSubmit = assingmentservice.getAssignmentSubmit(paramMap);
 		
 		model.addAttribute("assignmentList", (List<AssignmentExam>)returnMap.get("assignmentList"));
 		model.addAttribute("fileList",fileList);
@@ -337,14 +337,14 @@ public class AssignmentController {
 		for(AssignmentFile f :fileList) {
 			log.debug(CF.GMC+f.getAssignmentExamNo()+CF.RS);
 		}
-		List<AssignmentSubmit> assignmentSubmit = assingmentservice.getAssignmentSubmit(assignmentExamNo);
+		List<AssignmentSubmit> assignmentSubmit = assingmentservice.getAssignmentSubmit(paramMap);
 		
 		model.addAttribute("assignmentList", (List<AssignmentExam>)returnMap.get("assignmentList"));
 		model.addAttribute("fileList",fileList);
 		model.addAttribute("assignmentSubmit",assignmentSubmit);
 		model.addAttribute("assignmentExamNo",assignmentExamNo);
 		model.addAttribute("level",level);
-		return "/assignment/modifyAssignment";
+		return "/assignment/modifiyAssignment";
 	}
 	//수정 액션
 	@PostMapping("/loginCheck/modifyAssignment")
@@ -367,7 +367,7 @@ public class AssignmentController {
 		for(AssignmentFile f :fileList) {
 			log.debug(CF.GMC+f.getAssignmentExamNo()+CF.RS);
 		}
-		List<AssignmentSubmit> assignmentSubmit = assingmentservice.getAssignmentSubmit(assignmentExamNo);
+		List<AssignmentSubmit> assignmentSubmit = assingmentservice.getAssignmentSubmit(paramMap);
 		
 		model.addAttribute("assignmentList", (List<AssignmentExam>)returnMap.get("assignmentList"));
 		model.addAttribute("fileList",fileList);
