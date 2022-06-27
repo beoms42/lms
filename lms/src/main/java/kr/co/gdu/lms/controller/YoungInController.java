@@ -1,11 +1,14 @@
 package kr.co.gdu.lms.controller;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.service.LectureSerivce;
@@ -23,24 +26,49 @@ public class YoungInController {
 	
 	// 학생목록
 	@GetMapping("/loginCheck/addStudentInLectureForm")
-	public String getStudentList(Model model) {
-		log.debug(CF.PSH + "LectureController.getStudentList :" + CF.RS);
+	public String addStudentInLectureForm(Model model
+			, @RequestParam(name = "lectureName") String lectureName) {
 		List<Student> studentlist = memberService.getStudentList();
-		model.addAttribute("studentlist", studentlist);
+
 		
 		//이미 배정된 학생은 빼야함
 		List<String> learningStudentList = youngInService.selectLearningStudentName();
 		
-		//근데 빼낼때 List의 높은 Index에서 낮은 index방향으로 순회해야 에러가 안남 관련페이지 : https://codechacha.com/ko/java-remove-from-list-while-iterating/
-		for(String s : learningStudentList) {
-			for(Student student : studentlist) {
-				if(s.equals(student.getStudentName())) {
-					studentlist.remove(student);
+		
+		Iterator<String> learnArr = learningStudentList.iterator();
+		
+		// List순회시 삭제할때 에러가 많이발생해서 무조건 이터레이터라는걸 써서 삭제를 해줘야함 참고 : https://ddolcat.tistory.com/924
+		while(learnArr.hasNext()) {
+			String Arr = learnArr.next();
+			log.debug(CF.JYI+"11111111111111111//////"+Arr+CF.RS);
+			Iterator<Student> iterStu = studentlist.iterator();
+			while(iterStu.hasNext()) {
+				Student stu = iterStu.next();
+				log.debug(CF.JYI+"22222222222222222222//////"+stu+CF.RS);
+				if(stu.getLoginId().equals(Arr)) {
+					log.debug(CF.JYI+"stustustustustustustustustustu//////"+stu+CF.RS);
+					iterStu.remove();
 				}
 			}
 		}
+		
+		model.addAttribute("lectureName", lectureName);
+		model.addAttribute("studentlist", studentlist);
 		log.debug(CF.JYI+"LectureService.addStudentInLectureForm.get studentlist : "+studentlist+CF.RS);
 		log.debug(CF.JYI+"LectureService.addStudentInLectureForm.get learningStudentList : "+learningStudentList+CF.RS);
 		return "lecture/addStudentInLectureForm";
 	}
+	
+	// 학생 배정 액션
+	@PostMapping("/loginCheck/addStudentInLectureAction")
+	public String addStudentInLectureAction(Model model
+				, @RequestParam(name = "loginIdList") List<String> loginIdList
+				, @RequestParam(name = "lectureName") String lectureName) {
+		
+		youngInService.insertStudentInLecture(loginIdList, lectureName);
+		log.debug(CF.JYI+"LectureService.addStudentInLectureAction.get loginIdList : "+loginIdList+CF.RS);
+		
+		return "lecture/manageLecture";
+	}
+	
 }

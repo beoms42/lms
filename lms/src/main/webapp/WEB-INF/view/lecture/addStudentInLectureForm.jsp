@@ -141,10 +141,11 @@
           </div>
           <!-- 강의개설 실제부분 --> 
           <div class="row">
-            <div class="col-lg-6 grid-margin stretch-card">
+          <form action="${pageContext.request.contextPath}/loginCheck/addStudentInLectureAction" method="post">
+            <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">학생</h4>
+                  <h4 class="card-title">학생 추가 - 강의명 : <input name="lectureName" value="${lectureName}" readonly="readonly"></h4>
                   <p class="card-description">
                   </p>
                   <div class="table-responsive">
@@ -161,20 +162,21 @@
                       <tbody>
                       <c:forEach var="s" items="${studentlist}">
                          <tr>
-                         	<td><input style="zoom:2.0;" type="checkbox" class="checkbox" name="checkedSubject" value="${s.loginId}"></td>
+                         	<td><input style="zoom:2.0;" type="checkbox" class="checkbox" name="loginIdList" value="${s.loginId}"></td>
                             <td><a href="${pageContext.request.contextPath}/loginCheck/getStudentOne?loginId=${s.loginId}">${s.loginId}</a></td>
                             <td>${s.studentName}</td>
                             <td>${s.studentBirth}</td>
                             <td>${s.createDate}</td>
                          </tr>
-                      </c:forEach>                
+                      </c:forEach>        
                       </tbody>
                     </table>
                   </div>
+                <button type="submit">절대안대지</button>
                 </div>
               </div>
             </div>
-          
+          </form>
           </div>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->

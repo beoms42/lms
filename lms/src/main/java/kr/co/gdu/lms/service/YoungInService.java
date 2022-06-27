@@ -20,4 +20,11 @@ public class YoungInService {
 		
 		return list;
 	}
+	
+	public void insertStudentInLecture(List<String> loginIdList, String lectureName) {
+		for(String s : loginIdList) {
+			youngInMapper.insertStudentInLecture(lectureName, s);
+		}
+		
+	}
 }

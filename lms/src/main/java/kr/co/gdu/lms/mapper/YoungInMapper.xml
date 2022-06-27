@@ -7,4 +7,19 @@
 			login_id loginId
 		FROM education
 		</select>
+		
+	<insert id="insertStudentInLecture"
+		parameterType="String">
+		INSERT INTO 
+		education (
+			lecture_name
+			, login_id
+			, education_date
+		)
+		VALUES(
+			#{lectureName}
+			, #{loginId}
+			, NOW()
+		)
+		</insert>
 </mapper>
