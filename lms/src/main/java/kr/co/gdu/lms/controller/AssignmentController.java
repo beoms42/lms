@@ -378,7 +378,7 @@ public class AssignmentController {
 	}
 	@GetMapping("/loginCheck/deleteAssignment")
 	public String deleteAssignment(@RequestParam (name="assignmentExamNo") int assignmentExamNo ) {
-		
+		assingmentservice.deleteAssignment(assignmentExamNo);
 		return "redirect:/loginCheck/getAssignmentExam";
 	}
 
