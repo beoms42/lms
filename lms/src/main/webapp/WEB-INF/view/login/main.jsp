@@ -147,7 +147,15 @@
                 </div>
               </div>
             </div>
+              <button type="button" id="button">Button</button>
+		                        <div id="">
         </div>
+      
+		                        <table id="list" border="1"></table>
+                    <a href="" id="list"></a>
+ 
+		                        
+        
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
         <footer class="footer">
@@ -245,6 +253,41 @@
             console.log(e);
          }
       });
+    	$('#button').click(function() {
+    		  var xhr = new XMLHttpRequest();
+    		  var url = '${pageContext.request.contextPath}'; /*URL*/
+    		  xhr.open('GET', url);
+    		  xhr.onreadystatechange = function () {
+    		  if (this.readyState == xhr.DONE) { // <== 정상적으로 준비되었을때
+    		  if(xhr.status == 200||xhr.status == 201){ // <== 호출 상태가 정상적일때
+    		  alert('Status: '+this.status+
+    		  '\nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+
+    		  '\nBody: '+this.responseText);
+    		  }
+    		  }
+    		  }
+    		  
+    		  $.ajax({
+    				type:'get'
+    				, url : url+'/adRestController'
+    				, success:function(a){
+    					console.log(a);
+    						var a2 = JSON.parse(a);
+    						console.log(a2);
+    						  var arr = a2.GetJobInfo.row; 
+    						  
+    						//let arr = a2.results.JO_REGIST_NO;
+    						console.log(arr);
+    						for(let i=0; i<arr.length; i++) {
+    							console.log(arr[i].CMPNY_NM);
+    						     $('#list').append('<div>'+arr[i].CMPNY_NM+'</div>'); 
+    						
+    						}
+    				}
+    			})
+    		  //xhr.send('')
+    	  	});
+        
   </script>
 </body>
 
