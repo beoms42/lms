@@ -221,65 +221,70 @@ public class LoginController {
 	}
 	
 	// 메인페이지
-	@GetMapping("/loginCheck/main") 
-	public String main(Model model, HttpSession session) {
-		
-		// 세션을 통해 로그인ID 받아오기
-		String loginId = (String) session.getAttribute("sessionId");
-		
-		// 멤버사진 받아오기
-		Map<String, Object> returnMap = memberService.getStudentOne(loginId);
-		log.debug(CF.GDH + "LoginController.main returnMap : " + returnMap + CF.RS);
-		
-		// 레벨 받아오기
-		int level = (int)session.getAttribute("sessionLv");
-		log.debug(CF.GDH + "LoginController.main level : " + level + CF.RS);
-		
-		LocalDate date = LocalDate.now();
-		String nowDate = date.toString().replace("-", "");
-		String year = nowDate.substring(0,4);
-		String month = null;
-		if(nowDate.substring(4,5).equals("0")) {
-			month = nowDate.substring(5,6);
-		} else {
-			month = nowDate.substring(4,6);
-		}
-		String day = nowDate.substring(6,8);
-		
-		int week = date.getDayOfWeek().getValue();
-		String dayOfWeek = null;
-		
-		if(week == 1) {
-			dayOfWeek = "월요일";
-		} else if(week == 2) {
-			dayOfWeek = "화요일";
-		} else if(week == 3) {
-			dayOfWeek = "수요일";
-		} else if(week == 4) {
-			dayOfWeek = "목요일";
-		} else if(week == 5) {
-			dayOfWeek = "금요일";
-		} else if(week == 6) {
-			dayOfWeek = "토요일";
-		} else {
-			dayOfWeek = "일요일";
-		}
-		
-		log.debug(CF.GDH + "LoginController.main.get loginId : " + loginId + CF.RS);
-		log.debug(CF.LCH + "LoginController.main.get year : " + year + CF.RS);
-		log.debug(CF.LCH + "LoginController.main.get month : " + month + CF.RS);
-		log.debug(CF.LCH + "LoginController.main.get day : " + day + CF.RS);
-		log.debug(CF.LCH + "LoginController.main.get dayOfWeek : " + dayOfWeek + CF.RS);
-		
-		model.addAttribute("memberFile", returnMap.get("memberFile"));
-		model.addAttribute("level", level);
-		model.addAttribute("year", year);
-		model.addAttribute("month", month);
-		model.addAttribute("day", day);
-		model.addAttribute("dayOfWeek", dayOfWeek);
-		
-		return "login/main";
-	}
+   @GetMapping("/loginCheck/main") 
+   public String main(Model model, HttpSession session) {
+      
+      Login login = new Login();
+      
+      // 세션을 통해 로그인ID 받아오기
+      String loginId = (String) session.getAttribute("sessionId");
+      log.debug(CF.GDH + "LoginController.main loginId : " + loginId + CF.RS);
+      
+      // 레벨 받아오기
+      int level = (int)session.getAttribute("sessionLv");
+      log.debug(CF.GDH + "LoginController.main level : " + level + CF.RS);
+         
+      login.setLoginId(loginId);
+      login.setLevel(level);
+      
+      // 멤버사진 받아오기
+      Map<String, Object> returnMap = memberService.getMemberOne(login);
+      log.debug(CF.GDH + "LoginController.main returnMap : " + returnMap + CF.RS);
+      
+      LocalDate date = LocalDate.now();
+      String nowDate = date.toString().replace("-", "");
+      String year = nowDate.substring(0,4);
+      String month = null;
+      if(nowDate.substring(4,5).equals("0")) {
+         month = nowDate.substring(5,6);
+      } else {
+         month = nowDate.substring(4,6);
+      }
+      String day = nowDate.substring(6,8);
+      
+      int week = date.getDayOfWeek().getValue();
+      String dayOfWeek = null;
+      
+      if(week == 1) {
+         dayOfWeek = "월요일";
+      } else if(week == 2) {
+         dayOfWeek = "화요일";
+      } else if(week == 3) {
+         dayOfWeek = "수요일";
+      } else if(week == 4) {
+         dayOfWeek = "목요일";
+      } else if(week == 5) {
+         dayOfWeek = "금요일";
+      } else if(week == 6) {
+         dayOfWeek = "토요일";
+      } else {
+         dayOfWeek = "일요일";
+      }
+      
+      log.debug(CF.GDH + "LoginController.main.get loginId : " + loginId + CF.RS);
+      log.debug(CF.LCH + "LoginController.main.get year : " + year + CF.RS);
+      log.debug(CF.LCH + "LoginController.main.get month : " + month + CF.RS);
+      log.debug(CF.LCH + "LoginController.main.get day : " + day + CF.RS);
+      log.debug(CF.LCH + "LoginController.main.get dayOfWeek : " + dayOfWeek + CF.RS);
+      
+      model.addAttribute("memberFile", returnMap.get("memberFile"));
+      model.addAttribute("year", year);
+      model.addAttribute("month", month);
+      model.addAttribute("day", day);
+      model.addAttribute("dayOfWeek", dayOfWeek);
+      
+      return "login/main";
+   }
 	
 	// 로그인 폼
 	@GetMapping("/login") 

@@ -38,7 +38,7 @@
         <ul class="navbar-nav mr-lg-2">
           <li class="nav-item nav-search d-none d-lg-block">
             <div class="input-group">
-            	
+               
             </div>
           </li>
         </ul>
@@ -91,61 +91,61 @@
               </a>
             </div>
            </li>
-	            <c:choose>
-	            	<c:when test ="${level==1}">
-	            	<li class="nav-item nav-profile dropdown">
-          				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown1">
-           			  		<img src="${pageContext.request.contextPath}/file/memberPhoto/${memberFile.memberFileName}" alt="profile"/>
-           				</a>
-	          			<div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown1">	
-		            		<a class="dropdown-item" href="${pageContext.request.contextPath}/loginCheck/getStudentOne?loginId=${memberFile.loginId}">
-		            			<i class="ti-settings text-primary"></i>MyPage 
-		            		</a>
-		            		<a class="dropdown-item" href="${pageContextPath.request.getContextPath}/lms/loginCheck/logout">
-								<i class="ti-power-off text-primary"></i>
-		            		  	Logout
-		          			</a>
-	           			</div>
-         			</li>	
-	           		</c:when>
-	           		<c:when test ="${level==2}">
-	           		<li class="nav-item nav-profile dropdown">
-          				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-           			  		<img src="${pageContext.request.contextPath}/file/memberPhoto/${fileName}" alt="profile"/>
-           				</a>
-	          			<div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">	
-		           		<a class="dropdown-item" href="${pageContext.request.contextPath}/loginCheck/getTeacherOne?loginId=${memberFile.loginId}">
-		           			<i class="ti-settings text-primary"></i>MyPage 
-		           		</a>
-		           		<a class="dropdown-item" href="${pageContextPath.request.getContextPath}/lms/loginCheck/logout">
-								<i class="ti-power-off text-primary"></i>
-		            		  	Logout
-		          			</a>
-	           			</div>
-         			</li>	
-	           		</c:when>
-	           		<c:when test ="${level==3}">
-	           		<li class="nav-item nav-profile dropdown">
-          				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-           			  		<img src="${pageContext.request.contextPath}/file/memberPhoto/${fileName}" alt="profile"/>
-           				</a>
-	          			<div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">	
-		           		<a class="dropdown-item" href="${pageContext.request.contextPath}/loginCheck/getmanagerOne?loginId=${memberFile.loginId}">
-		           			<i class="ti-settings text-primary"></i>MyPage 
-		           		</a>
-		           		<a class="dropdown-item" href="${pageContextPath.request.getContextPath}/lms/loginCheck/logout">
-								<i class="ti-power-off text-primary"></i>
-		            		  	Logout
-		          			</a>
-	           			</div>
-         			</li>	
-	           	</c:when>
-	            </c:choose>  
-	            
-	            <a class="dropdown-item" href="${pageContextPath.request.getContextPath}/lms/loginCheck/logout">
-	              <i class="ti-power-off text-primary"></i>
-	              Logout
-	            </a>
+               <c:choose>
+                  <c:when test ="${level==1}">
+                  <li class="nav-item nav-profile dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown1">
+                            <img src="${pageContext.request.contextPath}/file/memberPhoto/${memberFile.memberFileName}" alt="profile"/>
+                       </a>
+                      <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown1">   
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/loginCheck/getStudentOne?loginId=${memberFile.loginId}">
+                           <i class="ti-settings text-primary"></i>MyPage 
+                        </a>
+                        <a class="dropdown-item" href="${pageContextPath.request.getContextPath}/lms/loginCheck/logout">
+                        <i class="ti-power-off text-primary"></i>
+                             Logout
+                         </a>
+                       </div>
+                  </li>   
+                    </c:when>
+                    <c:when test ="${level==2}">
+                    <li class="nav-item nav-profile dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+                            <img src="${pageContext.request.contextPath}/file/memberPhoto/${fileName}" alt="profile"/>
+                       </a>
+                      <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">   
+                       <a class="dropdown-item" href="${pageContext.request.contextPath}/loginCheck/getTeacherOne?loginId=${memberFile.loginId}">
+                          <i class="ti-settings text-primary"></i>MyPage 
+                       </a>
+                       <a class="dropdown-item" href="${pageContextPath.request.getContextPath}/lms/loginCheck/logout">
+                        <i class="ti-power-off text-primary"></i>
+                             Logout
+                         </a>
+                       </div>
+                  </li>   
+                    </c:when>
+                    <c:when test ="${level==3}">
+                    <li class="nav-item nav-profile dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+                            <img src="${pageContext.request.contextPath}/file/memberPhoto/${fileName}" alt="profile"/>
+                       </a>
+                      <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">   
+                       <a class="dropdown-item" href="${pageContext.request.contextPath}/loginCheck/getmanagerOne?loginId=${memberFile.loginId}">
+                          <i class="ti-settings text-primary"></i>MyPage 
+                       </a>
+                       <a class="dropdown-item" href="${pageContextPath.request.getContextPath}/lms/loginCheck/logout">
+                        <i class="ti-power-off text-primary"></i>
+                             Logout
+                         </a>
+                       </div>
+                  </li>   
+                 </c:when>
+               </c:choose>  
+               
+               <a class="dropdown-item" href="${pageContextPath.request.getContextPath}/lms/loginCheck/logout">
+                 <i class="ti-power-off text-primary"></i>
+                 Logout
+               </a>
             </div>
           </li>
         </ul>
@@ -156,220 +156,221 @@
     </nav>
     <!-- partial -->
     
-	    <div class="container-fluid page-body-wrapper">
-	      <!-- partial:partials/_settings-panel.html -->
-	      
-	      <!-- partial -->
-	      <!-- partial:partials/_sidebar.html -->
-	      <nav class="sidebar sidebar-offcanvas" id="sidebar">
-	        <jsp:include page="/inc/sidebar.jsp"/>
-	      </nav>
-	      <!-- partial -->
-	      
-	      <div class="main-panel">
-	        <div class="content-wrapper">
-	          <div class="row">
-	            <div class="col-md-12 grid-margin">
-	              <div class="row">
-	                <c:choose>
-      				<c:when test = "${level==1}">
-		                <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-		                <div class="card">
-		               	<div class="card-body">
-		                  <h3 style="font-weight: bold;">${student.loginId}님의 학생정보</h3><br>
-		                  <table class="table">
-							<tr style="height: 15px;">
-								<th>아이디</th>
-								<td>${student.loginId}</td>
-								<td rowspan="4" >
-									<img src="${pageContext.request.contextPath}/file/memberPhoto/${memberFile.memberFileName}" style="border-radius: 0%; width: 130px; height: 150px; display: block; margin: 0 auto;" ><br><br>
-									<a href="${pageContext.request.contextPath}/loginCheck/modifyMemberFile?memberFileName=${memberFile.memberFileName}"} style="padding-left: 70px;">사진수정</a>
-								</td>
-							</tr>
-							<tr style="height: 15px;">
-								<th>이름</th>
-								<td>${student.studentName}</td>
-							</tr>
-							<tr style="height: 15px;">
-								<th>생년월일</th>
-								<td>${student.studentBirth}</td>
-							</tr>
-							<tr>
-								<th>성별</th>
-								<td>${student.studentGender}</td>
-								
-							</tr>
-							<tr>
-								<th>주소</th>
-								<td>${student.address} ${student.detailAddress}</td> 
-								<td></td>
-							</tr>
-							<tr>
-								<th>이메일</th>
-								<td>${student.studentEmail}</td>
-								<td></td>
-							</tr>
-							<tr>
-								<th>연락처</th>
-								<td>${student.studentPhone}</td>
-								<td></td>
-							</tr>
-							<tr>
-								<th>병역유무</th>
-								<td>${student.militaryStatus}</td>
-								<td></td>
-							</tr>
-							<tr>
-								<th>학력</th>
-								<td>${student.graduate}</td>
-								<td></td>
-							</tr>
-							<tr>
-								<th>가입일</th>
-								<td>${student.createDate}</td>
-								<td></td>
-							</tr>
-						</table><br>
-						<div>
-							<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/loginCheck/modifyPwCheck">수정</a>
-							<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/loginCheck/removePwCheck">삭제</a>
-						</div>
-						</div>
-						</div>
-						</div>
-					</c:when>
-					<c:when test="${level==2}">
-						<div class="col-12 col-xl-8 mb-4 mb-xl-0">
-		                <div class="card">
-		               	<div class="card-body">
-		                <h3 style="font-weight: bold;">${teacher.loginId}님의 강사정보</h3><br>
-		                <table class="table">
-                        	<tr style="height: 15px;">
-								<th>아이디</th>
-								<td>${teacher.loginId}</td>
-								<td rowspan="4" >
-									<img src="${pageContext.request.contextPath}/file/memberPhoto/${fileName}" style="border-radius: 0%; width: 130px; height: 150px; display: block; margin: 0 auto;" ><br><br>
-									<a href="${pageContext.request.contextPath}/loginCheck/modifyMemberFile?memberFileName=${fileName}"} style="padding-left: 70px;">사진수정</a>
-								</td>
-							</tr>
-                        	<tr> 
-                          		<th>이름</th>
-                          		<td>${teacher.teacherName}</td>
-                        	</tr>  
-                        	<tr>
-                          		<th>생년월일</th>
-                          		<td>${teacher.teacherBirth}</td>
-                        	</tr>
-                        	<tr> 
-                          		<th>성별</th>
-                          		<td>${teacher.teacherGender}</td>
-                        	</tr>
-                        	<tr> 
-                          		<th>주소</th>
-                          		<td>${teacher.address} ${teacher.detailAddr}</td>
-                          		<td></td>
-                        	</tr>
-                        	<tr> 
-                          		<th>이메일</th>
-                          		<td>${teacher.teacherEmail}</td>
-                          		<td></td>
-                        	</tr>
-                        	<tr>  
-                          		<th>연락처</th>
-                          		<td>${teacher.teacherPhone}</td>
-                          		<td></td>
-                       		</tr>
-                       		<tr>
-                          		<th>학력</th>
-                          		<td>${teacher.graduate}</td>
-                          		<td></td>
-                        	</tr>
-                        	<tr>   
-                          		<th>가입일</th>
-                          		<td>${teacher.createDate}</td>
-                          		<td></td>
-                        	</tr>
-						</table><br>
-						<div>
-							<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/loginCheck/modifyPwCheck">수정</a>
-							<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/loginCheck/removePwCheck">삭제</a>
-						</div>
-						</div>
-						</div>
-					</c:when>
-					<c:when test="${level==3}">
-						<div class="col-12 col-xl-8 mb-4 mb-xl-0">
-		               	<div class="card">
-		               	<div class="card-body">
-		                <h3 style="font-weight: bold;">${managerMap.loginId}님의 관리자정보</h3><br>
-		                <table class="table">
-                        	<tr style="height: 15px;">
-								<th>아이디</th>
-								<td>${managerMap.loginId}</td>
-								<td rowspan="4" >
-									<img src="${pageContext.request.contextPath}/file/memberPhoto/${fileName}" style="border-radius: 0%; width: 130px; height: 150px; display: block; margin: 0 auto;" ><br><br>
-									<a href="${pageContext.request.contextPath}/loginCheck/modifyMemberFile?memberFileName=${fileName}"} style="padding-left: 70px;">사진수정</a>
-								</td>
-							</tr>
-                        	<tr> 
-                          		<th>이름</th>
-                          		<td>${managerMap.managerName}</td>
-                        	</tr>  
-                        	<tr>
-                          		<th>생년월일</th>
-                          		<td>${managerMap.managerBirth}</td>
-                        	</tr>
-                        	<tr> 
-                          		<th>성별</th>
-                          		<td>${managerMap.managerGender}</td>
-                        	</tr>
-                        	<tr> 
-                          		<th>주소</th>
-                          		<td>${managerMap.address} ${managerMap.detailAddr}</td>
-                          		<td></td>
-                        	</tr>
-                        	<tr> 
-                          		<th>이메일</th>
-                          		<td>${managerMap.managerEmail}</td>
-                          		<td></td>
-                        	</tr>
-                        	<tr>  
-                          		<th>연락처</th>
-                          		<td>${managerMap.managerPhone}</td>
-                          		<td></td>
-                       		</tr>
-                       		<tr>
-                          		<th>부서</th>
-                          		<td>${managerMap.deptName}</td>
-                          		<td></td>
-                        	</tr>
-                        	<tr>
-                          		<th>직급</th>
-                          		<td>${managerMap.positionName}</td>
-                          		<td></td>
-                        	</tr>
-                        	<tr>   
-                          		<th>가입일</th>
-                          		<td>${managerMap.createDate}</td>
-                          		<td></td>
-                        	</tr>
-						</table><br>
-						<div>
-							<a class="btn btn-outline-dark" href="${pageContext.request.contextPath}/loginCheck/modifyPwCheck">수정</a>
-							<a class="btn btn-outline-dark" href="${pageContext.request.contextPath}/loginCheck/removePwCheck">삭제</a>
-						</div>
-						</div>
-						</div>
-					</c:when>
-        			</c:choose> 
-	                </div>
-	                <div class="col-12 col-xl-4">
-	                 <div class="justify-content-end d-flex"></div>
-	                </div>
-	              </div>
-	            </div>
-	          </div>
-	        </div>
+       <div class="container-fluid page-body-wrapper">
+         <!-- partial:partials/_settings-panel.html -->
+         
+         <!-- partial -->
+         <!-- partial:partials/_sidebar.html -->
+         <nav class="sidebar sidebar-offcanvas" id="sidebar">
+           <jsp:include page="/inc/sidebar.jsp"/>
+         </nav>
+         <!-- partial -->
+         
+         <div class="main-panel">
+           <div class="content-wrapper">
+             <div class="row">
+               <div class="col-md-12 grid-margin">
+                 <div class="row">
+                 
+                   <c:choose>
+                  <c:when test = "${sessionLv==1}">
+                      <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+                      <div class="card">
+                        <div class="card-body">
+                        <h3 style="font-weight: bold;">${member.loginId}님의 학생정보</h3><br>
+                        <table class="table">
+                     <tr style="height: 15px;">
+                        <th>아이디</th>
+                        <td>${member.loginId}</td>
+                        <td rowspan="4" >
+                           <img src="${pageContext.request.contextPath}/file/memberPhoto/${memberFile.memberFileName}" style="border-radius: 0%; width: 130px; height: 150px; display: block; margin: 0 auto;" ><br><br>
+                           <a href="${pageContext.request.contextPath}/loginCheck/modifyMemberFile?memberFileName=${memberFile.memberFileName}"} style="padding-left: 70px;">사진수정</a>
+                        </td>
+                     </tr>
+                     <tr style="height: 15px;">
+                        <th>이름</th>
+                        <td>${member.studentName}</td>
+                     </tr>
+                     <tr style="height: 15px;">
+                        <th>생년월일</th>
+                        <td>${member.studentBirth}</td>
+                     </tr>
+                     <tr>
+                        <th>성별</th>
+                        <td>${member.studentGender}</td>
+                        
+                     </tr>
+                     <tr>
+                        <th>주소</th>
+                        <td>${member.address} ${member.detailAddress}</td> 
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <th>이메일</th>
+                        <td>${member.studentEmail}</td>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <th>연락처</th>
+                        <td>${member.studentPhone}</td>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <th>병역유무</th>
+                        <td>${member.militaryStatus}</td>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <th>학력</th>
+                        <td>${member.graduate}</td>
+                        <td></td>
+                     </tr>
+                     <tr>
+                        <th>가입일</th>
+                        <td>${member.createDate}</td>
+                        <td></td>
+                     </tr>
+                  </table><br>
+                  <div>
+                     <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/loginCheck/modifyPwCheck">수정</a>
+                     <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/loginCheck/removePwCheck">삭제</a>
+                  </div>
+                  </div>
+                  </div>
+                  </div>
+               </c:when>
+               <c:when test="${sessionLv==2}">
+                  <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+                      <div class="card">
+                        <div class="card-body">
+                      <h3 style="font-weight: bold;">${member.loginId}님의 강사정보</h3><br>
+                      <table class="table">
+                           <tr style="height: 15px;">
+                        <th>아이디</th>
+                        <td>${member.loginId}</td>
+                        <td rowspan="4" >
+                           <img src="${pageContext.request.contextPath}/file/memberPhoto/${memberFile.memberFileName}" style="border-radius: 0%; width: 130px; height: 150px; display: block; margin: 0 auto;" ><br><br>
+                           <a href="${pageContext.request.contextPath}/loginCheck/modifyMemberFile?memberFileName=${memberFile.memberFileName}"} style="padding-left: 70px;">사진수정</a>
+                        </td>
+                     </tr>
+                           <tr> 
+                                <th>이름</th>
+                                <td>${member.teacherName}</td>
+                           </tr>  
+                           <tr>
+                                <th>생년월일</th>
+                                <td>${member.teacherBirth}</td>
+                           </tr>
+                           <tr> 
+                                <th>성별</th>
+                                <td>${member.teacherGender}</td>
+                           </tr>
+                           <tr> 
+                                <th>주소</th>
+                                <td>${member.address} ${member.detailAddr}</td>
+                                <td></td>
+                           </tr>
+                           <tr> 
+                                <th>이메일</th>
+                                <td>${member.teacherEmail}</td>
+                                <td></td>
+                           </tr>
+                           <tr>  
+                                <th>연락처</th>
+                                <td>${member.teacherPhone}</td>
+                                <td></td>
+                             </tr>
+                             <tr>
+                                <th>학력</th>
+                                <td>${member.graduate}</td>
+                                <td></td>
+                           </tr>
+                           <tr>   
+                                <th>가입일</th>
+                                <td>${member.createDate}</td>
+                                <td></td>
+                           </tr>
+                  </table><br>
+                  <div>
+                     <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/loginCheck/modifyPwCheck">수정</a>
+                     <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/loginCheck/removePwCheck">삭제</a>
+                  </div>
+                  </div>
+                  </div>
+               </c:when>
+               <c:when test="${sessionLv==3}">
+                  <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+                        <div class="card">
+                        <div class="card-body">
+                      <h3 style="font-weight: bold;">${member.loginId}님의 관리자정보</h3><br>
+                      <table class="table">
+                           <tr style="height: 15px;">
+                        <th>아이디</th>
+                        <td>${member.loginId}</td>
+                        <td rowspan="4" >
+                           <img src="${pageContext.request.contextPath}/file/memberPhoto/${memberFile.memberFileName}" style="border-radius: 0%; width: 130px; height: 150px; display: block; margin: 0 auto;" ><br><br>
+                           <a href="${pageContext.request.contextPath}/loginCheck/modifyMemberFile?memberFileName=${memberFile.memberFileName}"} style="padding-left: 70px;">사진수정</a>
+                        </td>
+                     </tr>
+                           <tr> 
+                                <th>이름</th>
+                                <td>${member.managerName}</td>
+                           </tr>  
+                           <tr>
+                                <th>생년월일</th>
+                                <td>${member.managerBirth}</td>
+                           </tr>
+                           <tr> 
+                                <th>성별</th>
+                                <td>${member.managerGender}</td>
+                           </tr>
+                           <tr> 
+                                <th>주소</th>
+                                <td>${member.address} ${member.detailAddr}</td>
+                                <td></td>
+                           </tr>
+                           <tr> 
+                                <th>이메일</th>
+                                <td>${member.managerEmail}</td>
+                                <td></td>
+                           </tr>
+                           <tr>  
+                                <th>연락처</th>
+                                <td>${member.managerPhone}</td>
+                                <td></td>
+                             </tr>
+                             <tr>
+                                <th>부서</th>
+                                <td>${member.deptName}</td>
+                                <td></td>
+                           </tr>
+                           <tr>
+                                <th>직급</th>
+                                <td>${member.positionName}</td>
+                                <td></td>
+                           </tr>
+                           <tr>   
+                                <th>가입일</th>
+                                <td>${member.createDate}</td>
+                                <td></td>
+                           </tr>
+                  </table><br>
+                  <div>
+                     <a class="btn btn-outline-dark" href="${pageContext.request.contextPath}/loginCheck/modifyPwCheck">수정</a>
+                     <a class="btn btn-outline-dark" href="${pageContext.request.contextPath}/loginCheck/removePwCheck">삭제</a>
+                  </div>
+                  </div>
+                  </div>
+               </c:when>
+                 </c:choose> 
+                   </div>
+                   <div class="col-12 col-xl-4">
+                    <div class="justify-content-end d-flex"></div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
         
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
