@@ -40,7 +40,7 @@
         <ul class="navbar-nav mr-lg-2">
           <li class="nav-item nav-search d-none d-lg-block">
             <div class="input-group">
-            	
+               
             </div>
           </li>
         </ul>
@@ -130,7 +130,7 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                  <h1>[TFT인들 모여라~!]</h1>
+                  <h3>학생 배정 리스트[배정된 학생 제외]</h3>
                 </div>
                 <div class="col-12 col-xl-4">
                  <div class="justify-content-end d-flex">
@@ -139,60 +139,49 @@
               </div>
             </div>
           </div>
-          <form>
-          		<div>
-                <a href="${pageContext.request.contextPath}/loginCheck/addCommunity">게시글 입력</a>
-                </div>
-          </form>
-        <!-- content-wrapper ends -->
-        <!-- partial:partials/_footer.html -->
-        <!-- partial -->
-        
+          <!-- 강의개설 실제부분 --> 
           <div class="row">
-            <div class="col-lg-10 grid-margin stretch-card">
+          <form action="${pageContext.request.contextPath}/loginCheck/addStudentInLectureAction" method="post">
+            <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">커뮤니티 게시판</h4>
+                  <h4 class="card-title">학생 추가 - 강의명 : <input name="lectureName" value="${lectureName}" readonly="readonly"></h4>
                   <p class="card-description">
                   </p>
                   <div class="table-responsive">
                     <table class="table">
                       <thead>
                         <tr>
-                          <th>게시글 번호</th>
-                          <th>게시글 제목</th>
-                          <th>게시글 작성자</th>
-                          <th>작성 날짜</th>
+                          <th>check</th>
+                          <th>ID</th>
+                          <th>학생명</th>
+                          <th>생년월일</th>
+                          <th>생성날짜</th>
                         </tr>
                       </thead>
                       <tbody>
-                      <c:forEach var="cl" items="${communityList}">
-                      	<tr>
-                      		<td>${cl.communityNo}</td>
-                      		<td><a href="${pageContext.request.contextPath}/loginCheck/getCommunityOne?communityNo=${cl.communityNo}">${cl.communityTitle}</a></td>
-                      		<td>${cl.loginId}</td>
-                      		<td>${cl.createDate}</td>
-                      	</tr>
-                      </c:forEach>                
+                      <c:forEach var="s" items="${studentlist}">
+                         <tr>
+                         	<td><input style="zoom:2.0;" type="checkbox" class="checkbox" name="loginIdList" value="${s.loginId}"></td>
+                            <td><a href="${pageContext.request.contextPath}/loginCheck/getStudentOne?loginId=${s.loginId}">${s.loginId}</a></td>
+                            <td>${s.studentName}</td>
+                            <td>${s.studentBirth}</td>
+                            <td>${s.createDate}</td>
+                         </tr>
+                      </c:forEach>        
                       </tbody>
                     </table>
                   </div>
+                <button type="submit">절대안대지</button>
                 </div>
               </div>
             </div>
+          </form>
           </div>
-		<c:if test="${currentPage > 1}">
-			<a href="${pageContext.request.contextPath}/loginCheck/getCommunityListByPage?currentPage=${currentPage-1}">이전</a>
-		</c:if>
-		
-		<c:if test="${currentPage < lastPage}">
-			<a href="${pageContext.request.contextPath}/loginCheck/getCommunityListByPage?currentPage=${currentPage+1}">다음</a>
-		</c:if>
-			
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.html -->
+        <!-- partial -->
       </div>
-      
-      
-      
       <!-- main-panel ends -->
     </div>   
     <!-- page-body-wrapper ends -->
@@ -223,4 +212,3 @@
 
 </body>
 </html>
-

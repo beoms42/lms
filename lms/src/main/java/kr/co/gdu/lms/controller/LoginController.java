@@ -314,12 +314,23 @@ public class LoginController {
 		log.debug(CF.OHI+"LoginController.login.post login : "+loginTest+CF.RS);
 		log.debug(CF.OHI+"LoginController.login.post idSave : "+idSave+CF.RS);
 		
+		// 비밀번호 변경 며칠이 지났는지
 		int diffDay = loginService.getDiffDay(loginTest.getLoginId());
 		log.debug(CF.LCH + "LoginController.login.post diffDay : " + diffDay + CF.RS);
 		
+		// 비밀번호 변경 90일이 지났을 때
 		if(diffDay > 90) {
+			String msg = "changePw"; // changePw 메세지 보내기
+			// 정보 보내기
 			model.addAttribute("loginId", loginTest.getLoginId());
-			return "login/changePwByThreeMonths";
+			model.addAttribute("msg", msg);
+			// 로그인이 성공했는지 판별하기 위한 서비스 호출
+			Login login = loginService.getLoginLevel(loginTest);
+			if(login == null) { // 로그인 실패 시
+				return "redirect:/login"; //다시 로그인 페이지로
+			}
+			// 로그인 성공 시
+			return "login/login";
 		}
 		
 		// 로그인 정보 넣어서 맞다면 로그인아이디와 level 들고오기   
@@ -329,6 +340,7 @@ public class LoginController {
 			log.debug(CF.OHI+"LoginController.login.post 로그인 정보가 일치하지 않습니다"+login+CF.RS);
 			return "redirect:/login"; //다시 로그인 페이지로
 		}
+		
 		if("on".equals(idSave)) {
 			Cookie cookieId = new Cookie("cookieId", login.getLoginId()); // 현재 접속된 로그인 아이디 쿠키아이디값으로 저장
 			cookieId.setMaxAge(60*60*24); // 쿠키 생명주기 하루로 설정

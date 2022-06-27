@@ -300,4 +300,130 @@
 	FROM lecture
 	WHERE lecture_name = #{lectureName}
 	</select>
+	
+		<!-- 자료실 리스트-->
+	<select id="selectLectureReferenceList" parameterType="String" resultType="kr.co.gdu.lms.vo.Reference">
+		SELECT  
+			r.reference_no referenceNo
+			,r.teacher teacher
+			,r.reference_title referenceTitle
+			,r.create_date createDate
+		FROM reference r
+		INNER JOIN lecture l
+			ON r.lecture_name = l.lecture_name
+		WHERE l.lecture_name = #{lectureName};
+	</select>
+	
+	<!-- 자료실 상세보기-->
+	<select id="selectReferenceOne" parameterType="int" resultType="kr.co.gdu.lms.vo.Reference">
+		SELECT 
+			reference_no referenceNo
+			, reference_title referenceTitle
+			, reference_content referenceContent
+			, lecture_name lectureName
+		FROM reference
+		WHERE reference_no = #{referenceNo};
+	</select>
+	
+	<!--자료실 파일리스트 상세보기-->
+	<select id="selectReferenceFileList" parameterType="int" resultType="kr.co.gdu.lms.vo.ReferenceFile">
+		SELECT reference_file_no referenceFileNo
+			,reference_no referenceNo
+			,reference_file_name referenceFileName
+			,reference_file_orgin_name referenceFileOrginName
+			,reference_file_type referenceFileType
+			,reference_file_size referenceFileSize
+			,create_date createDate
+		FROM reference_file
+		WHERE reference_no = #{referenceNo};
+	</select>
+	
+	<!--자료실 입력-->
+	<insert id="insertReference" parameterType="kr.co.gdu.lms.vo.Reference">
+		INSERT INTO reference(
+			reference_title
+			,reference_content
+			,lecture_name
+			,create_date
+			,update_date
+		 ) VALUES (
+			#{referenceTtile}
+			,#{referenceContent} 
+			,#{lectureName}
+			,NOW()
+			,NOW());
+	</insert>
+	
+	<!--자료실 삭제-->
+	<delete id="deleteReference" parameterType="int">
+		DELETE FROM reference 
+		WHERE reference_no = #{referenceNo};
+	</delete>
+	
+	<!--자료실 파일 입력-->
+	<insert id="insertReferenceFile" parameterType="kr.co.gdu.lms.vo.ReferenceFile">
+		INSERT INTO reference_file(
+			reference_no
+			,reference_file_name
+			,reference_file_orgin_name
+			,reference_file_type
+			,reference_file_size
+			,create_date
+			) VALUES(
+			#{referenceNo}
+			,#{referenceFileName}
+			,#{referenceFileOrginName}
+			,#{referenceFileType}
+			,#{referenceFileSize}
+			,NOW());
+			
+	</insert>
+	<!-- 자료실 수정 -->
+	<update id="updateReference" parameterType="kr.co.gdu.lms.vo.Reference">
+		UPDATE reference set
+			reference_title = #{referenceTitle};
+			,reference_content = #{referenceContent};
+			,updateDate = NOW()
+		WHERE reference_no = #{referenceNo};
+	</update>
+	
+	<!--자료실 파일 수정-->
+	<update id="updateReferenceFile" parameterType="kr.co.gdu.lms.vo.ReferenceFile">	
+		UPDATE reference_file SET 
+		reference_file_name = ${referenceFileName}
+		,reference_file_orgin_name = #{referenceFileOrginName}
+		,reference_file_type = #{referenceFileType}
+		,reference_file_size = #{referenceFileSize}
+		WHERE reference_file_no = #{referenceFileNo};
+	</update>
+	
+	<!--자료실 파일 삭제-->
+	<delete id="deleteReferenceFile" parameterType="int">
+		DELETE FROM reference_file 
+		WHERE reference_file_no = #{referenceFileNo};
+	</delete>
+	
+	<!--자료실 파일 전체삭제-->
+	<delete id="deleteReferenceFileList" parameterType="int">
+		DELETE FROM reference_file 
+		WHERE reference_no = #{referenceNo};
+	</delete>
+	
+	<!-- 자료실 파일 상세보기 -->
+	<select id="selectReferenceFileOne" parameterType="int" resultType="String">
+		SELECT
+			reference_file_name referenceFileName
+		FROM reference_file
+		WHERE reference_file_no = #{referenceFileNo};
+	</select>
+	
+	<!-- 자료실 개인별 파일 리스트 -->
+	<select id="selectReferencefileNameList"
+			parameterType="int"
+			resultType="String">
+		select
+			reference_file_name referenceFileName
+		from reference_file
+		where reference_no = #{referenceNo};
+	</select>
 </mapper>

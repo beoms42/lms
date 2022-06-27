@@ -1,8 +1,8 @@
 package kr.co.gdu.lms.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,17 +20,38 @@ import lombok.extern.slf4j.Slf4j;
 public class CommunityController {
 	@Autowired private CommunityService communityService;
 	
-	// 영인 - get방식 qnaList호출
-	@GetMapping("/loginCheck/getQnaListByPage")
-	public String getQnaList(Model model) {
-		List<Qna> qnaList = communityService.getQnaList();
+	
+	// 희원 - get방식 addCommunity 호출
+	@GetMapping("/loginCheck/addCommunity")
+	public String addCommunity() {
 		
-		log.debug(CF.JYI+"CommunityController.qnaList.get qnaList : "+qnaList+CF.RS);
-		
-		model.addAttribute("qnaList", qnaList);
-		return "community/getQnaListByPage";
+		return "community/addCommunity";
 	}
 	
+	// 희원 - get방식 communityOne 호출
+	@GetMapping("/loginCheck/getCommunityOne")
+	public String getCommunityOne(Model model
+								, @RequestParam (name="communityNo") int communityNo) {
+		
+		log.debug(CF.PHW+"CommunityController.getCommunityOne.get communityNo : "+communityNo+CF.RS );
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("communityNo", communityNo);
+		
+		Map<String, Object> returnMap = communityService.getCommunityOne(map);
+		log.debug(CF.PHW+"CommunityController.getCommunityOne.get communityNo : "+returnMap.get("communityNo")+CF.RS );
+		log.debug(CF.PHW+"CommunityController.getCommunityOne.get communityFileList : "+returnMap.get("communityFileList")+CF.RS );
+		log.debug(CF.PHW+"CommunityController.getCommunityOne.get community : "+returnMap.get("community")+CF.RS );
+		
+		model.addAttribute("communityNo", returnMap.get("communityNo"));
+		model.addAttribute("communityFileList", returnMap.get("communityFileList"));
+		model.addAttribute("community", returnMap.get("community"));
+		
+		return "community/getCommunityOne";
+				
+	}
+	
+	// 희원 - get방식 communityList 호출
 	@GetMapping("/loginCheck/getCommunityListByPage")
 	public String getCommunityList(Model model
 								, @RequestParam (name="currentPage", defaultValue = "1") int currentPage
@@ -42,7 +63,7 @@ public class CommunityController {
 		
 		log.debug(CF.PHW+"CommunityController.getCommunityList.get communityList : "+map.get("communityList")+CF.RS );
 		log.debug(CF.PHW+"CommunityController.getCommunityList.get lastPage : "+map.get("lastPage")+CF.RS );
-		
+
 		model.addAttribute("communityList", map.get("communityList"));
 		model.addAttribute("lastPage", map.get("lastPage"));
 		model.addAttribute("currentPage", currentPage);
@@ -50,4 +71,15 @@ public class CommunityController {
 		return "community/getCommunityListByPage";
 	}
 	
+	
+	// 영인 - get방식 qnaList호출
+	@GetMapping("/loginCheck/getQnaListByPage")
+	public String getQnaList(Model model) {
+		List<Qna> qnaList = communityService.getQnaList();
+		
+		log.debug(CF.JYI+"CommunityController.qnaList.get qnaList : "+qnaList+CF.RS);
+		
+		model.addAttribute("qnaList", qnaList);
+		return "community/getQnaListByPage";
+	}
 }

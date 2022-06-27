@@ -1,11 +1,13 @@
 package kr.co.gdu.lms.service;
 
+import java.io.File;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
@@ -292,4 +294,190 @@ public class LectureSerivce {
 		}
 		return row;
 	}
+	
+	// 자료실 리스트(selectLectureReferenceList(lectureName)) 
+		public List<Reference> selectLectureReferenceList(String lectureName) {
+			log.debug(CF.HJI+"LectureService.selectLectureReferenceList lectureName : "+lectureName+CF.RS);
+			List<Reference> list = new ArrayList<Reference>();
+			list = lectureMapper.selectLectureReferenceList(lectureName);
+			log.debug(CF.HJI+"LectureService.selectLectureReferenceList list : "+list+CF.RS);
+			
+			return list;
+		}
+		
+		// 자료실 상세보기(selectReferenceOne(referenceNo),selectReferenceFileList(referenceNo));
+		public Map<String,Object> selectReferenceOne(int referenceNo) {
+			log.debug(CF.HJI+"LectureService.selectReferenceOne referenceNo : "+referenceNo+CF.RS);
+			
+			Reference reference = new Reference();
+			reference = lectureMapper.selectReferenceOne(referenceNo);
+			log.debug(CF.HJI+"LectureService.selectReferenceOne reference : "+reference+CF.RS);
+			
+			List<ReferenceFile> referenceFilelist = new ArrayList<ReferenceFile>();
+			referenceFilelist = lectureMapper.selectReferenceFileList(referenceNo);
+			log.debug(CF.HJI+"LectureService.selectReferenceOne referenceFilelist : "+referenceFilelist+CF.RS);
+			
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("reference", reference);
+			map.put("referenceFilelist", referenceFilelist);
+			log.debug(CF.HJI+"LectureService.selectReferenceOne map : "+map+CF.RS);
+			
+			return map;
+		}
+		
+		// 자료실 입력(insertReference(reference),insertReferenceFile(referenceFile))
+		public void addReference(ReferenceForm referenceForm, String path) {	
+			log.debug(CF.HJI+"LectureService.addReference path : "+referenceForm+CF.RS);
+			log.debug(CF.HJI+"LectureService.addReference reference : "+path+CF.RS);
+			
+			// lectureMapper를 호출하기 위한 객체 생성
+			Reference reference = new Reference();
+			reference.setLectureName(referenceForm.getLectureName());
+			reference.setReferenceTitle(referenceForm.getReferenceTitle());
+			reference.setReferenceContent(referenceForm.getReferenceContent());
+			log.debug(CF.HJI+"LectureService.addReference reference : "+reference+CF.RS);
+			
+			log.debug(CF.HJI+"LectureService.addReference reference 호출 전 referenceNo : "+reference.getReferenceNo()+CF.RS);
+			int row = lectureMapper.insertReference(reference);
+			log.debug(CF.HJI+"LectureService.addReference reference 호출 후 referenceNo : "+reference.getReferenceNo()+CF.RS);
+			
+			//lectureMapper(file)를 호출하기 위한 객체 생성
+			if(referenceForm.getReferenceFileList().get(0).getSize() > 0 && row == 1) {
+				log.debug(CF.HJI+"LectureService.addReference reference : 첨부된 파일이 있습니다."+CF.RS);
+				for(MultipartFile mf : referenceForm.getReferenceFileList()) {
+					ReferenceFile referenceFile = new ReferenceFile();
+					String originName = mf.getOriginalFilename();
+					String ext = originName.substring(originName.lastIndexOf("."));
+					// 파일을 저장할때 사용할 중복되지않는 새로운 이름 필요(UUID API 사용)
+					String fileName = UUID.randomUUID().toString();
+					fileName = fileName.replace("-", "");
+					fileName = fileName + ext;
+					referenceFile.setReferenceFileName(fileName);
+					referenceFile.setReferenceFileSize(mf.getSize());
+					referenceFile.setReferenceFileType(mf.getContentType());
+					referenceFile.setReferenceFileNo(reference.getReferenceNo());
+					
+					row = 0;
+					row = lectureMapper.insertReferenceFile(referenceFile);
+					log.debug(CF.HJI+"LectureService.addReference 파일 입력 성공! : "+row+CF.RS);
+					try {
+						mf.transferTo(new File(path+fileName)); // multipart안의 파일을 저장장치로 저장
+					} catch (Exception e) {
+						e.printStackTrace();
+						// 새로운 예외 발생시켜야지만 @Transactional 작동을 함
+						throw new RuntimeException(); // RuntimeException은 예외처리를 하지 않아도 컴파일 된다.
+					}
+				}
+			}
+		}
+		
+		// 자료실 수정(updateReferenceFile(referenceFile), deleteReferenceFile(referenceFileNo),insertReferenceFile(referenceFile))
+		// 자료실 파일 개별 삭제
+		public void removeReferenceFile(int referenceFileNo, String path) {
+			log.debug(CF.HJI+"LectureService.removeReferenceFile.referenceFileNo : "+referenceFileNo+CF.RS);
+			log.debug(CF.HJI+"LectureService.removeReferenceFile.path : "+path+CF.RS);
+			String deleteNoticefile = lectureMapper.selectReferenceFileOne(referenceFileNo);
+			log.debug(CF.HJI+"LectureService.removeReferenceFile.deleteNoticefile : "+deleteNoticefile+CF.RS);
+			File f = new File(path+deleteNoticefile);
+			if(f.exists()) {
+				f.delete();
+				log.debug(CF.HJI+"LectureService.removeNoticefile.f : "+f+CF.RS);
+			}
+			int row = lectureMapper.deleteReferenceFile(referenceFileNo);
+			if(row == 1) {
+				log.debug(CF.HJI+"LectureService.removeReferenceFile.deleteReferenceFile 성공! : " + row+CF.RS);
+			} else {
+				log.debug(CF.HJI+"LectureService.removeReferenceFile.deleteReferenceFile 실패! : " + row+CF.RS);
+			}
+		}
+		
+		// 자료실 파일 개별 수정
+		public void updateReferencefile(int referenceFileNo, MultipartFile referenceFile, String referenceFileName, int referenceNo, String path) {
+			log.debug(CF.HJI+"LectureService.updateReferencefile.referenceFileNo : "+referenceFileNo+CF.RS);
+			log.debug(CF.HJI+"LectureService.updateReferencefile.referenceFile : "+referenceFile+CF.RS);
+			log.debug(CF.HJI+"LectureService.updateReferencefile.referenceFileName : "+referenceFileName+CF.RS);
+			log.debug(CF.HJI+"LectureService.updateReferencefile.referenceNo : "+referenceNo+CF.RS);
+			log.debug(CF.HJI+"LectureService.updateReferencefile.path : "+path+CF.RS);
+			
+			ReferenceFile updateReferenceFile = new ReferenceFile();
+			String originName = referenceFile.getOriginalFilename();
+			String ext = originName.substring(originName.lastIndexOf("."));
+			// 파일을 저장할때 사용할 중복되지않는 새로운 이름 필요(UUID API 사용)
+			String fileName = UUID.randomUUID().toString();
+			fileName = fileName.replace("-", "");
+			fileName = fileName + ext;
+			updateReferenceFile.setReferenceFileNo(referenceFileNo);
+			updateReferenceFile.setReferenceFileName(fileName);
+			updateReferenceFile.setReferenceFileSize(referenceFile.getSize());
+			updateReferenceFile.setReferenceFileType(referenceFile.getContentType());
+			updateReferenceFile.setReferenceFileNo(referenceFileNo);
+			log.debug(CF.HJI+"LectureService.updateReferencefile.updateReferenceFile : "+updateReferenceFile+CF.RS);
+			lectureMapper.updateReferenceFile(updateReferenceFile);
+			try {
+				referenceFile.transferTo(new File(path+fileName)); // multipart안의 파일을 저장장치로 저장
+			} catch (Exception e) {
+				e.printStackTrace();
+				// 새로운 예외 발생시켜야지만 @Transactional 작동을 함
+				throw new RuntimeException(); // RuntimeException은 예외처리를 하지 않아도 컴파일 된다.
+			}
+		}
+		
+		// 자료실 전체 수정
+		public void updateAddReference(ReferenceForm referenceForm, int referenceNo, String path, Reference reference) {
+			int row = 0;
+			log.debug(CF.HJI+"LectureService.updateAddReference.reference : "+reference+CF.RS);
+			
+			row = lectureMapper.updateReference(reference);
+			log.debug(CF.HJI+"LectureService.updateAddReference.row : "+row+CF.RS);
+			// 초기화
+			row = 0;
+			
+			// NoticefileMapper를 호출하기 위한 객체 생성
+			log.debug(CF.HJI+"LectureService.updateAddReference.ReferenceFileList : "+referenceForm.getReferenceFileList()+CF.RS);
+			log.debug(CF.HJI+"LectureService.updateAddReference.referenceNo : "+referenceNo+CF.RS);
+			log.debug(CF.HJI+"LectureService.updateAddReference.path : "+path+CF.RS);
+			List<MultipartFile> updateAddReferenceFileList = referenceForm.getReferenceFileList();
+			if(updateAddReferenceFileList.get(0).getSize() > 0) {
+				log.debug(CF.HJI+"LectureService.updateAddReferenceFileList() : 첨부된 파일이 있습니다."+CF.RS);
+				for(MultipartFile mf : updateAddReferenceFileList) {
+					ReferenceFile referencefile = new ReferenceFile();
+					String originName = mf.getOriginalFilename();
+					String ext = originName.substring(originName.lastIndexOf("."));
+					// 파일을 저장할때 사용할 중복되지않는 새로운 이름 필요(UUID API 사용)
+					String fileName = UUID.randomUUID().toString();
+					fileName = fileName.replace("-", "");
+					fileName = fileName + ext;
+					referencefile.setReferenceFileName(fileName);
+					referencefile.setReferenceFileSize(mf.getSize());
+					referencefile.setReferenceFileType(mf.getContentType());
+					referencefile.setReferenceNo(referenceNo);
+					
+					log.debug(CF.HJI+"LectureService.updateAddReference.referencefile : "+referencefile+CF.RS);
+					lectureMapper.insertReferenceFile(referencefile);
+					
+					try {
+						mf.transferTo(new File(path+fileName)); // multipart안의 파일을 저장장치로 저장
+					} catch (Exception e) {
+						e.printStackTrace();
+						// 새로운 예외 발생시켜야지만 @Transactional 작동을 함
+						throw new RuntimeException(); // RuntimeException은 예외처리를 하지 않아도 컴파일 된다.
+					}
+				}
+			}
+		}
+		
+		// 자료실 삭제(deleteReference(referenceNo), deleteReferenceFileList(referenceNo))
+		public void removeReference(int referenceNo, String path) {
+			// 1) 저장 장치의 파일을 삭제 -> 파일이름필요 
+			List<String> referenceFileNameList = lectureMapper.selectReferencefileNameList(referenceNo);
+			for(String filename : referenceFileNameList) {
+				File f = new File(path+filename);
+				if(f.exists()) {
+					f.delete();
+				}
+			}
+			// 2) db행 삭제
+			lectureMapper.deleteReferenceFile(referenceNo);
+			lectureMapper.deleteReference(referenceNo);
+		}
 }

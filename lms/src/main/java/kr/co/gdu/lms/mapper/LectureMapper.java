@@ -81,5 +81,42 @@ public interface LectureMapper {
 	
 	// 시간표상세보기
 	Map<String, Object>selectScheduleOne(int scheduleNo);
+
+// 자료실
+	// 자료실 리스트
+	List<Reference>selectLectureReferenceList(String lectureName);
+	
+	// 자료실 상세보기
+	Reference selectReferenceOne(int referenceNo);
+	
+	// 자료실 파일리스트 상세보기
+	List<ReferenceFile>selectReferenceFileList(int referenceNo);
+	
+	// 자료실 입력
+	int insertReference(Reference reference);
+	
+	// 자료실 수정
+	int updateReference(Reference reference);
+	
+	// 자료실 삭제
+	int deleteReference(int referenceNo);
+	
+	// 자료실 파일 입력
+	int insertReferenceFile(ReferenceFile referenceFile);
+	
+	// 자료실 파일 수정
+	int updateReferenceFile(ReferenceFile referenceFile);
+	
+	// 자료실 파일 상세보기
+	String selectReferenceFileOne(int referenceFileNo);
+	
+	// 자료실 파일 개별 삭제
+	int deleteReferenceFile(int referenceFileNo);
+	
+	// 자료실 파일 전체삭제
+	int deleteReferenceFileList(int referenceNo);
+	
+	// 자료실 개인별 파일 리스트
+	List<String> selectReferencefileNameList(int referenceNo);
 	
 }

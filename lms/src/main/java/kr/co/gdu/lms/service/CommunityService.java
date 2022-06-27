@@ -21,12 +21,27 @@ import lombok.extern.slf4j.Slf4j;
 public class CommunityService {
 	@Autowired private CommunityMapper communityMapper;
 	
-	// 영인 - qna리스트
-	public List<Qna> getQnaList() {
-		List<Qna> qnaList = communityMapper.selectQnaList();
+	
+	public Map<String, Object> getCommunityOne(Map<String, Object> map) {
 		
-		return qnaList;
+		int communityNo = (int)map.get("communityNo");
+		log.debug(CF.PHW+"CommunityService.getCommunityOne communityNo : "+communityNo+CF.RS );
+		
+		Community community = communityMapper.selectCommunityOne(communityNo);
+		List<String> communityFileList = communityMapper.selectCommunityFileOne(communityNo);
+		
+		log.debug(CF.PHW+"CommunityService.getCommunityOne community : "+community+CF.RS );
+		log.debug(CF.PHW+"CommunityService.getCommunityOne communityFileList : "+communityFileList+CF.RS );
+		
+		
+		map.put("communityNo", communityNo);
+		map.put("community", community);
+		map.put("communityFileList", communityFileList);
+		
+		
+		return map;
 	}
+	
 	
 	// 희원 - communityList
 	public Map<String, Object> getCommunityList(int currentPage, int rowPerPage){
@@ -50,6 +65,13 @@ public class CommunityService {
 		
 		return returnMap;
 		
+	}
+	
+	// 영인 - qna리스트
+	public List<Qna> getQnaList() {
+		List<Qna> qnaList = communityMapper.selectQnaList();
+		
+		return qnaList;
 	}
 	
 }
