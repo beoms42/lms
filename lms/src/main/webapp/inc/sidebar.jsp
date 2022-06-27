@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,17 +33,21 @@
               <span class="menu-title">강의</span>
               <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="ui-basic">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">내 강의</a></li>
-                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/getAssignmentExam">과제</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">성적</a></li>
-                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/addLecture">관리자 - 강의개설</a></li>
-                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/manageLecture">관리자 - 강의관리</a></li>
-                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/acceptLecture">관리자 - 강의승인</a></li>
-              </ul>
-            </div>
-          </li>
+	            <div class="collapse" id="ui-basic">
+	              <ul class="nav flex-column sub-menu">
+	                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">내 강의</a></li>
+	                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/getAssignmentExam">과제</a></li>
+	                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">성적</a></li>
+	                <c:if test="${sessionLv == 3 || sessionLv == 4}">
+		                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/addLecture">관리자 - 강의개설</a></li>
+		                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/manageLecture">관리자 - 강의관리</a></li>
+	                </c:if>
+	                <c:if test="${sessionLv == 4}">
+		                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/acceptLecture">관리자 - 강의승인</a></li>
+	                </c:if>
+	              </ul>
+	            </div>
+	        </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
               <i class="icon-columns menu-icon"></i>
@@ -93,22 +97,23 @@
               </ul>
             </div>
           </li>
-          
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#mana" aria-expanded="false" aria-controls="icons">
-              <i class="icon-contract menu-icon"></i>
-              <span class="menu-title">관리(level4)</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="mana">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/icons/mdi.html">매니저 리스트</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/icons/mdi.html">강사 리스트</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/icons/mdi.html">학생 리스트</a></li>
-                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/acceptAddMember">회원가입 승인</a></li>
-              </ul>
-            </div>
-          </li>
+          <c:if test="${sessionLv == 4}">
+	          <li class="nav-item">
+	            <a class="nav-link" data-toggle="collapse" href="#mana" aria-expanded="false" aria-controls="icons">
+	              <i class="icon-contract menu-icon"></i>
+	              <span class="menu-title">관리</span>
+	              <i class="menu-arrow"></i>
+	            </a>
+	            <div class="collapse" id="mana">
+	              <ul class="nav flex-column sub-menu">
+	                <li class="nav-item"> <a class="nav-link" href="pages/icons/mdi.html">매니저 리스트</a></li>
+	                <li class="nav-item"> <a class="nav-link" href="pages/icons/mdi.html">강사 리스트</a></li>
+	                <li class="nav-item"> <a class="nav-link" href="pages/icons/mdi.html">학생 리스트</a></li>
+	                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/acceptAddMember">회원가입 승인</a></li>
+	              </ul>
+	            </div>
+	          </li>
+          </c:if>
         </ul>
 </body>
 </html>
