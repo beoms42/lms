@@ -47,7 +47,7 @@ public class MemberService {
 		
 		// 학생파일 Mapper연결
 		MemberFile memberFile = memberFileMapper.selectMemberFile(loginId);
-		log.debug(CF.GDH+"====================MemberService.getStudentOne memberFileList : "+memberFile+CF.RS);
+		log.debug(CF.GDH+"MemberService.getStudentOne memberFileList : "+memberFile+CF.RS);
 		
 		// 학생정보와 학생파일리스트 맵에 담기
 		Map<String, Object> returnMap = new HashMap<String, Object>();
@@ -56,7 +56,7 @@ public class MemberService {
 		
 		
 		return returnMap;
-} 
+	} 
 
 	// 학생 목록 리스트
 	 public List<Student> getStudentList() {
@@ -149,20 +149,21 @@ public class MemberService {
 	@Autowired  private TeacherMapper teacherMapper;
 	
 	// 매니저 리스트
-		 public List<Manager> getManagerList() {
-			 List<Manager> list = managerMapper.selectManagerList();
-			 log.debug(CF.PSH+"MemberService.getManagerList :"+CF.RS);
-			 return list;   
-		 }
+	public List<Manager> getManagerList() {
+		List<Manager> list = managerMapper.selectManagerList();
+		log.debug(CF.PSH+"MemberService.getManagerList :"+CF.RS);
+		return list;   
+	}
 		 
+	// 매니저 정보 상세보기
+	public Map<String,Object> getManagerOne(String loginId) {
 		 
+		Map<String,Object> managerMap = managerMapper.selectManagerOne(loginId);
 		 
-		// 매니저 정보 상세보기
-		 public Map<String,Object> getManagerOne(String loginId) {
-		 	Map<String,Object> managerMap = managerMapper.selectManagerOne(loginId);
-		 	log.debug(CF.PSH+"MemberService.getManagerOne :"+loginId+CF.RS);
-		 	return managerMap;
-		 }
+		 log.debug(CF.PSH+"MemberService.getManagerOne :"+loginId+CF.RS);
+		 return managerMap;
+	}
+		 
 		// 부서리스트
 		public List<Dept> getDeptList() {
 			List<Dept> deptList = new ArrayList<Dept>();
@@ -180,12 +181,11 @@ public class MemberService {
 		}
 		
 		// 매니저 정보 수정하기
-		 public int modifyManager(Manager manager) {
-			 	int row = 0;
-			    row = managerMapper.updateManager(manager);
-			 	log.debug(CF.PSH+"MemberService.modifyManager :"+manager+CF.RS);
-			    return row;
-			}
+		public int modifyManager(Manager manager) {
+			log.debug(CF.PSH+"MemberService.modifyManager :"+manager+CF.RS);
+			int row = managerMapper.updateManager(manager);
+			return row;
+		}
 		 
 		 // 매니저 회원탈퇴
 		 public int deleteManager(String loginId) {
@@ -204,22 +204,33 @@ public class MemberService {
 		 }
 		 
 		 
-		// 강사 상세보기
-		 public Teacher getTeacherOne(String loginId) {
-			 	Teacher teacher = new Teacher();
-			 	teacher = teacherMapper.selectTeacherOne(loginId);
-			 	 log.debug(CF.PSH+"MemberService.getTeacherOne :"+loginId+CF.RS);
-			 	return teacher;
-			}
+	 // 강사 상세보기
+	 public Map<String, Object> getTeacherOne(String loginId) {
+		 // 로그인ID 디버깅
+		 log.debug(CF.GDH+"MemberService.getTeacherOne loginId:"+loginId+CF.RS);
 		 
-		 // 강사 정보 수정하기
-			public int modifyTeacher(Teacher loginId) {
-			 	int row = 0;
-			    row = teacherMapper.updateTeacher(loginId);
-			    log.debug(CF.PSH+"MemberService.modifyTeacher :"+loginId+CF.RS);
-				return row;
-
-			}
+		 // 강사정보 Mapper 연결
+		 Teacher teacher = teacherMapper.selectTeacherOne(loginId);
+		 log.debug(CF.PSH+"MemberService.getTeacherOne teacher:"+teacher+CF.RS);
+		 
+		 // 강사파일 Mapper 연결
+		 MemberFile teacherFile = memberFileMapper.selectMemberFile(loginId);
+		 log.debug(CF.GDH+"MemberService.getTeacherOne teacherFile:"+teacherFile+CF.RS);
+		 
+		 // 강사정보와 강사파일 맵에 담기
+		 Map<String, Object> returnMap = new HashMap<String, Object>();
+		 returnMap.put("teacher", teacher);
+		 returnMap.put("teacherFile", teacherFile);
+		 
+		 return returnMap;
+	 }
+		 
+		// 강사 정보 수정하기
+		public int modifyTeacher(Teacher teacher) {
+			log.debug(CF.PSH+"MemberService.modifyTeacher :"+teacher+CF.RS);
+			int row = teacherMapper.updateTeacher(teacher);
+			return row;
+		}
 			
 		 // 강사 회원탈퇴
 			public int deleteTeacher(String loginId) {

@@ -31,7 +31,7 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 
-
+	// 학생목록
 	@GetMapping("/loginCheck/getStudentList")
 	public String getStudentList(Model model) {
 		log.debug(CF.PSH + "MemberController.getStudentList :" + CF.RS);
@@ -64,13 +64,21 @@ public class MemberController {
 	// 학생정보 수정폼
 	@GetMapping("/loginCheck/modifyStudent")
 	public String modifyStudent(Model model, HttpSession session) {
+		
 		// 세션을 통해 로그인ID 받아오기
 		String loginId = (String) session.getAttribute("sessionId");
+		log.debug(CF.GDH + "MemberController.modifyStudent loginId : " + loginId + CF.RS);
+		
+		// 레벨 받아오기
+		int level = (int)session.getAttribute("sessionLv");
+		log.debug(CF.GDH + "MemberController.modifyStudent level : " + level + CF.RS);
+		
 		// 받아온 아이디로 수정폼에 띄울 학생정보 상세보기 returnMap에 담기
 		Map<String, Object> returnMap = memberService.getStudentOne(loginId);
 		log.debug(CF.GDH + "MemberController.modifyStudent.Get returnMap : " + returnMap + CF.RS);
 
-		// returnMap에 담긴 학생정보와 사진파일을 모델에 담기
+		// 필요한 값들 모델에 담기
+		model.addAttribute("level", level);
 		model.addAttribute("student", returnMap.get("student"));
 		model.addAttribute("memberFile", returnMap.get("memberFile"));
 
@@ -89,7 +97,7 @@ public class MemberController {
 		return "redirect:/loginCheck/getStudentOne?loginId=" + student.getLoginId();
 	}
 
-	// 학생정보 수정시 비밀번호 체크폼
+	// 멤버정보 수정시 비밀번호 체크폼
 	@GetMapping("/loginCheck/modifyPwCheck")
 	public String modifyPwCheck(Model model, HttpSession session) {
 		String loginId = (String) session.getAttribute("sessionId");
@@ -97,16 +105,27 @@ public class MemberController {
 		return "member/modifyPwCheck";
 	}
 
-	// 학생정보 수정시 비밀번호 체크액션
+	// 멤버정보 수정시 비밀번호 체크액션
 	@PostMapping("/loginCheck/modifyPwCheck")
-	public String modifyPwCheck(Login login) {
+	public String modifyPwCheck(Login login, HttpSession session) {
 		int row = memberService.getPwCheck(login);
-
+		
+		// 레벨 받아오기
+		int level = (int)session.getAttribute("sessionLv");
+		log.debug(CF.GDH + "MemberController.modifyPwCheck level : " + level + CF.RS);
+		
 		if (row == 1) {
-			return "redirect:/loginCheck/modifyStudent";
+			if(level==1) {
+				return "redirect:/loginCheck/modifyStudent";
+			} else if(level==2) {
+				return "redirect:/loginCheck/modifyTeacher";
+			} else {
+				return "redirect:/loginCheck/modifyManager";
+			}
 		} else {
 			return "redirect:/loginCheck/modifyPwCheck";
 		}
+		
 	}
 
 	// 학생정보 삭제시 비밀번호 체크폼
@@ -172,6 +191,7 @@ public class MemberController {
 	// 매니저 목록 리스트
 	@GetMapping("/loginCheck/getmanagerList")
 	public String getManagerList(Model model) {
+			
 		 List<Manager> managerlist = memberService.getManagerList();
 		 List<Position> positionList = memberService.getPositions();
 		 model.addAttribute("managerlist", managerlist );
@@ -206,19 +226,6 @@ public class MemberController {
 		 	return "member/getMemberOne";
 		}
 		 
-	 // 매니저 정보 수정액션
-	 @PostMapping("/loginCheck/modifyManager")
-	 public String modifyManager(Manager manager
-			 					,HttpSession session
-			 					,HttpServletRequest request
-			 					) {
-			 int row = 0;
-			 String loginId = manager.getLoginId();
-			 row = memberService.modifyManager(manager);
-		 	 log.debug(CF.PSH+"MemberController.modifyManager :"+manager+CF.RS);
-			 return "redirect:/loginCheck/getmanagerOne?loginId="+loginId; //리다
-	 }
-		 
 	// 매니저 정보 수정폼
 	@GetMapping("/loginCheck/modifyManager")
 	 public String modifyManager(Model model
@@ -243,6 +250,20 @@ public class MemberController {
 		 	return "member/modifyManager";
 		}
 	 
+	 
+	 // 매니저 정보 수정액션
+	 @PostMapping("/loginCheck/modifyManager")
+	 public String modifyManager(Manager manager
+			 					,HttpSession session
+			 					,HttpServletRequest request
+			 					) {
+			 int row = 0;
+			 String loginId = manager.getLoginId();
+			 row = memberService.modifyManager(manager);
+		 	 log.debug(CF.PSH+"MemberController.modifyManager :"+manager+CF.RS);
+			 return "redirect:/loginCheck/getmanagerOne?loginId="+loginId; //리다
+	 }
+	 
 	 // 매니저 회원탈퇴
 	 @GetMapping("/loginCheck/deleteManager")
 	 public String deleteManager(Model model, String loginId) {
@@ -263,30 +284,46 @@ public class MemberController {
 	 
 	 // 강사 정보 상세보기
 	 @GetMapping("/loginCheck/getTeacherOne")
-	 public String getTeacherOne(Model model
-			 					, HttpSession session
-			 					, HttpServletRequest request
-			 					, @RequestParam(name="loginId") String loginId) {
+	 public String getTeacherOne(Model model, HttpSession session) {
 		 	
-		 	// 레벨 받아오기
-			int level = (int)session.getAttribute("sessionLv");
-			log.debug(CF.GDH + "MemberController.getStudentOne level : " + level + CF.RS);
-			
-		 	String path = request.getServletContext().getRealPath("/file/memberPhoto/");
-		 	Teacher teacher = new Teacher();
-		 	String fileName = memberService.getMemberFileOne(loginId);
-		 	teacher = memberService.getTeacherOne(loginId);
-		 	log.debug(CF.PSH+"MemberController.getTeacherOne :"+teacher+CF.RS);
-		 	log.debug(CF.PSH+"MemberController.getTeacherOne :"+fileName+CF.RS);
-		 	log.debug(CF.PSH+"MemberController.getTeacherOne :"+path+CF.RS);
+		 // 세션을 통해 로그인ID 받아오기
+		 String loginId = (String)session.getAttribute("sessionId");
+		 log.debug(CF.GDH + "MemberController.getTeacherOne loginId : " + loginId + CF.RS);
+		 
+		 // 레벨 받아오기
+		 int level = (int)session.getAttribute("sessionLv");
+		 log.debug(CF.GDH + "MemberController.getTeacherOne level : " + level + CF.RS);
+		
+		 // 멤버서비스로부터 맵에 담아서 들고오기
+		 Map<String, Object> returnMap = memberService.getTeacherOne(loginId);
+		 log.debug(CF.GDH + "MemberController.getTeacherOne returnMap : " + returnMap + CF.RS);
+		 
+		 // 넘길 값들 모델에 담기
+		 model.addAttribute("level", level);
+		 model.addAttribute("teacher", returnMap.get("teacher"));
+		 model.addAttribute("teacherFile", returnMap.get("teacherFile"));
 		 	
-		 	model.addAttribute("level", level);
-		 	model.addAttribute("teacher", teacher);
-		 	model.addAttribute("fileName", fileName);
-		 	
-		 	return "member/getMemberOne";
-		}
+		 return "member/getMemberOne";
+	 }
 	 
+	 // 강사 정보 수정폼
+	 @GetMapping("/loginCheck/modifyTeacher")
+	 public String modifyTeacher(Model model, HttpSession session) {
+		 
+		 // 세션을 통해 loginId 받아오기
+		 String loginId = (String)session.getAttribute("sessionId");
+		 log.debug(CF.GDH+"MemberController.modifyTeacher :"+loginId+CF.RS);
+		 
+		 // 받아온 아이디로 수정폼에 띄울 강사정보 상세보기 returnMap에 담기 
+		 Map<String, Object> returnMap = memberService.getTeacherOne(loginId);
+		 log.debug(CF.GDH+"MemberController.returnMap :"+returnMap+CF.RS);
+		 
+		 // returnMap에 담긴 강사정보와 사진파일을 모델에 담기
+	 	 model.addAttribute("teacher", returnMap.get("teacher"));
+	 	 model.addAttribute("teacherFile", returnMap.get("teacherFile"));
+	 	 
+	 	 return "member/modifyTeacher";
+	 }
 
 	 // 강사 정보 수정액션
 	 @PostMapping("/loginCheck/modifyTeacher")
@@ -301,24 +338,7 @@ public class MemberController {
 		 return "redirect:/loginCheck/getTeacherOne?loginId="+loginId; 
 	 }
 	 
-	 
-		// 강사 정보 수정폼
-	 @GetMapping("/loginCheck/modifyTeacher")
-	 public String modifyTeacher(Model model
-			 ,HttpSession session
-			 ,HttpServletRequest request
-			 ,@RequestParam(name="loginId") String loginId) {
-	 	log.debug(CF.PSH+"MemberController.modifyTeacher :"+loginId+CF.RS);
-		 String path = request.getServletContext().getRealPath("/file/memberPhoto/");
-		 	Teacher teacher = new Teacher();
-		 	teacher = memberService.getTeacherOne(loginId);
-			String fileName = memberService.getMemberFileOne(loginId);
-		 	log.debug(CF.PSH+"MemberController.modifyTeacher :"+teacher+CF.RS);
-		 	log.debug(CF.PSH+"MemberController.modifyTeacher :"+fileName+CF.RS);
-		 	model.addAttribute("teacher", teacher);
-		 	model.addAttribute("fileName", fileName);
-		 	return "member/modifyTeacher";
-		}
+	
 	 
 	 // 강사 회원탈퇴
 	 @GetMapping("/loginCheck/deleteTeacher")
