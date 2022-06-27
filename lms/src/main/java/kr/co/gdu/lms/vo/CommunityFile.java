@@ -10,5 +10,5 @@ public class CommunityFile {
 	private String communityFileType;
 	private String communityFileOriginName;
 	private int communityFileSize;
-	private String createDate;
+	private String communityFilecreateDate;
 }
