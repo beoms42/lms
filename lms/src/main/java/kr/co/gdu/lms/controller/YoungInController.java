@@ -40,13 +40,10 @@ public class YoungInController {
 		// List순회시 삭제할때 에러가 많이발생해서 무조건 이터레이터라는걸 써서 삭제를 해줘야함 참고 : https://ddolcat.tistory.com/924
 		while(learnArr.hasNext()) {
 			String Arr = learnArr.next();
-			log.debug(CF.JYI+"11111111111111111//////"+Arr+CF.RS);
 			Iterator<Student> iterStu = studentlist.iterator();
 			while(iterStu.hasNext()) {
 				Student stu = iterStu.next();
-				log.debug(CF.JYI+"22222222222222222222//////"+stu+CF.RS);
 				if(stu.getLoginId().equals(Arr)) {
-					log.debug(CF.JYI+"stustustustustustustustustustu//////"+stu+CF.RS);
 					iterStu.remove();
 				}
 			}
