@@ -139,12 +139,32 @@ public class LectureController {
 		List<String> subList = lectureService.selectSubejctList();
 		List<String> haveSubList = lectureService.selectSubjectListByLectureName(lectureName);
 		
+		
+		
+		
+		
+		//데이터 중복 제거하려면 subList에서 haveSubList를 빼야함
+		List<String> removed = new ArrayList<String>();
+		
+		for(String s : subList) {
+			for(String h : haveSubList) {
+				if(h.equals(s)) {
+					removed.add(h);
+				}
+			}
+		}
+		
+		for(String s : removed) {
+			subList.remove(s);
+		}
+		
 		log.debug(CF.JYI+"LectureService.addSubjectInLecture.get subList : "+subList+CF.RS);
 		log.debug(CF.JYI+"LectureService.addSubjectInLecture.get haveSubList : "+haveSubList+CF.RS);
 		
 		model.addAttribute("subList", subList);
 		model.addAttribute("lectureName", lectureName);
 		model.addAttribute("haveSubList", haveSubList);
+		
 		return "lecture/addSubejctInLecture";
 	}
 		
