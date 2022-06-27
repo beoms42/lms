@@ -33,6 +33,11 @@ public class LoginService {
 	@Autowired private ManagerMapper managerMapper;
 	@Autowired private MemberFileMapper memberFileMapper;
 	
+	// 로그인 성공했을 때 레벨 출력
+	public Login getLoginLevel(Login loginTest) {
+		return loginMapper.loginAndSelectLevel(loginTest);
+	}
+	
 	// 마지막 로그인 날짜 업데이트
 	public void modifyLastChangePwDate(String loginId) {
 		log.debug(CF.LCH + "LoginService.modifyLastChangePwDate loginId : " + loginId + CF.RS);

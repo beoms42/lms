@@ -30,6 +30,20 @@
  	   --bs-bg-opacity: 1;
     	background-color: rgba(var(--bs-white-rgb), var(--bs-bg-opacity)) !important;
 	}
+	.msgbox{
+	   position: fixed;
+	   background-color: #222222;
+	   color: #ffffff;
+	   top:120px;
+	   left:34%;
+	   padding-top:70px;
+	   text-align:center;
+	   width: 614px;
+	   height: 700px;
+	   font-weight:600;
+	   font-size:18px;
+	   border: 1px solid #000000;
+	   opacity: 0.9;   
   </style>
 </head>
 
@@ -83,6 +97,19 @@
 	                 </span>
 	              </div>
               </form>
+              <c:if test="${msg != null}">
+              	<div class="msgbox">
+			       비밀번호를 변경 3개월 경과하였습니다. <br>
+			       개인정보 보호를 위해 비밀번호를 변경하시겠습니까?
+			       <br>
+			       <br>
+			       <br>
+			       <div class="text-center">
+			       <a href="${pageContext.request.contextPath}/changePw?loginId=${loginId}&changePwLater=on" class="btn text-white btn-danger">3개월 더 연장하기</a>
+			       <a href="${pageContext.request.contextPath}/changePw?loginId=${loginId}" class="btn text-white btn-info">비밀번호 변경하기</a>
+			       </div>
+			    </div>
+              </c:if>
             </div>
           </div>
         </div>
