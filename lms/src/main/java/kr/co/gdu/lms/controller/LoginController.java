@@ -243,9 +243,12 @@ public class LoginController {
       // 멤버사진 받아오기
       Map<String, Object> returnMap = memberService.getMemberOne(login);
       log.debug(CF.GDH + "LoginController.main returnMap : " + returnMap + CF.RS);
-      MemberFile memberFile = (MemberFile)returnMap.get("memberFile");
-      String memberFileName = memberFile.getMemberFileName();
-      session.setAttribute("memberFileName", memberFileName);
+      if(level != 4) {
+    	  MemberFile memberFile = (MemberFile)returnMap.get("memberFile");
+    	  String memberFileName = memberFile.getMemberFileName();
+    	  session.setAttribute("memberFileName", memberFileName);
+    	  model.addAttribute("memberFile", memberFile);
+      }
       
       LocalDate date = LocalDate.now();
       String nowDate = date.toString().replace("-", "");
@@ -285,7 +288,6 @@ public class LoginController {
       
       
       
-      model.addAttribute("memberFile", memberFile);
       model.addAttribute("year", year);
       model.addAttribute("month", month);
       model.addAttribute("day", day);

@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -90,9 +90,18 @@
             </div>
           </li>
           <li class="nav-item nav-profile dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-              <img src="${pageContext.request.contextPath}/file/memberPhoto/${memberFileName}" alt="profile"/>
-            </a>
+          	<c:choose>
+          		<c:when test="${sessionLv == 4}">
+          			<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+		              <img src="${pageContext.request.contextPath}/file/memberPhoto/dd.png" alt="profile"/>
+		            </a>
+          		</c:when>
+          		<c:otherwise>
+		            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+		              <img src="${pageContext.request.contextPath}/file/memberPhoto/${memberFileName}" alt="profile"/>
+		            </a>
+          		</c:otherwise>
+          	</c:choose>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
          <a class="dropdown-item" href="${pageContext.request.contextPath}/loginCheck/getMemberOne">
             <i class="ti-settings text-primary"></i> MyPage 
