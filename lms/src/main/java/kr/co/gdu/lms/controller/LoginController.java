@@ -21,6 +21,7 @@ import kr.co.gdu.lms.service.LoginService;
 import kr.co.gdu.lms.service.MemberService;
 import kr.co.gdu.lms.vo.AddMemberForm;
 import kr.co.gdu.lms.vo.Login;
+import kr.co.gdu.lms.vo.MemberFile;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -33,11 +34,13 @@ public class LoginController {
 	@GetMapping("/changePw")
 	public String changePw(@RequestParam(value = "changePwLater", defaultValue = "") String changePwLater
 						, @RequestParam(value = "loginId") String loginId)  {
-		log.debug(CF.LCH+"LoginController.login.post changePwLater : "+changePwLater+CF.RS);
+		log.debug(CF.LCH+"LoginController.changePw.get changePwLater : "+changePwLater+CF.RS);
 		if("on".equals(changePwLater)) {
 			loginService.modifyLastChangePwDate(loginId);
+			log.debug(CF.LCH+"LoginController.changePw.get 3개월 연장"+CF.RS);
 			return "redirect:/loginCheck/main";
 		}
+		log.debug(CF.LCH+"LoginController.changePw.get 비밀번호 변경"+CF.RS);
 		return "redirect:/modifyLoginPw?loginId="+loginId;
 	}
 	
@@ -240,6 +243,9 @@ public class LoginController {
       // 멤버사진 받아오기
       Map<String, Object> returnMap = memberService.getMemberOne(login);
       log.debug(CF.GDH + "LoginController.main returnMap : " + returnMap + CF.RS);
+      MemberFile memberFile = (MemberFile)returnMap.get("memberFile");
+      String memberFileName = memberFile.getMemberFileName();
+      session.setAttribute("memberFileName", memberFileName);
       
       LocalDate date = LocalDate.now();
       String nowDate = date.toString().replace("-", "");
@@ -277,7 +283,9 @@ public class LoginController {
       log.debug(CF.LCH + "LoginController.main.get day : " + day + CF.RS);
       log.debug(CF.LCH + "LoginController.main.get dayOfWeek : " + dayOfWeek + CF.RS);
       
-      model.addAttribute("memberFile", returnMap.get("memberFile"));
+      
+      
+      model.addAttribute("memberFile", memberFile);
       model.addAttribute("year", year);
       model.addAttribute("month", month);
       model.addAttribute("day", day);
