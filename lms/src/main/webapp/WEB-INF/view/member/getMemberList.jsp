@@ -157,7 +157,7 @@
                       <tbody>
                       <c:forEach var="s" items="${studentList}">
                          <tr>
-                            <td><a href="${pageContext.request.contextPath}/loginCheck/getStudentOne?loginId=${s.loginId}">${s.loginId}</a></td>
+                            <td><a href="${pageContext.request.contextPath}/loginCheck/getMemberOne?loginId=${s.loginId}">${s.loginId}</a></td>
                             <td>${s.studentName}</td>
                             <td>${s.studentBirth}</td>
                             <td>${s.createDate}</td>
@@ -190,9 +190,9 @@
                         </tr>
                       </thead>
                       <tbody>
-                      <c:forEach var="t" items="${teacherlist}">
+                      <c:forEach var="t" items="${teacherList}">
                          <tr>
-                            <td><a href="${pageContext.request.contextPath}/loginCheck/getTeacherOne?loginId=${t.loginId}">${t.loginId}</a></td>
+                            <td><a href="${pageContext.request.contextPath}/loginCheck/getMemberOne?loginId=${t.loginId}">${t.loginId}</a></td>
                             <td>${t.teacherName}</td>
                             <td>${t.teacherBirth}</td>
                             <td>${t.createDate}</td>
@@ -225,17 +225,14 @@
                         </tr>
                       </thead>
                       <tbody>
-                      <c:forEach var="m" items="${managerlist}">
-                      <c:forEach var="p" items="${positionList}">
-                      
+                      <c:forEach var="m" items="${managerList}">
                          <tr>
-                            <td><a href="${pageContext.request.contextPath}/loginCheck/getmanagerOne?loginId=${m.loginId}">${m.loginId}</a></td>
+                            <td><a href="${pageContext.request.contextPath}/loginCheck/getMemberOne?loginId=${m.loginId}">${m.loginId}</a></td>
                             <td>${m.managerName}</td>
-                            <td>${p.positionName}</td>
+                            <td>${m.positionName}</td>
                             <td>${m.createDate}</td>
                          </tr>
                       </c:forEach> 
-                      </c:forEach>               
                       </tbody>
                     </table>
                   </div>
