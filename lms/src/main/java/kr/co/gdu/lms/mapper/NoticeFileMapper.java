@@ -1,5 +1,7 @@
 package kr.co.gdu.lms.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import kr.co.gdu.lms.vo.NoticeFile;
@@ -8,7 +10,7 @@ import kr.co.gdu.lms.vo.NoticeFile;
 public interface NoticeFileMapper {
 	
 	// 공지사항 파일 
-	NoticeFile selectNoticeFile(int noticeNo);
+	List<NoticeFile> selectNoticeFile(int noticeNo);
 	
 	// 공지사항 파일 삭제
 	int deleteNoticeFile(int noticeNo);

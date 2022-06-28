@@ -60,9 +60,10 @@ public class NoticeController {
 		
 		// 해당 noticeNo의 공지사항 상세보기
 		Map<String, Object> map = noticeService.getNoticeOne(noticeNo);
+		log.debug(CF.OHI+"NoticeController.getNoticeOne map : "+map+CF.RS);
 		
 		model.addAttribute("notice", map.get("notice"));
-		model.addAttribute("noticeFile", map.get("noticeFile"));
+		model.addAttribute("fileList", map.get("list"));
 		
 		return "notice/getNoticeOne";
 	}
@@ -96,5 +97,22 @@ public class NoticeController {
 		} else {
 			return "redirect:/loginCheck/addNotice";
 		}
+	}
+	
+	// 공지사항 수정 폼
+	@GetMapping("/loginCheck/modifyNotice")
+	public String modifyNotice(Model model
+			, @RequestParam(value="noticeNo") int noticeNo) {
+		
+		log.debug(CF.OHI+"NoticeController.modifyNotice.param noticeNo : "+noticeNo+CF.RS);
+		
+		// 해당 noticeNo의 공지사항 상세보기
+		Map<String, Object> map = noticeService.getNoticeOne(noticeNo);
+		log.debug(CF.OHI+"NoticeController.modifyNotice map : "+map+CF.RS);
+		
+		model.addAttribute("notice", map.get("notice"));
+		model.addAttribute("fileList", map.get("list"));
+		
+		return "notice/modifyNotice";
 	}
 }

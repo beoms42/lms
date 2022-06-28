@@ -63,7 +63,7 @@
               <div class="card">
                 <div class="card-body"><h3 class="bottom">[공지사항]</h3>
                 <c:if test="${sessionLv >= 3}">
-                    <a class="float-right btn btn-inverse-info" href="${pageContext.request.contextPath}/loginCheck/addNotice">게시글 입력</a>
+                    <a class="float-right btn btn-info" href="${pageContext.request.contextPath}/loginCheck/addNotice">게시글 입력</a>
                 </c:if>
                   <div class="table-responsive">
                     <table class="table">
@@ -96,7 +96,7 @@
                 </div>
               </div>
             </div>
-        </div>
+          </div>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
         <footer class="footer">
@@ -109,10 +109,11 @@
           </div>
         </footer> 
         <!-- partial -->
-      </div>
+      	</div>
       <!-- main-panel ends -->
     </div>   
     <!-- page-body-wrapper ends -->
+    </div>
   </div>
   <!-- container-scroller -->
 

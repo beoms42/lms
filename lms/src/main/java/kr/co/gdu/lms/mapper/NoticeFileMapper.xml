@@ -10,7 +10,7 @@
 			notice_file_no noticeFileNo
 			, notice_no noticeNo
 			, login_id loginId
-			, notice_file_name noticeFileNam
+			, notice_file_name noticeFileName
 			, notice_file_origin_name noticeFileOriginName
 			, notice_file_type noticeFileType
 			, notice_file_size noticeFileSize

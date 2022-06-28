@@ -58,11 +58,11 @@ public class NoticeService {
 		
 		// 해당 noticeNo의 공지사항 상세보기 
 		Notice notice = noticeMapper.selectNoticeOne(noticeNo);
-		NoticeFile noticeFile = noticeFileMapper.selectNoticeFile(noticeNo);
+		List<NoticeFile> list = noticeFileMapper.selectNoticeFile(noticeNo);
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("notice", notice);
-		map.put("noticeFile", noticeFile);
+		map.put("list", list);
 		
 		return map;
 	}
