@@ -44,6 +44,13 @@
   	table{
   		text-align:center;
   	}
+	input {
+	  width:100px;
+	  height:30px;
+	  font-size:15px;
+	  border: 1px solid red;
+	  text-align:center;
+	}
   </style>
 </head>
 <body>
@@ -163,6 +170,8 @@
 											<table class="table table-striped">
 										        <tbody>
 										        	<c:forEach var="n" items="${assignmentList}">
+											                <input type="number" id ="assignmentExamNo" value="${n.assignmentExamNo}">
+											                <input type="hidden" id="educationNo" value="${n.educationNo}">
 											                <tr>
 													        	<td>제목</td>
 											                	<td>${n.assignmentExamTitle}</td>
@@ -209,36 +218,52 @@
 								                  <p class="card-description"></p>
 								                  <div class="table-responsive">
 														<c:forEach var="m" items="${assignmentSubmitTeacher}">
-															<table class="table table-hover">
-																	<thead>
-																		<tr>
-																			<th>작성자</th>
-																			<th>내용</th>
-																			<th>제출 시간</th>
-																			<th>싸인</th>
-																			<th>파일</th>
-																		</tr>
-																	</thead>
-																	<tbody>
-																		<tr>
-																			<td>${m.loginId}</td>
-																			<td>${m.assignmentSubmitContent}</td>
-																			<td>${m.createDate}</td>
-																			<td><img src="${m.assignmentSignfileURL}" width="100%"></td>
-																			<c:forEach var="f" items="${fileList}">
-																  				<c:if test="${f.assignmentFileType.equals('image/jpeg') || f.assignmentFileType.equals('image/gif') || f.assignmentFileType.equals('image/PNG') || f.assignmentFileType.equals('image/webp')}">
-																	  				<td><img src="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}" width="100%"></td>
-																  				</c:if>
-																  				<c:if test="${f.assignmentFileType.equals('application/octet-stream')}">
-																  					<td><a href="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}">${f.assignmentFileOriginName}</a></td>
-																  				</c:if>
-																  				<c:if test="${fn:length(fileList) = 0}">
-																  					<td></td>
-																  				</c:if>
-																			</c:forEach>
-																		</tr>
-																	</tbody>
-																</table>
+															<form action="${pageContext.request.contextPath}/">
+																<table class="table table-hover">
+																		<thead>
+																			<tr>
+																				<th>작성자</th>
+																				<th>내용</th>
+																				<th>제출 시간</th>
+																				<th>싸인</th>
+																				<th>점수</th>
+																				<th>파일</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr>
+																				<td>${m.loginId}</td>
+																				<td>${m.assignmentSubmitContent}</td>
+																				<td>${m.createDate}</td>
+																				<td><img src="${m.assignmentSignfileURL}" width="100%"></td>
+																				<c:if test="${m.assignmentSubmitScore eq '채점중' }">
+																					<c:if test="${level >= 2 }">
+																						<td>
+																							<input type="number" id="updateScore" name="updateScore" max="100" min="0" step="10"><br><br><button type="button" id="submitScore">성적 입력</button>
+																						</td>
+																					</c:if>
+																				<c:if test="${level< 2} ">
+																					<td>${m.assignmentSubmitScore}</td>
+																				</c:if>
+																				</c:if>
+																				<c:if test="${m.assignmentSubmitScore != '채점중'}">
+																						<td>${m.assignmentSubmitScore}</td>
+																				</c:if>
+																				<c:forEach var="f" items="${fileList}">
+																	  				<c:if test="${f.assignmentFileType.equals('image/jpeg') || f.assignmentFileType.equals('image/gif') || f.assignmentFileType.equals('image/PNG') || f.assignmentFileType.equals('image/webp')}">
+																		  				<td><img src="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}" width="100%"></td>
+																	  				</c:if>
+																	  				<c:if test="${f.assignmentFileType.equals('application/octet-stream')}">
+																	  					<td><a href="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}">${f.assignmentFileOriginName}</a></td>
+																	  				</c:if>
+																	  				<c:if test="${fn:length(fileList) == 0}">
+																	  					<td></td>
+																	  				</c:if>
+																				</c:forEach>
+																			</tr>
+																		</tbody>
+																	</table>
+																</form>
 														</c:forEach>
 														
 														</div>
@@ -299,6 +324,7 @@
 																		<th>내용</th>
 																		<th>제출 시간</th>
 																		<th>싸인</th>
+																		<th>점수</th>
 																		<th>파일</th>
 																	</tr>
 																</thead>
@@ -309,6 +335,19 @@
 																			<td>${m.assignmentSubmitContent}</td>
 																			<td>${m.createDate}</td>
 																			<td><img src="${m.assignmentSignfileURL}" width="100%"></td>
+																			<c:if test="${m.assignmentSubmitScore eq '채점중' }">
+																			<c:if test="${level >= 2 }">
+																				<td>
+																					<a href="${pageContext.request.contextPath}/loginCheck/updateScore?assignmentExamNo=${m.assignmentExamNo}">입력</a>
+																				</td>
+																			</c:if>
+																			<c:if test="${level< 2} ">
+																				<td>${m.assignmentSubmitScore}</td>
+																			</c:if>
+																			</c:if>
+																			<c:if test="${m.assignmentSubmitScore != '채점중'}">
+																					<td>${m.assignmentSubmitScore}</td>
+																			</c:if>
 																		</c:forEach>
 																		<c:forEach var="f" items="${fileList}">
 														  					<c:if test="${f.assignmentFileType.equals('image/jpeg') || f.assignmentFileType.equals('image/gif') || f.assignmentFileType.equals('image/PNG') || f.assignmentFileType.equals('image/webp')}">
@@ -318,9 +357,10 @@
 															  				<c:if test="${f.assignmentFileType.equals('application/octet-stream')}">
 															  					<td><a href="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}">${f.assignmentFileOriginName}</a></td>
 															  				</c:if>
+														  	
+															
 																		</c:forEach>
 																	</tr>
-													
 																</tbody>
 															</table>
 															</div>
@@ -416,9 +456,22 @@
 			} else{
 				alert('파일이 첨부되지 않았습니다.');
 			}
-		});
-	
-	
+	});
+	$('#submitScore').click(function(){
+		var url='${pageContext.request.contextPath}';
+		$.ajax({
+				type : "POST"
+				, url : url+"/submitScore"
+				, data : {assignmentSubmitScore:$('#updateScore').val()
+						 ,assignmentExamNo:$('#assignmentExamNo').val()
+						 ,educationNo:$('#educationNo').val()
+						 }
+				, success : function(a) {
+					alert(a);
+				}
+				
+			})
+	});
 </script>
 </body>
 
