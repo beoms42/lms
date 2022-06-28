@@ -171,8 +171,7 @@
              <div class="row">
                <div class="col-md-12 grid-margin">
                  <div class="row">
-                 
-                   <c:choose>
+                  <c:choose>
                   <c:when test = "${sessionLv==1}">
                       <div class="col-12 col-xl-8 mb-4 mb-xl-0">
                       <div class="card">

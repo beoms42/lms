@@ -1,5 +1,6 @@
 package kr.co.gdu.lms.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,13 +32,32 @@ public class MemberController {
    @Autowired
    private MemberService memberService;
 
-   // 학생목록
-   @GetMapping("/loginCheck/getStudentList")
-   public String getStudentList(Model model) {
-      log.debug(CF.PSH + "MemberController.getStudentList :" + CF.RS);
-      List<Student> studentlist = memberService.getStudentList();
-      model.addAttribute("studentlist", studentlist);
-      return "member/getStudentList";
+   // 회원 목록
+   @GetMapping("/loginCheck/getMemberList")
+   public String getMemberList(Model model
+		   						,@RequestParam (name="msg") String msg) {
+	   // msg 확인
+	   log.debug(CF.GDH + "MemberController.getMemberList msg : " + msg + CF.RS);
+       
+	   // msg분기별로 정보받아오기
+	   if("student".equals(msg)) {
+		   List<Student> studentList = memberService.getStudentList();
+		   log.debug(CF.GDH+"MemberController.getMemberList studentList : " + studentList + CF.RS);
+		   model.addAttribute("studentList", studentList);
+	   } else if("teacher".equals(msg)) {
+		   List<Teacher> teacherList = memberService.getTeacherList();
+		   log.debug(CF.GDH+"MemberController.getMemberList teacherList : " + teacherList + CF.RS);
+		   model.addAttribute("teacherList", teacherList);
+	   } else if("manager".equals(msg)) {
+		   List<Manager> managerList = memberService.getManagerList();
+	       List<Position> positionList = memberService.getPositions();
+	       log.debug(CF.GDH+"MemberController.getMemberList managerList : " + managerList + CF.RS);
+	       log.debug(CF.GDH+"MemberController.getMemberList positionList : " + positionList + CF.RS);
+	       model.addAttribute("managerList", managerList);
+	       model.addAttribute("positionList", positionList );
+	   }
+       
+       return "member/getMemberList";
    }
 
    // 멤버정보 상세보기
@@ -51,7 +71,7 @@ public class MemberController {
       String loginId = (String)session.getAttribute("sessionId");
       log.debug(CF.GDH + "MemberController.getMemberOne loginId : " + loginId + CF.RS);
       
-      // 세션을 통해 로그인ID 받아오기
+      // 로그인VO에 담기
       Login login = new Login();
       login.setLevel(level);
       login.setLoginId(loginId);
@@ -201,15 +221,6 @@ public class MemberController {
             return "redirect:/loginCheck/getStudentOne"; }
    }
    
-    // 강사 목록 리스트
-    @GetMapping("/loginCheck/getTeacherList")
-    public String getTeacherList(Model model) {
-       List<Teacher>teacherlist = memberService.getTeacherList();
-       log.debug(CF.PSH+"MemberController.getTeacherList :"+ CF.RS);
-       model.addAttribute("teacherlist", teacherlist);
-    return "member/getTeacherList";
-    }
-    
     // 강사 정보 수정액션
     @PostMapping("/loginCheck/modifyTeacher")
     public String modifyTeacher(Teacher teacher
@@ -232,19 +243,6 @@ public class MemberController {
        return "member/getTeacherList";
     }
     
-   // 매니저 목록 리스트
-   @GetMapping("/loginCheck/getmanagerList")
-   public String getManagerList(Model model) {
-         
-       List<Manager> managerlist = memberService.getManagerList();
-       List<Position> positionList = memberService.getPositions();
-       model.addAttribute("managerlist", managerlist );
-       model.addAttribute("positionList", positionList );
-       log.debug(CF.PSH+"MemberController.managerlist :"+ CF.RS);
-       log.debug(CF.PSH+"MemberController.deptList :"+ CF.RS);
-   return "member/getManagerList";   
-   }
-       
     // 매니저 정보 수정액션
     @PostMapping("/loginCheck/modifyManager")
     public String modifyManager(Manager manager

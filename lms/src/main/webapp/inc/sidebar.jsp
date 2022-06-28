@@ -106,9 +106,9 @@
 	            </a>
 	            <div class="collapse" id="mana">
 	              <ul class="nav flex-column sub-menu">
-	                <li class="nav-item"> <a class="nav-link" href="pages/icons/mdi.html">매니저 리스트</a></li>
-	                <li class="nav-item"> <a class="nav-link" href="pages/icons/mdi.html">강사 리스트</a></li>
-	                <li class="nav-item"> <a class="nav-link" href="pages/icons/mdi.html">학생 리스트</a></li>
+	                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/getMemberList?msg=student">학생 리스트</a></li>
+	                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/getMemberList?msg=teacher">강사 리스트</a></li>
+	                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/getMemberList?msg=manager">매니저 리스트</a></li>
 	                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/acceptAddMember">회원가입 승인</a></li>
 	              </ul>
 	            </div>

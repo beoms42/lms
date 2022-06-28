@@ -77,12 +77,8 @@ public class MemberService {
       return returnMap;
    } 
    
-   // 학생 목록 리스트
-    public List<Student> getStudentList() {
-       List<Student> list = studentMapper.selectStudentList();
-       log.debug(CF.PSH+"MemberService.getStudentList :"+CF.RS);
-       return list;   
-    }
+   
+   
    
    // 학생정보 수정하기
    public int modifyStudent(Student student) {
@@ -163,12 +159,7 @@ public class MemberService {
       return dmRow;
    }
    
-   // 매니저 리스트
-   public List<Manager> getManagerList() {
-      List<Manager> list = managerMapper.selectManagerList();
-      log.debug(CF.PSH+"MemberService.getManagerList :"+CF.RS);
-      return list;   
-   }
+   
        
        
    // 부서리스트
@@ -203,12 +194,7 @@ public class MemberService {
        }
        
       
-       // 강사 리스트
-       public List<Teacher> getTeacherList() {
-          List<Teacher> list = teacherMapper.selectTeacherList();
-           log.debug(CF.PSH+"MemberService.getTeacherList :"+list+CF.RS);
-          return list;
-       }
+       
        
        
     
@@ -234,4 +220,25 @@ public class MemberService {
             String fileName = mem.getMemberFileName();
             return fileName;
          }
+         
+         // 학생 리스트
+         public List<Student> getStudentList() {
+      	   	 List<Student> list = studentMapper.selectStudentList();
+      	   	 log.debug(CF.PSH+"MemberService.getStudentList :"+CF.RS);
+      	   	 return list;   
+         }
+         
+         // 매니저 리스트
+         public List<Manager> getManagerList() {
+             List<Manager> list = managerMapper.selectManagerList();
+             log.debug(CF.PSH+"MemberService.getManagerList :"+CF.RS);
+             return list;   
+         }
+         
+         // 강사 리스트
+         public List<Teacher> getTeacherList() {
+        	 List<Teacher> list = teacherMapper.selectTeacherList();
+        	 log.debug(CF.PSH+"MemberService.getTeacherList :"+list+CF.RS);
+        	 return list;
+         }         
    }

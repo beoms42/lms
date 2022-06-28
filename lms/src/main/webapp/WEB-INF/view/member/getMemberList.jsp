@@ -129,16 +129,14 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                  <h3>학생 목록 리스트</h3>
-                </div>
-                <div class="col-12 col-xl-4">
-                 <div class="justify-content-end d-flex">
-                 </div>
+                  <h3 style="font-weight: bold;">회원 목록</h3>
                 </div>
               </div>
             </div>
           </div>
           <!-- 강의개설 실제부분 --> 
+          <c:choose>
+          <c:when test="${msg eq 'student'}">
           <div class="row">
             <div class="col-lg-10 grid-margin stretch-card">
               <div class="card">
@@ -157,7 +155,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                      <c:forEach var="s" items="${studentlist}">
+                      <c:forEach var="s" items="${studentList}">
                          <tr>
                             <td><a href="${pageContext.request.contextPath}/loginCheck/getStudentOne?loginId=${s.loginId}">${s.loginId}</a></td>
                             <td>${s.studentName}</td>
@@ -171,8 +169,82 @@
                 </div>
               </div>
             </div>
-          
           </div>
+          </c:when>
+          <c:when test="${msg eq 'teacher'}">
+          <div class="row">
+            <div class="col-lg-10 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">강사</h4>
+                  <p class="card-description">
+                  </p>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>강사명</th>
+                          <th>생년월일</th>
+                          <th>생성날짜</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      <c:forEach var="t" items="${teacherlist}">
+                         <tr>
+                            <td><a href="${pageContext.request.contextPath}/loginCheck/getTeacherOne?loginId=${t.loginId}">${t.loginId}</a></td>
+                            <td>${t.teacherName}</td>
+                            <td>${t.teacherBirth}</td>
+                            <td>${t.createDate}</td>
+                         </tr>
+                      </c:forEach>                
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </c:when>
+          <c:when test="${msg eq 'manager'}">
+          <div class="row">
+            <div class="col-lg-10 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">매니저</h4>
+                  <p class="card-description">
+                  </p>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>매니저명</th>
+                          <th>직급</th>
+                          <th>생성날짜</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      <c:forEach var="m" items="${managerlist}">
+                      <c:forEach var="p" items="${positionList}">
+                      
+                         <tr>
+                            <td><a href="${pageContext.request.contextPath}/loginCheck/getmanagerOne?loginId=${m.loginId}">${m.loginId}</a></td>
+                            <td>${m.managerName}</td>
+                            <td>${p.positionName}</td>
+                            <td>${m.createDate}</td>
+                         </tr>
+                      </c:forEach> 
+                      </c:forEach>               
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </c:when>
+          </c:choose>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
         <!-- partial -->
