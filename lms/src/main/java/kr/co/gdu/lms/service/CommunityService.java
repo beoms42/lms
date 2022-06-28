@@ -1,17 +1,18 @@
 package kr.co.gdu.lms.service;
 
+import java.io.File;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.mapper.CommunityMapper;
-import kr.co.gdu.lms.mapper.LoginMapper;
+import kr.co.gdu.lms.vo.CommunityForm;
 import kr.co.gdu.lms.vo.Community;
-import kr.co.gdu.lms.vo.Lecture;
-import kr.co.gdu.lms.vo.Notice;
+import kr.co.gdu.lms.vo.CommunityFile;
 import kr.co.gdu.lms.vo.Qna;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,7 +22,55 @@ import lombok.extern.slf4j.Slf4j;
 public class CommunityService {
 	@Autowired private CommunityMapper communityMapper;
 	
+	// 희원 - addCommunity
+	public void addCommunity(CommunityForm communityForm, String path) {
+		log.debug(CF.PHW+"CommunityService.addCommunity.path : "+path+CF.RS );
+		log.debug(CF.PHW+"CommunityService.addCommunity.communityForm : "+communityForm+CF.RS );
+		
+		Community community = new Community();
+		community.setCommunityTitle(communityForm.getCommunityTitle());
+		community.setCommunityContent(communityForm.getCommunityContent());
+		community.setLoginId(communityForm.getLoginId());
+		community.setCommunityPw(communityForm.getCommunityPw());
+		
+		int row = communityMapper.insertCommunity(community);
+		log.debug(CF.PHW+"CommunityService.addCommunity.community.getCommunityNo() : "+community.getCommunityNo()+CF.RS );
+		log.debug(CF.PHW+"CommunityService.addCommunity.community.row : "+row+CF.RS );
+		
+		if(communityForm.getCommunityFileList() != null && communityForm.getCommunityFileList().get(0).getSize() > 0 && row == 1) {
+			log.debug(CF.PHW+"CommunityService.addCommunity.if : 첨부된 파일이 있습니다. "+CF.RS );
+			for(MultipartFile mf : communityForm.getCommunityFileList()) {
+				CommunityFile communityFile = new CommunityFile();
+				
+				String originName= mf.getOriginalFilename();
+				String ext = originName.substring(originName.lastIndexOf("."));
+				
+				String fileName = UUID.randomUUID().toString();
+				fileName = fileName.replace("-","");
+				fileName = fileName + ext;
+				
+				communityFile.setCommunityNo(community.getCommunityNo());
+				communityFile.setCommunityFileName(fileName);
+				communityFile.setCommunityFileType(mf.getContentType());
+				communityFile.setCommunityFileSize(mf.getSize());
+				communityFile.setCommunityFileOriginName(originName);
+				communityFile.setLoginId(communityForm.getLoginId());
+				log.debug(CF.PHW+"CommunityService.addCommunity.communityFile : "+communityFile+CF.RS );
+				
+				communityMapper.insertCommunityFile(communityFile);
+
+				try {
+					mf.transferTo(new File(path + fileName));
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new RuntimeException();
+				}
+			}
+		}
+	}
 	
+	
+	// 희원 - communityOne
 	public Map<String, Object> getCommunityOne(Map<String, Object> map) {
 		
 		int communityNo = (int)map.get("communityNo");

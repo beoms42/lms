@@ -21,5 +21,35 @@
 			, #{loginId}
 			, NOW()
 		)
-		</insert>
+	</insert>
+		
+	<select id="selectStudentListByLectureName"
+		parameterType="String"
+		resultType="kr.co.gdu.lms.vo.Student">
+			SELECT
+		        s.login_id loginId
+		        , s.student_name studentName
+		        , s.student_birth studentBirth
+		        , s.student_gender studentGender
+		        , s.address address
+		        , s.detail_address detailAddress
+		        , s.student_email studentEmail
+		        , CONCAT(SUBSTRING(s.student_phone, 1,3),'-',(SUBSTRING(s.student_phone,4,4)),'-',(SUBSTRING(s.student_phone,8,4))) studentPhone
+		        , s.military_status militaryStatus
+		        , s.graduate
+		        , s.create_date createDate   
+		     FROM student s
+		     INNER JOIN education e
+		     ON s.login_id = e.login_id
+		     WHERE e.lecture_name = #{lectureName}
+	</select>
+	
+	<select id="selectStudentGroup"
+		resultType="map">
+		SELECT 
+			lecture_name lectureName
+			,COUNT(*) cnt
+		FROM education
+		GROUP BY lecture_name
+	</select>
 </mapper>

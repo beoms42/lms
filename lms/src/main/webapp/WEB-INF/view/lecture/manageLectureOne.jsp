@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -39,7 +40,7 @@
         <ul class="navbar-nav mr-lg-2">
           <li class="nav-item nav-search d-none d-lg-block">
             <div class="input-group">
-               
+            	
             </div>
           </li>
         </ul>
@@ -129,7 +130,7 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                  <h3>매니저 상세보기</h3>
+                  <h1>[강의관리]</h1>
                 </div>
                 <div class="col-12 col-xl-4">
                  <div class="justify-content-end d-flex">
@@ -140,70 +141,153 @@
           </div>
           <!-- 강의개설 실제부분 --> 
           <div class="row">
-            <div class="col-lg-10 grid-margin stretch-card">
+            <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title"><img src="${pageContext.request.contextPath }/file/memberPhoto/${fileName}" width="100" height="100">${managerMap.managerName}매니저님</h4>
+                  <h4 class="card-title">현재 승인된 강의리스트</h4>
                   <p class="card-description">
                   </p>
                   <div class="table-responsive">
                     <table class="table">
                       <thead>
                         <tr>
-                          <td>ID</td>
-                          <td>${managerMap.loginId}</td>
-                        </tr> 
-                         <tr> 
-                          <td>성명</td>
-                          <td>${managerMap.managerName}</td>
-                        </tr>  
-                        <tr>
-                          <td>생년월일</td>
-                          <td>${managerMap.managerBirth}</td>
-                        </tr>
-                         <tr> 
-                          <td>성별</td>
-                          <td>${managerMap.managerGender}</td>
-                        </tr>
-                         <tr> 
-                          <td>주소</td>
-                          <td>${managerMap.address}</td>
-                        </tr>
-                        <tr>  
-                          <td>상세주소</td>
-                          <td>${managerMap.detailAddr}</td>
-                        </tr>
-                        <tr> 
-                          <td>E-mail</td>
-                          <td>${managerMap.managerEmail}</td>
-                        </tr>
-                        <tr>  
-                          <td>연락처</td>
-                          <td>${managerMap.managerPhone}</td>
-                       </tr>
-                       <tr>
-                       	  <td>부서</td>
-                        <td>${managerMap.deptName}</td> 
-                       </tr>
-                        <tr>
-                          <td>직급</td>
-                        <td>${managerMap.positionName}</td>
-                        </tr>
-                        <tr>   
-                          <td>가입날짜</td>
-                          <td>${managerMap.createDate}</td>
+                          <th>강의명(상세보기)</th>
+                          <th>강사명</th>
+                          <th>매니저</th>
+                          <th>시작일</th>
+                          <th>수료일</th>
+                          <th>강의실</th>
+                          <th>인원수</th>
+                          <th>개설일</th>
+                          <th>현재상태</th>
+                          <th>기타</th>
                         </tr>
                       </thead>
+                      <tbody>
+                      <c:forEach var="lect" items="${realLectList}">
+                      	<tr>
+                      		<td><a href="${pageContext.request.contextPath}/loginCheck/manageLectureOne?lectureName=${lect.lectureName}">${lect.lectureName}</a></td>
+                      		<td>${lect.teacher}</td>
+                      		<td>${lect.manager}</td>
+                      		<td>${lect.lectureStartDate}</td>
+                      		<td>${lect.lectureEndDate}</td>
+                      		<td>${lect.lectureRoomName}</td>
+                      		<td>
+                      		<c:if test="${empty lect.maxStudentInLecture}">0</c:if>
+                      		${lect.maxStudentInLecture} 
+                      		/ ${lect.lectureStudentCapacity}</td>
+                      		<td>${lect.createDate}</td>
+                      		<td><label class="badge badge-success">승인됨</label></td>
+                      		<td>
+                      		<a href="${pageContext.request.contextPath}/loginCheck/addSubjectInLecture?lectureName=${lect.lectureName}"><label class="badge badge-warning">과목설정</label></a>
+                      		<a href="${pageContext.request.contextPath}/loginCheck/addStudentInLectureForm?lectureName=${lect.lectureName}"><label class="badge badge-success">학생배정</label></a>
+                      		<a href="${pageContext.request.contextPath}/loginCheck/updateLectureForm?lectureName=${lect.lectureName}"><label class="badge badge-info">수정</label></a>
+                      		<a href="#"><label class="badge badge-danger">삭제</label></a>
+                      		</td>
+                      	</tr>
+                      </c:forEach>                
+                      </tbody>
                     </table>
-                     	<div>
-					    <a class="btn btn-primary" href="${pageContext.request.contextPath}/loginCheck/modifyManager?loginId=${managerMap.loginId}">수정</a>
-					  	 <a href="#"><button class="btn btn-danger"href="${pageContext.request.contextPath}/deleteTeacherOne?loginId=${managerMap.loginId}">회원탈퇴</button></a>
-					</div>
                   </div>
                 </div>
               </div>
             </div>
+          
           </div>
+          <!-- 강의개설 끝 -->
+          
+          <!-- 상세보기 시작 -->
+          <div class="row">
+            <div class="col-md-12 grid-margin">
+              <div class="row">
+                <div class="col-12 col-xl-4">
+                 <div class="justify-content-end d-flex">
+                 </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 상세보기 실제부분 --> 
+          <div class="row">
+            <div class="col-lg-8 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">상세보기</h4>
+                  <p class="card-description">
+                  </p>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>강의명</th>
+                          <th>상세일정</th>
+                          <th>현재상태</th>
+                          <th>과목</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      
+                      	<tr>
+							<td>${lectureName}</td><!-- 강의명 -->
+							<td><a href="#">바로가기</a></td><!-- 상세일정 -->
+							<td>진행중</td><!-- 현재상태 -->
+							<td><!-- 과목 -->
+							<c:forEach var="sub" items="${subList}">
+								<label class="badge badge-warning">${sub}</label>
+							</c:forEach> 
+							</td>
+                      	</tr>
+                                    
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+          </div>
+          <!-- 상세보기 끝 -->
+          
+          <!-- 배정된 학생 상세보기 실제부분 --> 
+          <div class="row">
+            <div class="col-lg-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">강의에 배정된 학생</h4>
+                  <p class="card-description">
+                  </p>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>학생명</th>
+                          <th>성별</th>
+                          <th>전화번호</th>
+                          <th>출결(%)</th>
+                          <th>현재상태</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      <c:forEach var="stu" items="${studentList}">
+                      	<tr>
+							<td>${stu.studentName}</td>
+							<td>${stu.studentGender}</td>
+							<td>${stu.studentPhone}</td>
+							<td>100%</td>
+							<td>교육 이수중</td>
+                      	</tr>
+                      </c:forEach>                
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+          </div>
+          <!-- 배정된 학생 상세보기 끝 -->
+          
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
         <!-- partial -->
@@ -238,3 +322,4 @@
 
 </body>
 </html>
+

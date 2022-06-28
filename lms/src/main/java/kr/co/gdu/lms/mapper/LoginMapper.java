@@ -67,4 +67,7 @@ public interface LoginMapper {
 	// 회원가입시 로그인 테이블에도 추가
 	int insertLogin(MemberForm addMemberForm);
 	
+	// 로그인시 레벨받기
+	int selectLevelByLoginId(String loginId);
+	
 }

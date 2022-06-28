@@ -1,6 +1,5 @@
 package kr.co.gdu.lms.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.gdu.lms.log.CF;
+import kr.co.gdu.lms.service.LoginService;
 import kr.co.gdu.lms.service.MemberService;
 import kr.co.gdu.lms.vo.Dept;
 import kr.co.gdu.lms.vo.Login;
@@ -29,8 +29,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class MemberController {
-   @Autowired
-   private MemberService memberService;
+   @Autowired private MemberService memberService;
+   @Autowired private LoginService loginService;
 
    // 회원 목록
    @GetMapping("/loginCheck/getMemberList")
@@ -43,18 +43,18 @@ public class MemberController {
 	   if("student".equals(msg)) {
 		   List<Student> studentList = memberService.getStudentList();
 		   log.debug(CF.GDH+"MemberController.getMemberList studentList : " + studentList + CF.RS);
+		   model.addAttribute("msg", msg);
 		   model.addAttribute("studentList", studentList);
 	   } else if("teacher".equals(msg)) {
 		   List<Teacher> teacherList = memberService.getTeacherList();
 		   log.debug(CF.GDH+"MemberController.getMemberList teacherList : " + teacherList + CF.RS);
+		   model.addAttribute("msg", msg);
 		   model.addAttribute("teacherList", teacherList);
 	   } else if("manager".equals(msg)) {
 		   List<Manager> managerList = memberService.getManagerList();
-	       List<Position> positionList = memberService.getPositions();
 	       log.debug(CF.GDH+"MemberController.getMemberList managerList : " + managerList + CF.RS);
-	       log.debug(CF.GDH+"MemberController.getMemberList positionList : " + positionList + CF.RS);
+	       model.addAttribute("msg", msg);
 	       model.addAttribute("managerList", managerList);
-	       model.addAttribute("positionList", positionList );
 	   }
        
        return "member/getMemberList";
@@ -62,14 +62,13 @@ public class MemberController {
 
    // 멤버정보 상세보기
    @GetMapping("/loginCheck/getMemberOne")
-   public String getMemberOne(Model model, HttpSession session) {
-      // 레벨 받아오기
-      int level = (int)session.getAttribute("sessionLv");
+   public String getMemberOne(Model model, @RequestParam(name="loginId") String loginId) {
+	  // 받아온 로그인Id 디버깅
+	  log.debug(CF.GDH + "MemberController.getMemberOne loginId : " + loginId + CF.RS);
+	   
+	  // 레벨 받아오기
+      int level = loginService.getLevelByLoginId(loginId);
       log.debug(CF.GDH + "MemberController.getMemberOne level : " + level + CF.RS);
-      
-      // 로그인Id 받아오기
-      String loginId = (String)session.getAttribute("sessionId");
-      log.debug(CF.GDH + "MemberController.getMemberOne loginId : " + loginId + CF.RS);
       
       // 로그인VO에 담기
       Login login = new Login();
@@ -81,6 +80,9 @@ public class MemberController {
       // 멤버서비스로부터 맵에 담아서 들고오기
       returnMap = memberService.getMemberOne(login);
       log.debug(CF.GDH + "MemberController.getMemberOne returnMap : " + returnMap + CF.RS);
+      
+      // 모델에 담아서 jsp로 보내기
+      model.addAttribute("level", level);
       model.addAttribute("member", returnMap.get("member"));
       model.addAttribute("memberFile", returnMap.get("memberFile"));
       return "member/getMemberOne";

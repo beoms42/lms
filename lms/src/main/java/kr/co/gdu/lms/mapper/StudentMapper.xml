@@ -22,7 +22,7 @@
          , address address
          , detail_address detailAddress
          , student_email studentEmail
-         , CONCAT(SUBSTRING(student_phone, 1,3),'-',(SUBSTRING(student_phone,4,4)),'-',(SUBSTRING(student_phone,8,4))) studentPhone
+         , student_phone studentPhone
          , military_status militaryStatus
          , graduate
          , create_date createDate   

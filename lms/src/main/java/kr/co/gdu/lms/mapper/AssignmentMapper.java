@@ -27,6 +27,7 @@ public interface AssignmentMapper {
 	int selectEducationNo(String loginId);
 	void insertAssignmentSubmit(AssignmentSubmit assignmentsubmit);
 	List<AssignmentSubmit> selectAssignmentSubmit(Map<String,Object> map);
+	List<AssignmentSubmit> selectAssignmentSubmitTeacher(Map<String,Object> map);
 	void updateScore(Map<String,Object> paramMap);
 	void updateAssignmentExam(AssignmentExam assignmentexm);
 	void deleteAssignment(int assignmentExamNo);

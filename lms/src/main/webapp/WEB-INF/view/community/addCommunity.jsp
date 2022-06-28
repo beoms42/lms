@@ -60,7 +60,7 @@ $(document).ready(function(){ // html페이지를 다 로드시키고 매개변�
       <h1>입력</h1>
       <form id="addCommunityForm" method="post" action="${pageContext.request.contextPath}/loginCheck/addCommunity" enctype="multipart/form-data">
          
-         <input type="text" name="communityNo" value="${community.communityNo}">
+         <input type="hidden" name="communityNo" value="${community.communityNo}">
          
          <table class="table table-striped">
             <tr>

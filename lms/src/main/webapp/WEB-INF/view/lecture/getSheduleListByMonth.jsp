@@ -45,7 +45,7 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                  <h1>[강의 시간표]</h1>
+                  <h1>[강의 일정]</h1>
                 </div>
                 <div class="col-12 col-xl-4">
                  <div class="justify-content-end d-flex">
@@ -59,7 +59,7 @@
             <div class="col-lg-11 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">my 시간표</h4>
+                  <h4 class="card-title">Letcure 시간표</h4>
                   <p class="card-description">
                   </p>
                   <div class="table-responsive">
@@ -85,8 +85,11 @@
 		       	 <form id="addScheduleForm" method="post" action="${pageContext.request.contextPath}/loginCheck/addSchedule">
 		       	 <div class="modal-body">
 		       	 	<span id="addScheduleHelper" class="helper"></span>
-		       	 	<div><input id="scheduleDate" type="date" name="scheduleDate"></div>
-		       	 	<div>
+					<div>강의기간</div>
+					<div> </div>
+		       	 	<div>강의시작 : <input id="scheduleStartDate" type="date" name="scheduleStartDate"></div>
+		       	 	<div>강의종료 : <input id="scheduleEndDate" type="date" name="scheduleEndDate"></div>
+		       	 	<div>강의과목 : 
 			       	 	<select id="lectureSubjectNo" name="lectureSubjectNo">
 			       	 		<option value="" selected>[강의]과목을 선택하세요.</option>
 			       	 		<c:forEach var="a" items="${lectureSubjectList}">
@@ -209,6 +212,8 @@
 			$('#addScheduleHelper').text('날짜를 선택하세요.');
 		} else if($('#lectureSubjectNo').val() == '') {
 			$('#addScheduleHelper').text('[강의]과목을 선택하세요.');
+		} else if($('#scheduleStartDate').val() >= $('#scheduleEndDate').val()) {
+			$('#addScheduleHelper').text('시작날짜가 종료날짜보다 늦게 되었있습니다.');
 		} else {
 			$('#addScheduleHelper').text('');
 			$('#addScheduleForm').submit();

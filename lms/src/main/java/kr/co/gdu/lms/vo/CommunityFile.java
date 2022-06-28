@@ -6,9 +6,10 @@ import lombok.Data;
 public class CommunityFile {
 	private int communityFileNo;
 	private int communityNo;
-	private String communityFileNmae;
+	private String loginId;
+	private String communityFileName;
 	private String communityFileType;
 	private String communityFileOriginName;
-	private int communityFileSize;
-	private String communityFilecreateDate;
+	private long communityFileSize;
+	private String communityFileCreateDate;
 }

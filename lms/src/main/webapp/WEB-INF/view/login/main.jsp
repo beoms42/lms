@@ -62,14 +62,14 @@
                 </div>
               </div>
             </div>
-              <button type="button" id="button">Button</button>
-		                        <div id="">
-        </div>
-      
-		                        <table id="list" border="1"></table>
+               <div class="job-info">
+             <button type="button" id="button">Button</button>
+      		
+		                        <div id="job" ></div>
                     <a href="" id="list"></a>
+            </div>
  
-		                        
+
         
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
@@ -169,6 +169,7 @@
          }
       });
     	$('#button').click(function() {
+    		$('#job').empty();
     		  var xhr = new XMLHttpRequest();
     		  var url = '${pageContext.request.contextPath}'; /*URL*/
     		  xhr.open('GET', url);
@@ -178,27 +179,45 @@
     		  alert('Status: '+this.status+
     		  '\nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+
     		  '\nBody: '+this.responseText);
-    		  }
-    		  }
-    		  }
+    		   }
+    		}
+    	}
+
     		  
     		  $.ajax({
-    				type:'get'
-    				, url : url+'/adRestController'
-    				, success:function(a){
-    					console.log(a);
-    						var a2 = JSON.parse(a);
-    						console.log(a2);
-    						  var arr = a2.GetJobInfo.row; 
-    						  
-    						//let arr = a2.results.JO_REGIST_NO;
-    						console.log(arr);
-    						for(let i=0; i<arr.length; i++) {
-    							console.log(arr[i].CMPNY_NM);
-    						     $('#list').append('<div>'+arr[i].CMPNY_NM+'</div>'); 
-    						
-    						}
-    				}
+  				type:'get'
+  				, url : url+'/adRestController'
+  				, success:function(a){
+  					console.log(typeof(a));
+  					console.log(a);
+  						var a2 = JSON.parse(a);
+  						console.log(a2);
+  						  var arr = a2.GetJobInfo.row; 
+  						  
+  						//let arr = a2.results.JO_REGIST_NO;
+  						console.log(arr);
+  						for(let i=0; i<arr.length; i++) {
+  							// console.log(arr[i].CMPNY_NM);
+  						     // $('#list').append('<div>'+arr[i].RCRIT_JSSFC_CMMN_CODE_SE+'</div>'); 
+  						     
+  						     if(arr[i].RCRIT_JSSFC_CMMN_CODE_SE >= 130000 && arr[i].RCRIT_JSSFC_CMMN_CODE_SE < 140000) {
+  								$('#job').append('<div>'+arr[i].CMPNY_NM+'</div>');
+  								}
+  							/* 
+  							if(arr[i].RCRIT_JSSFC_CMMN_CODE_SE == 133201) {
+  								$('#job').append('<div>'+arr[i].CMPNY_NM+'</div>');
+  							} else if(arr[i].RCRIT_JSSFC_CMMN_CODE_SE == 132000) {
+  								$('#job').append('<div>'+arr[i].CMPNY_NM+'</div>');
+  							} else if(arr[i].RCRIT_JSSFC_CMMN_CODE_SE == 415504) {
+  								$('#job').append('<div>'+arr[i].CMPNY_NM+'</div>');
+  							} else if(arr[i].RCRIT_JSSFC_CMMN_CODE_SE == 131203) {
+  								$('#job').append('<div>'+arr[i].CMPNY_NM+'</div>');
+  							} else if(arr[i].RCRIT_JSSFC_CMMN_CODE_SE == 134102 ) {
+  								$('#job').append('<div>'+arr[i].CMPNY_NM+'</div>');
+  							} */
+  						}
+  				}
+
     			})
     		  //xhr.send('')
     	  	});
