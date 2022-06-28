@@ -164,7 +164,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                      <c:forEach var="lect" items="${lectList}">
+                      <c:forEach var="lect" items="${realLectList}">
                       	<tr>
                       		<td><a href="${pageContext.request.contextPath}/loginCheck/manageLectureOne?lectureName=${lect.lectureName}">${lect.lectureName}</a></td>
                       		<td>${lect.teacher}</td>
@@ -172,7 +172,10 @@
                       		<td>${lect.lectureStartDate}</td>
                       		<td>${lect.lectureEndDate}</td>
                       		<td>${lect.lectureRoomName}</td>
-                      		<td>${lect.lectureStudentCapacity}</td>
+                      		<td>
+                      		<c:if test="${empty lect.maxStudentInLecture}">0</c:if>
+                      		${lect.maxStudentInLecture} 
+                      		/ ${lect.lectureStudentCapacity}</td>
                       		<td>${lect.createDate}</td>
                       		<td><label class="badge badge-success">승인됨</label></td>
                       		<td>

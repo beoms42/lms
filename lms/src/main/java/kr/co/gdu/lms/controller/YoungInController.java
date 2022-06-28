@@ -1,7 +1,12 @@
 package kr.co.gdu.lms.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -88,6 +93,36 @@ public class YoungInController {
 		//강의 배정학생
 		List<Student> studentList = youngInService.selectStudentListByLectureName(lectureName);
 		model.addAttribute("studentList",studentList);
+		
+		//강의별 배정인원수 / 인원수 
+		
+		List<HashMap<String, Object>> realLectList = new ArrayList<HashMap<String, Object>>();
+		HashMap<String, Object> map = null;
+		
+		// 키 : 렉처명 값: 학생수
+		Map<String, Object> numberStudent = new HashMap<String, Object>();
+		numberStudent = youngInService.selectStudentGroup();
+		
+		// 강의의 List<Vo>를 List<HashMap<k,v>>로 분해
+		for(Lecture lect : lectList) {
+			map = new HashMap<>();
+			map.put("lectureName", lect.getLectureName());
+			map.put("teacher", lect.getTeacher());
+			map.put("manager", lect.getManager());
+			map.put("lectureStartDate", lect.getLectureStartDate());
+			map.put("lectureEndDate", lect.getLectureEndDate());
+			map.put("lectureRoomName", lect.getLectureRoomName());
+			map.put("lectureStudentCapacity", lect.getLectureStudentCapacity());
+			map.put("createDate", lect.getLoginId());
+			map.put("lectureActive", lect.getLectureActive());
+			map.put("createDate", lect.getCreateDate());
+			map.put("updateDate", lect.getUpdateDate());
+			
+			map.put("maxStudentInLecture", numberStudent.get(lect.getLectureName()));
+			realLectList.add(map);
+		}
+		
+		model.addAttribute("realLectList",realLectList);
 		return "lecture/manageLectureOne";
 	}
 	
