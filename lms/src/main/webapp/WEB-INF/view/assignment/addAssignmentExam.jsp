@@ -144,43 +144,55 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-						<div class="container">
-							<h1>과제 입력</h1>
-							<form method="POST" action="${pageContext.request.contextPath}/loginCheck/addAssignment" id="addForm" enctype="multipart/form-data">
-								<table class="table table-striped">
-									<tr>
-										<td>과목</td>
-										<td><input type="text" name="lectureName" id="lectureName"></td>
-									</tr>
-									<tr>
-										<td>제목</td>
-										<td><input type="text" name="assignmentExamTitle" id="assignmentExamTitle"></td>
-									</tr>
-									<tr>
-										<td>기한</td>
-										<td><input type="date" name="assignmentDeadLine">까지</td>
-									</tr>
-									<tr>
-										<td>내용</td>
-										<td>
-											<textarea name="assignmentExamContent" id="summernote"></textarea>
-											<script>
-												$('#summernote').summernote({
-												  tabsize: 2,
-												  height: 400
-												});
-												$(".note-editor button[aria-label='Picture']").hide();
-												$(".note-editor button[aria-label='Video']").hide();
-												$(".note-editor .note-view").hide();
-											</script>
-										</td>
-									</tr>
-					
+                   <div class="card">
+		                <div class="card-body">
+		                  <h4 class="card-title">${lectureName}</h4>
+		                  <p class="card-description">
+		                  </p>
+		                  <div class="table-responsive">
+							<div class="container">
+							<div class="container">
+								<h1>과제 입력</h1>
+								<form method="POST" action="${pageContext.request.contextPath}/loginCheck/addAssignment" id="addForm" enctype="multipart/form-data">
+									<table class="table table-striped">
+										<tr>
+											<td>과목</td>
+											<td><input type="text" name="lectureName" id="lectureName"></td>
+										</tr>
+										<tr>
+											<td>제목</td>
+											<td><input type="text" name="assignmentExamTitle" id="assignmentExamTitle"></td>
+										</tr>
+										<tr>
+											<td>기한</td>
+											<td><input type="date" name="assignmentDeadLine">까지</td>
+										</tr>
+										<tr>
+											<td>내용</td>
+											<td>
+												<textarea name="assignmentExamContent" id="summernote"></textarea>
+												<script>
+													$('#summernote').summernote({
+													  tabsize: 2,
+													  height: 400
+													});
+													$(".note-editor button[aria-label='Picture']").hide();
+													$(".note-editor button[aria-label='Video']").hide();
+													$(".note-editor .note-view").hide();
+												</script>
+											</td>
+										</tr>
 						
-								</table>
-
-								<button type="submit" class="btn btn-primary" >입력</button>
-							</form>
+							
+									</table>
+	
+									<button type="submit" class="btn btn-primary" >입력</button>
+								</form>
+								</div>
+							</div>
+							</div>
+							</div>
+												
 						</div>
 						<div>
 						</div>

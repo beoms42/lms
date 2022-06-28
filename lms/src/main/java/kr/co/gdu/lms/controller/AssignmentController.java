@@ -129,18 +129,25 @@ public class AssignmentController {
 		Map<String,Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("loginId", sessionMemberId);
 		paramMap.put("assignmentExamNo", assignmentExamNo);
+		
 		Map<String,Object> returnMap = assingmentservice.getAssignmentOne(paramMap);
+		
 		List<AssignmentFile> fileList = (List<AssignmentFile>)returnMap.get("assignmentListFile");
 		for(AssignmentFile f :fileList) {
 			log.debug(CF.GMC+f.getAssignmentExamNo()+CF.RS);
 		}
 		List<AssignmentSubmit> assignmentSubmit = assingmentservice.getAssignmentSubmit(paramMap);
+		List<AssignmentSubmit> assignmentSubmitTeacher = assingmentservice.getAssignmentSubmitTeacher(paramMap);
+		String lectureName=assingmentservice.getLectureName(sessionMemberId);
 		
+		model.addAttribute("lectureName",lectureName);
 		model.addAttribute("assignmentList", (List<AssignmentExam>)returnMap.get("assignmentList"));
+		model.addAttribute("assignmentSubmitTeacher",assignmentSubmitTeacher);
 		model.addAttribute("fileList",fileList);
 		model.addAttribute("assignmentSubmit",assignmentSubmit);
 		model.addAttribute("assignmentExamNo",assignmentExamNo);
 		model.addAttribute("level",level);
+		model.addAttribute("loginId",sessionMemberId);
 		return "/assignment/assignmentOne";
 	}
 	

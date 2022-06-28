@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -40,6 +40,11 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/vertical-layout-light/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/tftace.jpg" />
+  <style>
+  	table{
+  		text-align:center;
+  	}
+  </style>
 </head>
 <body>
   <div class="container-scroller">
@@ -147,96 +152,186 @@
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
 					<div class="container col_12">
-						<table class="table table">
-					        <tbody>
-					        	<c:forEach var="n" items="${assignmentList}">
-						                <tr>
-								        	<td>제목</td>
-						                	<td >${n.assignmentExamTitle}</td>
-						               </tr>
-						                <tr>
-						                	<td>과목</td>
-						                	<td>${n.lectureName}</td>
-						                </tr>
+					  <div class="row">
+					            <div class="col-lg-12 grid-margin stretch-card">
+					              <div class="card">
+					                <div class="card-body">
+					                   <h4 class="card-title">${lectureName} 과제</h4>
+					                  <p class="card-description">
+					                  </p>
+					                  <div class="table-responsive">
+											<table class="table table-striped">
+										        <tbody>
+										        	<c:forEach var="n" items="${assignmentList}">
+											                <tr>
+													        	<td>제목</td>
+											                	<td>${n.assignmentExamTitle}</td>
+											               </tr>
+											                <tr>
+											                	<td>제출 기한</td>
+											                	<td>${n.assignmentDeadLine}</td>
+											                </tr> 
+												                <tr>
+												                	<td>내용</td>
+														            <td>
+														            	${n.assignmentExamContent}
+																		<script>
+																			$('#summernote').summernote({
+																			  tabsize: 2,
+																			  height: 400
+																			});
+																			$(".note-editor button[aria-label='Picture']").hide();
+																			$(".note-editor button[aria-label='Video']").hide();
+																			$(".note-editor .note-view").hide();
+																		</script>
+																	</td>
+														        </tr>
+													      
+												        </c:forEach>
+										        </tbody>
 						
-						                <tr>
-						                	<td>제출 기한</td>
-						                	<td>${n.assignmentDeadLine}</td>
-						                </tr> 
-							                <tr>
-									            <td>
-									            	${n.assignmentExamContent}
-													<script>
-														$('#summernote').summernote({
-														  tabsize: 2,
-														  height: 400
-														});
-														$(".note-editor button[aria-label='Picture']").hide();
-														$(".note-editor button[aria-label='Video']").hide();
-														$(".note-editor .note-view").hide();
-													</script>
-												</td>
-									        </tr>
-								      		<c:if test="${level>=2 }">
-								      			<tr>
-								      				<td>
-										      			<a href="${pageContext.request.contextPath}/loginCheck/modifyAssignment?assignmentExamNo=${n.assignmentExamNo}">수정</a>
-										      			<a href="${pageContext.request.contextPath}/loginCheck/deleteAssignment?assignmentExamNo=${n.assignmentExamNo}">삭제</a>
-									      			</td>
-								      			</tr>
-								      		</c:if>
-							        </c:forEach>
-					        </tbody>
-					    </table>
-					    <div>제출</div>
-					    <c:if test="${fn:length(assignmentSubmit) == 0}">
-						  	<form method="POST" action="${pageContext.request.contextPath}/loginCheck/getAssignmentOne?assignmentExamNo=${assignmentExamNo}" id="addForm" enctype="multipart/form-data">
-							  <div>
-								   <textarea name="assignmentSubmitContent" id="summernote"></textarea>
-									<script>
-										$('#summernote').summernote({
-										  tabsize: 2,
-										  height: 400
-										});
-										$(".note-editor button[aria-label='Picture']").hide();
-										$(".note-editor button[aria-label='Video']").hide();
-										$(".note-editor .note-view").hide();
-									</script>
-								</div>
-								<button type="button" id="addFileupload">파일 업로드 추가</button>
-								<div id="fileSection">
-										<!-- 파일 업로드 input 태그가 추가될 영역 -->
-								</div>
-								<button type="button" class="btn btn-primary" id="addAssignment">제출</button>
-								</form>
-							</c:if>
-							<c:if test="${fn:length(assignmentSubmit) != 0}">
-								<c:forEach var="m" items="${assignmentSubmit}">
-									<table class="table table-hover">
-										<thead>
-											<tr>
-												<th>내용</th>
-												<th>제출 시간</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td>${m.assignmentSubmitContent }</td>
-												<td>${m.createDate}</td>
-											</tr>
-										</tbody>
-									</table>
-								</c:forEach>
-								<c:forEach var="f" items="${fileList}">
-					  				<c:if test="${f.assignmentFileType.equals('image/jpeg')}">
-						  					<td><img src="${pageContext.request.contextPath}/file/assignmentFile/${f.assignmentFileName}"></td>
-					  				</c:if>
-					  				<c:if test="${f.assignmentFileType.equals('application/octet-stream')}">
-					  					<td><a href="${pageContext.request.contextPath}/file/assignmentFile/${f.assignmentFileName}">${f.assignmentFileName}</a></td>
-					  				</c:if>
-					  	
-								</c:forEach>	
-							</c:if>
+										    </table>
+										    <c:if test="${level>=2 }">
+								      			<a href="${pageContext.request.contextPath}/loginCheck/modifyAssignment?assignmentExamNo=${n.assignmentExamNo}" class="btn btn-primary">수정</a>
+								      			<a href="${pageContext.request.contextPath}/loginCheck/deleteAssignment?assignmentExamNo=${n.assignmentExamNo}" class="btn btn-danger">삭제</a>
+											 </c:if>
+										  </div>
+										  </div>
+										  </div>
+										  </div>
+										  </div>
+
+											<c:if test="${level >=2 }">
+											<div class="col-lg-12 grid-margin stretch-card">
+								              <div class="card">
+								                <div class="card-body">
+								                  <h4 class="card-title">제출 내역</h4>
+								                  <p class="card-description"></p>
+								                  <div class="table-responsive">
+														<c:forEach var="m" items="${assignmentSubmitTeacher}">
+															<table class="table table-hover">
+																	<thead>
+																		<tr>
+																			<th>작성자</th>
+																			<th>내용</th>
+																			<th>제출 시간</th>
+																			<th>싸인</th>
+																			<th>파일</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr>
+																			<td>${m.loginId}</td>
+																			<td>${m.assignmentSubmitContent}</td>
+																			<td>${m.createDate}</td>
+																			<td><img src="${m.assignmentSignfileURL}" width="100%"></td>
+																			<c:forEach var="f" items="${fileList}">
+																  				<c:if test="${f.assignmentFileType.equals('image/jpeg') || f.assignmentFileType.equals('image/gif') || f.assignmentFileType.equals('image/PNG') || f.assignmentFileType.equals('image/webp')}">
+																	  				<td><img src="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}" width="100%"></td>
+																  				</c:if>
+																  				<c:if test="${f.assignmentFileType.equals('application/octet-stream')}">
+																  					<td><a href="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}">${f.assignmentFileOriginName}</a></td>
+																  				</c:if>
+																  				<c:if test="${fn:length(fileList) = 0}">
+																  					<td></td>
+																  				</c:if>
+																			</c:forEach>
+																		</tr>
+																	</tbody>
+																</table>
+														</c:forEach>
+														
+														</div>
+														</div>
+														</div>
+														</div>
+													</c:if>
+													<c:if test="${level < 2 }">
+														    <c:if test="${fn:length(assignmentSubmit) == 0}">
+														    <div class="col-lg-12 grid-margin stretch-card">
+												              <div class="card">
+												                <div class="card-body">
+												                  <h4 class="card-title">제출</h4>
+												                  <p class="card-description"></p>
+												                  <div class="table-responsive">
+															  	<form method="POST" action="${pageContext.request.contextPath}/loginCheck/getAssignmentOne?assignmentExamNo=${assignmentExamNo}" id="addForm" enctype="multipart/form-data">
+																  <div>
+																	   <textarea name="assignmentSubmitContent" id="summernote" class="assignmentSubmitContent"></textarea>
+																		<script>
+																			$('#summernote').summernote({
+																			  tabsize: 2,
+																			  height: 400
+																			});
+																			$(".note-editor button[aria-label='Picture']").hide();
+																			$(".note-editor button[aria-label='Video']").hide();
+																			$(".note-editor .note-view").hide();
+																		</script>
+																	</div>
+																	
+																	<div>
+																		<button type="button" id="addFileupload" class="btn btn-primary">파일 업로드 추가</button>
+																	</div>
+																	<div id="fileSection">
+																			<!-- 파일 업로드 input 태그가 추가될 영역 -->
+																	</div>
+																	<div>
+																		<button type="button" class="btn btn-primary" id="addAssignment">제출</button>
+																	</div>
+																	</form>
+																	</div>
+																	</div>
+																	</div>
+																	</div>
+																</c:if>
+													 											
+														<c:if test="${fn:length(assignmentSubmit) != 0}">
+															
+															<div class="col-lg-12 grid-margin stretch-card">
+												              <div class="card">
+												                <div class="card-body">
+												                  <h4 class="card-title">제출</h4>
+												                  <p class="card-description"></p>
+												                  <div class="table-responsive">	
+															<table class="table table-hover">
+																<thead>
+																	<tr>
+																		<th>작성자</th>
+																		<th>내용</th>
+																		<th>제출 시간</th>
+																		<th>싸인</th>
+																		<th>파일</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr>
+																		<c:forEach var="m" items="${assignmentSubmit}">
+																			<td>${loginId}</td>
+																			<td>${m.assignmentSubmitContent}</td>
+																			<td>${m.createDate}</td>
+																			<td><img src="${m.assignmentSignfileURL}" width="100%"></td>
+																		</c:forEach>
+																		<c:forEach var="f" items="${fileList}">
+														  					<c:if test="${f.assignmentFileType.equals('image/jpeg') || f.assignmentFileType.equals('image/gif') || f.assignmentFileType.equals('image/PNG') || f.assignmentFileType.equals('image/webp')}">
+																  				<td><img src="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}" width="100%"></td>
+															  				</c:if>
+															  				
+															  				<c:if test="${f.assignmentFileType.equals('application/octet-stream')}">
+															  					<td><a href="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}">${f.assignmentFileOriginName}</a></td>
+															  				</c:if>
+																		</c:forEach>
+																	</tr>
+													
+																</tbody>
+															</table>
+															</div>
+															</div>
+															</div>
+															</div>
+														</c:if>
+													
+											</c:if>
+									
+							
 							<BR>	
 
 							
@@ -308,9 +403,7 @@
 		});
 		
 		if(flag){
-			$('#fileSection').append("<div><input type='file' class='assignmentSubmitFileList' name='assignmentSubmitFileList'></div>");
-		}else{
-			alert('파일이 첨부되지 않은 assignmentFileList가 존재합니다.');
+			$('#fileSection').append("<div><input type='file' class='assignmentSubmitFileList form-control-file border' name='assignmentSubmitFileList'></div>");
 		}
 	});
 	

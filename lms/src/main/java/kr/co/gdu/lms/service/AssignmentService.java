@@ -62,8 +62,15 @@ public class AssignmentService {
 	public Map<String,Object> getAssignmentOne(Map<String,Object> paramMap){
 		log.debug(CF.GMC+"AssignmentService.addAssignment.param assignmentExamNo : " + paramMap.get("assignmentExamNo") + CF.RS);
 		log.debug(CF.GMC+"AssignmentService.addAssignment.param sessionMemberId : " + paramMap.get("loginId") + CF.RS);
+		
+		//교욱 번호, 교육 강의 이름
 		int educationNo = assignmentmapper.selectEducationNo((String)paramMap.get("loginId"));
+		String lectureName = assignmentmapper.selectLectureName((String)paramMap.get("loginId"));
+		//매개변수 
 		paramMap.put("educationNo", educationNo);
+		paramMap.put("lectureName", lectureName);
+		
+		//리스트
 		List<AssignmentExam> assignmentList = assignmentmapper.selectAssignmentOne((int)paramMap.get("assignmentExamNo"));
 		List<AssignmentFile> assignmentListFile = assignmentfilemapper.selectAssinmetFile(paramMap);
 		for(AssignmentFile f : assignmentListFile) {
@@ -152,6 +159,10 @@ public class AssignmentService {
 	}
 	public List<AssignmentSubmit> getAssignmentSubmit(Map<String,Object> map){
 		List<AssignmentSubmit> assignmentSubmit = assignmentmapper.selectAssignmentSubmit(map);
+		return assignmentSubmit;
+	}
+	public List<AssignmentSubmit>  getAssignmentSubmitTeacher(Map<String,Object> map) {
+		List<AssignmentSubmit> assignmentSubmit = assignmentmapper.selectAssignmentSubmitTeacher(map);
 		return assignmentSubmit;
 	}
 	public void addAssignmentSubmitFile(AssignmentSubmitForm assignmentSubmitForm
