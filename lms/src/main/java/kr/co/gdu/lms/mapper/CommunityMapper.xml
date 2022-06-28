@@ -5,7 +5,10 @@
 	<!--커뮤니티 crud-->
 	<!--커뮤니티 게시글 입력-->
 	<insert id="insertCommunity"
-			parameterType="int">
+			parameterType="kr.co.gdu.lms.vo.Community">
+			<selectKey resultType="int" keyProperty="communityNo" order="AFTER">
+        	select last_insert_id()
+        	</selectKey>
 		INSERT INTO community(
 			community_title
 			, community_content
@@ -75,7 +78,7 @@
 	
 	<!--커뮤니티 파일 입력-->
 	<insert id="insertCommunityFile"
-			parameterType="int">
+			parameterType="kr.co.gdu.lms.vo.CommunityFile">
 		INSERT INTO community_file(
 			community_no
 			, login_id
