@@ -23,4 +23,11 @@ public interface CommunityMapper {
 	
 	// 희원 - Community 게시글 1개의 file List 가져오기
 	List<String> selectCommunityFileOne(int communityNo);
+	
+	// 희원- Community 입력
+	int insertCommunity(Community community);
+	
+	//희원 - CommunityFile 입력
+	int insertCommunityFile(CommunityFile communityFile);
+	
 }
