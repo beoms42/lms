@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdRestController {
 @GetMapping("/adRestController")
 public String adRestController() throws IOException {
-StringBuilder urlBuilder = new StringBuilder("http://openapi.seoul.go.kr:8088/685a675356656a72363446704b5a72/Json/GetJobInfo/1/20/"); 
+int currentPage	=1;
+int rowPerPage = 12;
+StringBuilder urlBuilder = new StringBuilder("http://openapi.seoul.go.kr:8088/685a675356656a72363446704b5a72/Json/GetJobInfo/"+currentPage+"/"+rowPerPage+"/"); 
 	/*URL*/
 	urlBuilder.append("/" + URLEncoder.encode("685a675356656a72363446704b5a72","UTF-8") ); /*인증키
 	(sample사용시에는 호출시 제한됩니다.)*/
