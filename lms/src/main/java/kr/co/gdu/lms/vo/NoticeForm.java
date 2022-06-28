@@ -7,10 +7,10 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.Data;
 
 @Data
-public class AddNoticeForm {
+public class NoticeForm {
+	private int noticeNo;
 	private String noticeTitle;
 	private String noticeContent;
-	private String noticePw;
 	private String loginId;
 	private List<MultipartFile> noticeFileList;
 }

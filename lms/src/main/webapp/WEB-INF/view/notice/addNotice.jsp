@@ -86,10 +86,6 @@
 									</td>
 								</tr>
 								<tr>
-									<th>비밀번호</th>
-									<td><input type="password" name="noticePw" class="form-control"></td>
-								</tr>				        
-								<tr>
 									<th>첨부 파일</th>
 									<td class="file Section">
 										<button class="btn btn-inverse-primary bottom" type="button" id="addFileUpload">파일업로드 추가</button>
@@ -150,20 +146,20 @@
   <!-- End custom js for this page-->
   <script>
 	$('#addFileUpload').click(function() {
-			let flag = true;
-			
-			$('.noticeFileList').each(function() { // each함수 이용한 반복
-				if($(this).val() == '') { //this는 저 위의 noticeFileList를 가리킴
-					flag = false;
-				}
-			})
-			
-			if(flag) {
-				$('#fileSection').append("<div><input type='file' class='noticeFileList' name='noticeFileList'></div>");	
-			} else {
-				alert('파일이 첨부되지않은 공지사항파일이 존재합니다');				
+		let flag = true;
+		
+		$('.noticeFileList').each(function() { // each함수 이용한 반복
+			if($(this).val() == '') { //this는 저 위의 noticeFileList를 가리킴
+				flag = false;
 			}
-		 });
+		})
+		
+		if(flag) {
+			$('#fileSection').append("<div><input type='file' class='noticeFileList' name='noticeFileList'></div>");	
+		} else {
+			alert('파일이 첨부되지않은 공지사항파일이 존재합니다');				
+		}
+	 });
 	
   </script>
 </body>

@@ -110,7 +110,7 @@
 	</select>
 	
 	<!-- 회원가입 - 회원정보넣기 -->
-	<insert id="insertMember" parameterType="kr.co.gdu.lms.vo.AddMemberForm">
+	<insert id="insertMember" parameterType="kr.co.gdu.lms.vo.MemberForm">
 		
 		<if test='"manager".equals(addChk)'>
 			INSERT INTO manager		

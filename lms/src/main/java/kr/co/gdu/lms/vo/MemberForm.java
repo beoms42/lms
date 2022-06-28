@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.Data;
 
 @Data
-public class AddMemberForm { 
+public class MemberForm { 
 	private String loginId;
 	private String loginPw;
 	private String name;

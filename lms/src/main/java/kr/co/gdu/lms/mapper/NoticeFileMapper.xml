@@ -21,9 +21,9 @@
 	
 	<!-- 공지사항 파일 삭제 -->
 	<delete id="deleteNoticeFile"
-			parameterType="int">
+			parameterType="String">
 		DELETE FROM notice_file
-		WHERE notice_no=#{noticeNo}
+		WHERE notice_file_name=#{noticeFileName}
 	</delete>
 	
 	<!-- 공지사항 파일 추가 -->
