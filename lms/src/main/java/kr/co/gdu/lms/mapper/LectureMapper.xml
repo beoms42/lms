@@ -22,7 +22,7 @@
 		SELECT
 			login_id loginId
 			, manager_name managerName
-			, manager_birth manaberBirth
+			, manager_birth managerBirth
 			, manager_gender managerGender
 			, address
 			, detail_addr detailAddr

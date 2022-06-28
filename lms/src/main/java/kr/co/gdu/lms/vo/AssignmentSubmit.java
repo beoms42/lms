@@ -11,4 +11,5 @@ public class AssignmentSubmit {
 	private String createDate;
 	private String updateDate;
 	private String assignmentSubmitScore;
+	private String loginId;
 }

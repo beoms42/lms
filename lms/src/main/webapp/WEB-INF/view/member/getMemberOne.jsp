@@ -57,7 +57,7 @@
 	                        		<td>${member.loginId}</td>
 			                        <td rowspan="4" >
 			                           <img src="${pageContext.request.contextPath}/file/memberPhoto/${memberFile.memberFileName}" style="border-radius: 0%; width: 130px; height: 150px; display: block; margin: 0 auto;" ><br><br>
-			                           <a href="${pageContext.request.contextPath}/loginCheck/modifyMemberFile?memberFileName=${memberFile.memberFileName}"} style="padding-left: 70px;">사진수정</a>
+			                           	<a href="${pageContext.request.contextPath}/loginCheck/modifyMemberFile?memberFileName=${memberFile.memberFileName}"} style="padding-left: 70px;">사진수정</a>
 			                        </td>
 	                    		 </tr>
 			                     <tr style="height: 15px;">

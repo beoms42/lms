@@ -48,14 +48,12 @@
 		INSERT INTO notice (
 			notice_title
 			, notice_content
-			, notice_pw
 			, login_id
 			, create_date
 			, update_date
 		) VALUES (
 			#{noticeTitle}
 			, #{noticeContent}
-			, PASSWORD(#{noticePw})
 			, #{loginId}
 			, NOW()
 			, NOW()		
@@ -66,7 +64,7 @@
 	<delete id="deleteNotice"
 			parameterType="java.util.Map">
 		DELETE FROM notice
-		WHERE notice_no = #{noticeNo} AND notice_pw=PASSWORD(#{noticePw})
+		WHERE notice_no = #{noticeNo}
 	</delete>
 			
 	<!-- 공지사항 수정 -->
@@ -76,7 +74,7 @@
 			notice_title = #{noticeTitle}
 			, notice_content = #{noticeContent}
 			, update_date = NOW()
-		WHERE notice_no = #{noticeNo} AND notice_pw=PASSWORD(#{noticePW})
+		WHERE notice_no = #{noticeNo}
 	</update>
 	
 </mapper>

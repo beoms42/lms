@@ -1,7 +1,6 @@
 package kr.co.gdu.lms.service;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.mapper.NoticeFileMapper;
 import kr.co.gdu.lms.mapper.NoticeMapper;
-import kr.co.gdu.lms.vo.AddNoticeForm;
+import kr.co.gdu.lms.vo.NoticeForm;
 import kr.co.gdu.lms.vo.Notice;
 import kr.co.gdu.lms.vo.NoticeFile;
 import lombok.extern.slf4j.Slf4j;
@@ -68,13 +67,12 @@ public class NoticeService {
 	}
 	
 	// 공지사항 입력
-	public int addNotice(AddNoticeForm addNoticeForm, String path) {
+	public int addNotice(NoticeForm noticeForm, String path) {
 		
 		Notice notice = new Notice();
-		notice.setNoticeTitle(addNoticeForm.getNoticeTitle());
-		notice.setNoticeContent(addNoticeForm.getNoticeContent());
-		notice.setNoticePw(addNoticeForm.getNoticePw());
-		notice.setLoginId(addNoticeForm.getLoginId());
+		notice.setNoticeTitle(noticeForm.getNoticeTitle());
+		notice.setNoticeContent(noticeForm.getNoticeContent());
+		notice.setLoginId(noticeForm.getLoginId());
 		
 		// 공지사항 입력
 		log.debug(CF.OHI+"NoticeService.addNotice 입력 전 NoticeNo : "+notice.getNoticeNo()+CF.RS);
@@ -83,14 +81,14 @@ public class NoticeService {
 		
 		log.debug(CF.OHI+"NoticeService.addNotice 입력 후 NoticeNo : "+notice.getNoticeNo()+CF.RS);
 		
-		if(addNoticeForm.getNoticeFileList() != null
-				&& addNoticeForm.getNoticeFileList().get(0).getSize() > 0
-				&& addNoticeForm.getNoticeFileList().size() > 0
+		if(noticeForm.getNoticeFileList() != null
+				&& noticeForm.getNoticeFileList().get(0).getSize() > 0
+				&& noticeForm.getNoticeFileList().size() > 0
 				&& row == 1) {
 			
-			log.debug(CF.OHI+"NoticeService.addNotice : "+", 첨부된 파일이 있습니다."+CF.RS);
+			log.debug(CF.OHI+"NoticeService.addNotice 첨부된 파일이 있습니다."+CF.RS);
 			
-			for(MultipartFile m : addNoticeForm.getNoticeFileList()) {
+			for(MultipartFile m : noticeForm.getNoticeFileList()) {
 				NoticeFile noticeFile = new NoticeFile();
 				
 				String fileOriginName = m.getOriginalFilename();
@@ -105,7 +103,7 @@ public class NoticeService {
 				
 				// noticeFile 데이터 바인딩
 				noticeFile.setNoticeNo(notice.getNoticeNo());
-				noticeFile.setLoginId(addNoticeForm.getLoginId());
+				noticeFile.setLoginId(noticeForm.getLoginId());
 				noticeFile.setNoticeFileName(fileName);
 				noticeFile.setNoticeFileOriginName(fileOriginName);
 				noticeFile.setNoticeFileType(m.getContentType());
@@ -125,7 +123,85 @@ public class NoticeService {
 					// 예외 잡으면 @transactional 작동안하니까 런타임 가능한 예외 발생
 					throw new RuntimeException();
 				} 
+			}
+		}
+		
+		return row;
+	}
+	
+	// 공지사항 파일 삭제
+	public int deleteNoticeFile(String noticeFileName, String path) {
+		
+		// 저장 장치 파일 삭제 
+		File f = new File(path+noticeFileName);
+		log.debug(CF.OHI+"팡리 사젝 f _"+f+CF.RS);
+		if(f.exists()) {
+			f.delete();
+			log.debug(CF.OHI+"NoticeService.deleteNoticeFile 저장 장치 파일 삭제 성공 "+CF.RS);
+		} else {
+			log.debug(CF.OHI+"NoticeService.deleteNoticeFile 저장 장치 파일 삭제 실패 "+CF.RS);
+		}
+		
+		// db에서 해당 이름 가진 파일 삭제
+		int row = noticeFileMapper.deleteNoticeFile(noticeFileName);
+		
+		return row;
+	}
+	
+	// 공지사항 내용 수정
+	public int modifyNotice(NoticeForm noticeForm, String path) {
+		
+		// 데이터 바인딩
+		Notice notice = new Notice();
+		notice.setNoticeContent(noticeForm.getNoticeContent());
+		notice.setNoticeNo(noticeForm.getNoticeNo());
+		notice.setNoticeTitle(noticeForm.getNoticeTitle());
+		
+		int row = noticeMapper.updateNotice(notice);
+		
+		if(noticeForm.getNoticeFileList() != null
+				&& noticeForm.getNoticeFileList().get(0).getSize() > 0
+				&& noticeForm.getNoticeFileList().size() > 0
+				&& row == 1) {
+			
+			log.debug(CF.OHI+"NoticeService.modifyNotice 첨부된 파일이 있습니다."+CF.RS);
+			
+			for(MultipartFile m : noticeForm.getNoticeFileList()) {
 				
+				NoticeFile noticeFile = new NoticeFile();
+				
+				String fileOriginName = m.getOriginalFilename();
+				// 확장자
+				String ext = fileOriginName.substring(fileOriginName.lastIndexOf("."));
+				
+				// 새로운 이름 부여 (이름 중복 방지위해) 
+				String fileName = UUID.randomUUID().toString();
+				
+				fileName = fileName.replace("-", "");
+				fileName += ext;
+				
+				// noticeFile 데이터 바인딩
+				noticeFile.setNoticeNo(noticeForm.getNoticeNo());
+				noticeFile.setLoginId(noticeForm.getLoginId());
+				noticeFile.setNoticeFileName(fileName);
+				noticeFile.setNoticeFileOriginName(fileOriginName);
+				noticeFile.setNoticeFileType(m.getContentType());
+				noticeFile.setNoticeFileSize(m.getSize());
+				
+				log.debug(CF.OHI+"NoticeService.modifyNotice noticeFile : "+noticeFile+CF.RS);
+				
+				// db 에 파일 정보 입력
+				noticeFileMapper.insertNoticeFile(noticeFile);
+				
+				// 파일 경로에 저장
+				try {
+					m.transferTo(new File(path+fileName));
+				} catch (Exception e) {
+					e.printStackTrace();
+					
+					// 예외 잡으면 @transactional 작동안하니까 런타임 가능한 예외 발생
+					throw new RuntimeException();
+				} 
 			}
 		}
 		

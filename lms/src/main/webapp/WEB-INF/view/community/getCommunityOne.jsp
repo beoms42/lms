@@ -170,8 +170,6 @@
 							<td>수정일자</td>
 							<td>${community.updateDate}</td>
 						</tr>
-						
-						
 						<!-- 파일 부분 -->
 						<tr>
 							<c:forEach var="cf" items="${communityFileList}">

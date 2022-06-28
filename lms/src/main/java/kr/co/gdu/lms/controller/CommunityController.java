@@ -4,11 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.service.CommunityService;
@@ -20,11 +24,29 @@ import lombok.extern.slf4j.Slf4j;
 public class CommunityController {
 	@Autowired private CommunityService communityService;
 	
+	// 희원- addCommunity 액션
+	@PostMapping("/loginCheck/addCommunity")
+	public String addCommunity(HttpServletRequest request
+							, CommunityForm communityForm) {
+		String path = request.getServletContext().getRealPath("/file/communityFile/");
+		log.debug(CF.PHW+"CommunityController.addCommunity.post path : "+path+CF.RS );
+		log.debug(CF.PHW+"CommunityController.addCommunity.post communityForm : "+communityForm+CF.RS );
+		
+		List<MultipartFile> communityFileList = communityForm.getCommunityFileList();
+		if(communityFileList != null && communityFileList.get(0).getSize() > 0) {
+			for(MultipartFile mf : communityFileList) {
+				log.debug(CF.PHW+"CommunityController.addCommunity.post mf.getOriginalFilename() : "+mf.getOriginalFilename()+CF.RS );
+			}
+		}
+		communityService.addCommunity(communityForm, path);
+		return "redirect:/loginCheck/getCommunityListByPage";
+	}
 	
-	// 희원 - get방식 addCommunity 호출
+	
+	
+	// 희원 - addCommunity 폼
 	@GetMapping("/loginCheck/addCommunity")
 	public String addCommunity() {
-		
 		return "community/addCommunity";
 	}
 	
@@ -51,7 +73,7 @@ public class CommunityController {
 				
 	}
 	
-	// 희원 - get방식 communityList 호출
+	// 희원 - getCommunityListByPage 폼
 	@GetMapping("/loginCheck/getCommunityListByPage")
 	public String getCommunityList(Model model
 								, @RequestParam (name="currentPage", defaultValue = "1") int currentPage

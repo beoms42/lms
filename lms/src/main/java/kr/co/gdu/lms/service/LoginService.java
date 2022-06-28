@@ -15,7 +15,7 @@ import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.mapper.LoginMapper;
 import kr.co.gdu.lms.mapper.ManagerMapper;
 import kr.co.gdu.lms.mapper.MemberFileMapper;
-import kr.co.gdu.lms.vo.AddMemberForm;
+import kr.co.gdu.lms.vo.MemberForm;
 import kr.co.gdu.lms.vo.Dept;
 import kr.co.gdu.lms.vo.Login;
 import kr.co.gdu.lms.vo.Manager;
@@ -138,17 +138,17 @@ public class LoginService {
 	}
 	
 	// 회원가입 - post 
-	public void addMember(AddMemberForm addMemberForm, String path) {
+	public void addMember(MemberForm memberForm, String path) {
 		
 		log.debug(CF.OHI+"LoginService.addMember path : "+path+CF.RS );
-		log.debug(CF.OHI+"LoginService.addMember map : "+addMemberForm+CF.RS );
+		log.debug(CF.OHI+"LoginService.addMember map : "+memberForm+CF.RS );
 
 		// 레벨 구분할 변수 선언
 		String level = "";
 		
-		if("student".equals(addMemberForm.getAddChk())) {// 강사인지 학생인지 매니저인지 구별하는 addChk가 학생이라면
+		if("student".equals(memberForm.getAddChk())) {// 강사인지 학생인지 매니저인지 구별하는 addChk가 학생이라면
 			level = "1";
-		} else if("teacher".equals(addMemberForm.getAddChk())) { // 강사라면
+		} else if("teacher".equals(memberForm.getAddChk())) { // 강사라면
 			level = "2";
 		} else { // 둘다 아니라면 - 매니저
 			level = "3";
@@ -157,24 +157,24 @@ public class LoginService {
 		log.debug(CF.OHI+"LoginService.addMember level : "+level+CF.RS);
 		
 		// level vo에 값 지정
-		addMemberForm.setLevel(level);
+		memberForm.setLevel(level);
 		
 		// 로그인 테이블에 로그인 정보 추가
-		loginMapper.insertLogin(addMemberForm);
+		loginMapper.insertLogin(memberForm);
 		
 		// 해당 멤버 테이블에 멤버 정보 추가
-		loginMapper.insertMember(addMemberForm);
+		loginMapper.insertMember(memberForm);
 
 		// 비밀번호 이력테이블에 추가하기 위한 데이터 바인딩
 		Login login = new Login();
-		login.setLoginId(addMemberForm.getLoginId());
-		login.setLoginPw(addMemberForm.getLoginPw());
+		login.setLoginId(memberForm.getLoginId());
+		login.setLoginPw(memberForm.getLoginPw());
 		
 		// 비밀번호 이력테이블에 비밀번호 추가
 		loginMapper.insertPwRecord(login);
 		
 		// vo에 담긴 file꺼내서 mf에 담기 (편리성 위해)
-		MultipartFile mf = addMemberForm.getCustomFile();
+		MultipartFile mf = memberForm.getCustomFile();
 		
 		// mf이름 originalName에 담기
 		String originalName = mf.getOriginalFilename();
@@ -191,7 +191,7 @@ public class LoginService {
 		
 		// memberFile 데이터바인딩
 		MemberFile memberFile = new MemberFile();
-		memberFile.setLoginId(addMemberForm.getLoginId());
+		memberFile.setLoginId(memberForm.getLoginId());
 		memberFile.setMemberFileName(fileName);
 		memberFile.setMemberFileOriginName(originalName);
 		memberFile.setMemberFileType(mf.getContentType());

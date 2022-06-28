@@ -43,4 +43,13 @@
 		     ON s.login_id = e.login_id
 		     WHERE e.lecture_name = #{lectureName}
 	</select>
+	
+	<select id="selectStudentGroup"
+		resultType="map">
+		SELECT 
+			lecture_name lectureName
+			,COUNT(*) cnt
+		FROM education
+		GROUP BY lecture_name
+	</select>
 </mapper>

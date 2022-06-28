@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-    
 <!DOCTYPE html>
 <html>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -27,7 +26,10 @@
   <!-- endinject -->
   <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/tftace.jpg" />
   <style>
-  	.bottom {margin-bottom : 30px;}
+  	.title-bottom {margin-bottom : 50px;}
+  	.round {border-radius: 100%;
+  			margin-right:30px;}
+  	.bottom {margin-bottom : 20px;}
   </style>
 </head>
 <body>
@@ -49,25 +51,12 @@
           <div class="row">
             <div class="col-lg-10 grid-margin stretch-card">
               <div class="card">
-                <div class="card-body"><h3 class="bottom">[공지사항]</h3>
+                <div class="card-body"><h2 class="title-bottom">[공지사항]</h2>
                   <div class="table-responsive">
-                    <table class="table">
-	                    <colgroup>
-	                    	<col width="20%">
-	                    	<col width="*">
-	                    </colgroup>
-						<tr>
-							<th>번호</th>
-							<td>${notice.noticeNo}</td>
-						</tr>				        
-						<tr>
-							<th>제목</th>
-							<td>${notice.noticeTitle}</td>
-						</tr>				        
-						<tr>
-							<th>작성자</th>
-							<td>${notice.loginId}</td>
-						</tr>				        
+                  <h3 class="bottom">${notice.noticeTitle}</h3>
+                  <img src="${pageContext.request.contextPath}/file/memberPhoto/dd.png" class="round" width="50" height="50">${notice.loginId}
+                    <table class="table">			        				        
+										        
 						<tr>
 							<th>내용</th>
 							<td>${notice.noticeContent}</td>
@@ -78,21 +67,27 @@
 						</tr>
 						<!-- 파일 부분 -->
 						<c:if test="${fileList != null}">
-							<c:forEach var="f" items="${fileList}">
-								<tr>
+							<tr>
 								<th>첨부 파일</th>
-									<c:choose>
-										<c:when test="${f.noticeFileType eq 'image/jpeg' 
-													|| f.noticeFileType eq 'image/png' 
-													|| f.noticeFileType eq 'image/gif'}">
-											<td><img src="${pageContext.request.contextPath}/file/noticeFile/${f.noticeFileName}" width="100" height="100"></td>
-										</c:when>
-										<c:otherwise>
-											<td><a href="${pageContext.request.contextPath}/file/noticeFile/${f.noticeFileName}">${f.noticeFileOriginName}</a></td>
-										</c:otherwise>
-									</c:choose>
-								</tr>
-							</c:forEach>
+								<td>
+									<c:forEach var="f" items="${fileList}">
+										<c:choose>
+											<c:when test="${f.noticeFileType eq 'image/jpeg' 
+														|| f.noticeFileType eq 'image/png' 
+														|| f.noticeFileType eq 'image/gif'}">
+												<img src="${pageContext.request.contextPath}/file/noticeFile/${f.noticeFileName}" width="100" height="100">
+												<br>
+												<br>
+											</c:when>
+											<c:otherwise>
+												<a href="${pageContext.request.contextPath}/file/noticeFile/${f.noticeFileName}">${f.noticeFileOriginName}</a>
+												<br>
+												<br>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+								</td>
+							</tr>
 						</c:if>
 				    </table>
 				    <div class="float-right">

@@ -129,18 +129,25 @@ public class AssignmentController {
 		Map<String,Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("loginId", sessionMemberId);
 		paramMap.put("assignmentExamNo", assignmentExamNo);
+		
 		Map<String,Object> returnMap = assingmentservice.getAssignmentOne(paramMap);
+		
 		List<AssignmentFile> fileList = (List<AssignmentFile>)returnMap.get("assignmentListFile");
 		for(AssignmentFile f :fileList) {
 			log.debug(CF.GMC+f.getAssignmentExamNo()+CF.RS);
 		}
 		List<AssignmentSubmit> assignmentSubmit = assingmentservice.getAssignmentSubmit(paramMap);
+		List<AssignmentSubmit> assignmentSubmitTeacher = assingmentservice.getAssignmentSubmitTeacher(paramMap);
+		String lectureName=assingmentservice.getLectureName(sessionMemberId);
 		
+		model.addAttribute("lectureName",lectureName);
 		model.addAttribute("assignmentList", (List<AssignmentExam>)returnMap.get("assignmentList"));
+		model.addAttribute("assignmentSubmitTeacher",assignmentSubmitTeacher);
 		model.addAttribute("fileList",fileList);
 		model.addAttribute("assignmentSubmit",assignmentSubmit);
 		model.addAttribute("assignmentExamNo",assignmentExamNo);
 		model.addAttribute("level",level);
+		model.addAttribute("loginId",sessionMemberId);
 		return "/assignment/assignmentOne";
 	}
 	
@@ -247,74 +254,32 @@ public class AssignmentController {
 	@GetMapping("/loginCheck/updateScore")
 	public String updateScore(HttpServletRequest request
 								,Model model
-								,@RequestParam (name="assignmentCurrentPage",defaultValue="1") int assignmentCurrentPage
-								,@RequestParam (name="rowPerPage",defaultValue="10")int rowPerPage
-								,@RequestParam (name="lecturName",defaultValue="자바") String lectureName) {		
+								,AssignmentSubmit assignmentsubmit) {		
 		HttpSession session = request.getSession();
 		String sessionMemberId=(String)session.getAttribute("sessionId");
 		int level = (int)session.getAttribute("sessionLv");
 		
-		Map<String,Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("lectureName", lectureName);
-		paramMap.put("assignmentCurrentPage", assignmentCurrentPage);
-		paramMap.put("rowPerPage", rowPerPage);
 		
 		
-		Map<String,Object> returnMap = assingmentservice.getAssignmentExam(paramMap);
-		List<AssignmentExam> assignmentExamList = (List<AssignmentExam>)returnMap.get("assignmentExamList");
-		int lastPage = (int)returnMap.get("lastPage");
-		
-		
-		
-		model.addAttribute("lectureName",lectureName);
-		model.addAttribute("assignmentExamList",assignmentExamList);
-		model.addAttribute("lastPage",lastPage);
-		model.addAttribute("assignmentCurrentPage",assignmentCurrentPage);
-		model.addAttribute("level",level);
 		
 		return "/assignment/updateScore";
 	}
 	//점수 입력 후 과제 리스트 ->
 	@PostMapping("/loginCheck/updateScore")
 	public String updateScore(HttpServletRequest request
-							,Model model
-							,@RequestParam (name="assignmentCurrentPage",defaultValue="1") int assignmentCurrentPage
-							,@RequestParam (name="rowPerPage",defaultValue="10")int rowPerPage
-							,@RequestParam (name="lecturName",defaultValue="자바") String lectureName
-							  ,@RequestParam (name="assignmentSubmitScore") int assignmentSubmitScore
-							  ,@RequestParam (name="assignmentExamNo") int assignmentExamNo) {		
-		log.debug(CF.GMC+"AssignmentController.assignmentSubmit assignmentExamNo : "+assignmentExamNo+ CF.RS);
-		log.debug(CF.GMC+"AssignmentController.assignmentSubmit assignmentSubmitScore : "+assignmentSubmitScore+ CF.RS);
+							,AssignmentSubmit assignmentsubmit) {		
 
 		HttpSession session = request.getSession();
 		String loginId=(String)session.getAttribute("sessionId");
 		int level = (int)session.getAttribute("sessionLv");
 		int educationNo = assingmentservice.getEducationNo(loginId);
 		//Score update where문 조건
-		Map<String,Object> paramMap2 = new HashMap<>();
-		paramMap2.put("assignmentSubmitScore", assignmentSubmitScore);
-		paramMap2.put("assignmentExamNo", assignmentExamNo);
-		paramMap2.put("educationNo", educationNo);
-		
-		assingmentservice.updateScore(paramMap2);
-		
-		Map<String,Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("lectureName", lectureName);
-		paramMap.put("assignmentCurrentPage", assignmentCurrentPage);
-		paramMap.put("rowPerPage", rowPerPage);
+		Map<String,Object> paramMap = new HashMap<>();
+		paramMap.put("assignmentSubmitScore", assignmentsubmit.getAssignmentSubmitScore());
+		paramMap.put("assignmentExamNo", assignmentsubmit.getAssignmentExamNo());
+		paramMap.put("educationNo", educationNo);
 		
 		
-		Map<String,Object> returnMap = assingmentservice.getAssignmentExam(paramMap);
-		List<AssignmentExam> assignmentExamList = (List<AssignmentExam>)returnMap.get("assignmentExamList");
-		int lastPage = (int)returnMap.get("lastPage");
-		
-		
-		
-		model.addAttribute("lectureName",lectureName);
-		model.addAttribute("assignmentExamList",assignmentExamList);
-		model.addAttribute("lastPage",lastPage);
-		model.addAttribute("assignmentCurrentPage",assignmentCurrentPage);
-		model.addAttribute("level",level);
 		
 		
 		return "/assignment/assignmentExam";

@@ -35,4 +35,17 @@ public class YoungInService {
 		
 		return list;
 	}
+	
+	//강의별 배정인원수 / 인원수 
+	//해시맵으로 넣을건데,, 키 > 강의명으로 값 > 인원수
+	public Map<String, Object> selectStudentGroup() {
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		
+		List<HashMap<String, Object>> useMapList = youngInMapper.selectStudentGroup();
+		for(HashMap<String, Object> h : useMapList ) {
+			returnMap.put(h.get("lectureName").toString(), h.get("cnt"));
+		}
+		
+		return returnMap;
+	}
 }

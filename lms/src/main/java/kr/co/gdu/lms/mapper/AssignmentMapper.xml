@@ -96,6 +96,23 @@
 		WHERE assignment_exam_no = ${assignmentExamNo}
 		AND education_no=${educationNo}
 	</select>
+	<select id="selectAssignmentSubmitTeacher"
+			parameterType="java.util.Map"
+			resultType="kr.co.gdu.lms.vo.AssignmentSubmit">
+		SELECT 
+			assignment_exam_no assignmentExamNo
+			,a.education_no educationNo
+			,assignment_signfile_url assignmentSignfileURL
+			,assignment_submit_content assignmentSubmitContent
+			,create_date createDate
+			,update_date updateDate
+			,assignment_submit_score assignmentSubmitScore
+			,e.login_id loginId
+		FROM assignment_submit a INNER JOIN education e
+		ON e.education_no = a.education_no
+		WHERE assignment_exam_no = #{assignmentExamNo}
+		AND e.lecture_name = #{lectureName}
+	</select>
 	<update id="updateScore"
 			parameterType="java.util.Map">
 		UPDATE assignment_submit 

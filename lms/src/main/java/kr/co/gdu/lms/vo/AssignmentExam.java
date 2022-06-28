@@ -10,6 +10,7 @@ import lombok.Data;
 public class AssignmentExam {
 	private int assignmentExamNo;
 	private String lectureName;
+	private int educationNo;
 	private String assignmentExamTitle;
 	private String assignmentExamContent;
 	private String assignmentDeadLine;

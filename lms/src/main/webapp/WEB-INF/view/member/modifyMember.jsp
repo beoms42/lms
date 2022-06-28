@@ -32,92 +32,7 @@
 <body>
   <div class="container-scroller">
     <!-- partial:partials/_navbar.html -->
-    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo mr-5" href="${pageContext.request.contextPath}/loginCheck/main">LMS-TFT</a>
-        <a class="navbar-brand brand-logo-mini" href="${pageContext.request.contextPath}/index.html">LMS</a>
-      </div>
-      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-          <span class="icon-menu"></span>
-        </button>
-        <ul class="navbar-nav mr-lg-2">
-          <li class="nav-item nav-search d-none d-lg-block">
-            <div class="input-group">
-               
-            </div>
-          </li>
-        </ul>
-        <ul class="navbar-nav navbar-nav-right">
-          <li class="nav-item dropdown">
-            <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
-              <i class="icon-bell mx-0"></i>
-              <span class="count"></span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-              <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-success">
-                    <i class="ti-info-alt mx-0"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-normal">Application Error</h6>
-                  <p class="font-weight-light small-text mb-0 text-muted">
-                    Just now
-                  </p>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-warning">
-                    <i class="ti-settings mx-0"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-normal">Settings</h6>
-                  <p class="font-weight-light small-text mb-0 text-muted">
-                    Private message
-                  </p>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-info">
-                    <i class="ti-user mx-0"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-normal">New user registration</h6>
-                  <p class="font-weight-light small-text mb-0 text-muted">
-                    2 days ago
-                  </p>
-                </div>
-              </a>
-            </div>
-          </li>
-          <li class="nav-item nav-profile dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-              <img src="images/tftace.jpg" alt="profile"/>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item">
-                <i class="ti-settings text-primary"></i>
-                Settings
-              </a>
-              <a class="dropdown-item">
-                <i class="ti-power-off text-primary"></i>
-                Logout
-              </a>
-            </div>
-          </li>
-        </ul>
-        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-          <span class="icon-menu"></span>
-        </button>
-      </div>
-    </nav>
+    	<jsp:include page="/inc/topbar.jsp"/>
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <!-- partial:partials/_settings-panel.html -->
@@ -130,273 +45,264 @@
       <!-- partial -->
       <div class="main-panel">
          <div class="content-wrapper">
-         <div class="row">
-            <div class="col-md-12 grid-margin">
-               <div class="row">
-                   
-                      <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                      <div class="card">
-                        <div class="card-body">
-                        <h3 style="font-weight: bold;">개인정보 수정하기</h3><br>
-                       <c:choose>
-                     <c:when test = "${sessionLv==1}">
-                       <form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyStudent" id="modifyForm">
-                      <table class="table">
-                  <tr style="height: 15px;">
-                     <th>아이디</th>
-                     <td>${member.loginId}</td>
-                     <td rowspan="4" >
-                        <img src="${pageContext.request.contextPath}/file/memberPhoto/${memberFile.memberFileName}" style="border-radius: 0%; width: 130px; height: 150px; display: block; margin: 0 auto;" ><br><br>
-                     </td>
-                  </tr>
-                  <tr>
-                     <th>이름</th>
-                     <td>
-                        <input type="text" name="studentName" value="${member.studentName}" id="name" placeholder="이름">&nbsp;&nbsp;&nbsp;
-                        <span id="nameHelper" class="helper"></span>
-                     </td>
-                  </tr>
-                  <tr>
-                     <th>생년월일</th>
-                     <td><input type="date" name="studentBirth" value="${member.studentBirth}"></td>
-                  </tr>
-                  <tr>
-                     <th>성별</th>
-                     <td>
-                        <input type="radio" name="studentGender" <c:if test="${member.studentGender eq '남'}">checked</c:if> value="남"/>남&nbsp;
-                        <input type="radio" name="studentGender" <c:if test="${member.studentGender eq '여'}">checked</c:if> value="여"/>여
-                     </td>
-                  </tr>
-                   <tr>
-                       <th>주소</th>
-                       <td>
-                            <input type="text" class="form-control button-bottom" placeholder="${member.address}" id="addr">
-                           <button type="button" class="float-right btn btn-primary mr-2 button-bottom" id="searchAddr">주소 검색</button>
-                           <div id="addrHelper"></div>
-                           <select name="address"  class="form-control" id="searchAddrList">
-                              <!-- 주소 들어올 공간 -->
-                           </select>
-                        </td>   
-                        <td></td>
-                     </tr>   
-                  <tr>
-                     <th>상세주소</th>
-                     <td><input type="text" value="${member.detailAddress}" name="detailAddress"></td>
-                     <td></td>
-                  </tr>
-                  <tr>
-                     <th>이메일</th>
-                     <td>
-                        <input type="text" value="${member.studentEmail}" name="studentEmail" id="email" placeholder="이메일">&nbsp;&nbsp;&nbsp;
-                        <span id="emailHelper" class="helper"></span>
-                     </td>
-                     <td></td>
-                  </tr>
-                  <tr>
-                     <th>전화번호</th>
-                     <td>
-                        <input type="text" value="${member.studentPhone}" name="studentPhone" id="phone" placeholder="-를 제외해서 입력해주세요." >&nbsp;&nbsp;&nbsp;
-                        <span id="phoneHelper" class="helper"></span>
-                     </td>
-                     <td></td>
-                  </tr>
-                  <tr>
-                     <th>병역유무</th>
-                     <td>
-                        <select name="militaryStatus">
-                        <option value="해당없음" <c:if test="${member.militaryStatus eq '해당없음'}">selected="selected"</c:if>>해당없음</option>&nbsp;
-                        <option value="군필" <c:if test="${member.militaryStatus eq '군필'}">selected="selected"</c:if>>군필</option>&nbsp;
-                        <option value="미필" <c:if test="${member.militaryStatus eq '미필'}">selected="selected"</c:if>>미필</option>&nbsp;
-                        </select>
-                     </td>
-                     <td></td>
-                  </tr>
-                  <tr>
-                     <th>학력</th>
-                     <td>
-                        <select name="graduate">
-                        <option value="고졸" <c:if test="${member.graduate eq '고졸'}">selected="selected"</c:if>>고졸</option>&nbsp;
-                        <option value="초대졸" <c:if test="${member.graduate eq '초대졸'}">selected="selected"</c:if>>초대졸</option>&nbsp;
-                        <option value="대졸" <c:if test="${member.graduate eq '대졸'}">selected="selected"</c:if>>대졸</option>&nbsp;
-                        </select> 
-                     </td>
-                     <td></td>
-                  </tr>
-               </table><br>
-               <button class="btn btn-primary"  id="modify">수정</button>
-               </form>
-               </c:when>
-               <c:when test = "${sessionLv==2}">
-               <form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyTeacher" id="modifyForm">
-                   <table class="table">
-                  <tr style="height: 15px;">
-                     <th>아이디</th>
-                     <td>${member.loginId}</td>
-                     <td rowspan="4" >
-                        <img src="${pageContext.request.contextPath}/file/memberPhoto/${memberFile.memberFileName}" style="border-radius: 0%; width: 130px; height: 150px; display: block; margin: 0 auto;" ><br><br>
-                     </td>
-                  </tr>
-                  <tr>
-                     <th>이름</th>
-                     <td>
-                        <input type="text" name="studentName" value="${member.teacherName}" id="name" placeholder="이름">&nbsp;&nbsp;&nbsp;
-                        <span id="nameHelper" class="helper"></span>
-                     </td>
-                  </tr>
-                  <tr>
-                     <th>생년월일</th>
-                     <td><input type="date" name="studentBirth" value="${member.teacherBirth}"></td>
-                  </tr>
-                  <tr>
-                     <th>성별</th>
-                     <td>
-                        <input type="radio" name="studentGender" <c:if test="${member.teacherGender eq '남'}">checked</c:if> value="남"/>남&nbsp;
-                        <input type="radio" name="studentGender" <c:if test="${member.teacherGender eq '여'}">checked</c:if> value="여"/>여
-                     </td>
-                  </tr>
-                   <tr>
-                       <th>주소</th>
-                       <td>
-                            <input type="text" class="form-control button-bottom" placeholder="${member.address}" id="addr">
-                           <button type="button" class="float-right btn btn-primary mr-2 button-bottom" id="searchAddr">주소 검색</button>
-                           <div id="addrHelper"></div>
-                           <select name="address"  class="form-control" id="searchAddrList">
-                              <!-- 주소 들어올 공간 -->
-                           </select>
-                        </td>   
-                        <td></td>
-                     </tr>   
-                  <tr>
-                     <th>상세주소</th>
-                     <td><input type="text" value="${member.detailAddr}" name="detailAddress"></td>
-                     <td></td>
-                  </tr>
-                  <tr>
-                     <th>이메일</th>
-                     <td>
-                        <input type="text" value="${member.teacherEmail}" name="studentEmail" id="email" placeholder="이메일">&nbsp;&nbsp;&nbsp;
-                        <span id="emailHelper" class="helper"></span>
-                     </td>
-                     <td></td>
-                  </tr>
-                  <tr>
-                     <th>전화번호</th>
-                     <td>
-                        <input type="text" value="${member.teacherPhone}" name="studentPhone" id="phone" placeholder="-를 제외해서 입력해주세요." >&nbsp;&nbsp;&nbsp;
-                        <span id="phoneHelper" class="helper"></span>
-                     </td>
-                     <td></td>
-                  </tr>
-                  <tr>
-                     <th>학력</th>
-                     <td>
-                        <select name="graduate">
-                        <option value="고졸" <c:if test="${member.graduate eq '고졸'}">selected="selected"</c:if>>고졸</option>&nbsp;
-                        <option value="초대졸" <c:if test="${member.graduate eq '초대졸'}">selected="selected"</c:if>>초대졸</option>&nbsp;
-                        <option value="대졸" <c:if test="${member.graduate eq '대졸'}">selected="selected"</c:if>>대졸</option>&nbsp;
-                        </select> 
-                     </td>
-                     <td></td>
-                  </tr>
-               </table><br>
-               <button class="btn btn-primary"  id="modify">수정</button>
-               </form>
-               </c:when>
-               <c:when test = "${sessionLv==3}">
-               <form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyManager" id="modifyForm">
-                   <table class="table">
-                  <tr style="height: 15px;">
-                     <th>아이디</th>
-                     <td>${member.loginId}</td>
-                     <td rowspan="4" >
-                        <img src="${pageContext.request.contextPath}/file/memberPhoto/${memberFile.memberFileName}" style="border-radius: 0%; width: 130px; height: 150px; display: block; margin: 0 auto;" ><br><br>
-                     </td>
-                  </tr>
-                  <tr>
-                     <th>이름</th>
-                     <td>
-                        <input type="text" name="managerName" value="${member.managerName}" id="name" placeholder="이름">&nbsp;&nbsp;&nbsp;
-                        <span id="nameHelper" class="helper"></span>
-                     </td>
-                  </tr>
-                  <tr>
-                     <th>생년월일</th>
-                     <td><input type="date" name="managerBirth" value="${member.managerBirth}"></td>
-                  </tr>
-                  <tr>
-                     <th>성별</th>
-                     <td>
-                        <input type="radio" name="managerGender" <c:if test="${member.managerGender eq '남'}">checked</c:if> value="남"/>남&nbsp;
-                        <input type="radio" name="managerGender" <c:if test="${member.managerGender eq '여'}">checked</c:if> value="여"/>여
-                     </td>
-                  </tr>
-                   <tr>
-                       <th>주소</th>
-                       <td>
-                            <input type="text" class="form-control button-bottom" placeholder="${member.address}" id="addr">
-                           <button type="button" class="float-right btn btn-primary mr-2 button-bottom" id="searchAddr">주소 검색</button>
-                           <div id="addrHelper"></div>
-                           <select name="address"  class="form-control" id="searchAddrList">
-                              <!-- 주소 들어올 공간 -->
-                           </select>
-                        </td>   
-                        <td></td>
-                     </tr>   
-                  <tr>
-                     <th>상세주소</th>
-                     <td><input type="text" value="${member.detailAddr}" name="detailAddress"></td>
-                     <td></td>
-                  </tr>
-                  <tr>
-                     <th>이메일</th>
-                     <td>
-                        <input type="text" value="${member.managerEmail}" name="managerEmail" id="email" placeholder="이메일">&nbsp;&nbsp;&nbsp;
-                        <span id="emailHelper" class="helper"></span>
-                     </td>
-                     <td></td>
-                  </tr>
-                  <tr>
-                     <th>전화번호</th>
-                     <td>
-                        <input type="text" value="${member.managerPhone}" name="managerPhone" id="phone" placeholder="-를 제외해서 입력해주세요." >&nbsp;&nbsp;&nbsp;
-                        <span id="phoneHelper" class="helper"></span>
-                     </td>
-                     <td></td>
-                  </tr>
-                  <tr>
-                             <th>부서</th>
-                              <td>
-                              <select name="deptNo">
-                              <c:forEach var="d" items="${deptList}">
-                              <option value="${d.deptNo}">${d.deptName}</option>
-                              </c:forEach>
-                            </select>
-                            </td>
-                        </tr>
-                        <tr>
-                             <th>직급</th>
-                             <td>
-                             <select name="positionNo">
-                                <c:forEach var="p" items="${positionList}">
-                           <option value="${p.positionNo}">${p.positionName}</option>                                
-                                </c:forEach>
-                            </select>
-                            </td>
-                        </tr>
-               </table><br>
-               <button class="btn btn-primary"  id="modify">수정</button>
-               </form>
-               </c:when>
-            
-                </c:choose>
-            </div>
-            </div>
-            </div>
-              </div>
-            </div>
-          </div>
-          
-          
+         	<div class="row">
+            	<div class="col-md-12 grid-margin">
+              		<div class="row">
+                		<div class="col-12 col-xl-8 mb-4 mb-xl-0">
+                      		<div class="card">
+                        		<div class="card-body">
+                        		<h3 style="font-weight: bold;">개인정보 수정하기</h3><br>
+                       			<c:choose>
+                     			<c:when test = "${sessionLv==1}">
+                       			<form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyStudent" id="modifyForm">
+                      			<table class="table">
+                  					<tr style="height: 15px;">
+                     					<th>아이디</th>
+                     					<td>${member.loginId}</td>
+                     					<td rowspan="4" style="width: 70px;">
+                        					<img src="${pageContext.request.contextPath}/file/memberPhoto/${memberFile.memberFileName}" style="border-radius: 0%; width: 130px; height: 150px; display: block; margin: 0 auto;" ><br><br>
+                     					</td>
+                  					</tr>
+                  					<tr>
+                     					<th>이름</th>
+                     					<td>
+                        					<input type="text" class="form-control-df" name="studentName" value="${member.studentName}" id="name" placeholder="이름을 입력하세요.">&nbsp;&nbsp;&nbsp;
+                        					<span id="nameHelper" class="helper"></span>
+                     					</td>
+                  					</tr>
+                  					<tr>
+                     					<th>생년월일</th>
+                     					<td>
+                     						<input type="date" class="form-control-df" name="studentBirth" value="${member.studentBirth}">
+                     						<span id="birthHelper" class="helper"></span>
+                     					</td>
+                  					</tr>
+					                <tr>
+					                    <th>성별</th>
+					                    <td>
+					                    	<input type="radio" name="studentGender" <c:if test="${member.studentGender eq '남'}">checked</c:if> value="남"/>남&nbsp;
+					                        <input type="radio" name="studentGender" <c:if test="${member.studentGender eq '여'}">checked</c:if> value="여"/>여
+					                    </td>
+					                </tr>
+				                   	<tr>
+				                       	<th>주소</th>
+				                       	<td colspan="2">
+				                       	<div class="input-group mb-3">
+				                        	<input type="text" class="form-control text-body" placeholder="${member.address}" id="addr">
+				                        	<button type="button" class="btn btn-primary" id="searchAddr" style="border-radius: 0% 4px 4px 0%;">주소 검색</button>              	
+				                       	</div>
+				                       	<div id="addrHelper"></div>
+				                           	<select name="address"  class="form-control-df text-body" id="searchAddrList">
+				                              <!-- 주소 들어올 공간 -->
+				                           	</select>
+				                     	</td>    
+				                     </tr>   
+				                  	 <tr>
+					                    <th>상세주소</th>
+					                    <td colspan="2"><input type="text" class="form-control-df" value="${member.detailAddress}" name="detailAddress"></td>
+					                 </tr>
+					                 <tr>
+					                    <th>이메일</th>
+					                    <td colspan="2">
+					                    	<input type="text" class="form-control-df" value="${member.studentEmail}" name="studentEmail" id="email" placeholder="이메일">&nbsp;&nbsp;&nbsp;
+					                        <span id="emailHelper" class="helper"></span>
+					                    </td>
+					                 </tr>
+					                 <tr>
+					                 	<th>전화번호</th>
+					                    <td colspan="2">
+					                    	<input type="text" class="form-control-df" value="${member.studentPhone}" name="studentPhone" id="phone" placeholder="-를 제외해서 입력해주세요." >&nbsp;&nbsp;&nbsp;
+					                        <span id="phoneHelper" class="helper"></span>
+					                    </td>
+					                 </tr>
+					                 <tr>
+					                 	<th>병역유무</th>
+					                    <td colspan="2">
+					                       <select name="militaryStatus" class="form-control-df">
+					                       <option value="해당없음" <c:if test="${member.militaryStatus eq '해당없음'}">selected="selected"</c:if>>해당없음</option>&nbsp;
+					                       <option value="군필" <c:if test="${member.militaryStatus eq '군필'}">selected="selected"</c:if>>군필</option>&nbsp;
+					                       <option value="미필" <c:if test="${member.militaryStatus eq '미필'}">selected="selected"</c:if>>미필</option>&nbsp;
+					                       </select>
+					                    </td>
+					                 </tr>
+					                 <tr>
+					                    <th>학력</th>
+					                    <td colspan="2">
+					                       <select name="graduate" class="form-control-df">
+					                       <option value="고졸" <c:if test="${member.graduate eq '고졸'}">selected="selected"</c:if>>고졸</option>&nbsp;
+					                       <option value="초대졸" <c:if test="${member.graduate eq '초대졸'}">selected="selected"</c:if>>초대졸</option>&nbsp;
+					                       <option value="대졸" <c:if test="${member.graduate eq '대졸'}">selected="selected"</c:if>>대졸</option>&nbsp;
+					                       </select> 
+					                     </td>
+					                 </tr>
+					             </table><br>
+               					 <button class="btn btn-primary"  id="modify">수정</button>
+               					 </form>
+               					 </c:when>
+				                 <c:when test = "${sessionLv==2}">
+				                 <form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyTeacher" id="modifyForm">
+				                 <table class="table">
+				                 	<tr style="height: 15px;">
+				                    	<th>아이디</th>
+				                     	<td>${member.loginId}</td>
+				                     	<td rowspan="4" style="width: 70px;">
+				                        	<img src="${pageContext.request.contextPath}/file/memberPhoto/${memberFile.memberFileName}" style="border-radius: 0%; width: 130px; height: 150px; display: block; margin: 0 auto;" ><br><br>
+				                     	</td>
+				                  	</tr>
+				                 	<tr >
+				                     	<th>이름</th>
+				                     	<td>
+				                        	<input type="text" class="form-control-df" name="teacherName" value="${member.teacherName}" id="name" placeholder="이름">&nbsp;&nbsp;&nbsp;
+				                        	<span id="nameHelper" class="helper"></span>
+				                     	</td>
+				                  	</tr>
+				                  	<tr>
+				                     	<th>생년월일</th>
+				                     	<td><input type="date" class="form-control-df" name="teacherBirth" value="${member.teacherBirth}"></td>
+				                  	</tr>
+				                  	<tr>
+				                     	<th>성별</th>
+				                     	<td>
+				                        	<input type="radio" name="teacherGender" <c:if test="${member.teacherGender eq '남'}">checked</c:if> value="남"/>남&nbsp;
+				                        	<input type="radio" name="teacherGender" <c:if test="${member.teacherGender eq '여'}">checked</c:if> value="여"/>여
+				                     	</td>
+				                  	</tr>
+				                   	<tr>
+				                       	<th>주소</th>
+				                       	<td colspan="2">
+				                       	<div class="input-group mb-3">
+				                        	<input type="text" class="form-control text-body" placeholder="${member.address}" id="addr">
+				                        	<button type="button" class="btn btn-primary" id="searchAddr" style="border-radius: 0% 4px 4px 0%;">주소 검색</button>              	
+				                       	</div>
+				                       	<div id="addrHelper"></div>
+				                           	<select name="address"  class="form-control-df text-body" id="searchAddrList">
+				                              <!-- 주소 들어올 공간 -->
+				                           	</select>
+				                     	</td>    
+				                    </tr>   
+				                  	<tr>
+				                    	<th>상세주소</th>
+				                     	<td colspan="2"><input type="text" class="form-control-df" value="${member.detailAddr}" name="detailAddress"></td>
+				                  	</tr>
+				                  	<tr>
+				                     	<th>이메일</th>
+				                     	<td colspan="2">
+				                        	<input type="text" class="form-control-df" value="${member.teacherEmail}" name="teacherEmail" id="email" placeholder="이메일">&nbsp;&nbsp;&nbsp;
+				                        	<span id="emailHelper" class="helper"></span>
+				                     	</td>
+				                  	</tr>
+				                  	<tr>
+				                     	<th>전화번호</th>
+				                     	<td colspan="2">
+				                        	<input type="text" class="form-control-df" value="${member.teacherPhone}" name="teacherPhone" id="phone" placeholder="-를 제외해서 입력해주세요." >&nbsp;&nbsp;&nbsp;
+				                        	<span id="phoneHelper" class="helper"></span>
+				                     	</td>
+				                  	</tr>
+				                  	<tr>
+				                     	<th>학력</th>
+				                     	<td colspan="2">
+				                        	<select name="graduate" class="form-control-df">
+				                        	<option value="고졸" <c:if test="${member.graduate eq '고졸'}">selected="selected"</c:if>>고졸</option>&nbsp;
+				                        	<option value="초대졸" <c:if test="${member.graduate eq '초대졸'}">selected="selected"</c:if>>초대졸</option>&nbsp;
+				                        	<option value="대졸" <c:if test="${member.graduate eq '대졸'}">selected="selected"</c:if>>대졸</option>&nbsp;
+				                        	</select> 
+				                     	</td>
+				                  	</tr>
+				               		</table><br>
+				               		<button class="btn btn-primary"  id="modify">수정</button>
+				               	</form>
+				               	</c:when>
+				               	<c:when test = "${sessionLv==3}">
+				               	<form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyManager" id="modifyForm">
+				                <table class="table table-bordered">
+				                	<tr style="height: 15px;">
+				                    	<th>아이디</th>
+				                     	<td>${member.loginId}</td>
+				                     	<td rowspan="4" style="width: 70px;">
+				                        	<img src="${pageContext.request.contextPath}/file/memberPhoto/${memberFile.memberFileName}" style="border-radius: 0%; width: 140px; height: 170px; display: block; margin: 0 auto;" ><br><br>
+				                     	</td>
+				                  	</tr>
+				                  	<tr>
+				                     	<th>이름</th>
+				                     	<td>
+				                        	<input type="text" class="form-control-df" name="managerName" value="${member.managerName}" id="name" placeholder="이름">&nbsp;&nbsp;&nbsp;
+				                        	<span id="nameHelper" class="helper"></span>
+				                     	</td>
+				                  	</tr>
+				                  	<tr>
+				                     	<th>생년월일</th>
+				                     	<td><input type="date" class="form-control-df" name="managerBirth" value="${member.managerBirth}"></td>
+				                  	</tr>
+				                  	<tr>
+				                     	<th>성별</th>
+				                     	<td>
+				                        	<input type="radio" class="form" name="managerGender" <c:if test="${member.managerGender eq '남'}">checked</c:if> value="남"/>남&nbsp;
+				                        	<input type="radio" class="form" name="managerGender" <c:if test="${member.managerGender eq '여'}">checked</c:if> value="여"/>여
+				                     	</td>
+				                  	</tr>
+				                   	<tr>
+				                       	<th>주소</th>
+				                       	<td colspan="2">
+				                       	<div class="input-group mb-3">
+				                        	<input type="text" class="form-control text-body" placeholder="${member.address}" id="addr">
+				                        	<button type="button" class="btn btn-primary" id="searchAddr" style="border-radius: 0% 4px 4px 0%;">주소 검색</button>              	
+				                       	</div>
+				                       	<div id="addrHelper"></div>
+				                           	<select name="address"  class="form-control-df text-body" id="searchAddrList">
+				                              <!-- 주소 들어올 공간 -->
+				                           	</select>
+				                     	</td>   
+				                     </tr>   
+				                  	 <tr>
+				                     	<th>상세주소</th>
+				                     	<td colspan="2"><input type="text" class="form-control-df" value="${member.detailAddr}" name="detailAddress"></td>
+				                  	 </tr>
+				                     <tr>
+				                     	<th>이메일</th>
+				                     	<td colspan="2">
+				                        	<input type="text" class="form-control-df" value="${member.managerEmail}" name="managerEmail" id="email" placeholder="이메일">&nbsp;&nbsp;&nbsp;
+				                        	<span id="emailHelper" class="helper"></span>
+				                     	</td>
+				                  	 </tr>
+				                  	 <tr>
+				                     	<th>전화번호</th>
+				                     	<td colspan="2">
+				                        	<input type="text" class="form-control-df" value="${member.managerPhone}" name="managerPhone" id="phone" placeholder="-를 제외해서 입력해주세요." >&nbsp;&nbsp;&nbsp;
+				                        	<span id="phoneHelper" class="helper"></span>
+				                     	</td>
+				                  	 </tr>
+				                  	 <tr>
+				                         <th>부서</th>
+				                         <td colspan="2">
+				                         	<select name="deptNo" class="form-control-df text-body">
+				                            <c:forEach var="d" items="${deptList}">
+				                            	<option value="${d.deptNo}">${d.deptName}</option>
+				                            </c:forEach>
+				                            </select>
+				                         </td>
+				                      </tr>
+				                      <tr>
+				                         <th>직급</th>
+				                         <td colspan="2" >
+				                         	<select name="positionNo" class="form-control-df text-body">
+				                            <c:forEach var="p" items="${positionList}">
+				                           		<option value="${p.positionNo}">${p.positionName}</option>                                
+				                            </c:forEach>
+				                            </select>
+				                         </td>
+				                      </tr>
+				               		  </table>
+				               		  <br>
+				               		  <button class="btn btn-primary"  id="modify">수정</button>
+				               		  </form>
+				               		  </c:when>
+				               		  </c:choose>
+            					</div>
+            				</div>
+            			</div>
+              		</div>
+            	</div>
+          	</div>
         </div>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
@@ -440,27 +346,49 @@
   <!-- End custom js for this page-->
 </body>
 <script>
-   $('#name').blur(function() {
-      if($('#name').val().length == 0 ) {
-         $('#nameHelper').text('이름을 입력해주세요');
-      } else {
-         $('#nameHelper').text('');
-      }
-   });
-   $('#email').blur(function() {
-      if($('#email').val().length == 0 ) {
-         $('#emailHelper').text('이메일을 입력해주세요');
-      } else {
-         $('#emailHelper').text('');
-      }
-   });
-   $('#phone').blur(function(){
-      if($('#phone').val().indexOf('-') != -1 ){
-         $('#phone').val().replace(/-/g, ''); // 입력한 '-' 한자리 지움
-            $('#phoneHelper').text('-를 제외해서 입력해주세요.');
-      }
-   });
-   
+	$('#name').blur(function() {
+		if($('#name').val()=='') {
+			$('#nameHelper').text('이름을 입력해주세요.');
+		} else {
+			$('#nameHelper').text('');
+		}
+	})
+	
+	$('#email').blur(function() {
+  		if($('#email').val()=='') {
+  			$('#emailHelper').text('이메일을 입력해주세요.');
+  		} else if($('#email').val().indexOf('@') == -1 || $('#email').val().indexOf('.') == -1) {
+  			$('#emailHelper').text('이메일 형식이 다릅니다.');	
+  		} else {
+  			$('#emailHelper').text('');
+  		}
+  	})
+  	
+	$('#phone').blur(function() {
+  		if($('#phone').val()=='') {
+  			$('#phoneHelper').text('휴대폰 번호를 입력해주세요.');
+  		} else if($('#phone').val().indexOf('-') != -1) {
+  			$('#phoneHelper').text('-을 제외해서 입력해주세요.');
+  		} else {
+  			$('#phoneHelper').text('');
+  		}
+  	})
+  	
+  	$('#addr').blur(function() {
+  		if($('#addr').val()=='') {
+  			$('#addrHelper').text('주소를 검색해주세요.');
+  		} else {
+  			$('#addrHelper').text('');
+  		}
+  	})
+  	
+  	$('#detailAddr').blur(function() {
+  		if($('#detailAddr').val()=='') {
+  			$('#detailAddrHelper').text('상세 주소를 입력해주세요.');
+  		} else {
+  			$('#detailAddrHelper').text('');
+  		}
+  	})
    $('#modify').click(function() {
       if($('#name').val().length == 0 ) {
          $('#nameHelper').text('이름을 입력해주세요');
@@ -473,7 +401,8 @@
          $('modifyForm').submit();
       }
    })
-  var url="${pageContext.request.contextPath}";
+  
+   var url="${pageContext.request.contextPath}";
    // 주소검색
    $('#searchAddrList').hide();
    $('#searchAddr').click(function() {
@@ -496,32 +425,25 @@
                for(let i=0; i<arr.length; i++) {
                   $('#searchAddrList').append('<option>'+arr[i].roadAddrPart1+'</option>');
                }
-            }
-      })
-      } else {
-         $('#searchAddrList').val('');
-         $('#addrHelper').text('검색할 주소를 입력해주세요.');
-      }
-   });
-      // enter키 눌렀을때 유효성 검사
-     $(document).keydown(function(event){
+               }
+      	 })
+	   } else {
+	       $('#searchAddrList').val('');
+	       $('#addrHelper').text('검색할 주소를 입력해주세요.');
+	   }
+   	});
+	
+    // enter키 눌렀을때 유효성 검사
+    $(document).keydown(function(event){
         if(event.keyCode==13) {
            event.preventDefault();
-           if($('#realId').val()=='') {
-                alert('아이디 중복 검사 해주세요');
-             } else if($('#pw').val()=='') {
-                $('#pwHelper').text('비밀번호를 입력해주세요.');
-             } else if($('#name').val()=='') {
-                $('#pwHelper').text('');
+           if($('#name').val()=='') {
                 $('#nameHelper').text('이름을 입력해주세요.');
              } else if($('#birth').val()==''){
                 $('#nameHelper').text('');
                 $('#birthHelper').text('생년월일을 입력해주세요.');
-             } else if($('#email').val()=='') {
-                $('#nameHelper').text('');
-                $('#emailHelper').text('이메일을 입력해주세요.');
              } else if($('#email').val().indexOf('@') == -1 || $('#email').val().indexOf('.') == -1) {
-                $('#emailHelper').text('');   
+                $('#birthHelper').text('');   
                 $('#emailHelper').text('이메일 형식이 다릅니다.');   
              } else if($('#phone').val()=='') {
                 $('#emailHelper').text('');
@@ -535,41 +457,13 @@
              } else if($('#detailAddr').val()=='') {
                 $('#addrHelper').text('');
                 $('#detailAddrHelper').text('상세 주소를 입력해주세요.');
-             } else if($('#customFile').val()=='') {
-                $('#detailAddrHelper').text('');
-                $('#imageHelper').text('사진을 등록해주세요.');
              } else {
-                $('#addMemberForm').submit();
+                $('#modify').submit();
              }
         };
      })
            
-     // 주소검색
-     $('#searchAddr').click(function() {
-        if($('#addr').val().length > 1) {
-           $.ajax({
-              type:'get'
-              , url : url+'/searchAddr'
-              , data : {keyword:$('#addr').val()} //검색한 키워드
-              , success:function(a){
-                 console.log(a);
-                 console.log(typeof(a));
-                 var a2 = JSON.parse(a);
-                 console.log(typeof(a2));
-                 console.log(a2);
-                 
-                 let arr = a2.results.juso;
-                 console.log(arr);
-                 for(let i=0; i<arr.length; i++) {
-                    $('#searchAddrList').append('<option>'+arr[i].roadAddrPart1+'</option>');
-                 }
-              }
-           })
-        } else {
-           $('#searchAddrList').val('');
-           $('#addrHelper').text('검색할 주소를 입력해주세요.');
-        }
-     });
+     
 </script>
 
 </html>

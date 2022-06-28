@@ -34,6 +34,20 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/vertical-layout-light/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/tftace.jpg" />
+  <style>
+	table { width: 100%; 
+			text-align: center;}
+	td { background: white;
+		 }
+	a {
+	  width: 100%; 
+	  text-align: center;
+	  display: table;
+	}
+  	a:link{color:black; text-decorration:none;}
+  	a:visited{color:black;text-decoration:none;}
+  	a:hover{color:#ffcc00;}
+  </style>
 </head>
 <body>
   <div class="container-scroller">
@@ -140,40 +154,45 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-						<div class="container">
-					 		<form action="${pageContext.request.contextPath}/loginCheck/getAssignmentExam" method="post">
-							 			<c:if test="${level<3}">
-							 				<div>${lectureName}</div>
-							 			</c:if>
-					 					<table class="table table-hover">
-												<thead>
-													<tr>
-														<th>과제 이름</th>
-														<th>시작일</th>
-														<th>기한</th>
-														<th>점수</th>
-														<th>싸인</th>
-													</tr>
-												</theads>	 
-												<tbody>
-														<c:forEach var="m" items="${assignmentExamList}" >								
+	            	<div class="col-lg-11 grid-margin stretch-card">
+		              <div class="card">
+		                <div class="card-body">
+		                  <h4 class="card-title">${lectureName}</h4>
+		                  <p class="card-description">
+		                  </p>
+		                  <div class="table-responsive">
+							<div class="container">
+						 		<form action="${pageContext.request.contextPath}/loginCheck/getAssignmentExam" method="post">
+						 					<table class="table table-hover">
+													<thead>
 														<tr>
-															<td><a href="${pageContext.request.contextPath}/loginCheck/getAssignmentOne?assignmentExamNo=${m.assignmentExamNo}">${m.assignmentExamTitle}</a></td>
-															<td>${m.createDate}</td>
-															<td>${m.assignmentDeadLine}</td>
-													
+															<th>과제 이름</th>
+															<th>시작일</th>
+															<th>기한</th>
+														</tr>
+													</theads>	 
+													<tbody>
+															<c:forEach var="m" items="${assignmentExamList}" >								
+															<tr>
+																<td><a href="${pageContext.request.contextPath}/loginCheck/getAssignmentOne?assignmentExamNo=${m.assignmentExamNo}">${m.assignmentExamTitle}</a></td>
+																<td>${m.createDate}</td>
+																<td>${m.assignmentDeadLine}</td>
 															
-
-														</tr>		
-														</c:forEach>
-					 							</tbody>
-					 					</table>
-						 				<c:if test="${level>=2}">
-						 					<button type="submit" class="btn btn-primary ">과제 입력</button>
-						 				</c:if>
-				 					</form>
-							</div>
- 
+															</tr>		
+															</c:forEach>
+						 							</tbody>
+						 					</table>
+							 				<c:if test="${level>=2}">
+							 					<button type="submit" class="btn btn-primary ">과제 입력</button>
+							 				</c:if>
+					 					</form>
+								</div>
+ 								
+ 							</div>
+ 						</div>
+ 					</div>
+ 				</div>
+ 					
                 </div>
                 <div class="col-12 col-xl-4">
                  <div class="justify-content-end d-flex">
