@@ -103,7 +103,7 @@
           		</c:otherwise>
           	</c:choose>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-         <a class="dropdown-item" href="${pageContext.request.contextPath}/loginCheck/getMemberOne">
+         <a class="dropdown-item" href="${pageContext.request.contextPath}/loginCheck/getMemberOne?loginId=${sessionId}">
             <i class="ti-settings text-primary"></i> MyPage 
          </a>
                

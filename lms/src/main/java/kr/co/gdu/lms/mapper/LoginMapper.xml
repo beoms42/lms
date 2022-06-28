@@ -236,6 +236,13 @@
 			parameterType="kr.co.gdu.lms.vo.Login">
 		INSERT INTO pw_record VALUES (#{loginId},PASSWORD(#{loginPw}), NOW());
 	</insert>
-
+	
+	<select id="selectLevelByLoginId"
+			parameterType="String"
+			resultType="int">
+		SELECT LEVEL
+		FROM login
+		WHERE login_id=#{loginId}		
+	</select>
 		
 </mapper>

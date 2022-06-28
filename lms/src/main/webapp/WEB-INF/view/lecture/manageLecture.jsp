@@ -81,7 +81,7 @@
                       <tbody>
                       <c:forEach var="lect" items="${lectList}">
                       	<tr>
-                      		<td><a href="#">${lect.lectureName}</a></td>
+                      		<td><a href="${pageContext.request.contextPath}/loginCheck/manageLectureOne?lectureName=${lect.lectureName}">${lect.lectureName}</a></td>
                       		<td>${lect.teacher}</td>
                       		<td>${lect.manager}</td>
                       		<td>${lect.lectureStartDate}</td>
@@ -107,50 +107,8 @@
           
           </div>
           <!-- 강의개설 끝 -->
-          
-          <!-- 상세보기 시작 -->
-          <div class="row">
-            <div class="col-md-12 grid-margin">
-              <div class="row">
-                <div class="col-12 col-xl-4">
-                 <div class="justify-content-end d-flex">
-                 </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- 상세보기 실제부분 --> 
-          <div class="row">
-            <div class="col-lg-11 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">상세보기</h4>
-                  <p class="card-description">
-                  </p>
-                  <div class="table-responsive">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th>강의명</th>
-                          <th>현재상태</th>
-                          <th>과목</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      <c:forEach var="lect" items="${lectList}">
-                      	<tr>
 
-                      	</tr>
-                      </c:forEach>                
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
           
-          </div>
-          <!-- 상세보기 끝 -->
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
         <!-- partial -->

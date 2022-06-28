@@ -232,4 +232,10 @@ public class LoginService {
 		return map;
 		
 	}
+	
+	// 로그인시 레벨만 받는 서비스
+	public int getLevelByLoginId(String loginId) {
+		int level = loginMapper.selectLevelByLoginId(loginId);
+		return level;		
+	}
 }

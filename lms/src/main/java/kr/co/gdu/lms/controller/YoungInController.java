@@ -3,6 +3,8 @@ package kr.co.gdu.lms.controller;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +16,7 @@ import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.service.LectureSerivce;
 import kr.co.gdu.lms.service.MemberService;
 import kr.co.gdu.lms.service.YoungInService;
+import kr.co.gdu.lms.vo.Lecture;
 import kr.co.gdu.lms.vo.Student;
 import lombok.extern.slf4j.Slf4j;
 
@@ -67,5 +70,26 @@ public class YoungInController {
 		
 		return "lecture/manageLecture";
 	}
+	
+	
+	@GetMapping("/loginCheck/manageLectureOne")
+	public String manageLectureOne(Model model
+			, HttpSession session
+			, @RequestParam(name = "lectureName") String lectureName) {
+		//강의
+		List<Lecture> lectList = lectureService.selectLectureList();
+		model.addAttribute("lectList", lectList);
+		
+		//상세보기
+		List<String> subList = lectureService.selectSubjectListByLectureName(lectureName);
+		model.addAttribute("lectureName",lectureName);
+		model.addAttribute("subList", subList);
+		
+		//강의 배정학생
+		List<Student> studentList = youngInService.selectStudentListByLectureName(lectureName);
+		model.addAttribute("studentList",studentList);
+		return "lecture/manageLectureOne";
+	}
+	
 	
 }

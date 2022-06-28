@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -39,7 +40,7 @@
         <ul class="navbar-nav mr-lg-2">
           <li class="nav-item nav-search d-none d-lg-block">
             <div class="input-group">
-               
+            	
             </div>
           </li>
         </ul>
@@ -129,74 +130,58 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                  <h3 style="font-weight: bold;">회원 목록</h3>
+                  <h1>[강의관리]</h1>
+                </div>
+                <div class="col-12 col-xl-4">
+                 <div class="justify-content-end d-flex">
+                 </div>
                 </div>
               </div>
             </div>
           </div>
           <!-- 강의개설 실제부분 --> 
-          <c:choose>
-          <c:when test="${msg eq 'student'}">
           <div class="row">
-            <div class="col-lg-10 grid-margin stretch-card">
+            <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">학생</h4>
+                  <h4 class="card-title">현재 승인된 강의리스트</h4>
                   <p class="card-description">
                   </p>
                   <div class="table-responsive">
                     <table class="table">
                       <thead>
                         <tr>
-                          <th>ID</th>
-                          <th>학생명</th>
-                          <th>생년월일</th>
-                          <th>생성날짜</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      <c:forEach var="s" items="${studentList}">
-                         <tr>
-                            <td><a href="${pageContext.request.contextPath}/loginCheck/getMemberOne?loginId=${s.loginId}">${s.loginId}</a></td>
-                            <td>${s.studentName}</td>
-                            <td>${s.studentBirth}</td>
-                            <td>${s.createDate}</td>
-                         </tr>
-                      </c:forEach>                
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          </c:when>
-          <c:when test="${msg eq 'teacher'}">
-          <div class="row">
-            <div class="col-lg-10 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">강사</h4>
-                  <p class="card-description">
-                  </p>
-                  <div class="table-responsive">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th>ID</th>
+                          <th>강의명(상세보기)</th>
                           <th>강사명</th>
-                          <th>생년월일</th>
-                          <th>생성날짜</th>
+                          <th>매니저</th>
+                          <th>시작일</th>
+                          <th>수료일</th>
+                          <th>강의실</th>
+                          <th>인원수</th>
+                          <th>개설일</th>
+                          <th>현재상태</th>
+                          <th>기타</th>
                         </tr>
                       </thead>
                       <tbody>
-                      <c:forEach var="t" items="${teacherList}">
-                         <tr>
-                            <td><a href="${pageContext.request.contextPath}/loginCheck/getMemberOne?loginId=${t.loginId}">${t.loginId}</a></td>
-                            <td>${t.teacherName}</td>
-                            <td>${t.teacherBirth}</td>
-                            <td>${t.createDate}</td>
-                         </tr>
+                      <c:forEach var="lect" items="${lectList}">
+                      	<tr>
+                      		<td><a href="${pageContext.request.contextPath}/loginCheck/manageLectureOne?lectureName=${lect.lectureName}">${lect.lectureName}</a></td>
+                      		<td>${lect.teacher}</td>
+                      		<td>${lect.manager}</td>
+                      		<td>${lect.lectureStartDate}</td>
+                      		<td>${lect.lectureEndDate}</td>
+                      		<td>${lect.lectureRoomName}</td>
+                      		<td>${lect.lectureStudentCapacity}</td>
+                      		<td>${lect.createDate}</td>
+                      		<td><label class="badge badge-success">승인됨</label></td>
+                      		<td>
+                      		<a href="${pageContext.request.contextPath}/loginCheck/addSubjectInLecture?lectureName=${lect.lectureName}"><label class="badge badge-warning">과목설정</label></a>
+                      		<a href="${pageContext.request.contextPath}/loginCheck/addStudentInLectureForm?lectureName=${lect.lectureName}"><label class="badge badge-success">학생배정</label></a>
+                      		<a href="${pageContext.request.contextPath}/loginCheck/updateLectureForm?lectureName=${lect.lectureName}"><label class="badge badge-info">수정</label></a>
+                      		<a href="#"><label class="badge badge-danger">삭제</label></a>
+                      		</td>
+                      	</tr>
                       </c:forEach>                
                       </tbody>
                     </table>
@@ -204,44 +189,102 @@
                 </div>
               </div>
             </div>
+          
           </div>
-          </c:when>
-          <c:when test="${msg eq 'manager'}">
+          <!-- 강의개설 끝 -->
+          
+          <!-- 상세보기 시작 -->
           <div class="row">
-            <div class="col-lg-10 grid-margin stretch-card">
+            <div class="col-md-12 grid-margin">
+              <div class="row">
+                <div class="col-12 col-xl-4">
+                 <div class="justify-content-end d-flex">
+                 </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 상세보기 실제부분 --> 
+          <div class="row">
+            <div class="col-lg-8 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">매니저</h4>
+                  <h4 class="card-title">상세보기</h4>
                   <p class="card-description">
                   </p>
                   <div class="table-responsive">
                     <table class="table">
                       <thead>
                         <tr>
-                          <th>ID</th>
-                          <th>매니저명</th>
-                          <th>직급</th>
-                          <th>생성날짜</th>
+                          <th>강의명</th>
+                          <th>상세일정</th>
+                          <th>현재상태</th>
+                          <th>과목</th>
                         </tr>
                       </thead>
                       <tbody>
-                      <c:forEach var="m" items="${managerList}">
-                         <tr>
-                            <td><a href="${pageContext.request.contextPath}/loginCheck/getMemberOne?loginId=${m.loginId}">${m.loginId}</a></td>
-                            <td>${m.managerName}</td>
-                            <td>${m.positionName}</td>
-                            <td>${m.createDate}</td>
-                         </tr>
-                      </c:forEach> 
+                      
+                      	<tr>
+							<td>${lectureName}</td><!-- 강의명 -->
+							<td><a href="#">바로가기</a></td><!-- 상세일정 -->
+							<td>진행중</td><!-- 현재상태 -->
+							<td><!-- 과목 -->
+							<c:forEach var="sub" items="${subList}">
+								<label class="badge badge-warning">${sub}</label>
+							</c:forEach> 
+							</td>
+                      	</tr>
+                                    
                       </tbody>
                     </table>
                   </div>
                 </div>
               </div>
             </div>
+          
           </div>
-          </c:when>
-          </c:choose>
+          <!-- 상세보기 끝 -->
+          
+          <!-- 배정된 학생 상세보기 실제부분 --> 
+          <div class="row">
+            <div class="col-lg-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">강의에 배정된 학생</h4>
+                  <p class="card-description">
+                  </p>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>학생명</th>
+                          <th>성별</th>
+                          <th>전화번호</th>
+                          <th>출결(%)</th>
+                          <th>현재상태</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      <c:forEach var="stu" items="${studentList}">
+                      	<tr>
+							<td>${stu.studentName}</td>
+							<td>${stu.studentGender}</td>
+							<td>${stu.studentPhone}</td>
+							<td>100%</td>
+							<td>교육 이수중</td>
+                      	</tr>
+                      </c:forEach>                
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+          </div>
+          <!-- 배정된 학생 상세보기 끝 -->
+          
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
         <!-- partial -->
@@ -276,3 +319,4 @@
 
 </body>
 </html>
+

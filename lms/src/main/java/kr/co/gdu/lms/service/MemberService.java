@@ -1,14 +1,11 @@
 package kr.co.gdu.lms.service;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.gdu.lms.log.CF;
+import kr.co.gdu.lms.mapper.AdminMapper;
 import kr.co.gdu.lms.mapper.ManagerMapper;
 import kr.co.gdu.lms.mapper.MemberFileMapper;
 import kr.co.gdu.lms.mapper.StudentMapper;
 import kr.co.gdu.lms.mapper.TeacherMapper;
+import kr.co.gdu.lms.vo.Admin;
 import kr.co.gdu.lms.vo.Dept;
 import kr.co.gdu.lms.vo.Login;
 import kr.co.gdu.lms.vo.Manager;
@@ -36,6 +35,7 @@ public class MemberService {
    @Autowired private StudentMapper studentMapper;
    @Autowired  private TeacherMapper teacherMapper;
    @Autowired  private ManagerMapper managerMapper;
+   @Autowired private AdminMapper adminMapper;
    @Autowired private MemberFileMapper memberFileMapper;
    
    // 회원정보 상세보기
@@ -54,7 +54,7 @@ public class MemberService {
       if(level==1) {
          // 학생정보 Mapper연결
          Student member = studentMapper.selectStudentOne(loginId);
-         log.debug(CF.GDH+"MemberService.getStudentOne member : "+member+CF.RS);
+         log.debug(CF.GDH+"MemberService.getStudentOne student : "+member+CF.RS);
          returnMap.put("member", member);
       } else if(level==2) {
          // 강사정보 Mapper 연결
@@ -66,6 +66,11 @@ public class MemberService {
          Manager member = managerMapper.selectManagerOne(loginId);
          log.debug(CF.GDH+"MemberService.getManagerOne manager :"+member+CF.RS); 
          returnMap.put("member", member);
+      } else {
+    	 // 관리자정보 Mapper연결
+    	 Admin member = adminMapper.selectAdminOne(loginId);
+    	 log.debug(CF.GDH+"MemberService.getManagerOne admin :"+member+CF.RS);
+    	 returnMap.put("member", member);
       }
       
       // 회원사진파일 Mapper연결
