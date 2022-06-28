@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import kr.co.gdu.lms.vo.AddMemberForm;
+import kr.co.gdu.lms.vo.MemberForm;
 import kr.co.gdu.lms.vo.Login;
 import kr.co.gdu.lms.vo.Manager;
 import kr.co.gdu.lms.vo.Student;
@@ -62,10 +62,10 @@ public interface LoginMapper {
 	int selectIdCnt(String id);
 	
 	// 매니저 회원가입
-	int insertMember(AddMemberForm addMemberForm);
+	int insertMember(MemberForm addMemberForm);
 	
 	// 회원가입시 로그인 테이블에도 추가
-	int insertLogin(AddMemberForm addMemberForm);
+	int insertLogin(MemberForm addMemberForm);
 	
 	// 로그인시 레벨받기
 	int selectLevelByLoginId(String loginId);

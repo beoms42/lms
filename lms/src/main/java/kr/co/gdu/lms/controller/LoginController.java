@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.service.LoginService;
 import kr.co.gdu.lms.service.MemberService;
-import kr.co.gdu.lms.vo.AddMemberForm;
+import kr.co.gdu.lms.vo.MemberForm;
 import kr.co.gdu.lms.vo.Login;
 import kr.co.gdu.lms.vo.MemberFile;
 import lombok.extern.slf4j.Slf4j;
@@ -199,16 +199,16 @@ public class LoginController {
 	// 회원가입 액션
 	@PostMapping("/addMember")
 	public String addMember(HttpServletRequest request
-							, AddMemberForm addMemberForm) {
+							, MemberForm memberForm) {
 		
 		String path = request.getServletContext().getRealPath("/file/memberPhoto/");
 		// 디버깅
 		log.debug(CF.OHI+"LoginController.addMember.Post path : "+path+CF.RS);
-		log.debug(CF.OHI+"LoginController.addMember.Post login : "+addMemberForm+CF.RS);
+		log.debug(CF.OHI+"LoginController.addMember.Post login : "+memberForm+CF.RS);
 		// 사진 이름 디버깅
-		log.debug(CF.OHI+"LoginController.addMember.Post fileName : "+addMemberForm.getCustomFile().getOriginalFilename());
+		log.debug(CF.OHI+"LoginController.addMember.Post fileName : "+memberForm.getCustomFile().getOriginalFilename());
 		
-		loginService.addMember(addMemberForm, path);
+		loginService.addMember(memberForm, path);
 		
 		// 회원 가입 성공했다면 login페이지로
 		return "redirect:/login";

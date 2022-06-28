@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.service.NoticeService;
-import kr.co.gdu.lms.vo.AddNoticeForm;
+import kr.co.gdu.lms.vo.NoticeForm;
 import kr.co.gdu.lms.vo.Notice;
 import lombok.extern.slf4j.Slf4j;
 
@@ -79,19 +79,19 @@ public class NoticeController {
 	@PostMapping("/loginCheck/addNotice")
 	public String addNotice(HttpSession session
 						, HttpServletRequest request
-						, AddNoticeForm addNoticeForm) {
+						, NoticeForm noticeForm) {
 		
-		log.debug(CF.OHI+"NoticeController.addNotice.param addNoticeForm : "+addNoticeForm+CF.RS);
+		log.debug(CF.OHI+"NoticeController.addNotice.param noticeForm : "+noticeForm+CF.RS);
 		
 		//세션에 담긴 아이디 담기
 		String loginId = (String) session.getAttribute("sessionId");
-		addNoticeForm.setLoginId(loginId);
+		noticeForm.setLoginId(loginId);
 		log.debug(CF.OHI+"NoticeController.addNotice loginId"+loginId+CF.RS);
 		
 		// 파일 담을 경로
 		String path = request.getServletContext().getRealPath("/file/noticeFile/"); 
 				
-		int row = noticeService.addNotice(addNoticeForm, path);
+		int row = noticeService.addNotice(noticeForm, path);
 		if(row == 1) {
 			return "redirect:/loginCheck/getNoticeListByPage";
 		} else {
@@ -114,5 +114,26 @@ public class NoticeController {
 		model.addAttribute("fileList", map.get("list"));
 		
 		return "notice/modifyNotice";
+	}
+	
+	// 공지사항 수정 액션
+	@PostMapping("/loginCheck/modifyNotice")
+	public String modifyNotice(HttpSession session 
+							, HttpServletRequest request
+							, NoticeForm noticeForm) {
+		
+		log.debug(CF.OHI+"NoticeController.modifyNotice.param noticeForm : "+noticeForm+CF.RS);
+		
+		//세션에 담긴 아이디 담기
+		String loginId = (String) session.getAttribute("sessionId");
+		noticeForm.setLoginId(loginId);
+		log.debug(CF.OHI+"NoticeController.modifyNotice loginId"+loginId+CF.RS);
+		
+		// 파일 담을 경로
+		String path = request.getServletContext().getRealPath("/file/noticeFile/");
+		
+		int row = noticeService.modifyNotice(noticeForm, path);
+		
+		return "redirect:/loginCheck/getNoticeOne?noticeNo="+noticeForm.getNoticeNo();
 	}
 }

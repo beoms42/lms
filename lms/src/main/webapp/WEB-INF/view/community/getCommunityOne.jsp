@@ -170,10 +170,6 @@
 							<td>수정일자</td>
 							<td>${community.updateDate}</td>
 						</tr>
-						
-						
-						</tr>		        
-				    </table>
 						<!-- 파일 부분 -->
 						<tr>
 							<c:forEach var="cf" items="${communityFileList}">
@@ -189,6 +185,8 @@
 								</c:otherwise>
 								</c:choose>
 							</c:forEach>
+						</tr>		        
+				    </table>
                   </div>
                 </div>
               </div>

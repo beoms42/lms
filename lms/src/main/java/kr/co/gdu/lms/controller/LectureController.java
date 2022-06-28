@@ -2,7 +2,10 @@ package kr.co.gdu.lms.controller;
 
 
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpSession;
 
@@ -321,25 +324,47 @@ public class LectureController {
 	
 	// 시간표 추가
 	@PostMapping("/loginCheck/addSchedule")
-	public String addSchedule(@RequestParam(name="scheduleDate")String scheduleDate
+	public String addSchedule(@RequestParam(name="scheduleStartDate")Date scheduleStartDate
+								,@RequestParam(name="scheduleEndDate")Date scheduleEndDate
 								,@RequestParam(name="lectureSubjectNo")int lectureSubjectNo
 								,@RequestParam(name="m")int m
 								,@RequestParam(name="y")int y
 								) {
-		log.debug(CF.HJI+"LectureController.addShedule scheduleDate : "+scheduleDate+CF.RS);
+		log.debug(CF.HJI+"LectureController.addShedule scheduleStartDate : "+scheduleStartDate+CF.RS);
+		log.debug(CF.HJI+"LectureController.addShedule scheduleEndDate : "+scheduleEndDate+CF.RS);
 		log.debug(CF.HJI+"LectureController.addShedule lectureSubjectNo : "+lectureSubjectNo+CF.RS);
 		log.debug(CF.HJI+"LectureController.addShedule m : "+m+CF.RS);
 		log.debug(CF.HJI+"LectureController.addShedule y : "+y+CF.RS);
-		Schedule schedule = new Schedule();
-		schedule.setScheduleDate(scheduleDate);
-		schedule.setLectureSubjectNo(lectureSubjectNo);
-		int row = lectureService.addSchedule(schedule);
-		log.debug(CF.HJI+"LectureController.addShedule lectureSubjectNo : "+lectureSubjectNo+CF.RS);
-		if(row == 1) {
-			log.debug(CF.HJI+"LectureController.addShedule 성공! : "+row+CF.RS);
-		} else {
-			log.debug(CF.HJI+"LectureController.addShedule 실패! : "+row+CF.RS);
+		
+		 long elapsedms = scheduleEndDate.getTime() - scheduleStartDate.getTime();
+         long diff = TimeUnit.MINUTES.convert(elapsedms, TimeUnit.MILLISECONDS);
+         diff = (diff/(60*24));
+         log.debug(CF.HJI+"LectureController.addShedule diff : "+diff+CF.RS);
+         
+         for(int i=0; i <= diff; i++) {
+        	 Calendar cal = Calendar.getInstance();
+        	 cal.setTime(scheduleStartDate);
+        	 DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        	 cal.add(Calendar.DATE, i);
+        	 int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+        	 log.debug(CF.HJI+"LectureController.addShedule dayOfWeek : "+dayOfWeek+CF.RS);
+        	 if(dayOfWeek != 1 && dayOfWeek != 7) {
+        	 SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
+        		 String scheduleDate = fm.format(cal.getTime());
+            	 log.debug(CF.HJI+"LectureController.addShedule scheduleDate : "+scheduleDate+CF.RS);
+            	 Schedule schedule = new Schedule();
+         		schedule.setScheduleDate(scheduleDate);
+         		schedule.setLectureSubjectNo(lectureSubjectNo);
+         		int row = lectureService.addSchedule(schedule);
+         		if(row == 1) {
+        			log.debug(CF.HJI+"LectureController.addShedule 성공! : "+row+CF.RS);
+        		} else {
+        			log.debug(CF.HJI+"LectureController.addShedule 실패! : "+row+CF.RS);
+        		} 
+        	 }
 		}
+
+		
 	return "redirect:/loginCheck/getSheduleListByMonth?m="+m+"&y="+y;
 	}
 	
