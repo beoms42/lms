@@ -132,7 +132,7 @@
 	                 <form method="post" action="${pageContext.request.contextPath}/loginCheck/removePwCheck">
 						<table class="table">
 							<tr>
-								<td>아이디</td>
+								<th>아이디</th>
 								<td><input type="text" name="loginId" value="${loginId}" readonly="readonly"></td>
 							</tr>
 							<tr>
