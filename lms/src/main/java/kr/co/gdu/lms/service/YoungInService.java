@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.gdu.lms.mapper.YoungInMapper;
+import kr.co.gdu.lms.vo.Student;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -26,5 +27,12 @@ public class YoungInService {
 			youngInMapper.insertStudentInLecture(lectureName, s);
 		}
 		
+	}
+	
+	//강의에 배정된 학생
+	public List<Student> selectStudentListByLectureName(String lectureName) {
+		List<Student> list = youngInMapper.selectStudentListByLectureName(lectureName);
+		
+		return list;
 	}
 }
