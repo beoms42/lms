@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.service.LectureSerivce;
 import kr.co.gdu.lms.service.MemberService;
 import kr.co.gdu.lms.service.YoungInService;
+import kr.co.gdu.lms.vo.CommunityForm;
 import kr.co.gdu.lms.vo.Lecture;
+import kr.co.gdu.lms.vo.Qna;
 import kr.co.gdu.lms.vo.Student;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,6 +35,8 @@ public class YoungInController {
 	@Autowired private YoungInService youngInService;
 	@Autowired private LectureSerivce lectureService;
 	@Autowired private MemberService memberService;
+	
+	//----------------------------------------강의------------------------------------------
 	
 	// 학생목록
 	@GetMapping("/loginCheck/addStudentInLectureForm")
@@ -126,5 +132,58 @@ public class YoungInController {
 		return "lecture/manageLectureOne";
 	}
 	
+	//----------------------------------------커뮤니티------------------------------------------
+	
+	// 영인 - get방식 qnaListOne호출
+	@GetMapping("/loginCheck/qnaListOne")
+	public String qnaListOne(Model model
+			, @RequestParam(name = "qnaNo") int qnaNo) {
+		
+		Map<String, Object> map =  youngInService.selectQnaFileByQnaNo(qnaNo);
+		
+		//사진 리스트
+		List<String> fileList = (List<String>) map.get("fileList");
+		
+		//One 문의
+		Qna qnaInquiry = (Qna) map.get("qnaInquiry");
+		
+		//One 답변
+		Qna qnaAnswer = (Qna) map.get("qnaAnswer");
+		
+		model.addAttribute("fileList", fileList);
+		model.addAttribute("qnaInquiry", qnaInquiry);
+		model.addAttribute("qnaAnswer", qnaAnswer);
+		
+		return "community/qnaListOne";
+	}
+	
+	// 영인 - get방식 addQna호출
+	@GetMapping("/loginCheck/addQna")
+	public String addQna(Model model) {
+		
+		return "community/addQna";
+	}
+	
+	// 영인 - post방식 addQna호출
+	@PostMapping("/loginCheck/addQnaAction")
+	public String addQnaAction(HttpServletRequest request
+			, Model model
+			, @RequestParam(name = "qnaFileList") List<MultipartFile> qnaFileList
+			, Qna qna
+			, HttpSession session
+			) {
+		
+		if(qnaFileList.get(0).getSize() > 0) { // 하나 이상의 파일이 업로드 되면
+	         for(MultipartFile mf : qnaFileList) {
+	            log.debug(mf.getOriginalFilename());
+	         }
+	      }
+		String path = request.getServletContext().getRealPath("/file/communityFile/");
+		String loginId = (String) session.getAttribute("sessionId");
+		
+		youngInService.addQnaAction(path, qnaFileList, qna, loginId);
+		
+		return "redirect:/loginCheck/getQnaListByPage";
+	}
 	
 }

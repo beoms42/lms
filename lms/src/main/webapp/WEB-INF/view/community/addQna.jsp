@@ -24,6 +24,31 @@
   <!-- endinject -->
   <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/tftace.jpg" />
   <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+  
+  <script type="text/javascript">
+$(document).ready(function(){ // html페이지를 다 로드시키고 매개변수함수를 실행
+	$('#addFileupload').click(function(){
+		let flag = true;
+		// 추가된 communityFileList안에 파일이 첨부되지 않았다면 새로운 communityFileList 추가 X
+		
+		// jquery api 사용
+		$('.qnaFileList').each(function(){ // each함수를 이용한 반복
+			if($(this).val() == '') {
+				flag = false;
+			}
+		});
+		
+		if(flag) {
+			$('#fileSection').append("<div><input class='qnaFileList' type='file' name='qnaFileList'><div>");
+		} else {
+			alert('파일이 첨부되지 않은 qnaFileList가 존재합니다');
+		}
+	});
+	
+	
+});	
+</script>
+
 </head>
 <body>
   <div class="container-scroller">
@@ -45,7 +70,7 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                  <h1>[QnAList]</h1>
+                  <h1>[글 추가]</h1>
                 </div>
                 <div class="col-12 col-xl-4">
                  <div class="justify-content-end d-flex">
@@ -55,44 +80,51 @@
             </div>
           </div>
           
-		<!-- 강의개설 실제부분 --> 
-          <div class="row">
-            <div class="col-lg-6 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">문의리스트 <a href="${pageContext.request.contextPath}/loginCheck/addQna" style="margin-left: 200px">[글쓰기]</a></h4>
-                  <p class="card-description">
-                  </p>
-                  <div class="table-responsive">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th>제목</th>
-                          <th>작성자</th>
-                          <th>시간</th>
-                          <th>공개여부</th>
-                          <th>답변여부</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      <c:forEach var="qna" items="${qnaList}">
-                      	<tr>
-                      		<td><a href="${pageContext.request.contextPath}/loginCheck/qnaListOne?qnaNo=${qna.qnaNo}">${qna.qnaTitle}</a></td>
-                      		<td>${qna.loginId}</td>
-                      		<td>${qna.createDate}</td>
-                      		<td>${qna.qnaDisclosure}</td>
-                      		<td>${qna.qnaState}</td>
-                      	</tr>
-                      </c:forEach>                
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          
-          </div>
-          <!-- 강의개설 끝 -->
+      <h1>입력</h1>
+      <form id="addQnaActionForm" method="post" action="${pageContext.request.contextPath}/loginCheck/addQnaAction" enctype="multipart/form-data">
+         
+         <input type="hidden" name="communityNo" value="${community.communityNo}">
+         
+         <table class="table table-striped">
+         
+         	<tr>
+               <td>공개 / 비공개</td>
+                <td>
+                	<select name="qnaDisclosure">
+                		<option value="공개">공개</option>
+                		<option value="비공개">비공개</option>
+                	</select>
+                	<span id="qnaDisclosureHelper"></span>
+                </td>
+            </tr>
+            <tr>
+               <td>제목</td>
+               <td><input type="text" name="qnaTitle" id="qnaTitle"> <span id="qnaTitleHelper"></span></td>
+            </tr>
+            <tr>
+               <td>작성자</td>
+                 <td><input type="text" name="loginId" id="loginId" value="${sessionId}" readonly="readonly"></td>
+            </tr>
+            <tr>
+               <td>내용</td>
+               <td><textarea row="5" cols="50" name="qnaContent" id="qnaContent"></textarea><span id="qnaContentHelper"></span></td>
+               
+            </tr>
+            <tr>
+               <td><button type="button" id="addFileupload">파일 업로드 추가</button></td>
+               <td id="fileSection">
+                  <!-- 파일 업로드 input 태그가 추가될 영역 -->
+               </td>
+            </tr>
+            <tr>
+               <td colspan="2">
+                  <button type="submit">입력</button>
+               </td>
+            </tr>
+         </table>
+      </form>
+ 
+
           
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
