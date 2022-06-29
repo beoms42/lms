@@ -22,12 +22,12 @@ public interface CommunityMapper {
 	Community selectCommunityOne(int communityNo);
 	
 	// 희원 - Community 게시글 1개의 file List 가져오기
-	List<String> selectCommunityFileOne(int communityNo);
+	List<CommunityFile> selectCommunityFileOne(int communityNo);
 	
 	// 희원- Community 입력
 	int insertCommunity(Community community);
 	
-	// 희원 - CommunityFile 입력
+	// 희원 - CommunityFile 입력 / 수정-입력
 	int insertCommunityFile(CommunityFile communityFile);
 	
 	// 희원 - Community 삭제
@@ -38,5 +38,11 @@ public interface CommunityMapper {
 	
 	// 희원 - CommunityFileName select
 	List<String> selectCommunityfileNameList(int communityNo);
+	
+	// 희원 - Community 수정
+	int updateCommunity(Community community);
+	
+	// 희원 - CommunityFile 수정-삭제
+	int deleteCommunityFileOne(int communityFileNo);
 	
 }

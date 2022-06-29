@@ -59,7 +59,7 @@
 	
 	<!--커뮤니티 게시글 수정-->
 	<update id="updateCommunity"
-			parameterType="int">
+			parameterType="kr.co.gdu.lms.vo.Community">
 		UPDATE community SET
 			community_title=#{communityTitle}
 			, community_content=#{communityContent}
@@ -128,6 +128,13 @@
 		DELETE FROM community_file
 		WHERE community_no = #{communityNo};
 	</delete>
+	
+	<delete id="deleteCommunityFileOne"
+			parameterType="int">
+		DELETE FROM community_file
+		WHERE community_file_no = #{communityFileNo};
+	</delete>
+	
 	
 	<!--커뮤니티 게시글 추천입력-->
 	<insert id="insertRecommend"

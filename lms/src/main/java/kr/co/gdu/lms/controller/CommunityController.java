@@ -24,6 +24,42 @@ import lombok.extern.slf4j.Slf4j;
 public class CommunityController {
 	@Autowired private CommunityService communityService;
 	
+	// 희원 - modifyCommunity 액션
+	@PostMapping("/loginCheck/modifyCommunity")
+	public String modifyCommunity(HttpServletRequest request
+								, CommunityForm communityForm
+								, @RequestParam (name="communityNo") int communityNo
+								, @RequestParam (name="communityPw") String communityPw) {
+		String path = request.getServletContext().getRealPath("/file/communityFile/");
+		log.debug(CF.PHW+"CommunityController.modifyCommunity.post path : "+path+CF.RS );
+		log.debug(CF.PHW+"CommunityController.modifyCommunity.post communityNo : "+communityNo+CF.RS );
+		log.debug(CF.PHW+"CommunityController.modifyCommunity.post communityPw : "+communityPw+CF.RS );
+		
+		int row = communityService.modifyCommunity(communityForm, path, communityNo, communityPw);
+		
+		
+		return "redirect:/loginCheck/getCommunityOne?communityNo="+communityNo;
+	}
+	
+	
+	// 희원 - modifyCommunity 폼
+	@GetMapping("/loginCheck/modifyCommunity")
+	public String modifyCommunity(@RequestParam (name="communityNo") int communityNo
+								, Model model) {
+		log.debug(CF.PHW+"CommunityController.modifyCommunity.get communityNo : "+communityNo+CF.RS );
+		Map<String, Object> map = new HashMap<>();
+		map.put("communityNo", communityNo);
+		
+		Map<String, Object> updateMap = communityService.modifyCommunity(map);
+		log.debug(CF.PHW+"CommunityController.modifyCommunity.get updateMap : "+updateMap+CF.RS );
+		
+		model.addAttribute("communityNo", updateMap.get("communityNo"));
+		model.addAttribute("community", updateMap.get("community"));
+		model.addAttribute("communityFileList", updateMap.get("communityFileList"));
+		
+		return "community/modifyCommunity";
+	}
+	
 	// 희원 - removeCommunity 액션
 	@PostMapping("/loginCheck/removeCommunity")
 	public String removeCommunity(HttpServletRequest request

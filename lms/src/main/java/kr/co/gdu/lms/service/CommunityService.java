@@ -22,6 +22,87 @@ import lombok.extern.slf4j.Slf4j;
 public class CommunityService {
 	@Autowired private CommunityMapper communityMapper;
 	
+	// 희원 -  modifyCommunity 수정 중 파일 삭제(ajax)
+	public int deleteCommunityFileOne(String path, int communityFileNo, String communityFileName) {
+		log.debug(CF.PHW+"CommunityService.deleteCommunityFileOne.path : "+path+CF.RS );
+		log.debug(CF.PHW+"CommunityService.deleteCommunityFileOne.communityFileNo : "+communityFileNo+CF.RS );
+		log.debug(CF.PHW+"CommunityService.deleteCommunityFileOne.communityFileName : "+communityFileName+CF.RS );
+		
+		File file = new File(path+communityFileName);
+		if(file.exists()) {
+			file.delete();
+		}
+		
+		return communityMapper.deleteCommunityFileOne(communityFileNo);
+	}
+	
+	// 희원 - modifyCommunity 수정
+	public int modifyCommunity(CommunityForm communityForm, String path, int communityNo, String communityPw) {
+		log.debug(CF.PHW+"CommunityService.modifyCommunity.communityForm : "+communityForm+CF.RS );
+		log.debug(CF.PHW+"CommunityService.modifyCommunity.path : "+path+CF.RS );
+		log.debug(CF.PHW+"CommunityService.modifyCommunity.communityNo : "+communityNo+CF.RS );
+		log.debug(CF.PHW+"CommunityService.modifyCommunity.communityPw : "+communityPw+CF.RS );
+		
+		Community community = new Community();
+		community.setCommunityTitle(communityForm.getCommunityTitle());
+		community.setCommunityContent(communityForm.getCommunityContent());
+		community.setCommunityNo(communityNo);
+		community.setCommunityPw(communityPw);
+		
+		int row = communityMapper.updateCommunity(community);
+		log.debug(CF.PHW+"CommunityService.modifyCommunity.row : "+row+CF.RS );
+		
+		if(communityForm.getCommunityFileList() != null && communityForm.getCommunityFileList().get(0).getSize() > 00 && row == 1) {
+			for(MultipartFile mf : communityForm.getCommunityFileList()) {
+				CommunityFile communityFile = new CommunityFile();
+				
+				String originName = mf.getOriginalFilename();
+				String ext = originName.substring(originName.lastIndexOf("."));
+				
+				String fileName = UUID.randomUUID().toString();
+				fileName = fileName.replace("-", "");
+				fileName = fileName + ext;
+				
+				communityFile.setCommunityNo(community.getCommunityNo());
+				communityFile.setCommunityFileName(fileName);
+				communityFile.setCommunityFileType(mf.getContentType());
+				communityFile.setCommunityFileSize(mf.getSize());
+				communityFile.setCommunityFileOriginName(originName);
+				communityFile.setLoginId(communityForm.getLoginId());
+				log.debug(CF.PHW+"CommunityService.addCommunity.communityFile : "+communityFile+CF.RS );
+				
+				communityMapper.insertCommunityFile(communityFile);
+
+				try {
+					mf.transferTo(new File(path + fileName));
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new RuntimeException();
+				}
+			}
+		}
+		
+		return row;
+	}
+	
+	
+	
+	// 희원 - modifyCommunity 폼
+	public Map<String, Object> modifyCommunity(Map<String, Object> map){
+		int communityNo = (int)map.get("communityNo");
+		log.debug(CF.PHW+"CommunityService.modifyCommunity.communityNo : "+communityNo+CF.RS );
+		
+		Community community = communityMapper.selectCommunityOne(communityNo);
+		List<CommunityFile> communityFileList = communityMapper.selectCommunityFileOne(communityNo);
+		
+		map.put("communityNo", communityNo);
+		map.put("community", community);
+		map.put("communityFileList", communityFileList);
+		log.debug(CF.PHW+"CommunityService.modifyCommunity.map : "+map+CF.RS );
+		
+		return map;
+	}
+	
 	// 희원 - removeCommunity 
 	public int removeCommunity(int communityNo, String communityPw, String path) {
 		List<String> communityFileList = communityMapper.selectCommunityfileNameList(communityNo);
@@ -101,7 +182,7 @@ public class CommunityService {
 		log.debug(CF.PHW+"CommunityService.getCommunityOne communityNo : "+communityNo+CF.RS );
 		
 		Community community = communityMapper.selectCommunityOne(communityNo);
-		List<String> communityFileList = communityMapper.selectCommunityFileOne(communityNo);
+		List<CommunityFile> communityFileList = communityMapper.selectCommunityFileOne(communityNo);
 		
 		log.debug(CF.PHW+"CommunityService.getCommunityOne community : "+community+CF.RS );
 		log.debug(CF.PHW+"CommunityService.getCommunityOne communityFileList : "+communityFileList+CF.RS );

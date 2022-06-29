@@ -134,13 +134,10 @@
           <div class="row">
             <div class="col-lg-10 grid-margin stretch-card">
               <div class="card">
-                <div class="card-body"><h3 class="bottom">[커뮤니티 게시글]</h3>
-					<a href="${pageContext.request.contextPath}/loginCheck/removeCommunity?communityNo=${community.communityNo}">삭제</a>
-					<a href="${pageContext.request.contextPath}/loginCheck/modifyCommunity?communityNo=${community.communityNo}">수정</a>
-					<br><br>
-					<input type="hidden" name="communityPw" value="${community.communityPw}"><br>
+                <div class="card-body"><h3 class="bottom">[커뮤니티 게시글 수정]</h3>
 					<br><br>
                   <div class="table-responsive">
+                  <form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyCommunity">
                     <table class="table">
 	                    <colgroup>
 	                    	<col width="20%">
@@ -148,43 +145,39 @@
 	                    </colgroup>
 						<tr>
 							<th>번호</th>
-							<td>${community.communityNo}</td>
+							<td><input type="text" name="communityNo" value="${community.communityNo}" readonly="readonly"></td>
 						</tr>				        
 						<tr>
 							<th>제목</th>
-							<td>${community.communityTitle}</td>
+							<td><input type="text" name="communityTitle" value="${community.communityTitle}"></td>
+						</tr>				        
+						<tr>
+							<th>비밀번호</th>
+							<td><input type="password" name="communityPw"></td>
 						</tr>				        
 						<tr>
 							<th>작성자</th>
-							<td>${community.loginId}</td>
+							<td><input type="text" name="loginId" value="${community.loginId}"></td>
 						</tr>				        
 						<tr>
 							<th>내용</th>
-							<td>${community.communityContent}</td>
+							<td><textarea row="5" cols="50" name="communityContent">${community.communityContent}</textarea></td>
 						</tr>				        
 						<tr>
 							<td>작성일자</td>
-							<td>${community.createDate}</td>
+							<td><input type="text" name="createDate" value="${community.createDate}"></td>
 						</tr>
 						<tr>
 							<td>수정일자</td>
-							<td>${community.updateDate}</td>
+							<td><input type="text" name="updateDate" value="${community.updateDate}"></td>
 						</tr>
+				    </table>
 						<!-- 파일 부분 -->
 							<c:forEach var="cf" items="${communityFileList}">
-								<c:choose>
-									<c:when test="${cf.getCommunityFileType() eq 'image/gif'
-													|| cf.getCommunityFileType() eq 'image/png'
-													|| cf.getCommunityFileType() eq 'image/jpeg'
-													|| cf.getCommunityFileType() eq 'image/bmp'}">
-										<img src="${pageContext.request.contextPath}/file/communityFile/${cf.getCommunityFileName()}" width="720" height="500"><br>
-									</c:when>
-								<c:otherwise>
-									<a href="${pageContext.request.contextPath}/file/communityFile/${f.getCommunityFileName()}" target="blank">${f.getCommunityFileName()}</a><br>
-								</c:otherwise>
-								</c:choose>
+								<span id="cf${cf.getCommunityFileNo()}"> ${cf.getCommunityFileName()} <input type="button" onclick="javascript:fileClick(${cf.getCommunityFileNo()},'${cf.getCommunityFileName()}')" value="삭제"><br/></span>
 							</c:forEach>
-				    </table>
+					 <button type="submit">수정하기</button>	        
+				    </form>
                   </div>
                 </div>
               </div>
@@ -232,6 +225,30 @@
   <script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
   <script src="${pageContext.request.contextPath}/js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
+  
+  <script type="text/javascript">
+  function fileClick(communityFileNo, communityFileName) {
+		
+		var url = "${pageContext.request.contextPath}";
+		$.ajax({
+			type: "GET", //요청 메소드 방식(post, get)
+			url: url+"/removeCommunityfileOne", // Controller url 주소 (@GetMapping("/url") / @PostMapping("/url"))
+			data : "communityFileNo="+communityFileNo+"&communityFileName="+communityFileName,
+			dataType:"json", //서버가 요청 URL을 통해서 응답하는 내용의 타입 (return값)
+			success : function(result){ // 응답성공시 실행할 
+				//서버의 응답데이터가 클라이언트에게 도착하면 자동으로 실행되는함수(콜백)
+				$("#cf"+communityFileNo).remove();
+			},
+			error : function(a, b, c){
+				//통신 실패시 발생하는 함수(콜백)
+				alert(a + b + c);
+			}
+		});
+	 
+	}
+  
+  </script>
+  
 </body>
 </html>
 
