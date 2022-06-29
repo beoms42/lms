@@ -22,6 +22,30 @@ import lombok.extern.slf4j.Slf4j;
 public class CommunityService {
 	@Autowired private CommunityMapper communityMapper;
 	
+	// 희원 - removeCommunity 
+	public int removeCommunity(int communityNo, String communityPw, String path) {
+		List<String> communityFileList = communityMapper.selectCommunityfileNameList(communityNo);
+		
+		log.debug(CF.PHW+"CommunityService.removeCommunity.communityNo : "+communityNo+CF.RS );
+		log.debug(CF.PHW+"CommunityService.removeCommunity.communityPw : "+communityPw+CF.RS );
+		log.debug(CF.PHW+"CommunityService.removeCommunity.path : "+path+CF.RS );
+		log.debug(CF.PHW+"CommunityService.removeCommunity.communityFileList : "+communityFileList+CF.RS );
+		
+		for(String filename : communityFileList) {
+			File f = new File(path+filename);
+			if(f.exists()) {
+				f.delete();
+			}
+		}
+		
+		communityMapper.deleteCommunityFileList(communityNo);
+		int row = communityMapper.deleteCommunity(communityNo, communityPw);
+		
+		return row;
+		
+	}
+	
+	
 	// 희원 - addCommunity
 	public void addCommunity(CommunityForm communityForm, String path) {
 		log.debug(CF.PHW+"CommunityService.addCommunity.path : "+path+CF.RS );

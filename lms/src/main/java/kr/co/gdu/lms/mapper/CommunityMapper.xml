@@ -70,7 +70,7 @@
 	
 	<!--커뮤니티 글 삭제-->
 	<delete id="deleteCommunity"
-			parameterType="int">
+			parameterType="kr.co.gdu.lms.vo.Community">
 		DELETE from community
 		WHERE community_no = #{communityNo}
 		AND community_pw = PASSWORD(#{communityPw});
@@ -111,8 +111,19 @@
 		WHERE community_no = #{communityNo};
 	</select>
 	
+	<!-- 커뮤니티 파일 이름 select -->
+	<select id="selectCommunityfileNameList"
+			parameterType="int"
+			resultType="String">
+		SELECT
+			community_file_name communityFileName
+		FROM community_file
+		WHERE community_no = #{communityNo};
+	</select>
+	
+	
 	<!--커뮤니티 파일 삭제-->
-	<delete id="deleteCommunityFile"
+	<delete id="deleteCommunityFileList"
 			parameterType="int">
 		DELETE FROM community_file
 		WHERE community_no = #{communityNo};

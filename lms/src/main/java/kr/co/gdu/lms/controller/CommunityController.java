@@ -24,6 +24,39 @@ import lombok.extern.slf4j.Slf4j;
 public class CommunityController {
 	@Autowired private CommunityService communityService;
 	
+	// 희원 - removeCommunity 액션
+	@PostMapping("/loginCheck/removeCommunity")
+	public String removeCommunity(HttpServletRequest request
+								, @RequestParam (name="communityNo") int communityNo
+								, @RequestParam (name="communityPw") String communityPw) {
+		String path = request.getServletContext().getRealPath("/file/communityFile/");
+		log.debug(CF.PHW+"CommunityController.removeCommunity.post path : "+path+CF.RS );
+		log.debug(CF.PHW+"CommunityController.removeCommunity.post communityNo : "+communityNo+CF.RS );
+		log.debug(CF.PHW+"CommunityController.removeCommunity.post communityPw : "+communityPw+CF.RS );
+		
+		Community community = new Community();
+		community.setCommunityNo(communityNo);
+		community.setCommunityPw(communityPw);		
+		
+		int row = communityService.removeCommunity(communityNo, communityPw, path);
+		log.debug(CF.PHW+"CommunityController.removeCommunity.post row : "+row+CF.RS );
+		
+		return "redirect:/loginCheck/getCommunityListByPage";
+	}
+	
+	
+	// 희원 - removeCommunity 폼
+	@GetMapping("/loginCheck/removeCommunity")
+	public String removeCommunity(Model model
+								, @RequestParam(name="communityNo") int communityNo) {
+		log.debug(CF.PHW+"CommunityController.removeCommunity.get communityNo : "+communityNo+CF.RS );
+		
+		model.addAttribute("communityNo", communityNo);
+		
+		return "community/removeCommunity";
+	}
+	
+	
 	// 희원- addCommunity 액션
 	@PostMapping("/loginCheck/addCommunity")
 	public String addCommunity(HttpServletRequest request

@@ -27,7 +27,16 @@ public interface CommunityMapper {
 	// 희원- Community 입력
 	int insertCommunity(Community community);
 	
-	//희원 - CommunityFile 입력
+	// 희원 - CommunityFile 입력
 	int insertCommunityFile(CommunityFile communityFile);
+	
+	// 희원 - Community 삭제
+	int deleteCommunity(int communityNo, String communityPw);
+	
+	// 희원 - CommunityFile 삭제
+	int deleteCommunityFileList(int communityNo);
+	
+	// 희원 - CommunityFileName select
+	List<String> selectCommunityfileNameList(int communityNo);
 	
 }
