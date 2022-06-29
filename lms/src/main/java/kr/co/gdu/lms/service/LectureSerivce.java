@@ -296,13 +296,30 @@ public class LectureSerivce {
 	}
 	
 	// 자료실 리스트(selectLectureReferenceList(lectureName)) 
-		public List<Reference> getLectureReferenceList(String lectureName) {
-			log.debug(CF.HJI+"LectureService.selectLectureReferenceList lectureName : "+lectureName+CF.RS);
+		public Map<String, Object> getLectureReferenceList(Map<String, Object> map) {
+			log.debug(CF.HJI+"LectureService.selectLectureReferenceList map : "+map+CF.RS);
+			String lectureName = (String)map.get("lectureName");
+			int currentPage = (int)map.get("currentPage");
+			int rowPerPage = (int)map.get("rowPerPage");
+			int beginRow = (currentPage-1) * rowPerPage;
+			int totalCount = lectureMapper.selectReferenceCnt();
+			int lastPage = totalCount / rowPerPage;
+			if(totalCount % rowPerPage != 0) {
+				lastPage = (totalCount / rowPerPage) + 1;
+			}
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("beginRow", beginRow);
+			paramMap.put("rowPerPage", rowPerPage);
+			paramMap.put("lectureName", lectureName);
+			log.debug(CF.HJI+"LectureService.selectLectureReferenceList lectureName : "+paramMap+CF.RS);
 			List<Reference> list = new ArrayList<Reference>();
-			list = lectureMapper.selectLectureReferenceList(lectureName);
+			list = lectureMapper.selectLectureReferenceList(paramMap);
 			log.debug(CF.HJI+"LectureService.selectLectureReferenceList list : "+list+CF.RS);
+			Map<String, Object> returnMap = new HashMap<String, Object>();
+			map.put("list", list);
+			map.put("lastPage", lastPage);
 			
-			return list;
+			return returnMap;
 		}
 		
 		// 자료실 상세보기(selectReferenceOne(referenceNo),selectReferenceFileList(referenceNo));
@@ -373,15 +390,15 @@ public class LectureSerivce {
 		
 		// 자료실 수정(updateReferenceFile(referenceFile), deleteReferenceFile(referenceFileNo),insertReferenceFile(referenceFile))
 		// 자료실 파일 개별 삭제
-		public void removeReferenceFile(int referenceFileNo, String path) {
+		public Map<String,Object> removeReferenceFile(int referenceFileNo, String path, int referenceNo) {
 			log.debug(CF.HJI+"LectureService.removeReferenceFile.referenceFileNo : "+referenceFileNo+CF.RS);
 			log.debug(CF.HJI+"LectureService.removeReferenceFile.path : "+path+CF.RS);
-			String deleteNoticefile = lectureMapper.selectReferenceFileOne(referenceFileNo);
-			log.debug(CF.HJI+"LectureService.removeReferenceFile.deleteNoticefile : "+deleteNoticefile+CF.RS);
-			File f = new File(path+deleteNoticefile);
+			log.debug(CF.HJI+"LectureService.removeReferenceFile.referenceNo : "+referenceNo+CF.RS);
+			String deleteReferenceFile = lectureMapper.selectReferenceFileOne(referenceFileNo);
+			File f = new File(path+deleteReferenceFile);
 			if(f.exists()) {
 				f.delete();
-				log.debug(CF.HJI+"LectureService.removeNoticefile.f : "+f+CF.RS);
+				log.debug(CF.HJI+"LectureService.removeReferenceFile f : "+f+CF.RS);
 			}
 			int row = lectureMapper.deleteReferenceFile(referenceFileNo);
 			if(row == 1) {
@@ -389,38 +406,26 @@ public class LectureSerivce {
 			} else {
 				log.debug(CF.HJI+"LectureService.removeReferenceFile.deleteReferenceFile 실패! : " + row+CF.RS);
 			}
+			
+			Reference reference = new Reference();
+			reference = lectureMapper.selectReferenceOne(referenceNo);
+			log.debug(CF.HJI+"LectureService.removeReferenceFile reference : "+reference+CF.RS);
+			
+			List<ReferenceFile> referenceFilelist = new ArrayList<ReferenceFile>();
+			referenceFilelist = lectureMapper.selectReferenceFileList(referenceNo);
+			log.debug(CF.HJI+"LectureService.removeReferenceFile referenceFilelist : "+referenceFilelist+CF.RS);
+			
+			String deleteNoticeFile = lectureMapper.selectReferenceFileOne(referenceFileNo);
+			log.debug(CF.HJI+"LectureService.removeReferenceFile.deleteNoticeFile : "+deleteNoticeFile+CF.RS);
+			
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("reference", reference);
+			map.put("referenceFilelist", referenceFilelist);
+			log.debug(CF.HJI+"LectureService.selectReferenceOne map : "+map+CF.RS);
+			
+			return map;
 		}
 		
-		// 자료실 파일 개별 수정
-		public void updateReferencefile(int referenceFileNo, MultipartFile referenceFile, String referenceFileName, int referenceNo, String path) {
-			log.debug(CF.HJI+"LectureService.updateReferencefile.referenceFileNo : "+referenceFileNo+CF.RS);
-			log.debug(CF.HJI+"LectureService.updateReferencefile.referenceFile : "+referenceFile+CF.RS);
-			log.debug(CF.HJI+"LectureService.updateReferencefile.referenceFileName : "+referenceFileName+CF.RS);
-			log.debug(CF.HJI+"LectureService.updateReferencefile.referenceNo : "+referenceNo+CF.RS);
-			log.debug(CF.HJI+"LectureService.updateReferencefile.path : "+path+CF.RS);
-			
-			ReferenceFile updateReferenceFile = new ReferenceFile();
-			String originName = referenceFile.getOriginalFilename();
-			String ext = originName.substring(originName.lastIndexOf("."));
-			// 파일을 저장할때 사용할 중복되지않는 새로운 이름 필요(UUID API 사용)
-			String fileName = UUID.randomUUID().toString();
-			fileName = fileName.replace("-", "");
-			fileName = fileName + ext;
-			updateReferenceFile.setReferenceFileNo(referenceFileNo);
-			updateReferenceFile.setReferenceFileName(fileName);
-			updateReferenceFile.setReferenceFileSize(referenceFile.getSize());
-			updateReferenceFile.setReferenceFileType(referenceFile.getContentType());
-			updateReferenceFile.setReferenceFileNo(referenceFileNo);
-			log.debug(CF.HJI+"LectureService.updateReferencefile.updateReferenceFile : "+updateReferenceFile+CF.RS);
-			lectureMapper.updateReferenceFile(updateReferenceFile);
-			try {
-				referenceFile.transferTo(new File(path+fileName)); // multipart안의 파일을 저장장치로 저장
-			} catch (Exception e) {
-				e.printStackTrace();
-				// 새로운 예외 발생시켜야지만 @Transactional 작동을 함
-				throw new RuntimeException(); // RuntimeException은 예외처리를 하지 않아도 컴파일 된다.
-			}
-		}
 		
 		// 자료실 전체 수정
 		public void updateAddReference(ReferenceForm referenceForm, int referenceNo, String path, Reference reference) {

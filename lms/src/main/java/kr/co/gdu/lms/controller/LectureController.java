@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.service.LectureSerivce;
@@ -24,6 +26,9 @@ import kr.co.gdu.lms.vo.Lecture;
 import kr.co.gdu.lms.vo.LectureRoom;
 import kr.co.gdu.lms.vo.LectureSubject;
 import kr.co.gdu.lms.vo.Login;
+import kr.co.gdu.lms.vo.Reference;
+import kr.co.gdu.lms.vo.ReferenceFile;
+import kr.co.gdu.lms.vo.ReferenceForm;
 import kr.co.gdu.lms.vo.Schedule;
 import kr.co.gdu.lms.vo.Student;
 import lombok.extern.slf4j.Slf4j;
@@ -336,31 +341,39 @@ public class LectureController {
 		log.debug(CF.HJI+"LectureController.addShedule m : "+m+CF.RS);
 		log.debug(CF.HJI+"LectureController.addShedule y : "+y+CF.RS);
 		
+		// 날짜끼리의 차이 구하기
 		 long elapsedms = scheduleEndDate.getTime() - scheduleStartDate.getTime();
          long diff = TimeUnit.MINUTES.convert(elapsedms, TimeUnit.MILLISECONDS);
+         // 분으로 계산되어서 나누어주기
          diff = (diff/(60*24));
          log.debug(CF.HJI+"LectureController.addShedule diff : "+diff+CF.RS);
          
          for(int i=0; i <= diff; i++) {
+        	 // 켈린더로 변환
         	 Calendar cal = Calendar.getInstance();
+        	 // 변환
         	 cal.setTime(scheduleStartDate);
+        	 // 형식 바꾸기
         	 DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         	 cal.add(Calendar.DATE, i);
+        	 // 일주일에서 주말은 제외하기 위해 dayOfWeek 선언
         	 int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
         	 log.debug(CF.HJI+"LectureController.addShedule dayOfWeek : "+dayOfWeek+CF.RS);
+        	 // 토일이 아니면
         	 if(dayOfWeek != 1 && dayOfWeek != 7) {
-        	 SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
-        		 String scheduleDate = fm.format(cal.getTime());
-            	 log.debug(CF.HJI+"LectureController.addShedule scheduleDate : "+scheduleDate+CF.RS);
-            	 Schedule schedule = new Schedule();
-         		schedule.setScheduleDate(scheduleDate);
-         		schedule.setLectureSubjectNo(lectureSubjectNo);
-         		int row = lectureService.addSchedule(schedule);
-         		if(row == 1) {
-        			log.debug(CF.HJI+"LectureController.addShedule 성공! : "+row+CF.RS);
-        		} else {
-        			log.debug(CF.HJI+"LectureController.addShedule 실패! : "+row+CF.RS);
-        		} 
+        		 // String으로 변환하기 위해
+	        	 SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
+	        		 String scheduleDate = fm.format(cal.getTime());
+	            	 log.debug(CF.HJI+"LectureController.addShedule scheduleDate : "+scheduleDate+CF.RS);
+	            	 Schedule schedule = new Schedule();
+	         		schedule.setScheduleDate(scheduleDate);
+	         		schedule.setLectureSubjectNo(lectureSubjectNo);
+	         		int row = lectureService.addSchedule(schedule);
+	         		if(row == 1) {
+	        			log.debug(CF.HJI+"LectureController.addShedule 성공! : "+row+CF.RS);
+	        		} else {
+	        			log.debug(CF.HJI+"LectureController.addShedule 실패! : "+row+CF.RS);
+	        		} 
         	 }
 		}
 
@@ -474,62 +487,137 @@ public class LectureController {
 	
 	// 자료실 리스트
 	@GetMapping("/loginCheck/getLectureReferenceList")
-	public String getLectureReferenceList() {
-		
+	public String getLectureReferenceList(Model model, HttpSession session
+										, @RequestParam(name = "currentPage", defaultValue = "1") int currentPage
+										, @RequestParam(name = "rowPerPage", defaultValue = "10") int rowPerPage) {
+		log.debug(CF.HJI+"LectureController.getLectureReferenceList currentPage : "+currentPage+CF.RS);
+		log.debug(CF.HJI+"LectureController.getLectureReferenceList rowPerPage : "+rowPerPage+CF.RS);
+		String loginId = (String)session.getAttribute("sessionId");
+		log.debug(CF.HJI+"LectureController.getLectureReferenceList rowPerPage : "+loginId+CF.RS);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("currentPage", currentPage);
+		map.put("rowPerPage", rowPerPage);
+		map.put("loginId", loginId);
+		Map<String, Object> returnMap = lectureService.getLectureReferenceList(map);
+		log.debug(CF.HJI+"LectureController.getLectureReferenceList rowPerPage : "+returnMap.get("list")+CF.RS);
+		log.debug(CF.HJI+"LectureController.getLectureReferenceList lastPage : "+returnMap.get("lastPage")+CF.RS);
+		log.debug(CF.HJI+"LectureController.getLectureReferenceList currentPage : "+currentPage+CF.RS);
+		model.addAttribute("list", returnMap.get("list"));
+		model.addAttribute("lastPage", returnMap.get("lastPage"));
+		model.addAttribute("currentPage", currentPage);
 	return "/lecture/getLectureReferenceList";
 	}
 	
 	// 자료실 상세보기
 	@GetMapping("/loginCheck/getReferenceOne")
-	public String getReferenceOne() {
+	public String getReferenceOne(Model model
+								,@RequestParam(name="referenceNo") int referenceNo) {
+		log.debug(CF.HJI+"LectureController.getReferenceOne referenceNo : "+referenceNo+CF.RS);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map = lectureService.getReferenceOne(referenceNo);
+		log.debug(CF.HJI+"LectureController.getReferenceOne map : "+map+CF.RS);
+		List<ReferenceFile> referenceFileList = (List<ReferenceFile>)map.get("referenceFilelist");
+		Reference reference = (Reference)map.get("reference");
+		log.debug(CF.HJI+"LectureController.getReferenceOne referenceFileList : "+referenceFileList+CF.RS);
+		log.debug(CF.HJI+"LectureController.getReferenceOne reference : "+reference+CF.RS);
 		
+		model.addAttribute("referenceFileList",referenceFileList);
+		model.addAttribute("reference",reference);
 	return "/lecture/getReferenceOne";
 	}
 	
 	// 자료실 입력
 	@GetMapping("/loginCheck/addReferenceForm")
 	public String addReferenceForm() {
-	
-	return "/lecture/addReferenceForm";
+		return "/lecture/addReferenceForm";
 	}
 	
 	@PostMapping("/addReferenceAction")
-	public String addReferenceAction() {
-		
+	public String addReferenceAction(HttpServletRequest request, ReferenceForm referenceForm) {
+		String path = request.getServletContext().getRealPath("/file/refeneceFile/");
+		log.debug(CF.HJI+"LectureController.addReferenceAction referenceForm : "+referenceForm+CF.RS);
+		log.debug(CF.HJI+"LectureController.addReferenceAction path : "+path+CF.RS);
+		List<MultipartFile> referenceFileList = referenceForm.getReferenceFileList();
+		if(referenceFileList != null && referenceFileList.get(0).getSize() > 0) {
+			for(MultipartFile mf : referenceFileList) {
+				log.debug("NoticeController.addNotice() fileName : " + mf.getOriginalFilename());
+			}
+		lectureService.addReference(referenceForm, path);
+		}
 	return "redirect:/loginCheck/getLectureReferenceList";
 	}
 	
 	// 자료실 수정
 	@GetMapping("/updateAddReferenceForm")
-	public String updateAddReferenceForm() {
-	
+	public String updateAddReferenceForm(Model model
+										,@RequestParam(name = "referenceNo") int referenceNo) {
+		log.debug(CF.HJI+"LectureController.updateAddReferenceForm referenceNo : "+referenceNo+CF.RS);
+		Map<String, Object> map = lectureService.getReferenceOne(referenceNo);
+		Reference reference = (Reference)(map.get("reference"));
+		List<ReferenceFile> referenceFilelist = (List<ReferenceFile>)(map.get("referenceFilelist"));
+
+		log.debug(CF.HJI+"LectureController.updateAddReferenceForm reference : "+reference+CF.RS);
+		log.debug(CF.HJI+"LectureController.updateAddReferenceForm referenceFilelist : "+referenceFilelist+CF.RS);
+
+		model.addAttribute("referenceFilelist", referenceFilelist);
+		model.addAttribute("reference", reference);
 	return "/lecture/updateAddReferenceForm";
 	}
 	
 	@PostMapping("/updateAddReferenceAction")
-	public String updateAddReferenceAction() {
-	
-	return "redirect:/loginCheck/getReferenceOne";
-	}
-	
-	// 자료실 삭제
-	@GetMapping("/removeReference")
-	public String removeReference() {
-	
-	return "/lecture/getReferenceOne";
+	public String updateAddReferenceAction(Model model, HttpServletRequest request
+											,@RequestParam(name = "referenceNo") int referenceNo
+											,ReferenceForm referenceForm) {
+		log.debug(CF.HJI+"LectureController.updateAddReferenceAction referenceNo : "+referenceNo+CF.RS);
+		log.debug(CF.HJI+"LectureController.updateAddReferenceAction referenceForm : "+referenceForm+CF.RS);
+
+		String path = request.getServletContext().getRealPath("/file/refeneceFile/");
+		// 추가사진까지 내용 수정
+		Reference reference = new Reference();
+		reference.setReferenceTitle(referenceForm.getReferenceTitle());
+		reference.setLectureName(referenceForm.getLectureName());
+		reference.setReferenceContent(referenceForm.getReferenceContent());
+		List<MultipartFile> updateAddReferencefileList = referenceForm.getReferenceFileList();
+		// 이미지 디버깅
+		if(updateAddReferencefileList != null && updateAddReferencefileList.get(0).getSize() > 0) {
+			for(MultipartFile mf : updateAddReferencefileList) {
+				log.debug("NoticeController.addNotice() fileName : " + mf.getOriginalFilename());
+			}
+		}
+		// 실행
+		lectureService.updateAddReference(referenceForm, referenceNo, path, reference);
+		
+	return "redirect:/loginCheck/getReferenceOne?referenceNo="+referenceNo;
 	}
 	
 	// 자료실 파일 삭제
 	@PostMapping("/removeReferenceFile")
-	public String removeReferenceFile() {
-	
-	return "redirect:/loginCheck/updateAddReferenceForm";
+	public String removeReferenceFile(Model model,HttpServletRequest request
+										,@RequestParam(name = "referenceNo") int referenceNo
+										,@RequestParam(name = "referenceFileNo") int referenceFileNo) {
+		String path = request.getServletContext().getRealPath("/file/refeneceFile/");
+		log.debug(CF.HJI+"LectureController.removeReferenceFile referenceNo : "+referenceNo+CF.RS);
+		log.debug(CF.HJI+"LectureController.removeReferenceFile referenceFileNo : "+referenceFileNo+CF.RS);
+		log.debug(CF.HJI+"LectureController.removeReferenceFile path : "+path+CF.RS);
+		Map<String, Object> map = lectureService.removeReferenceFile(referenceFileNo, path, referenceNo);
+		Reference reference = (Reference)(map.get("reference"));
+		List<ReferenceFile> referenceFilelist = (List<ReferenceFile>)(map.get("referenceFilelist"));
+		
+		log.debug(CF.HJI+"LectureController.removeReferenceFile reference : "+reference+CF.RS);
+		log.debug(CF.HJI+"LectureController.removeReferenceFile referenceFilelist : "+referenceFilelist+CF.RS);
+		
+		model.addAttribute("referenceFilelist", referenceFilelist);
+		model.addAttribute("reference", reference);
+	return "redirect:/loginCheck/updateAddReferenceForm?referenceNo="+referenceNo;
 	}
 	
-	// 자료실 파일 수정
-	@PostMapping("/updateReferencefile")
-	public String updateReferencefile() {
-	
-	return "redirect:/loginCheck/updateAddReferenceForm";
+	// 자료실 삭제
+	@GetMapping("/removeReference")
+	public String removeReference(HttpServletRequest request
+									,@RequestParam(name="referenceNo")int referenceNo) {
+		log.debug(CF.HJI+"LectureController.removeReference referenceNo : "+referenceNo+CF.RS);
+		String path = request.getServletContext().getRealPath("/file/refeneceFile/");
+		lectureService.removeReference(referenceNo, path);
+	return "/loginCheck/getLectureReferenceList";
 	}
 }

@@ -212,8 +212,8 @@
 			$('#addScheduleHelper').text('날짜를 선택하세요.');
 		} else if($('#lectureSubjectNo').val() == '') {
 			$('#addScheduleHelper').text('[강의]과목을 선택하세요.');
-		} else if($('#scheduleStartDate').val() >= $('#scheduleEndDate').val()) {
-			$('#addScheduleHelper').text('시작날짜가 종료날짜보다 늦게 되었있습니다.');
+		} else if($('#scheduleStartDate').val() > $('#scheduleEndDate').val()) {
+			$('#addScheduleHelper').text('시작날짜가 종료날짜보다 늦게 되어있습니다.');
 		} else {
 			$('#addScheduleHelper').text('');
 			$('#addScheduleForm').submit();
