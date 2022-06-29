@@ -66,15 +66,15 @@
                   					<tr>
                      					<th>이름</th>
                      					<td>
-                        					<input type="text" class="form-control-df" name="studentName" value="${member.studentName}" id="name" placeholder="이름을 입력하세요.">&nbsp;&nbsp;&nbsp;
-                        					<span id="nameHelper" class="helper"></span>
+                        					<input type="text" class="form-control-df" name="studentName" value="${member.studentName}" id="name" placeholder="이름을 입력하세요.">&nbsp;
+                        					<div id="nameHelper" class="helper"></div>
                      					</td>
                   					</tr>
                   					<tr>
                      					<th>생년월일</th>
                      					<td>
                      						<input type="date" class="form-control-df" name="studentBirth" value="${member.studentBirth}">
-                     						<span id="birthHelper" class="helper"></span>
+                     						<div id="birthHelper" class="helper"></div>
                      					</td>
                   					</tr>
 					                <tr>
@@ -91,28 +91,31 @@
 				                        	<input type="text" class="form-control text-body" placeholder="${member.address}" id="addr">
 				                        	<button type="button" class="btn btn-primary" id="searchAddr" style="border-radius: 0% 4px 4px 0%;">주소 검색</button>              	
 				                       	</div>
-				                       	<div id="addrHelper"></div>
-				                           	<select name="address"  class="form-control-df text-body" id="searchAddrList">
-				                              <!-- 주소 들어올 공간 -->
-				                           	</select>
+				                       	<div id="addrHelper" class="helper"></div>
+			                           	<select name="address"  class="form-control-df text-body" id="searchAddrList">
+			                              <!-- 주소 들어올 공간 -->
+			                           	</select>
 				                     	</td>    
 				                     </tr>   
 				                  	 <tr>
 					                    <th>상세주소</th>
-					                    <td colspan="2"><input type="text" class="form-control-df" value="${member.detailAddress}" name="detailAddress"></td>
+					                    <td colspan="2">
+					                    	<input type="text" class="form-control-df" value="${member.detailAddress}" name="detailAddress" id="detailAddress">&nbsp;
+					                    	<div id="detailAddressHelper" class="helper"></div>
+					                    </td>
 					                 </tr>
 					                 <tr>
 					                    <th>이메일</th>
 					                    <td colspan="2">
-					                    	<input type="text" class="form-control-df" value="${member.studentEmail}" name="studentEmail" id="email" placeholder="이메일">&nbsp;&nbsp;&nbsp;
-					                        <span id="emailHelper" class="helper"></span>
+					                    	<input type="text" class="form-control-df" value="${member.studentEmail}" name="studentEmail" id="email" placeholder="이메일">&nbsp;
+					                        <div id="emailHelper" class="helper"></div>
 					                    </td>
 					                 </tr>
 					                 <tr>
 					                 	<th>전화번호</th>
 					                    <td colspan="2">
-					                    	<input type="text" class="form-control-df" value="${member.studentPhone}" name="studentPhone" id="phone" placeholder="-를 제외해서 입력해주세요." >&nbsp;&nbsp;&nbsp;
-					                        <span id="phoneHelper" class="helper"></span>
+					                    	<input type="text" class="form-control-df" value="${member.studentPhone}" name="studentPhone" id="phone" placeholder="-를 제외해서 입력해주세요." >&nbsp;
+					                        <div id="phoneHelper" class="helper"></div>
 					                    </td>
 					                 </tr>
 					                 <tr>
@@ -152,8 +155,8 @@
 				                 	<tr >
 				                     	<th>이름</th>
 				                     	<td>
-				                        	<input type="text" class="form-control-df" name="teacherName" value="${member.teacherName}" id="name" placeholder="이름">&nbsp;&nbsp;&nbsp;
-				                        	<span id="nameHelper" class="helper"></span>
+				                        	<input type="text" class="form-control-df" name="teacherName" value="${member.teacherName}" id="name" placeholder="이름">&nbsp;
+				                        	<div id="nameHelper" class="helper"></div>
 				                     	</td>
 				                  	</tr>
 				                  	<tr>
@@ -174,28 +177,31 @@
 				                        	<input type="text" class="form-control text-body" placeholder="${member.address}" id="addr">
 				                        	<button type="button" class="btn btn-primary" id="searchAddr" style="border-radius: 0% 4px 4px 0%;">주소 검색</button>              	
 				                       	</div>
-				                       	<div id="addrHelper"></div>
-				                           	<select name="address"  class="form-control-df text-body" id="searchAddrList">
-				                              <!-- 주소 들어올 공간 -->
-				                           	</select>
+				                       	<div id="addrHelper" class="helper"></div>
+			                           	<select name="address"  class="form-control-df text-body" id="searchAddrList">
+			                              <!-- 주소 들어올 공간 -->
+			                           	</select>
 				                     	</td>    
 				                    </tr>   
 				                  	<tr>
 				                    	<th>상세주소</th>
-				                     	<td colspan="2"><input type="text" class="form-control-df" value="${member.detailAddr}" name="detailAddress"></td>
+				                     	<td colspan="2">
+				                     		<input type="text" class="form-control-df" value="${member.detailAddr}" name="detailAddress" id="detailAddress">&nbsp;
+				                     		<div id="detailAddressHelper" class="helper"></div>
+				                     	</td>
 				                  	</tr>
 				                  	<tr>
 				                     	<th>이메일</th>
 				                     	<td colspan="2">
-				                        	<input type="text" class="form-control-df" value="${member.teacherEmail}" name="teacherEmail" id="email" placeholder="이메일">&nbsp;&nbsp;&nbsp;
-				                        	<span id="emailHelper" class="helper"></span>
+				                        	<input type="text" class="form-control-df" value="${member.teacherEmail}" name="teacherEmail" id="email" placeholder="이메일">&nbsp;
+				                        	<div id="emailHelper" class="helper"></div>
 				                     	</td>
 				                  	</tr>
 				                  	<tr>
 				                     	<th>전화번호</th>
 				                     	<td colspan="2">
-				                        	<input type="text" class="form-control-df" value="${member.teacherPhone}" name="teacherPhone" id="phone" placeholder="-를 제외해서 입력해주세요." >&nbsp;&nbsp;&nbsp;
-				                        	<span id="phoneHelper" class="helper"></span>
+				                        	<input type="text" class="form-control-df" value="${member.teacherPhone}" name="teacherPhone" id="phone" placeholder="-를 제외해서 입력해주세요." >&nbsp;
+				                     		<div id="phoneHelper" class="helper"></div>
 				                     	</td>
 				                  	</tr>
 				                  	<tr>
@@ -214,7 +220,7 @@
 				               	</c:when>
 				               	<c:when test = "${sessionLv==3}">
 				               	<form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyManager" id="modifyForm">
-				                <table class="table table-bordered">
+				                <table class="table">
 				                	<tr style="height: 15px;">
 				                    	<th>아이디</th>
 				                     	<td>${member.loginId}</td>
@@ -225,8 +231,8 @@
 				                  	<tr>
 				                     	<th>이름</th>
 				                     	<td>
-				                        	<input type="text" class="form-control-df" name="managerName" value="${member.managerName}" id="name" placeholder="이름">&nbsp;&nbsp;&nbsp;
-				                        	<span id="nameHelper" class="helper"></span>
+				                        	<input type="text" class="form-control-df" name="managerName" value="${member.managerName}" id="name" placeholder="이름">&nbsp;
+				                        	<div id="nameHelper" class="helper"></div>
 				                     	</td>
 				                  	</tr>
 				                  	<tr>
@@ -247,28 +253,31 @@
 				                        	<input type="text" class="form-control text-body" placeholder="${member.address}" id="addr">
 				                        	<button type="button" class="btn btn-primary" id="searchAddr" style="border-radius: 0% 4px 4px 0%;">주소 검색</button>              	
 				                       	</div>
-				                       	<div id="addrHelper"></div>
-				                           	<select name="address"  class="form-control-df text-body" id="searchAddrList">
-				                              <!-- 주소 들어올 공간 -->
-				                           	</select>
+				                       	<div id="addrHelper" class="helper"></div>
+			                           	<select name="address"  class="form-control-df text-body" id="searchAddrList">
+			                              <!-- 주소 들어올 공간 -->
+			                           	</select>
 				                     	</td>   
 				                     </tr>   
 				                  	 <tr>
 				                     	<th>상세주소</th>
-				                     	<td colspan="2"><input type="text" class="form-control-df" value="${member.detailAddr}" name="detailAddress"></td>
+				                     	<td colspan="2">
+				                     		<input type="text" class="form-control-df" value="${member.detailAddr}" name="detailAddress" id="detailAddress">&nbsp;
+				                     		<div id="detailAddressHelper" class="helper"></div>
+				                     	</td>
 				                  	 </tr>
 				                     <tr>
 				                     	<th>이메일</th>
 				                     	<td colspan="2">
 				                        	<input type="text" class="form-control-df" value="${member.managerEmail}" name="managerEmail" id="email" placeholder="이메일">&nbsp;&nbsp;&nbsp;
-				                        	<span id="emailHelper" class="helper"></span>
+				                        	<div id="emailHelper" class="helper"></div>
 				                     	</td>
 				                  	 </tr>
 				                  	 <tr>
 				                     	<th>전화번호</th>
 				                     	<td colspan="2">
 				                        	<input type="text" class="form-control-df" value="${member.managerPhone}" name="managerPhone" id="phone" placeholder="-를 제외해서 입력해주세요." >&nbsp;&nbsp;&nbsp;
-				                        	<span id="phoneHelper" class="helper"></span>
+				                        	<div id="phoneHelper" class="helper"></div>
 				                     	</td>
 				                  	 </tr>
 				                  	 <tr>
@@ -354,6 +363,22 @@
 		}
 	})
 	
+	$('#addr').blur(function() {
+  		if($('#addr').val()=='') {
+  			$('#addrHelper').text('주소를 검색해주세요.');
+  		} else {
+  			$('#addrHelper').text('');
+  		}
+  	})
+  	
+  	$('#detailAddress').blur(function() {
+  		if($('#detailAddress').val()=='') {
+  			$('#detailAddressHelper').text('상세주소를 입력해주세요.');
+  		} else {
+  			$('#detailAddressHelper').text('');
+  		}
+  	})
+  	
 	$('#email').blur(function() {
   		if($('#email').val()=='') {
   			$('#emailHelper').text('이메일을 입력해주세요.');
@@ -374,31 +399,23 @@
   		}
   	})
   	
-  	$('#addr').blur(function() {
-  		if($('#addr').val()=='') {
-  			$('#addrHelper').text('주소를 검색해주세요.');
-  		} else {
-  			$('#addrHelper').text('');
-  		}
-  	})
   	
-  	$('#detailAddr').blur(function() {
-  		if($('#detailAddr').val()=='') {
-  			$('#detailAddrHelper').text('상세 주소를 입력해주세요.');
-  		} else {
-  			$('#detailAddrHelper').text('');
-  		}
-  	})
    $('#modify').click(function() {
       if($('#name').val().length == 0 ) {
          $('#nameHelper').text('이름을 입력해주세요');
+      } else if($('#addr').val().length == 0 ) {
+         $('#addrHelper').text('주소를 검색해주세요.');
+      } else if($('#detailAddress').val().length == 0 ){
+         $('#detailAddressHelper').text('상세주소를 입력해주세요.'); 
       } else if($('#email').val().length == 0 ) {
          $('#emailHelper').text('이메일을 입력해주세요');
+      } else if($('#email').val().indexOf('@') == -1 || $('#email').val().indexOf('.') == -1) { // 이메일 형석 반드시 @,. 입력할 것
+		$('#emailHelper').text('이메일 형식이 다릅니다.');	
       } else if($('#phone').val().indexOf('-') != -1 ){
          $('#phone').val().replace(/-/g, ''); // 입력한 '-' 한자리 지움
             $('#phoneHelper').text('-를 제외해서 입력해주세요.');
       } else {
-         $('modifyForm').submit();
+         $('#modifyForm').submit();
       }
    })
   
@@ -454,9 +471,9 @@
              } else if($('#addr').val()=='') {
                 $('#phoneHelper').text('');
                 $('#addrHelper').text('주소를 검색해주세요.');
-             } else if($('#detailAddr').val()=='') {
+             } else if($('#detailAddress').val()=='') {
                 $('#addrHelper').text('');
-                $('#detailAddrHelper').text('상세 주소를 입력해주세요.');
+                $('#detailAddressHelper').text('상세 주소를 입력해주세요.');
              } else {
                 $('#modify').submit();
              }
