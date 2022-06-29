@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri= "http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -29,7 +30,12 @@
   	.title-bottom {margin-bottom : 50px;}
   	.round {border-radius: 100%;
   			margin-right:30px;}
+  	.smalltitle-bottom {margin-bottom : 40px;}
   	.bottom {margin-bottom : 20px;}
+  	.left {margin-left : 20px;}
+  	.top {margin-top : 30px;}
+  	.right {margin-right : 30px;}
+  	div.content {font-size : 100px ;}
   </style>
 </head>
 <body>
@@ -47,29 +53,29 @@
       </nav>
       <!-- partial -->
         <div class="main-panel">
-        <div class="content-wrapper">
-          <div class="row">
-            <div class="col-lg-10 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body"><h2 class="title-bottom">[공지사항]</h2>
-                  <div class="table-responsive">
-                  <h3 class="bottom">${notice.noticeTitle}</h3>
-                  <img src="${pageContext.request.contextPath}/file/memberPhoto/dd.png" class="round" width="50" height="50">${notice.loginId}
-                    <table class="table">			        				        
-										        
-						<tr>
-							<th>내용</th>
-							<td>${notice.noticeContent}</td>
-						</tr>				        
-						<tr>
-							<th>작성날짜</th>
-							<td>${notice.createDate}</td>
-						</tr>
-						<!-- 파일 부분 -->
-						<c:if test="${fileList != null}">
-							<tr>
-								<th>첨부 파일</th>
-								<td>
+           <div class="content-wrapper">
+	          <div class="row">
+	            <div class="col-lg-10 grid-margin stretch-card">
+	              <div class="card">
+	                <div class="card-body"><h2 class="title-bottom">[공지사항]</h2>
+	                  <div class="table-responsive">
+	                  <h3 class="smalltitle-bottom">${notice.noticeTitle}</h3>
+		                  <div class="row bottom">
+		                  	<div class="col-sm-1">
+		                  		<img src="${pageContext.request.contextPath}/file/memberPhoto/dd.png" class="round left" width="50" height="50">	
+		                  	</div>
+		                  	<div class="col-sm-11">
+		                  		${notice.loginId}
+								<div>${notice.createDate}</div>	                  	
+		                  	</div>
+		                  </div>
+		                  <div class="left">
+		                  <hr>
+		                  <div style="font-size:6em;">${notice.noticeContent}</div>
+		                  <hr>
+							<!-- 파일 부분 -->
+							<c:if test="${fileList != null && fn:length(fileList) > 0}">
+								<div class="bottom">첨부 파일</div>
 									<c:forEach var="f" items="${fileList}">
 										<c:choose>
 											<c:when test="${f.noticeFileType eq 'image/jpeg' 
@@ -86,35 +92,36 @@
 											</c:otherwise>
 										</c:choose>
 									</c:forEach>
-								</td>
-							</tr>
+							</c:if>
+						</div>
+						<c:if test="${sessionLv >= 3}">
+							<div class="float-right top bottom right">
+						    <a class="btn btn-info" href="${pageContext.request.contextPath}/loginCheck/modifyNotice?noticeNo=${notice.noticeNo}">수정</a>
+						    <a class="btn btn-danger" href="${pageContext.request.contextPath}/loginCheck/deleteNotice?noticeNo=${notice.noticeNo}">삭제</a>
+					    </div>
 						</c:if>
-				    </table>
-				    <div class="float-right">
-					    <a href="${pageContext.request.contextPath}/loginCheck/modifyNotice?noticeNo=${notice.noticeNo}">수정</a>
-					    <a href="${pageContext.request.contextPath}/loginCheck/deleteNotice?noticeNo=${notice.noticeNo}">삭제</a>
-				    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+	                  </div>
+	                </div>
+	              </div>
+	            </div>
+	        </div>
+	        <!-- content-wrapper ends -->
+	        <!-- partial:partials/_footer.html -->
+	        <footer class="footer">
+	          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+	            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021.  Premium <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a> from BootstrapDash. All rights reserved.</span>
+	            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span>
+	          </div>
+	          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+	            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Distributed by <a href="https://www.themewagon.com/" target="_blank">Themewagon</a></span> 
+	          </div>
+	        </footer> 
+	        <!-- partial -->
         </div>
-        <!-- content-wrapper ends -->
-        <!-- partial:partials/_footer.html -->
-        <footer class="footer">
-          <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021.  Premium <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a> from BootstrapDash. All rights reserved.</span>
-            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span>
-          </div>
-          <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Distributed by <a href="https://www.themewagon.com/" target="_blank">Themewagon</a></span> 
-          </div>
-        </footer> 
-        <!-- partial -->
-      </div>
       <!-- main-panel ends -->
-    </div>   
+      </div>   
     <!-- page-body-wrapper ends -->
+    </div>
   </div>
   <!-- container-scroller -->
 

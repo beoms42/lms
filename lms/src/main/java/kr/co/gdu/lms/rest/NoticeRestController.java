@@ -33,6 +33,7 @@ public class NoticeRestController {
 			result="true";
 		}
 		
+		log.debug(CF.OHI+"NoticeRestController.deleteNoticeFile result : "+result+CF.RS);
 		return result;
 	}
 }

@@ -109,30 +109,31 @@
 								<!-- 파일 부분 -->
 								<c:if test="${fileList != null}">
 									<c:forEach var="f" items="${fileList}">
-									<input type="hidden" value="${f.noticeFileName}" id="noticeFileName">
-										<span id="noticeFile">
+										<input type="hidden" value="${f.noticeFileName}" id="noticeFileName">
 											<c:choose>
 												<c:when test="${f.noticeFileType eq 'image/jpeg' 
 															|| f.noticeFileType eq 'image/png' 
 															|| f.noticeFileType eq 'image/gif'}">
 													<tr>
 													<td>
+													<span id="noticeFile">
 														<img src="${pageContext.request.contextPath}/file/noticeFile/${f.noticeFileName}" width="100" height="100">
-														<button type="button" id="deleteNoticeFile">x</button>
+														<button class="btn btn-outline-secondary" type="button" id="deleteNoticeFile">X</button>
+													</span>
 													</td>
 													</tr>
 												</c:when>
 												<c:otherwise>
 													<tr>
 													<td>
-														<a href="${pageContext.request.contextPath}/file/noticeFile/${f.noticeFileName}" id="noticeFileName">${f.noticeFileOriginName}</a>
-														
-														<button type="button" id="deleteNoticeFile">x</button>
+														<span id="noticeFile">
+															<a href="${pageContext.request.contextPath}/file/noticeFile/${f.noticeFileName}" id="noticeFileName">${f.noticeFileOriginName}</a>
+															<button type="button" id="deleteNoticeFile">X</button>
+														</span>
 													</td>
 													</tr>
 												</c:otherwise>
 											</c:choose>
-										</span>
 									</c:forEach>
 								</c:if>
 							</tr>
@@ -197,7 +198,8 @@
   			, data : {noticeFileName:$('#noticeFileName').val()}
   			, success:function(result) {
   				if(result=='true') {
-  					$('#noticeFile').remove();  					
+  					console.log(result);
+  					$('#noticeFile').remove();
   				}
   			}
   		})
