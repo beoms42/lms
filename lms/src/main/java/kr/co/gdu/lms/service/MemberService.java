@@ -98,7 +98,7 @@ public class MemberService {
       int activeRow = studentMapper.updateStudentActive(login);
       log.debug(CF.GDH+"MemberService.removeStudent activeRow : " + activeRow + CF.RS);
       
-      return studentMapper.deleteStudent(login);
+      return studentMapper.deleteStudent(login.getLoginId());
    }
    
    // 비밀번호 확인하기
@@ -197,12 +197,6 @@ public class MemberService {
           log.debug(CF.PSH+"MemberService.deleteManager :"+loginId+CF.RS);
           return row;
        }
-       
-      
-       
-       
-       
-    
        
       // 강사 정보 수정하기
       public int modifyTeacher(Teacher teacher) {

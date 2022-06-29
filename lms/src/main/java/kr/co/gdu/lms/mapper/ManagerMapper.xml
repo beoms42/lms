@@ -52,8 +52,8 @@
    
    <delete id="deleteManager"
       	parameterType="String">
-      	DELETE FROM login_id
-     	WHERE login_id = #{loginId}   
+      	DELETE FROM manager
+     	WHERE login_id = #{loginId}
     </delete>
       
    <select id="pwCheck"

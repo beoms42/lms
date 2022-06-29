@@ -46,7 +46,7 @@
 	</update>
 	
 	<delete id="deleteStudent"
-			parameterType="kr.co.gdu.lms.vo.Student">
+			parameterType="String">
 		DELETE FROM student
 		WHERE login_id = #{loginId} 		
 	</delete>

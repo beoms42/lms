@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.gdu.lms.mapper.LoginMapper">
+	<select id="selectDormantMemberId"
+			resultType="map">
+		SELECT 
+			login_id loginId
+			,level
+		FROM login
+		WHERE login_active = '0'
+		AND TIMESTAMPDIFF(DAY, last_login_date, NOW()) >= 180
+	</select>
+	<select id="selectDiffDayList"
+			resultType="java.util.Map">
+		SELECT
+			login_id loginId
+			, TIMESTAMPDIFF(DAY, last_login_date, NOW()) diffDay
+		FROM login
+	</select>
+	
 	<!-- 해당 아이디가 비밀번호 변경한 최근 날짜 출력 -->
 	<select id="selectPwRecordDate"
 			parameterType="String"

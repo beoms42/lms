@@ -21,7 +21,7 @@ public interface StudentMapper {
 	List<Student>selectStudentList();
 	
 	// 학생정보 삭제하기 DELETE(회원탈퇴)
-	int deleteStudent(Login login);
+	int deleteStudent(String loginId);
 	
 	// 학생수준 수정하기 UPDATE(회원탈퇴)
 	int updateStudentActive(Login login);

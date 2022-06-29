@@ -5,14 +5,20 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import kr.co.gdu.lms.vo.MemberForm;
 import kr.co.gdu.lms.vo.Login;
 import kr.co.gdu.lms.vo.Manager;
+import kr.co.gdu.lms.vo.MemberForm;
 import kr.co.gdu.lms.vo.Student;
 import kr.co.gdu.lms.vo.Teacher;
 
 @Mapper
 public interface LoginMapper {
+	// 휴먼계정 아이디 출력
+	List<Map<String,Object>> selectDormantMemberId();
+	
+	// 모든 회원 로그인 안한지 며칠 됐는지 날짜 출력
+	List<Map<String, Object>> selectDiffDayList();
+	
 	// 해당 아이디가 비밀번호 변경한 최근 날짜 출력
 	String selectPwRecordDate(String loginId);
 	
