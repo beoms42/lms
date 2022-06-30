@@ -42,12 +42,9 @@ public class NoticeController {
 		
 		log.debug(CF.OHI+"NoticeController.getNoticeByPage returnMap : "+returnMap+CF.RS);
 		
-		List<Notice> list = (List<Notice>) returnMap.get("list");
-		int lastPage = (int) returnMap.get("lastPage");
-		
 		model.addAttribute("currentPage", currentPage);
-		model.addAttribute("list", list);
-		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("list", returnMap.get("list"));
+		model.addAttribute("lastPage", returnMap.get("lastPage"));
 		return "notice/getNoticeListByPage";
 	}
 	
