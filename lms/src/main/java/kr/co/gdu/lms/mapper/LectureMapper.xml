@@ -294,11 +294,11 @@
 	</select>
 	
 	<select id="selectLectureName"
-		parameterType="String"
-		resultType="int">
-	SELECT COUNT(*)
-	FROM lecture
-	WHERE lecture_name = #{lectureName}
+			parameterType="String"
+			resultType="int">
+		SELECT COUNT(*)
+		FROM lecture
+		WHERE lecture_name = #{lectureName}
 	</select>
 	
 		<!-- 자료실 리스트-->
