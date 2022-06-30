@@ -87,7 +87,7 @@ public interface LectureMapper {
 	List<Reference>selectLectureReferenceList(Map<String, Object> map);
 	
 	// 자료실 리스트 카운트
-	int selectReferenceCnt();
+	int selectReferenceCnt(String lectureName);
 	
 	// 자료실 상세보기
 	Reference selectReferenceOne(int referenceNo);

@@ -316,10 +316,11 @@
 	</select>
 	
 	<!-- 자료실 리스트 갯수 -->
-	<select id="selectReferenceCnt" resultType="int">
+	<select id="selectReferenceCnt" parameterType="String" resultType="int">
 		SELECT 
 			COUNT(*) cnt
-		FROM reference;
+		FROM reference
+		WHERE lecture_name = #{lectureName};
 	</select>
 	
 	<!-- 자료실 상세보기-->

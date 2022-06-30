@@ -302,7 +302,7 @@ public class LectureSerivce {
 			int currentPage = (int)map.get("currentPage");
 			int rowPerPage = (int)map.get("rowPerPage");
 			int beginRow = (currentPage-1) * rowPerPage;
-			int totalCount = lectureMapper.selectReferenceCnt();
+			int totalCount = lectureMapper.selectReferenceCnt(lectureName);
 			int lastPage = totalCount / rowPerPage;
 			if(totalCount % rowPerPage != 0) {
 				lastPage = (totalCount / rowPerPage) + 1;

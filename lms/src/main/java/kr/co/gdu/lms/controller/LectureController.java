@@ -548,28 +548,28 @@ public class LectureController {
 	}
 	
 	// 자료실 수정
-	@GetMapping("/updateAddReferenceForm")
-	public String updateAddReferenceForm(Model model
+	@GetMapping("/updateReferenceForm")
+	public String updateReferenceForm(Model model
 										,@RequestParam(name = "referenceNo") int referenceNo) {
 		log.debug(CF.HJI+"LectureController.updateAddReferenceForm referenceNo : "+referenceNo+CF.RS);
 		Map<String, Object> map = lectureService.getReferenceOne(referenceNo);
 		Reference reference = (Reference)(map.get("reference"));
 		List<ReferenceFile> referenceFilelist = (List<ReferenceFile>)(map.get("referenceFilelist"));
 
-		log.debug(CF.HJI+"LectureController.updateAddReferenceForm reference : "+reference+CF.RS);
-		log.debug(CF.HJI+"LectureController.updateAddReferenceForm referenceFilelist : "+referenceFilelist+CF.RS);
+		log.debug(CF.HJI+"LectureController.updateReferenceForm reference : "+reference+CF.RS);
+		log.debug(CF.HJI+"LectureController.updateReferenceForm referenceFilelist : "+referenceFilelist+CF.RS);
 
 		model.addAttribute("referenceFilelist", referenceFilelist);
 		model.addAttribute("reference", reference);
-	return "/lecture/updateAddReferenceForm";
+	return "/lecture/updateReferenceForm";
 	}
 	
-	@PostMapping("/updateAddReferenceAction")
-	public String updateAddReferenceAction(Model model, HttpServletRequest request
+	@PostMapping("/updateReferenceAction")
+	public String updateReferenceAction(Model model, HttpServletRequest request
 											,@RequestParam(name = "referenceNo") int referenceNo
 											,ReferenceForm referenceForm) {
-		log.debug(CF.HJI+"LectureController.updateAddReferenceAction referenceNo : "+referenceNo+CF.RS);
-		log.debug(CF.HJI+"LectureController.updateAddReferenceAction referenceForm : "+referenceForm+CF.RS);
+		log.debug(CF.HJI+"LectureController.updateReferenceAction referenceNo : "+referenceNo+CF.RS);
+		log.debug(CF.HJI+"LectureController.updateReferenceAction referenceForm : "+referenceForm+CF.RS);
 
 		String path = request.getServletContext().getRealPath("/file/refeneceFile/");
 		// 추가사진까지 내용 수정
