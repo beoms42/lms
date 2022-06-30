@@ -71,13 +71,12 @@
                 			<div class="card-body">
 				                 <h4 class="card-title">취업 공고</h4>
 				                   <div id="addJobListDivOne" class="row">
-				             
 				                   </div>
-				                 </div>
+				                </div>
 				            </div>
 				       	</div>
-				       	 <button id="reducePage">이전</button>
-				       	 <button id="addPage">다음</button>
+				       	<button id="reducePage">이전</button>
+				       	<button id="addPage">다음</button>
 					</div>
 				</div>
 			</div>
@@ -100,8 +99,6 @@
 </div>
 </div>
 </div>
-</div>
-
   <!-- plugins:js -->
   <script src="${pageContext.request.contextPath}/vendors/js/vendor.bundle.base.js"></script>
   <!-- endinject -->
@@ -180,47 +177,85 @@
             console.log(e);
          }
       });
-    	$('#button').click(function() {
-    		$('#job').empty();
-    		  
-    		  
-  		 
+
+		  $('#addJobListDivOne').ready(function() {
+	
+			
   		  //xhr.send('')
   	  });
-        
-    	
-    	$(function(){
-    		
-    		var xhr = new XMLHttpRequest();
-  		  var url = '${pageContext.request.contextPath}'; /*URL*/
-  		  xhr.open('GET', url);
-  		  xhr.onreadystatechange = function () {
-  		  if (this.readyState == xhr.DONE) { // <== 정상적으로 준비되었을때
-  		  if(xhr.status == 200||xhr.status == 201){ // <== 호출 상태가 정상적일때
-  		  alert('Status: '+this.status+
-  		  '\nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+
-  		  '\nBody: '+this.responseText);
-  		   		}
-  			}
-  		}
-  		  var totalCount;
+	    	
+		    	$(function(){
+		    		
+		    	  var xhr = new XMLHttpRequest();
+		  		  var url = '${pageContext.request.contextPath}'; /*URL*/
+		  		  xhr.open('GET', url);
+		  		  xhr.onreadystatechange = function () {
+		  		  if (this.readyState == xhr.DONE) { // <== 정상적으로 준비되었을때
+		  		  if(xhr.status == 200||xhr.status == 201){ // <== 호출 상태가 정상적일때
+		  		  alert('Status: '+this.status+
+		  		  '\nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+
+		  		  '\nBody: '+this.responseText);
+	  		    }
+	  	     }
+	  	 }
+	  		  
+	    	  	 	$.ajax({
+	  				type:'get'
+	  				, url : '/lms/adRestController'
+	  				, data : {currentPage : currentPage, rowPerPage : rowPerPage}
+	  				, success:function(a){
+	  					console.log(typeof(a));
+	  					console.log(a);
+	  						var a2 = JSON.parse(a);
+	  						 console.log(a2);
+	  						  var arr = a2.GetJobInfo.row; 
+	  					  
+	  						//let arr = a2.results.JO_REGIST_NO;
+	  						console.log(arr);
+
+	  						totalCount = a2.GetJobInfo.list_total_count;
+	  						
+	  						console.log(totalCount);
+	  						for(let i=0; i<arr.length; i++) {
+	  									
+	  					$('#addJobListDivOne').append("<div class='col-lg-3 text-center' style='border : 1px solid #555555;'>\
+	  						<button class='btn btn-info ' type='button'  aria-haspopup='true' aria-expanded='true'>"+arr[i].CMPNY_NM+"</button>\
+	  						<a class='dropdown-item' href='#'>"+arr[i].BSNS_SUMRY_CN+"</a>\
+	  						<a class='dropdown-item' href='#'>"+arr[i].HOPE_WAGE+"</a>\
+	  						<a class='dropdown-item' href='#'>"+arr[i].RCEPT_CLOS_NM+"</a><br>\
+	  						<a class='dropdown-item' href='#'>"+arr[i].WORK_PARAR_BASS_ADRES_CN+"</a></div>");
+	  					}
+	  					
+	  							currentPage+=12;
+	  							rowPerPage+=12;
+	  						console.log(currentPage);
+	  						console.log(rowPerPage);
+	  				  			
+	  						}
+
+	    			})
+	      	});
+	  		  
+	  	  	
+  		var totalCount;
   		let currentPage =1;
   		let rowPerPage =12;
-  		$('#addPage').click(function() {
-  		//	$('#reducePage').click(function() { 
-  			//.ready(function()
-  			$('#addJobListDivOne').empty();
-  			$.ajax({
+  		
+  			  $('#addPage').click (function() {
+  	  		//	$('#reducePage').click(function() { 
+  	  			//.ready(function()
+  	  			$('#addJobListDivOne').empty();
+  	  			$.ajax({
 				type:'get'
-				, url : url+'/adRestController'
+				, url : '/lms/adRestController'
 				, data : {currentPage : currentPage, rowPerPage : rowPerPage}
 				, success:function(a){
 					console.log(typeof(a));
 					console.log(a);
 						var a2 = JSON.parse(a);
-						console.log(a2);
+						 console.log(a2);
 						  var arr = a2.GetJobInfo.row; 
-						  
+					  
 						//let arr = a2.results.JO_REGIST_NO;
 						console.log(arr);
 
@@ -228,16 +263,6 @@
 						
 						console.log(totalCount);
 						for(let i=0; i<arr.length; i++) {
-							// console.log(arr[i].CMPNY_NM);
-						     // $('#list').append('<div>'+arr[i].RCRIT_JSSFC_CMMN_CODE_SE+'</div>'); 
-						     
-						     //addJobListDiv
-						     
-						     // <a class="dropdown-item" href="#">Action</a>
-/* 						     if(arr[i].RCRIT_JSSFC_CMMN_CODE_SE >= 130000 && arr[i].RCRIT_JSSFC_CMMN_CODE_SE < 140000) { */
-								// $('#addJobListDiv').append('<div>'+arr[i].CMPNY_NM+'</div>');
-								//셀렉트처리   $('#addJobListDivOne2').append('<div class="dropdown-item" name="jobName" >'+arr[i].CMPNY_NM+'</div>');
-								//테이블처리	$('#addJobListDivOne2').append('<td>'+arr[i].CMPNY_NM+'</td>');
 									
 									
 					$('#addJobListDivOne').append("<div class='col-lg-3 text-center' style='border : 1px solid #555555;'>\
@@ -246,8 +271,6 @@
 						<a class='dropdown-item' href='#'>"+arr[i].HOPE_WAGE+"</a>\
 						<a class='dropdown-item' href='#'>"+arr[i].RCEPT_CLOS_NM+"</a><br>\
 						<a class='dropdown-item' href='#'>"+arr[i].WORK_PARAR_BASS_ADRES_CN+"</a></div>");
-					
-					
 					}
 					
 							currentPage+=12;
@@ -255,27 +278,10 @@
 						console.log(currentPage);
 						console.log(rowPerPage);
 				  			
-					
-	
-
-/* 								} */
-							/* 
-							if(arr[i].RCRIT_JSSFC_CMMN_CODE_SE == 133201) {
-								$('#job').append('<div>'+arr[i].CMPNY_NM+'</div>');
-							} else if(arr[i].RCRIT_JSSFC_CMMN_CODE_SE == 132000) {
-								$('#job').append('<div>'+arr[i].CMPNY_NM+'</div>');
-							} else if(arr[i].RCRIT_JSSFC_CMMN_CODE_SE == 415504) {
-								$('#job').append('<div>'+arr[i].CMPNY_NM+'</div>');
-							} else if(arr[i].RCRIT_JSSFC_CMMN_CODE_SE == 131203) {
-								$('#job').append('<div>'+arr[i].CMPNY_NM+'</div>');
-							} else if(arr[i].RCRIT_JSSFC_CMMN_CODE_SE == 134102 ) {
-								$('#job').append('<div>'+arr[i].CMPNY_NM+'</div>');
-							} */
 						}
 				
 
   			})
-    	});
     	});
   </script>
 </body>

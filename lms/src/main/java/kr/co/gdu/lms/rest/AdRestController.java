@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdRestController {
 @GetMapping("/adRestController")
 public String adRestController(@RequestParam(value="currentPage",defaultValue = "1")int currentPage
-								,@RequestParam(value="rowPerPage",defaultValue = "12")int rowPerPage) throws IOException {
+							  ,@RequestParam(value="rowPerPage",defaultValue = "12")int rowPerPage) throws IOException {
 
 
 StringBuilder urlBuilder = new StringBuilder("http://openapi.seoul.go.kr:8088/685a675356656a72363446704b5a72/Json/GetJobInfo/"+currentPage+"/"+rowPerPage+"/"); 
