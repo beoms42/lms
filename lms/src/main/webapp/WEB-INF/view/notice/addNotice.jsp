@@ -95,7 +95,7 @@
 									</td>
 								</tr>
 						   </table>
-						   <button class="btn btn-Primary float-right">공지사항 입력</button>
+						   <button class="btn btn-primary float-right">공지사항 입력</button>
 	                  </form>
                   </div>
                 </div>

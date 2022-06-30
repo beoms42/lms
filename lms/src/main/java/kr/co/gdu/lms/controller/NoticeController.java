@@ -69,13 +69,8 @@ public class NoticeController {
 	}
 	
 	// 공지사항 입력 폼
-	@GetMapping("/loginCheck/addNotice")
+	@GetMapping("/loginCheck/AdminManagerCheck/addNotice")
 	public String addNotice(HttpSession session) {
-		
-		// 주소통해 학생, 강사 들어왔을시 다시 리스트로 보내기
-		if((int)session.getAttribute("sessionLv") < 3) {
-			return "redirect:/loginCheck/getNoticeListByPage";
-		}
 		
 		return "notice/addNotice";
 	}
@@ -86,11 +81,6 @@ public class NoticeController {
 						, HttpServletRequest request
 						, NoticeForm noticeForm) {
 		
-		// 주소통해 학생, 강사 들어왔을시 다시 리스트로 보내기
-		if((int)session.getAttribute("sessionLv") < 3) {
-			return "redirect:/loginCheck/getNoticeListByPage";
-		}
-				
 		log.debug(CF.OHI+"NoticeController.addNotice.param noticeForm : "+noticeForm+CF.RS);
 		
 		//세션에 담긴 아이디 담기
@@ -110,7 +100,7 @@ public class NoticeController {
 	}
 	
 	// 공지사항 수정 폼
-	@GetMapping("/loginCheck/modifyNotice")
+	@GetMapping("/loginCheck/AdminManagerCheck/modifyNotice")
 	public String modifyNotice(Model model
 							, HttpSession session
 							, @RequestParam(value="noticeNo") int noticeNo) {
@@ -137,12 +127,7 @@ public class NoticeController {
 	public String modifyNotice(HttpSession session 
 							, HttpServletRequest request
 							, NoticeForm noticeForm) {
-		
-		// 주소통해 학생, 강사 들어왔을시 다시 리스트로 보내기
-		if((int)session.getAttribute("sessionLv") < 3) {
-			return "redirect:/loginCheck/getNoticeListByPage";
-		}
-		
+	
 		log.debug(CF.OHI+"NoticeController.modifyNotice.param noticeForm : "+noticeForm+CF.RS);
 		
 		//세션에 담긴 아이디 담기
@@ -165,15 +150,10 @@ public class NoticeController {
 	}
 	
 	// 공지사항 삭제 액션
-	@GetMapping("/loginCheck/deleteNotice")
+	@GetMapping("/loginCheck/AdminManagerCheck/deleteNotice")
 	public String deleteNotice(HttpSession session
 							, HttpServletRequest request
 							, @RequestParam(value="noticeNo") int noticeNo) {
-		
-		// 주소통해 학생, 강사 들어왔을시 다시 리스트로 보내기
-		if((int)session.getAttribute("sessionLv") < 3) {
-			return "redirect:/loginCheck/getNoticeListByPage";
-		}
 		
 		log.debug(CF.OHI+"NoticeController.deleteNotice.param noticeNo : "+noticeNo+CF.RS);
 		

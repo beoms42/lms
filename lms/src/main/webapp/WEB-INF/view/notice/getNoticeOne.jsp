@@ -96,7 +96,7 @@
 						</div>
 						<c:if test="${sessionLv >= 3}">
 							<div class="float-right top bottom right">
-						    <a class="btn btn-info" href="${pageContext.request.contextPath}/loginCheck/modifyNotice?noticeNo=${notice.noticeNo}">수정</a>
+						    <a class="btn btn-info" href="${pageContext.request.contextPath}/loginCheck/AdminManagerCheck/modifyNotice?noticeNo=${notice.noticeNo}">수정</a>
 						    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteNoticeModal">삭제</button>
 					    </div>
 						</c:if>
@@ -120,7 +120,7 @@
 			       	공지사항을 삭제하시겠습니까?
 			      </div>
 			      <div class="modal-footer">
-				      <a class="btn btn-danger" href="${pageContext.request.contextPath}/loginCheck/deleteNotice?noticeNo=${notice.noticeNo}">삭제하기</a>
+				      <a class="btn btn-danger" href="${pageContext.request.contextPath}/loginCheck/AdminManagerCheck/deleteNotice?noticeNo=${notice.noticeNo}">삭제하기</a>
 				      <button type="button" class="btn btn-secondary" data-dismiss="modal">취소하기</button>
 			      </div>
 			    </div>
