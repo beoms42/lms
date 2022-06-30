@@ -37,6 +37,10 @@
 		
 		
 	</select>
+	<delete id="deleteAssignmentfile"
+			parameterType="int">
+		DELETE FROM assignment_file WHERE assignment_exam_no = #{assignmentExamNo}
+	</delete>
 
 
 </mapper>

@@ -33,4 +33,5 @@ public interface AssignmentMapper {
 	void deleteAssignment(int assignmentExamNo);
 	String selectLectureName(String loginId);
 	List<Lecture> selectLectureNameList();
+	void deleteAssignmentSubmit(int assignmentExamNo);
 }

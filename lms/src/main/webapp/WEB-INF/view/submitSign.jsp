@@ -35,16 +35,15 @@
        <div class="col-md-6 offset-md-3 mt-5">
            <div class="card">
                <div class="card-header">
-                   <h5>How To Create Signature Pad Using jQuery Plugin</h5>
+                   <h5>서명</h5>
                </div>
                <div class="card-body">
                   <div class="col-md-12">
                       <label class="" for="">Draw Signature:</label>
                       <div id="sigpad"></div>
                       <br><br><br>
-                      <button id="clear" class="btn btn-danger">Clear Signature</button>
-					 	<button id="disable">Disable</button> 
-						<button id="json" type="button">To JSON</button>
+                      <button id="clear" class="btn btn-danger">초기화</button>
+						<button id="json" type="button">제출</button>
                       <textarea id="signature" name="signed" style="display: none"></textarea>
                   </div>
                 </div>
@@ -70,19 +69,13 @@
     });
     $(function() {
     	var sig = $('#sigpad').signature();
-    	$('#disable').click(function() {
-    		var disable = $(this).text() === 'Disable';
-    		$(this).text(disable ? 'Enable' : 'Disable');
-    		sigpad.signature(disable ? 'disable' : 'enable');
-    	});
     	$('#clear').click(function() {
     		sigpad.signature('clear');
     	});
     	$('#json').click(function() {
-    		alert(sigpad.signature('toDataURL'));
     		var ImageURL = sigpad.signature('toDataURL');
     		console.log(ImageURL);
-    		$('#photoSection').append("<input type=text value='"+ImageURL+"' name='ImageURL'>")
+    		$('#photoSection').append("<input type='hidden' value='"+ImageURL+"' name='ImageURL'>")
     		var block = ImageURL.split(";");
     		console.log(block);
     		var contentType = block[0].split(":")[1];     // In this case "image/gif"

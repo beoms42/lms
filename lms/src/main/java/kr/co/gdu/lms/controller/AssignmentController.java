@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.service.AssignmentService;
@@ -41,6 +42,11 @@ public class AssignmentController {
 		
 		int edcuationNo = assingmentservice.getEducationNo(sessionMemberId);
 		String lectureName=assingmentservice.getLectureName(sessionMemberId);
+		log.debug(CF.GMC+"AssignmentController.getAssignment lectureName"+lectureName+CF.RS);
+		if(request.getParameter("lectureName")!=null) {
+			log.debug(CF.GMC+"AssignmentController.getAssignment lectureName"+lectureName+CF.RS);
+			lectureName=(String)request.getParameter("lectureName");
+		}
 		
 		Map<String,Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("assignmentCurrentPage", assignmentCurrentPage);
@@ -71,8 +77,12 @@ public class AssignmentController {
 		HttpSession session = request.getSession();
 		String sessionMemberId=(String)session.getAttribute("sessionId");
 		int level = (int)session.getAttribute("sessionLv");
-		
-
+		String lectureName=assingmentservice.getLectureName(sessionMemberId);
+		if(request.getParameter("lectureName")!=null) {
+			log.debug(CF.GMC+"AssignmentController.getAssignment lectureName"+lectureName+CF.RS);
+			lectureName=(String)request.getParameter("lectureName");
+		}
+		model.addAttribute("lectureName",lectureName);
 		return "/assignment/addAssignmentExam";
 			
 	}
@@ -90,7 +100,11 @@ public class AssignmentController {
 	
 		
 		int edcuationNo = assingmentservice.getEducationNo(sessionMemberId);
-		
+		String lectureName=assingmentservice.getLectureName(sessionMemberId);
+		if(request.getParameter("lectureName")!=null) {
+			log.debug(CF.GMC+"AssignmentController.getAssignment lectureName"+lectureName+CF.RS);
+			lectureName=(String)request.getParameter("lectureName");
+		}
 		assignmentAddForm.setEducationNo(edcuationNo);
 		//아이디 세션 값 디버깅
 		log.debug(CF.GMC+"AssignmentController.addAssignmentExam loginId:"+sessionMemberId + CF.GMC);
@@ -113,6 +127,7 @@ public class AssignmentController {
 		row = assingmentservice.addAssignment(assignmentAddForm, path);
 		log.debug("assingmentController.row : ", row);
 	
+		model.addAttribute("lectureName",lectureName);
 		model.addAttribute("level",level);
 		return "redirect:/loginCheck/getAssignmentExam";
 	}
@@ -120,13 +135,26 @@ public class AssignmentController {
 	@GetMapping("/loginCheck/getAssignmentOne")
 	public String getAssignmentOne(Model model
 									,HttpServletRequest request
-									,@RequestParam (name="assignmentExamNo") int assignmentExamNo) {
+									,@RequestParam (name="assignmentExamNo") int assignmentExamNo
+									,@RequestParam(name="lectureName",defaultValue="자바") String lectureName) {
 		log.debug(CF.GMC+"AssignmentController.getAssignmentOne assignmentExamNo : "+assignmentExamNo + CF.RS);
 		HttpSession session = request.getSession();
 		String sessionMemberId=(String)session.getAttribute("sessionId");
 		int level = (int)session.getAttribute("sessionLv");
+		//과목명 받아오는 부분
+		if(level < 3 ) {
+			lectureName=assingmentservice.getLectureName(sessionMemberId);
+		}
+		int edcuationNo = assingmentservice.getEducationNo(sessionMemberId);
+		if(request.getParameter("lectureName")!=null) {
+			log.debug(CF.GMC+"AssignmentController.getAssignment lectureName"+lectureName+CF.RS);
+			lectureName=(String)request.getParameter("lectureName");
+		}
+		
 		
 		Map<String,Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("lectureName", lectureName);
+		paramMap.put("educationNo", edcuationNo);
 		paramMap.put("loginId", sessionMemberId);
 		paramMap.put("assignmentExamNo", assignmentExamNo);
 		
@@ -138,8 +166,7 @@ public class AssignmentController {
 		}
 		List<AssignmentSubmit> assignmentSubmit = assingmentservice.getAssignmentSubmit(paramMap);
 		List<AssignmentSubmit> assignmentSubmitTeacher = assingmentservice.getAssignmentSubmitTeacher(paramMap);
-		String lectureName=assingmentservice.getLectureName(sessionMemberId);
-		
+
 		model.addAttribute("lectureName",lectureName);
 		model.addAttribute("assignmentList", (List<AssignmentExam>)returnMap.get("assignmentList"));
 		model.addAttribute("assignmentSubmitTeacher",assignmentSubmitTeacher);
@@ -224,6 +251,11 @@ public class AssignmentController {
 		
 		int edcuationNo = assingmentservice.getEducationNo(sessionMemberId);
 		String lectureName=assingmentservice.getLectureName(sessionMemberId);
+		if(request.getParameter("lectureName")!=null) {
+			log.debug(CF.GMC+"AssignmentController.getAssignment lectureName"+lectureName+CF.RS);
+			lectureName=(String)request.getParameter("lectureName");
+		}
+		
 		
 		Map<String,Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("assignmentCurrentPage", assignmentCurrentPage);
@@ -250,40 +282,28 @@ public class AssignmentController {
 		return "/assignment/assignmentExam";
 	}
 
-	//점수 입력 JSP ->
-	@GetMapping("/loginCheck/updateScore")
-	public String updateScore(HttpServletRequest request
+	//점수 입력
+	@GetMapping("/loginCheck/getScore")
+	public String getScore(HttpServletRequest request
 								,Model model
-								,AssignmentSubmit assignmentsubmit) {		
+								,@RequestParam (name="assignmentSubmitScore") int assignmentSubmitScore
+								,@RequestParam (name="educationNo") int educationNo
+								,@RequestParam (name="assignmentExamNo") int assignmentExamNo
+								,@RequestParam (name="lectureName") String lectureName
+								,RedirectAttributes redirect) {		
 		HttpSession session = request.getSession();
 		String sessionMemberId=(String)session.getAttribute("sessionId");
 		int level = (int)session.getAttribute("sessionLv");
-		
-		
-		
-		
-		return "/assignment/updateScore";
-	}
-	//점수 입력 후 과제 리스트 ->
-	@PostMapping("/loginCheck/updateScore")
-	public String updateScore(HttpServletRequest request
-							,AssignmentSubmit assignmentsubmit) {		
-
-		HttpSession session = request.getSession();
-		String loginId=(String)session.getAttribute("sessionId");
-		int level = (int)session.getAttribute("sessionLv");
-		int educationNo = assingmentservice.getEducationNo(loginId);
-		//Score update where문 조건
-		Map<String,Object> paramMap = new HashMap<>();
-		paramMap.put("assignmentSubmitScore", assignmentsubmit.getAssignmentSubmitScore());
-		paramMap.put("assignmentExamNo", assignmentsubmit.getAssignmentExamNo());
+		Map<String,Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("assignmentExamNo", assignmentExamNo);
 		paramMap.put("educationNo", educationNo);
-		
-		
-		
-		
-		return "/assignment/assignmentExam";
+		paramMap.put("assignmentSubmitScore", assignmentSubmitScore);
+		assingmentservice.modifyScore(paramMap);
+		redirect.addAttribute("lectureName", lectureName);
+		redirect.addAttribute("assignmentExamNo", assignmentExamNo);
+		return "redirect:/loginCheck/getAssignmentOne";
 	}
+
 	//수정 폼
 	@GetMapping("/loginCheck/modifyAssignment")
 	public String modifyAssignment(Model model
@@ -293,10 +313,18 @@ public class AssignmentController {
 		HttpSession session = request.getSession();
 		String sessionMemberId=(String)session.getAttribute("sessionId");
 		int level = (int)session.getAttribute("sessionLv");
+		String lectureName=assingmentservice.getLectureName(sessionMemberId);
+		if(request.getParameter("lectureName")!=null) {
+			log.debug(CF.GMC+"AssignmentController.getAssignment lectureName"+lectureName+CF.RS);
+			lectureName=(String)request.getParameter("lectureName");
+		}
+		
+		int edcuationNo = assingmentservice.getEducationNo(sessionMemberId);
 		
 		Map<String,Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("loginId", sessionMemberId);
 		paramMap.put("assignmentExamNo", assignmentExamNo);
+		paramMap.put("educationNo", edcuationNo);
 		Map<String,Object> returnMap = assingmentservice.getAssignmentOne(paramMap);
 		List<AssignmentFile> fileList = (List<AssignmentFile>)returnMap.get("assignmentListFile");
 		for(AssignmentFile f :fileList) {
@@ -304,6 +332,7 @@ public class AssignmentController {
 		}
 		List<AssignmentSubmit> assignmentSubmit = assingmentservice.getAssignmentSubmit(paramMap);
 		
+		model.addAttribute("lectureName",lectureName);
 		model.addAttribute("assignmentList", (List<AssignmentExam>)returnMap.get("assignmentList"));
 		model.addAttribute("fileList",fileList);
 		model.addAttribute("assignmentSubmit",assignmentSubmit);
@@ -316,24 +345,33 @@ public class AssignmentController {
 	public String modifyAssignment(Model model
 									,HttpServletRequest request
 									,@RequestParam (name="assignmentExamNo") int assignmentExamNo
-									,AssignmentExam assignmentExam) {
+									,AssignmentExam assignmentExam
+									,@RequestParam (name="lectureName") String lectureName) {
 		assignmentExam.setAssignmentExamNo(assignmentExamNo);
 		assingmentservice.modifiyAssignmentExam(assignmentExam);
 		log.debug(CF.GMC+"AssignmentController.getAssignmentOne assignmentExamNo : "+assignmentExamNo + CF.RS);
 		HttpSession session = request.getSession();
 		String sessionMemberId=(String)session.getAttribute("sessionId");
 		int level = (int)session.getAttribute("sessionLv");
+		int edcuationNo = assingmentservice.getEducationNo(sessionMemberId);
 		
 		Map<String,Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("educationNo",edcuationNo);
+		log.debug(CF.GMC+"AssignmentController.getAssignmentmodifty lectureName : "+lectureName + CF.RS);
 		paramMap.put("loginId", sessionMemberId);
 		paramMap.put("assignmentExamNo", assignmentExamNo);
+		paramMap.put("lectureName", lectureName);
 		Map<String,Object> returnMap = assingmentservice.getAssignmentOne(paramMap);
 		List<AssignmentFile> fileList = (List<AssignmentFile>)returnMap.get("assignmentListFile");
 		for(AssignmentFile f :fileList) {
 			log.debug(CF.GMC+f.getAssignmentExamNo()+CF.RS);
 		}
 		List<AssignmentSubmit> assignmentSubmit = assingmentservice.getAssignmentSubmit(paramMap);
+		List<AssignmentSubmit> assignmentSubmitTeacher = assingmentservice.getAssignmentSubmitTeacher(paramMap);
 		
+		
+		model.addAttribute("assignmentSubmitTeacher",assignmentSubmitTeacher);
+		model.addAttribute("lectureName",lectureName);
 		model.addAttribute("assignmentList", (List<AssignmentExam>)returnMap.get("assignmentList"));
 		model.addAttribute("fileList",fileList);
 		model.addAttribute("assignmentSubmit",assignmentSubmit);
@@ -343,6 +381,8 @@ public class AssignmentController {
 	}
 	@GetMapping("/loginCheck/deleteAssignment")
 	public String deleteAssignment(@RequestParam (name="assignmentExamNo") int assignmentExamNo ) {
+		assingmentservice.deleteAssignmentfile(assignmentExamNo);
+		assingmentservice.deleteAssignmentSubmit(assignmentExamNo);
 		assingmentservice.deleteAssignment(assignmentExamNo);
 		return "redirect:/loginCheck/getAssignmentExam";
 	}

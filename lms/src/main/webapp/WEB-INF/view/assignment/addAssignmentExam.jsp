@@ -38,6 +38,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/vertical-layout-light/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/tftace.jpg" />
+
 </head>
 <body>
   <div class="container-scroller">
@@ -72,7 +73,7 @@
 									<table class="table table-striped">
 										<tr>
 											<td>과목</td>
-											<td><input type="text" name="lectureName" id="lectureName"></td>
+											<td><input type="text" name="lectureName" id="lectureName" readonly="readonly" value="${lectureName}"></td>
 										</tr>
 										<tr>
 											<td>제목</td>
@@ -80,12 +81,12 @@
 										</tr>
 										<tr>
 											<td>기한</td>
-											<td><input type="date" name="assignmentDeadLine">까지</td>
+											<td><input type="date" name="assignmentDeadLine" id="assignmentDeadLine">까지</td>
 										</tr>
 										<tr>
 											<td>내용</td>
 											<td>
-												<textarea name="assignmentExamContent" id="summernote"></textarea>
+												<textarea name="assignmentExamContent"  id="summernote"></textarea>
 												<script>
 													$('#summernote').summernote({
 													  tabsize: 2,
@@ -101,7 +102,7 @@
 							
 									</table>
 	
-									<button type="submit" class="btn btn-primary" >입력</button>
+									<button type="button" class="btn btn-primary" id="addAssignment" >입력</button>
 								</form>
 								</div>
 							</div>
@@ -139,6 +140,23 @@
     </div>   
     <!-- page-body-wrapper ends -->
   </div>
+  <script>
+	  $('#addAssignment').click(function(){
+			if($('#assignmentExamTitle').val() == ""){
+				$('#assignmentExamTitle').focus();
+				return;
+			}
+			if($('#assignmentDeadLine').val() == ""){
+				$('#assignmentDeadLine').focus();
+				return;
+			}
+			if($('#summernote').val() == ""){
+				$('#summernote').focus();
+				return;
+			}
+			$('#addForm').submit();
+		});
+  </script>
   <!-- container-scroller -->
 
   <!-- container-scroller -->

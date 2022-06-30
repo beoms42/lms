@@ -63,6 +63,7 @@
         <jsp:include page="/inc/sidebar.jsp"/>
       </nav>
       <!-- partial -->
+   
       <div class="main-panel">
         <div class="content-wrapper">
           <div class="row">
@@ -73,11 +74,19 @@
 		              <div class="card">
 		                <div class="card-body">
 		                  <h4 class="card-title">${lectureName}</h4>
+		                     <c:if test="${level>2}">
+						      	<select id="lectureName"  onchange="window.open(value,'blank');">
+						      		<option value="">과목 선택</option>
+						      		<c:forEach var="m" items="${lectureNameList}">
+						      			<option value="${pageContext.request.contextPath}/loginCheck/getAssignmentExam?lectureName=${m.lectureName}">${m.lectureName}</option>
+						      		</c:forEach>
+						      	</select>
+						      </c:if>
 		                  <p class="card-description">
 		                  </p>
 		                  <div class="table-responsive">
 							<div class="container">
-						 		<form action="${pageContext.request.contextPath}/loginCheck/getAssignmentExam" method="post">
+						 		<form action="${pageContext.request.contextPath}/loginCheck/getAssignmentExam?lectureName=${lectureName}" method="post">
 						 					<table class="table table-hover">
 													<thead>
 														<tr>
@@ -89,7 +98,7 @@
 													<tbody>
 															<c:forEach var="m" items="${assignmentExamList}" >								
 															<tr>
-																<td><a href="${pageContext.request.contextPath}/loginCheck/getAssignmentOne?assignmentExamNo=${m.assignmentExamNo}">${m.assignmentExamTitle}</a></td>
+																<td><a href="${pageContext.request.contextPath}/loginCheck/getAssignmentOne?assignmentExamNo=${m.assignmentExamNo}&lectureName=${lectureName}">${m.assignmentExamTitle}</a></td>
 																<td>${m.createDate}</td>
 																<td>${m.assignmentDeadLine}</td>
 															
@@ -143,10 +152,8 @@
   <!-- plugins:js -->
   <script src="${pageContext.request.contextPath}/vendors/js/vendor.bundle.base.js"></script>
 <script>
-    function changeBoard(value) {
-
-        location.href = "/loginCheck/getAssignmentExam?lectureName=" + value;
-    }
+	var selectValue = document.getElementById('selectBox').value;
+	alert(selectValue);
 </script>
   <!-- endinject -->
   <!-- Plugin js for this page -->
