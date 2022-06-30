@@ -72,12 +72,13 @@
 				                   <div id="addJobListDivOne" class="row">
 				                   </div>
 				                </div>
+				                
 				            </div>
+				            <div style=" text-align: center;">
+				            <button id="reducePage" class="btn btn-outline-dark btn-fw">이전</button>
+				       		<button id="addPage" class="btn btn-outline-dark btn-fw">다음</button>
 				       	</div>
-			           
-				        	<button id="reducePage">이전</button>
-				       	 
-				       	<button id="addPage">다음</button>
+				      </div>
 					</div>
 				</div>
 			</div>
@@ -212,7 +213,7 @@
 	  						for(let i=0; i<arr.length; i++) {
 	  									
 	  					$('#addJobListDivOne').append("<div class='col-lg-3 text-center' style='border : 1px solid #555555;'>\
-	  						<button class='btn btn-info ' type='button'  aria-haspopup='true' aria-expanded='true'>"+arr[i].CMPNY_NM+"</button>\
+	  						<button class='btn btn-primary ' type='button'  aria-haspopup='true' aria-expanded='true'>"+arr[i].CMPNY_NM+"</button>\
 	  						<a class='dropdown-item' href='#'>"+arr[i].BSNS_SUMRY_CN+"</a>\
 	  						<a class='dropdown-item' href='#'>"+arr[i].HOPE_WAGE+"</a>\
 	  						<a class='dropdown-item' href='#'>"+arr[i].RCEPT_CLOS_NM+"</a><br>\
@@ -254,19 +255,18 @@
 						for(let i=0; i<arr.length; i++) {
 									
 					$('#addJobListDivOne').append("<div class='col-lg-3 text-center' style='border : 1px solid #555555;'>\
-						<button class='btn btn-info ' type='button'  aria-haspopup='true' aria-expanded='true'>"+arr[i].CMPNY_NM+"</button>\
+						<button class='btn btn-primary ' type='button'  aria-haspopup='true' aria-expanded='true'>"+arr[i].CMPNY_NM+"</button>\
 						<a class='dropdown-item' href='#'>"+arr[i].BSNS_SUMRY_CN+"</a>\
 						<a class='dropdown-item' href='#'>"+arr[i].HOPE_WAGE+"</a>\
 						<a class='dropdown-item' href='#'>"+arr[i].RCEPT_CLOS_NM+"</a><br>\
 						<a class='dropdown-item' href='#'>"+arr[i].WORK_PARAR_BASS_ADRES_CN+"</a></div>");
 					}
+						//currentPage1을 +12=13, rowPerPage12 +12=24
 						currentPage+=12;
 						rowPerPage+=12;
 					console.log(currentPage);
 					console.log(rowPerPage);
-				  			
-					}
-
+				}
   			})
     	});
 	  	// 일자리 리스트 보여주는 범위 설정 currentPage 1 ~ rowPerPage 12
@@ -281,6 +281,7 @@
   			$.ajax({
 			type:'get'
 			, url : '/lms/adRestController'
+			, cache : 'false'
 			, data : {currentPage : currentPage, rowPerPage : rowPerPage}
 			, success:function(a){
 				console.log(typeof(a));
@@ -295,22 +296,20 @@
 					for(let i=0; i<arr.length; i++) {
 								
 				$('#addJobListDivOne').append("<div class='col-lg-3 text-center' style='border : 1px solid #555555;'>\
-					<button class='btn btn-info ' type='button'  aria-haspopup='true' aria-expanded='true'>"+arr[i].CMPNY_NM+"</button>\
+					<button class='btn btn-primary ' type='button'  aria-haspopup='true' aria-expanded='true'>"+arr[i].CMPNY_NM+"</button>\
 					<a class='dropdown-item' href='#'>"+arr[i].BSNS_SUMRY_CN+"</a>\
 					<a class='dropdown-item' href='#'>"+arr[i].HOPE_WAGE+"</a>\
 					<a class='dropdown-item' href='#'>"+arr[i].RCEPT_CLOS_NM+"</a><br>\
 					<a class='dropdown-item' href='#'>"+arr[i].WORK_PARAR_BASS_ADRES_CN+"</a></div>");
 				}
+					//currentPage1을 +12=13, rowPerPage12 +12=24
 					currentPage-=12;
 					rowPerPage-=12;
 				console.log(currentPage);
 				console.log(rowPerPage);
-			  			
-				}
-
+			}
 		})
 	});
-  	  		
   </script>
 </body>
 </html>

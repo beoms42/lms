@@ -314,12 +314,12 @@
 		SELECT  
 			reference_no referenceNo
 			,lecture_name lectureName
-			,teacher teacher
 			,reference_title referenceTitle
+			,reference_content referenceContent
 			,create_date createDate
 		FROM reference 
 		WHERE lecture_name = #{lectureName}
-		ORDER BY r.create_date DESC
+		ORDER BY create_date DESC
 		LIMIT #{beginRow}, #{rowPerPage};
 	</select>
 	
@@ -331,6 +331,36 @@
 			COUNT(*) cnt
 		FROM reference
 		WHERE lecture_name = #{lectureName};
+	</select>
+	
+	<!-- 강사 자료실(이름) -->
+	<select id="selectTeacherName"
+			parameterType="String" 
+			resultType="String">
+		
+		SELECT teacher_name teacherName
+		FROM teacher
+		WHERE login_id = #{loginId};
+	</select>
+	
+	<!-- 강사 자료실(강의명) -->
+	<select id="selectTeacherLectureName"
+			parameterType="String"
+			resultType="String">
+		SELECT lecture_name lectureName
+		FROM lecture
+		WHERE teacher = #{teacher};
+	</select>
+	
+	<!-- 학생 자료실 -->
+	<select id="selectStudentLectureName"
+			parameterType="String"
+			resultType="String">
+		SELECT lecture_name lectureName
+		FROM login l
+		INNER JOIN education e
+			ON l.login_id = e.login_id
+		WHERE l.login_id =#{loginId};
 	</select>
 	
 	<!-- 자료실 상세보기-->
@@ -364,6 +394,9 @@
 	<!--자료실 입력-->
 	<insert id="insertReference" 
 			parameterType="kr.co.gdu.lms.vo.Reference">
+			<selectKey resultType="int" keyProperty="referenceNo" order="AFTER">
+				SELECT last_insert_id();
+			</selectKey>
 		INSERT INTO reference(
 			reference_title
 			,reference_content
@@ -371,7 +404,7 @@
 			,create_date
 			,update_date
 		 ) VALUES (
-			#{referenceTtile}
+			#{referenceTitle}
 			,#{referenceContent} 
 			,#{lectureName}
 			,NOW()
