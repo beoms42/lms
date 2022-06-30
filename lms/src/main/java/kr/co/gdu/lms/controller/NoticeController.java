@@ -69,7 +69,7 @@ public class NoticeController {
 	}
 	
 	// 공지사항 입력 폼
-	@GetMapping("/loginCheck/AdminManagerCheck/addNotice")
+	@GetMapping("/loginCheck/adminManagerCheck/addNotice")
 	public String addNotice(HttpSession session) {
 		
 		return "notice/addNotice";
@@ -100,7 +100,7 @@ public class NoticeController {
 	}
 	
 	// 공지사항 수정 폼
-	@GetMapping("/loginCheck/AdminManagerCheck/modifyNotice")
+	@GetMapping("/loginCheck/adminManagerCheck/modifyNotice")
 	public String modifyNotice(Model model
 							, HttpSession session
 							, @RequestParam(value="noticeNo") int noticeNo) {
@@ -150,7 +150,7 @@ public class NoticeController {
 	}
 	
 	// 공지사항 삭제 액션
-	@GetMapping("/loginCheck/AdminManagerCheck/deleteNotice")
+	@GetMapping("/loginCheck/adminManagerCheck/deleteNotice")
 	public String deleteNotice(HttpSession session
 							, HttpServletRequest request
 							, @RequestParam(value="noticeNo") int noticeNo) {

@@ -15,7 +15,7 @@ import kr.co.gdu.lms.log.CF;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@WebFilter("/loginCheck/AdminManagerCheck/*")
+@WebFilter("/loginCheck/adminManagerCheck/*")
 public class AdminManagerCheckFilter implements Filter {
 
 	@Override
