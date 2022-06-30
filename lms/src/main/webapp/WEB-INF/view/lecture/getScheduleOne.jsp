@@ -65,22 +65,22 @@
 					        <tbody>
 					        	<tr>
 									<th>강의</th>
-									<td>${getScheduleOne.lectureName}</td>
+									<td>${getScheduleOneMap.lectureName}</td>
 								</tr>
 								<tr>
 									<th>과목</th>
-									<td>${getScheduleOne.subjectName}</td>
+									<td>${getScheduleOneMap.subjectName}</td>
 								</tr>
 								<tr>
 									<th>시간표</th>
-									<td>${getScheduleOne.scheduleDate}</td>
+									<td>${getScheduleOneMap.scheduleDate}</td>
 								</tr>
 								<tr>
 									<td>
-										<a class="btn btn-primary" href="${pageContext.request.contextPath}/loginCheck/modifySchedule?scheduleNo=${getScheduleOne.scheduleNo}&y=${y}&m=${m}">수정</a>
+										<a class="btn btn-primary" href="${pageContext.request.contextPath}/loginCheck/modifySchedule?scheduleNo=${getScheduleOneMap.scheduleNo}&y=${y}&m=${m}">수정</a>
 											<button  class="btn btn-danger" type="button" class="site-btn" data-toggle="modal" data-target="#deleteScheduleModal">삭제</button>
 										<c:if test="${LoginLv > 2}">
-											<a class="btn btn-primary" href="${pageContext.request.contextPath}/loginCheck/modifySchedule?scheduleNo=${getScheduleOne.scheduleNo}&y=${y}&m=${m}">수정</a>
+											<a class="btn btn-primary" href="${pageContext.request.contextPath}/loginCheck/modifySchedule?scheduleNo=${getScheduleOneMap.scheduleNo}&y=${y}&m=${m}">수정</a>
 											<button  class="btn btn-danger" type="button" class="site-btn" data-toggle="modal" data-target="#deleteScheduleModal">삭제</button>
 										</c:if>
 										<a class="btn bg-dark text-white" href="${pageContext.request.contextPath}/loginCheck/getSheduleListByMonth?y=${y}&m=${m}">취소</a>
@@ -102,7 +102,7 @@
 						       	 	시간표를 삭제하시겠습니까?
 							      </div>
 							      <div class="modal-footer">
-								      <a class="btn btn-danger" href="${pageContext.request.contextPath}/loginCheck/removeSchedule?scheduleNo=${getScheduleOne.scheduleNo}&y=${y}&m=${m}">삭제</a>
+								      <a class="btn btn-danger" href="${pageContext.request.contextPath}/loginCheck/removeSchedule?scheduleNo=${getScheduleOneMap.scheduleNo}&y=${y}&m=${m}">삭제</a>
 								      <button type="button" class="btn btn-Warning" data-dismiss="modal">취소하기</button>
 								 </div>
 				

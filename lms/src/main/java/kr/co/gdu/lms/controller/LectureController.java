@@ -301,21 +301,19 @@ public class LectureController {
 		log.debug(CF.HJI+"LectureController.getSheduleListByMonth sessionLv : "+loginLv+CF.RS);
 		
 		// 실행
-		Map<String, Object> scheduleList = lectureService.getSheduleListByMonth(y, m, loginLv, loginId);
-		log.debug(CF.HJI+"LectureController.getSheduleListByMonth scheduleList : "+scheduleList+CF.RS);
+		Map<String, Object> scheduleMap = lectureService.getSheduleListByMonth(y, m, loginLv, loginId);
+		log.debug(CF.HJI+"LectureController.getSheduleListByMonth scheduleList : "+scheduleMap+CF.RS);
 		
 		
 		// model로 보내기
-		model.addAttribute("lectureSubjectList",scheduleList.get("lectureSubjectList"));
-		model.addAttribute("list",scheduleList.get("list"));
-		model.addAttribute("startBlank",scheduleList.get("startBlank"));
-		model.addAttribute("endDay",scheduleList.get("endDay"));
-		model.addAttribute("endBlank",scheduleList.get("endBlank"));
-		model.addAttribute("totalTd",scheduleList.get("totalTd"));
-		model.addAttribute("m",scheduleList.get("m"));
-		model.addAttribute("y",scheduleList.get("y"));
-		model.addAttribute("LoginLv",loginLv);
-		model.addAttribute("LoginId",loginId);
+		model.addAttribute("lectureSubjectList",scheduleMap.get("lectureSubjectList"));
+		model.addAttribute("list",scheduleMap.get("list"));
+		model.addAttribute("startBlank",scheduleMap.get("startBlank"));
+		model.addAttribute("endDay",scheduleMap.get("endDay"));
+		model.addAttribute("endBlank",scheduleMap.get("endBlank"));
+		model.addAttribute("totalTd",scheduleMap.get("totalTd"));
+		model.addAttribute("m",scheduleMap.get("m"));
+		model.addAttribute("y",scheduleMap.get("y"));
 		
 		return "/lecture/getSheduleListByMonth";
 	}
@@ -387,13 +385,14 @@ public class LectureController {
 		log.debug(CF.HJI+"LectureController.addShedule y : "+y+CF.RS);
 		
 		// 실행
-		Map<String,Object> getScheduleOne = lectureService.getScheduleOne(scheduleNo);
-		log.debug(CF.HJI+"LectureController.getScheduleOne getScheduleOne : "+getScheduleOne+CF.RS);
+		Map<String,Object> getScheduleOneMap = lectureService.getScheduleOne(scheduleNo);
+		log.debug(CF.HJI+"LectureController.getScheduleOne getScheduleOne : "+getScheduleOneMap+CF.RS);
 	
 		// model로 리턴
-		model.addAttribute("getScheduleOne",getScheduleOne);
+		model.addAttribute("getScheduleOne",getScheduleOneMap);
 		model.addAttribute("m",m);
 		model.addAttribute("y",y);
+		
 		return "/lecture/getScheduleOne";
 	}
 	
@@ -448,8 +447,6 @@ public class LectureController {
 		model.addAttribute("scheduleDate", selectScheduleOne.get("scheduleDate"));
 		model.addAttribute("m",m);
 		model.addAttribute("y",y);
-		model.addAttribute("loginLv", loginLv);
-		model.addAttribute("loginLv",loginId);
 		
 		return "/lecture/modifySchedule";
 	}
@@ -487,22 +484,26 @@ public class LectureController {
 										, @RequestParam(name = "currentPage", defaultValue = "1") int currentPage
 										, @RequestParam(name = "rowPerPage", defaultValue = "10") int rowPerPage) {
 		String loginId = (String)session.getAttribute("sessionId");
+		int loginLv = (int)session.getAttribute("sessionLv");
 		// 요청값 디버깅
 		log.debug(CF.HJI+"LectureController.getLectureReferenceList currentPage : "+currentPage+CF.RS);
 		log.debug(CF.HJI+"LectureController.getLectureReferenceList rowPerPage : "+rowPerPage+CF.RS);
 		log.debug(CF.HJI+"LectureController.getLectureReferenceList rowPerPage : "+loginId+CF.RS);
+		log.debug(CF.HJI+"LectureController.getLectureReferenceList rowPerPage : "+loginLv+CF.RS);
 		
 		// 맵에 넣기
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("currentPage", currentPage);
 		map.put("rowPerPage", rowPerPage);
 		map.put("loginId", loginId);
+		map.put("loginLv", loginLv);
 		
 		// 실행
 		Map<String, Object> returnMap = lectureService.getLectureReferenceList(map);		
 		log.debug(CF.HJI+"LectureController.getLectureReferenceList returnMap : "+returnMap+CF.RS);
 		
-		// model로 리턴
+		// model로 리턴 
+		model.addAttribute("lectureName", returnMap.get("lectureName"));
 		model.addAttribute("list", returnMap.get("list"));
 		model.addAttribute("lastPage", returnMap.get("lastPage"));
 		model.addAttribute("currentPage", currentPage);
@@ -530,13 +531,19 @@ public class LectureController {
 	}
 	
 	// 자료실 입력
-	@GetMapping("/loginCheck/addReferenceForm")
-	public String addReferenceForm() {
+	@GetMapping("/loginCheck/addReference")
+	public String addReferenceForm(Model model
+									,@RequestParam(name="lectureName")String lectureName) {
+		// 요청값 디버깅
+		log.debug(CF.HJI+"LectureController.getReferenceOne lectureName : "+lectureName+CF.RS);
 		
-		return "/lecture/addReferenceForm";
+		// model로 리턴
+		model.addAttribute("lectureName",lectureName);
+		
+		return "/lecture/addReference";
 	}
 	
-	@PostMapping("/addReferenceAction")
+	@PostMapping("/loginCheck/addReference")
 	public String addReferenceAction(HttpServletRequest request
 			, ReferenceForm referenceForm) {
 		String path = request.getServletContext().getRealPath("/file/refeneceFile/");
@@ -559,7 +566,7 @@ public class LectureController {
 	}
 	
 	// 자료실 수정
-	@GetMapping("/updateReferenceForm")
+	@GetMapping("/updateReference")
 	public String updateReferenceForm(Model model
 										,@RequestParam(name = "referenceNo") int referenceNo) {
 		// 요청값 디버깅
@@ -573,10 +580,10 @@ public class LectureController {
 		model.addAttribute("referenceFilelist", map.get("referenceFilelist"));
 		model.addAttribute("reference", map.get("reference"));
 		
-		return "/lecture/updateReferenceForm";
+		return "/lecture/updateReference";
 	}
 	
-	@PostMapping("/updateReferenceAction")
+	@PostMapping("/updateReference")
 	public String updateReferenceAction(Model model, HttpServletRequest request
 											,@RequestParam(name = "referenceNo") int referenceNo
 											,ReferenceForm referenceForm) {
@@ -624,7 +631,7 @@ public class LectureController {
 		// model 로 보내기
 		model.addAttribute("referenceFilelist", map.get("referenceFilelist"));
 		model.addAttribute("reference", map.get("reference"));
-		return "redirect:/loginCheck/updateAddReferenceForm?referenceNo="+referenceNo;
+		return "redirect:/loginCheck/updateAddReference?referenceNo="+referenceNo;
 	}
 	
 	// 자료실 삭제

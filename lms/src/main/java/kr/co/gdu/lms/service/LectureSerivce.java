@@ -322,11 +322,30 @@ public class LectureSerivce {
 		log.debug(CF.HJI+"LectureService.selectLectureReferenceList map : "+map+CF.RS);
 		
 		// 매개변수 분리
-		String lectureName = (String)map.get("lectureName");
+		String loginId = (String)map.get("loginId");
+		
+		int loginLv = (int)map.get("loginLv");
 		int currentPage = (int)map.get("currentPage");
 		int rowPerPage = (int)map.get("rowPerPage");
 		int beginRow = (currentPage-1) * rowPerPage;
-		// mapper로 모델값 추출
+		// begeinRow가 0일경우
+		if(beginRow == 0) {
+			beginRow = 1;
+		}
+		
+		// 강사, 학생 강의명 찾기
+		String lectureName = "";
+		String teacher = "";
+		if(loginLv > 1) {
+			teacher = lectureMapper.selectTeacherName(loginId);
+			lectureName = lectureMapper.selectTeacherLectureName(teacher);
+			log.debug(CF.HJI+"LectureService.selectLectureReferenceList lectureName : "+lectureName+CF.RS);
+		} else {
+			lectureName = lectureMapper.selectStudentLectureName(loginId);
+			log.debug(CF.HJI+"LectureService.selectLectureReferenceList lectureName : "+lectureName+CF.RS);
+		}
+		
+		// 페이징
 		int totalCount = lectureMapper.selectReferenceCnt(lectureName);
 		int lastPage = totalCount / rowPerPage;
 		if(totalCount % rowPerPage != 0) {
@@ -340,14 +359,17 @@ public class LectureSerivce {
 		paramMap.put("lectureName", lectureName);
 		log.debug(CF.HJI+"LectureService.selectLectureReferenceList lectureName : "+paramMap+CF.RS);
 		
+		// list 모델값 추출
 		List<Reference> list = new ArrayList<Reference>();
 		list = lectureMapper.selectLectureReferenceList(paramMap);
 		log.debug(CF.HJI+"LectureService.selectLectureReferenceList list : "+list+CF.RS);
 		
 		// list 와 map 맵에 넣어서 리턴
 		Map<String, Object> returnMap = new HashMap<String, Object>();
-		map.put("list", list);
-		map.put("lastPage", lastPage);
+		returnMap.put("lectureName", lectureName);
+		returnMap.put("list", list);
+		returnMap.put("lastPage", lastPage);
+		log.debug(CF.HJI+"LectureService.selectLectureReferenceList list : "+returnMap+CF.RS);
 		
 		return returnMap;
 	}
@@ -392,6 +414,7 @@ public class LectureSerivce {
 		log.debug(CF.HJI+"LectureService.addReference reference 호출 전 referenceNo : "+reference.getReferenceNo()+CF.RS);
 		int row = lectureMapper.insertReference(reference);
 		log.debug(CF.HJI+"LectureService.addReference reference 호출 후 referenceNo : "+reference.getReferenceNo()+CF.RS);
+		log.debug(CF.HJI+"LectureService.addReference reference 호출 후 : "+reference+CF.RS);
 		
 		//lectureMapper(file)를 호출하기 위한 객체 생성
 		if(referenceForm.getReferenceFileList().get(0).getSize() > 0 && row == 1) {
@@ -406,6 +429,7 @@ public class LectureSerivce {
 				fileName = fileName + ext;
 				referenceFile.setReferenceFileName(fileName);
 				referenceFile.setReferenceFileSize(mf.getSize());
+				referenceFile.setReferenceFileOrginName(originName);
 				referenceFile.setReferenceFileType(mf.getContentType());
 				referenceFile.setReferenceFileNo(reference.getReferenceNo());
 				
