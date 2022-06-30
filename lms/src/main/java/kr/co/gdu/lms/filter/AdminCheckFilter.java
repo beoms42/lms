@@ -17,14 +17,14 @@ import kr.co.gdu.lms.log.CF;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@WebFilter("/adminCheck/*")
+@WebFilter("/loginCheck/adminCheck/*")
 public class AdminCheckFilter extends HttpFilter implements Filter {
        
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		if(request instanceof HttpServletRequest) {
 			HttpSession session = ((HttpServletRequest)request).getSession();
 			int level = (int)session.getAttribute("sessionLv");
-			log.debug(CF.LCH + "AdminCheckFilter.doFilter level : " + level + CF.RS);
+			log.debug(CF.LCH + "AdminCheckFilter level : " + level + CF.RS);
 			
 			if(level != 4) {
 				if(response instanceof HttpServletResponse) {
@@ -33,6 +33,8 @@ public class AdminCheckFilter extends HttpFilter implements Filter {
 					return;
 				}
 			}
+		} else {
+			log.debug(CF.LCH+" AdminCheckFilter 브라우저가 아닌 접속"+CF.RS);
 		}
 		chain.doFilter(request, response);
 	}
