@@ -47,4 +47,14 @@
 			, NOW()
 		)
 	</insert>
-</mapper>
+	
+	<!-- 공지사항 파일 이름 리스트 -->
+	<select id="selectNoticeFileNameList"
+			parameterType="int"
+			resultType="String">
+		SELECT 
+			notice_file_name noticeFileName
+		FROM notice_file
+		WHERE notice_no=#{noticeNo}
+	</select>	
+	</mapper>
