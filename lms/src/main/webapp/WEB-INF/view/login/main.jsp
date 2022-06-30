@@ -62,11 +62,6 @@
                 </div>
               </div>
             </div>
-               <div class="job-info">
-             	<button type="button" id="button">Button</button>
-		        	<div id="job" ></div>
-                    <a href="" id="list"></a>
-            	</div>
  
 		  <div class="main-panel">
         	<div class="content-wrapper">
@@ -76,13 +71,17 @@
                 			<div class="card-body">
 				                 <h4 class="card-title">취업 공고</h4>
 				                   <div id="addJobListDivOne" class="row">
+				             
 				                   </div>
 				                 </div>
 				            </div>
 				       	</div>
+				       	 <button id="reducePage">이전</button>
+				       	 <button id="addPage">다음</button>
 					</div>
 				</div>
 			</div>
+			      
            </div>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
@@ -184,7 +183,6 @@
     	$('#button').click(function() {
     		$('#job').empty();
     		  
-
     		  
   		 
   		  //xhr.send('')
@@ -205,11 +203,17 @@
   		   		}
   			}
   		}
-  		  
-  		  
-    		$.ajax({
+  		  var totalCount;
+  		let currentPage =1;
+  		let rowPerPage =12;
+  		$('#addPage').click(function() {
+  		//	$('#reducePage').click(function() { 
+  			//.ready(function()
+  			$('#addJobListDivOne').empty();
+  			$.ajax({
 				type:'get'
 				, url : url+'/adRestController'
+				, data : {currentPage : currentPage, rowPerPage : rowPerPage}
 				, success:function(a){
 					console.log(typeof(a));
 					console.log(a);
@@ -219,6 +223,10 @@
 						  
 						//let arr = a2.results.JO_REGIST_NO;
 						console.log(arr);
+
+						totalCount = a2.GetJobInfo.list_total_count;
+						
+						console.log(totalCount);
 						for(let i=0; i<arr.length; i++) {
 							// console.log(arr[i].CMPNY_NM);
 						     // $('#list').append('<div>'+arr[i].RCRIT_JSSFC_CMMN_CODE_SE+'</div>'); 
@@ -231,9 +239,25 @@
 								//셀렉트처리   $('#addJobListDivOne2').append('<div class="dropdown-item" name="jobName" >'+arr[i].CMPNY_NM+'</div>');
 								//테이블처리	$('#addJobListDivOne2').append('<td>'+arr[i].CMPNY_NM+'</td>');
 									
-									$('#addJobListDivOne').append("<div class='col-lg-3 text-center' style='border : 1px solid #555555;'><button class='btn btn-info ' type='button'  aria-haspopup='true' aria-expanded='true'>"+arr[i].CMPNY_NM+"</button><h6 class='dropdown-header'>Settings</h6><a class='dropdown-item' href='#'>"+arr[i].HOPE_WAGE+"</a><br><a class='dropdown-item' href='#'>"+arr[i].RCEPT_CLOS_NM+"</a></div>");
+									
+					$('#addJobListDivOne').append("<div class='col-lg-3 text-center' style='border : 1px solid #555555;'>\
+						<button class='btn btn-info ' type='button'  aria-haspopup='true' aria-expanded='true'>"+arr[i].CMPNY_NM+"</button>\
+						<a class='dropdown-item' href='#'>"+arr[i].BSNS_SUMRY_CN+"</a>\
+						<a class='dropdown-item' href='#'>"+arr[i].HOPE_WAGE+"</a>\
+						<a class='dropdown-item' href='#'>"+arr[i].RCEPT_CLOS_NM+"</a><br>\
+						<a class='dropdown-item' href='#'>"+arr[i].WORK_PARAR_BASS_ADRES_CN+"</a></div>");
+					
+					
+					}
+					
+							currentPage+=12;
+							rowPerPage+=12;
+						console.log(currentPage);
+						console.log(rowPerPage);
+				  			
+					
+	
 
-									$('#div2').append(arr[i].HOPE_WAGE);
 /* 								} */
 							/* 
 							if(arr[i].RCRIT_JSSFC_CMMN_CODE_SE == 133201) {
@@ -248,11 +272,11 @@
 								$('#job').append('<div>'+arr[i].CMPNY_NM+'</div>');
 							} */
 						}
-				}
+				
 
   			})
     	});
+    	});
   </script>
 </body>
-
 </html>
