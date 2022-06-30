@@ -431,7 +431,7 @@ public class LectureSerivce {
 				referenceFile.setReferenceFileSize(mf.getSize());
 				referenceFile.setReferenceFileOrginName(originName);
 				referenceFile.setReferenceFileType(mf.getContentType());
-				referenceFile.setReferenceFileNo(reference.getReferenceNo());
+				referenceFile.setReferenceNo(reference.getReferenceNo());
 				
 				row = 0;
 				row = lectureMapper.insertReferenceFile(referenceFile);

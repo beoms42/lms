@@ -546,7 +546,7 @@ public class LectureController {
 	@PostMapping("/loginCheck/addReference")
 	public String addReferenceAction(HttpServletRequest request
 			, ReferenceForm referenceForm) {
-		String path = request.getServletContext().getRealPath("/file/refeneceFile/");
+		String path = request.getServletContext().getRealPath("/file/referenceFile/");
 		// 요청값 디버깅
 		log.debug(CF.HJI+"LectureController.addReferenceAction referenceForm : "+referenceForm+CF.RS);
 		log.debug(CF.HJI+"LectureController.addReferenceAction path : "+path+CF.RS);
