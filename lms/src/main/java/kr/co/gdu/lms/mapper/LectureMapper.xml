@@ -205,24 +205,23 @@
 	</update>
 	
 	<!-- 전체 시간표리스트보기 -->
-	<select id="selectScheduleList" parameterType="java.util.Map" resultType="kr.co.gdu.lms.vo.CalendarMap">
+	<select id="selectScheduleList" 
+		parameterType="java.util.Map" 
+		resultType="kr.co.gdu.lms.vo.CalendarMap">
 		SELECT 
 			s.schedule_no scheduleNo
 			, ls.lecture_name lectureName
 			, ls.subject_name subjectName
 			, day(s.schedule_date) scheduleDateDay
-		FROM 
-			schedule s
-		INNER JOIN 
-			lecture_subject ls
-		ON 
-			s.lecture_subject_no = ls.lecture_subject_no
-		WHERE 
-			MONTH(s.schedule_date) = #{m} AND YEAR(s.schedule_date) = #{y};
+		FROM schedule s
+			INNER JOIN lecture_subject ls
+			ON s.lecture_subject_no = ls.lecture_subject_no
+		WHERE MONTH(s.schedule_date) = #{m} AND YEAR(s.schedule_date) = #{y};
 	</select>
 	
 	<!-- 시간표추가 -->
-	<insert id="insertSchedule" parameterType="kr.co.gdu.lms.vo.Schedule">
+	<insert id="insertSchedule" 
+			parameterType="kr.co.gdu.lms.vo.Schedule">
 		INSERT INTO schedule(
 			schedule_date
 			,lecture_subject_no
@@ -236,7 +235,8 @@
 	</insert>
 	
 	<!-- 시간표수정 -->
-	<update id="updateSchedule" parameterType="kr.co.gdu.lms.vo.Schedule">
+	<update id="updateSchedule" 
+			parameterType="kr.co.gdu.lms.vo.Schedule">
 		UPDATE schedule SET 
 			schedule_date = #{scheduleDate}
 			,lecture_subject_no = #{lectureSubjectNo}
@@ -245,13 +245,15 @@
 	</update>
 	
 	<!-- 시간표삭제 -->
-	<delete id="deleteSchedule" parameterType="int">
+	<delete id="deleteSchedule" 
+			parameterType="int">
 		DELETE FROM schedule 
 		WHERE schedule_no = #{scheduleNo};
 	</delete>
 	
 	<!-- 강의과목리스트 -->
-	<select id="selectLectureSubjecList" resultType="kr.co.gdu.lms.vo.LectureSubject">
+	<select id="selectLectureSubjecList" 
+			resultType="kr.co.gdu.lms.vo.LectureSubject">
 		SELECT 
 			lecture_subject_no lectureSubjectNo
 			,lecture_name lectureName
@@ -260,7 +262,9 @@
 	</select>
 	
 	<!-- 시간표상세보기 -->
-	<select id="selectScheduleOne" parameterType="int" resultType="java.util.Map">
+	<select id="selectScheduleOne" 
+			parameterType="int" 
+			resultType="java.util.Map">
 		SELECT 
 			s.schedule_no scheduleNo
 			, s.schedule_date scheduleDate
@@ -268,13 +272,15 @@
 			, ls.lecture_name lectureName
 			, ls.subject_name subjectName
 		FROM schedule s
-		INNER JOIN lecture_subject ls
-		ON s.lecture_subject_no = ls.lecture_subject_no
+			INNER JOIN lecture_subject ls
+			ON s.lecture_subject_no = ls.lecture_subject_no
 		where s.schedule_no = #{scheduleNo};
 	</select>
 	
 	<!-- 멤버별 강의시간표 보기 -->
-	<select id="selectMemberSchedule" parameterType="java.util.Map" resultType="kr.co.gdu.lms.vo.CalendarMap">
+	<select id="selectMemberSchedule" 
+			parameterType="java.util.Map" 
+			resultType="kr.co.gdu.lms.vo.CalendarMap">
 		SELECT 
 			s.schedule_no scheduleNo
 			, day(s.schedule_date) scheduleDateDay
@@ -282,13 +288,13 @@
 			, ed.lecture_name lectureName
 			, ls.subject_name subjectName
 		FROM schedule s
-		INNER JOIN lecture_subject ls
+			INNER JOIN lecture_subject ls
 			ON s.lecture_subject_no = ls.lecture_subject_no
-		INNER JOIN lecture l
+			INNER JOIN lecture l
 			ON l.lecture_name = ls.lecture_name
-		INNER JOIN education ed
+			INNER JOIN education ed
 			ON ed.lecture_name = l.lecture_name
-		INNER JOIN login lo
+			INNER JOIN login lo
 			ON lo.login_id = ed.login_id
 		WHERE lo.login_id = #{loginId} AND MONTH(s.schedule_date) = #{m} AND YEAR(s.schedule_date) = #{y};
 	</select>
@@ -302,7 +308,9 @@
 	</select>
 	
 		<!-- 자료실 리스트-->
-	<select id="selectLectureReferenceList" parameterType="java.util.Map" resultType="kr.co.gdu.lms.vo.Reference">
+	<select id="selectLectureReferenceList" 
+			parameterType="java.util.Map" 
+			resultType="kr.co.gdu.lms.vo.Reference">
 		SELECT  
 			reference_no referenceNo
 			,lecture_name lectureName
@@ -316,7 +324,9 @@
 	</select>
 	
 	<!-- 자료실 리스트 갯수 -->
-	<select id="selectReferenceCnt" parameterType="String" resultType="int">
+	<select id="selectReferenceCnt" 
+			parameterType="String" 
+			resultType="int">
 		SELECT 
 			COUNT(*) cnt
 		FROM reference
@@ -324,7 +334,9 @@
 	</select>
 	
 	<!-- 자료실 상세보기-->
-	<select id="selectReferenceOne" parameterType="int" resultType="kr.co.gdu.lms.vo.Reference">
+	<select id="selectReferenceOne" 
+			parameterType="int" 
+			resultType="kr.co.gdu.lms.vo.Reference">
 		SELECT 
 			reference_no referenceNo
 			, reference_title referenceTitle
@@ -335,7 +347,9 @@
 	</select>
 	
 	<!--자료실 파일리스트 상세보기-->
-	<select id="selectReferenceFileList" parameterType="int" resultType="kr.co.gdu.lms.vo.ReferenceFile">
+	<select id="selectReferenceFileList" 
+			parameterType="int" 
+			resultType="kr.co.gdu.lms.vo.ReferenceFile">
 		SELECT reference_file_no referenceFileNo
 			,reference_no referenceNo
 			,reference_file_name referenceFileName
@@ -348,7 +362,8 @@
 	</select>
 	
 	<!--자료실 입력-->
-	<insert id="insertReference" parameterType="kr.co.gdu.lms.vo.Reference">
+	<insert id="insertReference" 
+			parameterType="kr.co.gdu.lms.vo.Reference">
 		INSERT INTO reference(
 			reference_title
 			,reference_content
@@ -364,13 +379,15 @@
 	</insert>
 	
 	<!--자료실 삭제-->
-	<delete id="deleteReference" parameterType="int">
+	<delete id="deleteReference" 
+			parameterType="int">
 		DELETE FROM reference 
 		WHERE reference_no = #{referenceNo};
 	</delete>
 	
 	<!--자료실 파일 입력-->
-	<insert id="insertReferenceFile" parameterType="kr.co.gdu.lms.vo.ReferenceFile">
+	<insert id="insertReferenceFile" 
+			parameterType="kr.co.gdu.lms.vo.ReferenceFile">
 		INSERT INTO reference_file(
 			reference_no
 			,reference_file_name
@@ -389,7 +406,8 @@
 	</insert>
 	
 	<!--자료실 파일 수정-->
-	<update id="updateReferenceFile" parameterType="kr.co.gdu.lms.vo.ReferenceFile">	
+	<update id="updateReferenceFile" 
+			parameterType="kr.co.gdu.lms.vo.ReferenceFile">	
 		UPDATE reference_file SET 
 		reference_file_name = ${referenceFileName}
 		,reference_file_orgin_name = #{referenceFileOrginName}
@@ -399,19 +417,23 @@
 	</update>
 	
 	<!--자료실 파일 삭제-->
-	<delete id="deleteReferenceFile" parameterType="int">
+	<delete id="deleteReferenceFile" 
+			parameterType="int">
 		DELETE FROM reference_file 
 		WHERE reference_file_no = #{referenceFileNo};
 	</delete>
 	
 	<!--자료실 파일 전체삭제-->
-	<delete id="deleteReferenceFileList" parameterType="int">
+	<delete id="deleteReferenceFileList" 
+			parameterType="int">
 		DELETE FROM reference_file 
 		WHERE reference_no = #{referenceNo};
 	</delete>
 	
 	<!-- 자료실 파일 상세보기 -->
-	<select id="selectReferenceFileOne" parameterType="int" resultType="String">
+	<select id="selectReferenceFileOne" 
+			parameterType="int" 
+			resultType="String">
 		SELECT
 			reference_file_name referenceFileName
 		FROM reference_file
