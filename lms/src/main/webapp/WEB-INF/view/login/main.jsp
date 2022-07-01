@@ -68,7 +68,7 @@
             		<div class="col-lg-12 grid-margin">
               			<div class="card">
                 			<div class="card-body">
-				                 <h4 class="card-title">취업 공고</h4>
+				                 <h4 class="card-title">일자리 공고</h4>
 				                   <div id="addJobListDivOne" class="row">
 				                   </div>
 				                </div>
@@ -76,9 +76,11 @@
 				            </div>
 				            <div style=" text-align: center;">
 				            <button id="reducePage" class="btn btn-outline-dark btn-fw">이전</button>
-				       		<button id="addPage" class="btn btn-outline-dark btn-fw">다음</button>
+				       	<button id="addPage" class="btn btn-outline-dark btn-fw">다음</button>
 				       	</div>
-				      </div>
+				       	</div>
+			           
+				        
 					</div>
 				</div>
 			</div>
@@ -173,57 +175,62 @@
 			
   		  //xhr.send('')
   	  });
+	    	$(function(){
+	    	  var xhr = new XMLHttpRequest();
+	  		  var url = '${pageContext.request.contextPath}'; /*URL*/
+	  		  xhr.open('GET', url); //지정된 리소스에서 데이터를 요청합니다
+	  		  xhr.onreadystatechange = function () {
+	  		  if (this.readyState == xhr.DONE) { // <== 정상적으로 준비되었을때
+	  		  if(xhr.status == 200||xhr.status == 201){ // <== 호출 상태가 정상적일때
+	  		  alert('Status: '+this.status+
+	  		  '\nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+
+	  		  '\nBody: '+this.responseText);
+  		    }
+  	     }
+  	 }
+  		  //일자리 리스트 
+    	  	 	$.ajax({
+  				type:'get'
+  			    , cache: "false"
+  				, url : '/lms/adRestController'
+  				, data : {currentPage : currentPage, rowPerPage : rowPerPage}
+  				, success:function(a){
+  					console.log(typeof(a));
+  					console.log(a);
+  						 var a2 = JSON.parse(a);
+  						 console.log(a2);
+  						 var arr = a2.GetJobInfo.row; 
+  					  
+  						console.log(arr);
+  						totalCount = a2.GetJobInfo.list_total_count;
+  						console.log(totalCount);
+  						for(let i=0; i<arr.length; i++) {
+  									
+  					$('#addJobListDivOne').append("<div class='col-lg-3 text-center' style='border : 1px solid #555555;'>\
+  						<button class='btn btn-primary ' type='button'  aria-haspopup='true' aria-expanded='true'>"+arr[i].CMPNY_NM+"</button>\
+  						<a class='dropdown-item' href='#'>"+arr[i].BSNS_SUMRY_CN+"</a>\
+  						<a class='dropdown-item' href='#'>"+arr[i].HOPE_WAGE+"</a>\
+  						<a class='dropdown-item' href='#'>"+arr[i].RCEPT_CLOS_NM+"</a><br>\
+  						<a class='dropdown-item' href='#'>"+arr[i].WORK_PARAR_BASS_ADRES_CN+"</a></div>");
+  					}
+  						// currentPage 12, rowPerPage12 씩 증가
+  							currentPage+=12;
+  							rowPerPage+=12;
+  						console.log(currentPage);
+  						console.log(rowPerPage);
+  						}
+    			})
+      	});
 	    	
-		    	$(function(){
-		    	  var xhr = new XMLHttpRequest();
-		  		  var url = '${pageContext.request.contextPath}'; /*URL*/
-		  		  xhr.open('GET', url); //지정된 리소스에서 데이터를 요청합니다
-		  		  xhr.onreadystatechange = function () {
-		  		  if (this.readyState == xhr.DONE) { // <== 정상적으로 준비되었을때
-		  		  if(xhr.status == 200||xhr.status == 201){ // <== 호출 상태가 정상적일때
-		  		  alert('Status: '+this.status+
-		  		  '\nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+
-		  		  '\nBody: '+this.responseText);
-	  		    }
-	  	     }
-	  	 }
-	  		  //일자리 리스트 
-	    	  	 	$.ajax({
-	  				type:'get'
-	  				, url : '/lms/adRestController'
-	  				, data : {currentPage : currentPage, rowPerPage : rowPerPage}
-	  				, success:function(a){
-	  					console.log(typeof(a));
-	  					console.log(a);
-	  						 var a2 = JSON.parse(a);
-	  						 console.log(a2);
-	  						 var arr = a2.GetJobInfo.row; 
-	  					  
-	  						console.log(arr);
-	  						totalCount = a2.GetJobInfo.list_total_count;
-	  						console.log(totalCount);
-	  						for(let i=0; i<arr.length; i++) {
-	  									
-	  					$('#addJobListDivOne').append("<div class='col-lg-3 text-center' style='border : 1px solid #555555;'>\
-	  						<button class='btn btn-primary ' type='button'  aria-haspopup='true' aria-expanded='true'>"+arr[i].CMPNY_NM+"</button>\
-	  						<a class='dropdown-item' href='#'>"+arr[i].BSNS_SUMRY_CN+"</a>\
-	  						<a class='dropdown-item' href='#'>"+arr[i].HOPE_WAGE+"</a>\
-	  						<a class='dropdown-item' href='#'>"+arr[i].RCEPT_CLOS_NM+"</a><br>\
-	  						<a class='dropdown-item' href='#'>"+arr[i].WORK_PARAR_BASS_ADRES_CN+"</a></div>");
-	  					}
-	  						// currentPage 12, rowPerPage12 씩 증가
-	  							currentPage+=12;
-	  							rowPerPage+=12;
-	  						console.log(currentPage);
-	  						console.log(rowPerPage);
-	  						}
-	    			})
-	      	});
-		    	
 	  	//일자리 리스트 보여주는 범위 설정 currentPage 1 ~ rowPerPage 12
   		var totalCount;
   		var currentPage = 1;
   		var rowPerPage = 12;
+  		
+  		console.log(currentPage);
+  		if(currentPage ==1){
+	  			$('#reducePage').hide();
+	  		}
   		
   		//리스트 다음 버튼
   			  $('#addPage').click (function() {
@@ -232,6 +239,7 @@
   	  			$('#addJobListDivOne').empty();
   	  			$.ajax({
 				type:'get'
+			    , cache: "false"
 				, url : '/lms/adRestController'
 				, data : {currentPage : currentPage, rowPerPage : rowPerPage}
 				, success:function(a){
@@ -253,27 +261,26 @@
 						<a class='dropdown-item' href='#'>"+arr[i].RCEPT_CLOS_NM+"</a><br>\
 						<a class='dropdown-item' href='#'>"+arr[i].WORK_PARAR_BASS_ADRES_CN+"</a></div>");
 					}
-						//currentPage1을 +12=13, rowPerPage12 +12=24
+						//currentPage을 +12=13, rowPerPage12 +12=24
 						currentPage+=12;
 						rowPerPage+=12;
 					console.log(currentPage);
 					console.log(rowPerPage);
+					if(currentPage !=1){
+			  			$('#reducePage').show();
+			  		}
 				}
   			})
     	});
-	  	// 일자리 리스트 보여주는 범위 설정 currentPage 1 ~ rowPerPage 12
-  		var totalCount;
-  		var currentPage = 1;
-  		var rowPerPage = 12;
     	//리스트 이전 버튼
 		  $('#reducePage').click (function() {
-  		//	$('#reducePage').click(function() { 
+  		//$('#reducePage').click(function() { 
   	
   			$('#addJobListDivOne').empty();
   			$.ajax({
 			type:'get'
+			, cache: "false"
 			, url : '/lms/adRestController'
-			, cache : 'false'
 			, data : {currentPage : currentPage, rowPerPage : rowPerPage}
 			, success:function(a){
 				console.log(typeof(a));
@@ -294,9 +301,13 @@
 					<a class='dropdown-item' href='#'>"+arr[i].RCEPT_CLOS_NM+"</a><br>\
 					<a class='dropdown-item' href='#'>"+arr[i].WORK_PARAR_BASS_ADRES_CN+"</a></div>");
 				}
-					//currentPage1을 +12=13, rowPerPage12 +12=24
+					
+					//currentPage을 현재currentPage1 -12 rowPerPage12 +12=24
 					currentPage-=12;
 					rowPerPage-=12;
+					if(currentPage ==1){
+			  			$('#reducePage').hide();
+			  		}
 				console.log(currentPage);
 				console.log(rowPerPage);
 			}
