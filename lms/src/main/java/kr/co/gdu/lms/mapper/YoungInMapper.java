@@ -40,4 +40,10 @@ public interface YoungInMapper {
 	
 	// qnaNo로 파일리스트가져오기
 	List<String> selectQnaFileByQnaNo(int qnaNo);
+	
+	// qna답변 insert
+	void insertQnaAnswer(Qna qna);
+	
+	//qna 답변의 원글 답변완료로 변경 메서드
+	void updateByinsertQnaAnswer(int qnaNo);
 }

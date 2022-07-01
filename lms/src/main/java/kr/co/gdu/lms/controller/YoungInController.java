@@ -137,9 +137,13 @@ public class YoungInController {
 	// 영인 - get방식 qnaListOne호출
 	@GetMapping("/loginCheck/qnaListOne")
 	public String qnaListOne(Model model
-			, @RequestParam(name = "qnaNo") int qnaNo) {
+			, @RequestParam(name = "qnaNo") int qnaNo
+			, HttpSession session) {
 		
 		Map<String, Object> map =  youngInService.selectQnaFileByQnaNo(qnaNo);
+		
+		//세션레벨
+		int loginLv = (int)session.getAttribute("sessionLv");
 		
 		//사진 리스트
 		List<String> fileList = (List<String>) map.get("fileList");
@@ -149,7 +153,8 @@ public class YoungInController {
 		
 		//One 답변
 		Qna qnaAnswer = (Qna) map.get("qnaAnswer");
-		
+		log.debug(CF.JYI+"YoungInService.qnaListOne.get loginLv : "+loginLv+CF.RS);
+		model.addAttribute("loginLv", loginLv);
 		model.addAttribute("fileList", fileList);
 		model.addAttribute("qnaInquiry", qnaInquiry);
 		model.addAttribute("qnaAnswer", qnaAnswer);
@@ -184,6 +189,19 @@ public class YoungInController {
 		youngInService.addQnaAction(path, qnaFileList, qna, loginId);
 		
 		return "redirect:/loginCheck/getQnaListByPage";
+	}
+	
+	// 영인 - post방식 qnaListOne 답변
+	@PostMapping("/loginCheck/qnaListOneAnswer")
+	public String qnaListOneAnswer(HttpSession session
+								, Model model
+								, Qna qna){
+		String loginId = (String) session.getAttribute("sessionId");
+		qna.setLoginId(loginId);
+		
+		youngInService.insertQnaAnswer(qna);
+		
+		return "redirect:/loginCheck/qnaListOne?qnaNo="+qna.getQnaNo();
 	}
 	
 }

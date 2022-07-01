@@ -59,7 +59,8 @@
           	<div class="col-md-2 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  
+                  	<h4 class="display-4" style="text-align: center;">첨부사진</h4>
+                  	<br>
                     <c:forEach var="picture" items="${fileList}"> 
                     	<blockquote class="blockquote blockquote-primary" style="text-align: center;">
                     		<img alt="" src="${pageContext.request.contextPath}/file/communityFile/${picture}" width="150px" height="150px">
@@ -72,32 +73,88 @@
             <div class="col-md-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">문의</h4>
-                  <h2 class="card-title">불만있냥</h2>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <address>
-                        <p class="font-weight-bold">집에 가고싶을지도...</p>
-                        <p>
-                          695 lsom Ave,
-                        </p>
-                        <p>
-                           Suite 00
-                        </p>
-                        <p>
-                          San Francisco, CA 94107
-                        </p>
-                      </address>
-                    </div>
-                   
-                  </div>
+                	<h4 class="display-4" style="text-align: center;">문의</h4>
+                	<br>
+                  <blockquote class="blockquote" style="text-align: center;">
+	                  <h2 class="card-title">${qnaInquiry.qnaTitle}</h2>
+	                  <div class="row">
+	                    <div class="col-md-12">
+	                      <address>
+	                        <p class="font-weight-bold">${qnaInquiry.qnaContent}</p>
+	                      </address>
+	                      <br>
+	                      <br>
+	                      <br>
+	                      <div style="width: 100%; text-align: right;"><p class="font-weight-bold"> 작성일 : ${qnaInquiry.createDate}</p></div>
+	                    </div>
+	                  </div>
+	               </blockquote>
                 </div>
                 <div class="card-body">
-                  <h4 class="card-title">답변</h4>
-                  <h2 class="card-title">집에 갈래요...</h2>
+                  <h4 class="display-4" style="text-align: center;">답변</h4>
+                  <br>
+                  <!-- 답변이 존재할경우 -->
+                  <c:if test="${!empty qnaAnswer}">
+	                  <blockquote class="blockquote" style="text-align: center;">
+		                  <h2 class="card-title">${qnaAnswer.qnaTitle}</h2>
+		                  <div class="row">
+		                    <div class="col-md-12">
+		                      <address>
+		                        <p class="font-weight-bold">${qnaAnswer.qnaContent}</p>
+		                      </address>
+		                      <br>
+		                      <br>
+		                      <br>
+		                      <div style="width: 100%; text-align: right;"><p class="font-weight-bold"> 작성일 : ${qnaAnswer.createDate}</p></div>
+		                    </div>
+		                  </div>
+	                  </blockquote>
+                  </c:if>
+                  
+                  <!-- 답변이 없을땐 -->
+                   <c:if test="${empty qnaAnswer}">
+                   	<c:if test="${loginLv >= 3}">
+                   	<form action="${pageContext.request.contextPath}/loginCheck/qnaListOneAnswer" method="post">
+	                  <blockquote class="blockquote" style="text-align: center;">
+	                  	<h1>답변제목</h1>
+		                  <h2 class="card-title">
+		                  	<input type="text" name="qnaNo" value="${qnaInquiry.qnaNo}" readonly="readonly" hidden="hidden">
+		                  	<br>
+		                  	<input type="text" name="qnaTitle">
+		                  </h2>
+		                  <div class="row">
+		                    <div class="col-md-12">
+		                      <address>
+		                      	<h2>답변컨텐츠</h2>
+		                        <p class="font-weight-bold"><input type="text" name="qnaContent"></p>
+		                      </address>
+		                      <br>
+		                      <br>
+		                      <br>
+		                      <div style="width: 100%; text-align: right;"><p class="font-weight-bold"></p></div>
+		                    </div>
+		                  </div>
+	                  </blockquote>
+	                 </c:if>
+                  </c:if>
+                 <div style="width: 100%; text-align: right; margin-top: 40px">
+                 <!-- 관리자 이상만 답변이 가능해야하고 답변이 비어있어야함 -->
+                 <c:if test="${empty qnaAnswer}">
+                 	<c:if test="${loginLv >= 3}">
+                 		<button type="submit" class="btn btn-inverse-warning btn-fw">답변</button>
+                 		</form>
+                 	</c:if>
+                 </c:if>
+                 <c:if test="${loginLv >= 3}">
+                 	<button type="button" class="btn btn-inverse-danger btn-fw">삭제</button>
+                 </c:if>
+                 </div>
+                 
                 </div>
               </div>
             </div>
+            
+            
           </div>
 
           

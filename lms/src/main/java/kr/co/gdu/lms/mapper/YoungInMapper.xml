@@ -136,7 +136,7 @@
 			, qna_kind qnaKind
 			, qna_state qnaState
 		FROM qna
-		WHERE qna_kind = '답변' and qna_No = #{qnaNo}
+		WHERE qna_kind = '답변' and qna_answer_no = #{qnaNo}
 	</select>
 	
 	<!-- qnaOneFileList 보기 -->
@@ -149,4 +149,35 @@
 		WHERE qna_no = #{qnaNo}
 	</select>
 	
+	<!--  qna답변 insert -->
+	<insert id="insertQnaAnswer"
+		parameterType="kr.co.gdu.lms.vo.Qna">
+		INSERT INTO qna(
+			qna_title
+			, qna_content
+			, login_id
+			, create_date
+			, qna_disclosure
+			,  qna_kind
+			, qna_state
+			, qna_answer_no
+		)
+		VALUES(
+			#{qnaTitle}
+			, #{qnaContent}
+			, #{loginId}
+			, NOW()
+			, '공개'
+			, '답변'
+			, '답변완료'
+			, #{qnaNo}
+		)
+	</insert>
+	
+	<update id="updateByinsertQnaAnswer"
+		parameterType="int">
+		UPDATE qna
+			SET qna_state = '답변완료'
+		WHERE qna_no = #{qnaNo}
+	</update>
 </mapper>

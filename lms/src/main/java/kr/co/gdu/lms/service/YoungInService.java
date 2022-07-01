@@ -65,7 +65,7 @@ public class YoungInService {
 			
 			
 			// Qna를 넣고나서 제네레이트 키값을 출력해서 qnaFile에 써먹어야함
-			int qnaNo = youngInMapper.addQnaAction(qna);
+			youngInMapper.addQnaAction(qna);
 			
 			// 새로운 파일을 업데이트 해야겠찌?
 			if(qnaFileList.get(0).getSize() > 0 ) {
@@ -81,7 +81,7 @@ public class YoungInService {
 					qnaFile.setQnaFileName(fileName);
 					qnaFile.setQnaFileSize((int)mf.getSize());
 					qnaFile.setQnaFileType(mf.getContentType());
-					qnaFile.setQnaNo(qnaNo);
+					qnaFile.setQnaNo(qna.getQnaNo());
 					qnaFile.setLoginId(loginId);
 					log.debug(CF.JYI+"YoungInService.addQnaAction.get addQnaAction : "+qnaFile+CF.RS);
 					//이건 그대로 갖다쓰면 될듯? 그냥 파일 넣는거라
@@ -102,7 +102,6 @@ public class YoungInService {
 		
 		//사진 리스트
 		List<String> fileList = youngInMapper.selectQnaFileByQnaNo(qnaNo);
-		
 		//One 문의
 		Qna qnaInquiry = youngInMapper.selectQnaByQnaNo(qnaNo);
 		//One 답변
@@ -116,5 +115,12 @@ public class YoungInService {
 		return map;
 	}
 	
-	
+	// 영인 - post방식 qnaListOne 답변
+	public void insertQnaAnswer(Qna qna) {
+		//인서트에 반환값 없음
+		youngInMapper.insertQnaAnswer(qna);
+		youngInMapper.updateByinsertQnaAnswer(qna.getQnaNo());
+		
+		
+	}
 }

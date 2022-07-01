@@ -60,7 +60,11 @@
             <div class="col-lg-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">문의리스트 <a href="${pageContext.request.contextPath}/loginCheck/addQna" style="margin-left: 200px">[글쓰기]</a></h4>
+                  
+                  <div style=" display: flex; width: 100%">
+                  <h4 class="card-title">문의리스트</h4> 
+                  <a href="${pageContext.request.contextPath}/loginCheck/addQna" class="float-right" style="float: right;">[글쓰기]</a>
+                  </div>
                   <p class="card-description">
                   </p>
                   <div class="table-responsive">
