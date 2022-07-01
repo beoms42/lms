@@ -34,18 +34,6 @@ import lombok.extern.slf4j.Slf4j;
 public class LectureController {
 	@Autowired private LectureSerivce lectureService;
 	
-	// 출결관리 - 강사 이상만
-	@GetMapping("/loginCheck/attendance")
-	public String attendance(HttpSession session) {
-		
-		// 강사 이상 아니면 메인으로
-		if((int)session.getAttribute("sessionLv") < 2) {
-			return "redirect:/loginCheck/main";
-		}
-		
-		return "lecture/attendance";
-	}
-	
 	@GetMapping("/loginCheck/addLecture")
 	public String addLecture(Model model
 			, HttpSession session) {
