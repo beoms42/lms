@@ -2,41 +2,43 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.gdu.lms.mapper.ManagerMapper">
    <select id="selectManagerOne" 
-         parameterType="String" 
-         resultType="kr.co.gdu.lms.vo.Manager">
-      SELECT
-        login_id loginId
-        , manager_name managerName 
-        , manager_birth managerBirth
-        , manager_gender managerGender 
-        , address 
-        , detail_addr detailAddr
-        , manager_email managerEmail
-        , manager_phone managerPhone
-        , d.dept_name deptName
-        , position_name positionName
-        , m.create_date createDate
-      FROM manager m
-      INNER JOIN position p ON p.position_no = m.position_no
-      INNER JOIN dept d ON d.dept_no = m.dept_no
-      WHERE login_id = #{loginId}
+           parameterType="String" 
+           resultType="kr.co.gdu.lms.vo.Manager">
+		SELECT
+			login_id loginId
+			, manager_name managerName 
+			, manager_birth managerBirth
+			, manager_gender managerGender 
+			, address 
+			, detail_addr detailAddr
+			, manager_email managerEmail
+			, manager_phone managerPhone
+			, d.dept_name deptName
+			, position_name positionName
+			, m.create_date createDate
+		FROM manager m
+		INNER JOIN position p 
+			ON p.position_no = m.position_no
+		INNER JOIN dept d 
+			ON d.dept_no = m.dept_no
+		WHERE login_id = #{loginId}
    </select>
    
    <select id="selectManagerList" 
-   		resultType="kr.co.gdu.lms.vo.Manager">
-       SELECT 
-		   m.login_id loginId
-		   , m.manager_name managerName
-		   , m.position_no positionNo
-		   , p.position_name positionName
-		   , m.create_date createDate  
+   		   resultType="kr.co.gdu.lms.vo.Manager">
+		SELECT 
+			m.login_id loginId
+			, m.manager_name managerName
+			, m.position_no positionNo
+			, p.position_name positionName
+			, m.create_date createDate  
 		FROM manager m  
 		JOIN position p
-		ON m.position_no = p.position_no  
+			ON m.position_no = p.position_no  
    </select>
    
    <update id= "updateManager" 
-         parameterType="kr.co.gdu.lms.vo.Manager">
+           parameterType="kr.co.gdu.lms.vo.Manager">
       	UPDATE manager 
       	SET	manager_name = #{managerName}   
          	, manager_birth = #{managerBirth}   
@@ -51,14 +53,14 @@
    </update>
    
    <delete id="deleteManager"
-      	parameterType="String">
+      	   parameterType="String">
       	DELETE FROM manager
      	WHERE login_id = #{loginId}
     </delete>
       
    <select id="pwCheck"
-         resultType="int"
-         parameterType="kr.co.gdu.lms.vo.Login">
+           resultType="int"
+           parameterType="kr.co.gdu.lms.vo.Login">
       	SELECT COUNT(*)
       	FROM login
       	WHERE login_id = #{loginId} AND login_pw = PASSWORD(#{loginPw})
@@ -66,7 +68,7 @@
       
    <!-- 매니저 - 부서 이름과 번호 뽑기-->
    <select id="selectDept"
-         resultType="kr.co.gdu.lms.vo.Dept">
+           resultType="kr.co.gdu.lms.vo.Dept">
       	SELECT 
          	dept_no deptNo
          	, dept_name deptName
@@ -75,11 +77,11 @@
    
    <!-- 매니저 - 직급 이름과 번호 뽑기 -->
    <select id="selectPosition"
-         resultType="kr.co.gdu.lms.vo.Position">
-     	 SELECT 
-      	   position_no positionNo
+           resultType="kr.co.gdu.lms.vo.Position">
+     	SELECT 
+      	   	position_no positionNo
       	   , position_name positionName
-     	 FROM position
+     	FROM position
    </select>
    
 </mapper>

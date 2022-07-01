@@ -61,8 +61,8 @@ public class YoungInService {
 	
 	// 업데이트 서비스
 	public void addQnaAction(String path, List<MultipartFile> qnaFileList, Qna qna, String loginId) {
+		
 			QnaFile qnaFile = null;
-			
 			
 			// Qna를 넣고나서 제네레이트 키값을 출력해서 qnaFile에 써먹어야함
 			youngInMapper.addQnaAction(qna);
@@ -77,6 +77,7 @@ public class YoungInService {
 					String fileName = UUID.randomUUID().toString();
 					fileName = fileName.replace("-", "");
 					fileName = fileName + ext;
+					
 					qnaFile.setQnaFileOriginName(originName);
 					qnaFile.setQnaFileName(fileName);
 					qnaFile.setQnaFileSize((int)mf.getSize());

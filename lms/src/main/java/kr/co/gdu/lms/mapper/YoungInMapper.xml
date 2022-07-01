@@ -7,7 +7,7 @@
 		SELECT 
 			login_id loginId
 		FROM education
-		</select>
+	</select>
 		
 	<insert id="insertStudentInLecture"
 		parameterType="String">
@@ -41,7 +41,7 @@
 		        , s.create_date createDate   
 		     FROM student s
 		     INNER JOIN education e
-		     ON s.login_id = e.login_id
+		     	ON s.login_id = e.login_id
 		     WHERE e.lecture_name = #{lectureName}
 	</select>
 	
@@ -60,7 +60,7 @@
 	<insert id="addQnaAction"
 			parameterType="kr.co.gdu.lms.vo.Qna">
 		<selectKey resultType="int" keyProperty="qnaNo" order="AFTER">
-			SELECT last_insert_id();
+			SELECT LAST_INSERT_ID();
 		</selectKey>
 		INSERT INTO qna(
 			qna_title
@@ -68,7 +68,7 @@
 			, login_id
 			, create_date
 			, qna_disclosure
-			,  qna_kind
+			, qna_kind
 			, qna_state
 		)
 		VALUES(
@@ -84,7 +84,7 @@
 	
 	<!-- 파일 넣기 qna -->
 	<insert id="addQnaFileInsert"
-		parameterType="kr.co.gdu.lms.vo.QnaFile">
+			parameterType="kr.co.gdu.lms.vo.QnaFile">
 		INSERT INTO qna_file(
 			qna_no
 			, login_id
@@ -107,8 +107,8 @@
 	
 	<!-- qnaOne 보기 -->
 	<select id="selectQnaByQnaNo"
-		parameterType="int"
-		resultType="kr.co.gdu.lms.vo.Qna">
+			parameterType="int"
+			resultType="kr.co.gdu.lms.vo.Qna">
 		SELECT
 			qna_no qnaNo
 			, qna_title qnaTitle
@@ -119,13 +119,13 @@
 			, qna_kind qnaKind
 			, qna_state qnaState
 		FROM qna
-		WHERE qna_kind = '문의' and qna_No = #{qnaNo}
+		WHERE qna_kind = '문의' AND qna_No = #{qnaNo}
 	</select>
 	
 	<!-- qnaOne 보기 -->
 	<select id="selectQnaByQnaNoAnswer"
-		parameterType="int"
-		resultType="kr.co.gdu.lms.vo.Qna">
+			parameterType="int"
+			resultType="kr.co.gdu.lms.vo.Qna">
 		SELECT
 			qna_no qnaNo
 			, qna_title qnaTitle
@@ -136,13 +136,13 @@
 			, qna_kind qnaKind
 			, qna_state qnaState
 		FROM qna
-		WHERE qna_kind = '답변' and qna_answer_no = #{qnaNo}
+		WHERE qna_kind = '답변' AND qna_answer_no = #{qnaNo}
 	</select>
 	
 	<!-- qnaOneFileList 보기 -->
 	<select id="selectQnaFileByQnaNo"
-		parameterType="int"
-		resultType="String">
+			parameterType="int"
+			resultType="String">
 		SELECT
 			qna_file_name qnaFileName
 		FROM qna_file
@@ -151,7 +151,7 @@
 	
 	<!--  qna답변 insert -->
 	<insert id="insertQnaAnswer"
-		parameterType="kr.co.gdu.lms.vo.Qna">
+			parameterType="kr.co.gdu.lms.vo.Qna">
 		INSERT INTO qna(
 			qna_title
 			, qna_content
@@ -161,8 +161,7 @@
 			,  qna_kind
 			, qna_state
 			, qna_answer_no
-		)
-		VALUES(
+		)VALUES(
 			#{qnaTitle}
 			, #{qnaContent}
 			, #{loginId}
@@ -175,9 +174,9 @@
 	</insert>
 	
 	<update id="updateByinsertQnaAnswer"
-		parameterType="int">
+			parameterType="int">
 		UPDATE qna
-			SET qna_state = '답변완료'
+		SET qna_state = '답변완료'
 		WHERE qna_no = #{qnaNo}
 	</update>
 </mapper>

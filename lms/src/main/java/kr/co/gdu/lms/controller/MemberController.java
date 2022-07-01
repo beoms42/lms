@@ -43,20 +43,18 @@ public class MemberController {
 	   if("student".equals(msg)) {
 		   List<Student> studentList = memberService.getStudentList();
 		   log.debug(CF.GDH+"MemberController.getMemberList studentList : " + studentList + CF.RS);
-		   model.addAttribute("msg", msg);
 		   model.addAttribute("studentList", studentList);
 	   } else if("teacher".equals(msg)) {
 		   List<Teacher> teacherList = memberService.getTeacherList();
 		   log.debug(CF.GDH+"MemberController.getMemberList teacherList : " + teacherList + CF.RS);
-		   model.addAttribute("msg", msg);
 		   model.addAttribute("teacherList", teacherList);
 	   } else if("manager".equals(msg)) {
 		   List<Manager> managerList = memberService.getManagerList();
 	       log.debug(CF.GDH+"MemberController.getMemberList managerList : " + managerList + CF.RS);
-	       model.addAttribute("msg", msg);
 	       model.addAttribute("managerList", managerList);
 	   }
-       
+	   
+	   model.addAttribute("msg", msg);
        return "member/getMemberList";
    }
 

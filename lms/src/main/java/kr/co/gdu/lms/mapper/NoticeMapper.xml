@@ -43,7 +43,7 @@
 	<insert id="insertNotice"
 			parameterType="kr.co.gdu.lms.vo.Notice">
 		<selectKey resultType="int" keyProperty="noticeNo" order="AFTER">
-			select LAST_INSERT_ID()
+			SELECT LAST_INSERT_ID()
 		</selectKey>
 		INSERT INTO notice (
 			notice_title

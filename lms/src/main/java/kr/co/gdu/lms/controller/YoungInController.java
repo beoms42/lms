@@ -41,10 +41,10 @@ public class YoungInController {
 	// 학생목록
 	@GetMapping("/loginCheck/addStudentInLectureForm")
 	public String addStudentInLectureForm(Model model
-			, @RequestParam(name = "lectureName") String lectureName) {
+										, @RequestParam(name = "lectureName") String lectureName) {
+		
 		List<Student> studentlist = memberService.getStudentList();
 
-		
 		//이미 배정된 학생은 빼야함
 		List<String> learningStudentList = youngInService.selectLearningStudentName();
 		
@@ -106,8 +106,7 @@ public class YoungInController {
 		HashMap<String, Object> map = null;
 		
 		// 키 : 렉처명 값: 학생수
-		Map<String, Object> numberStudent = new HashMap<String, Object>();
-		numberStudent = youngInService.selectStudentGroup();
+		Map<String, Object> numberStudent = youngInService.selectStudentGroup();
 		
 		// 강의의 List<Vo>를 List<HashMap<k,v>>로 분해
 		for(Lecture lect : lectList) {

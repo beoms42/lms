@@ -1,7 +1,6 @@
 package kr.co.gdu.lms.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.service.NoticeService;
 import kr.co.gdu.lms.vo.NoticeForm;
-import kr.co.gdu.lms.vo.Notice;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
