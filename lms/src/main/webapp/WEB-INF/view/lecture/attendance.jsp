@@ -27,15 +27,7 @@
   <!-- endinject -->
   <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/tftace.jpg" />
   <style>
-  	.title-bottom {margin-bottom : 50px;}
-  	.round {border-radius: 100%;
-  			margin-right:30px;}
-  	.smalltitle-bottom {margin-bottom : 40px;}
-  	.bottom {margin-bottom : 20px;}
-  	.left {margin-left : 20px;}
-  	.top {margin-top : 30px;}
-  	.right {margin-right : 30px;}
-  	.font-size {font-size : 20px;}
+	.bottom {margin-bottom : 40px;}
   </style>
 </head>
 <body>
@@ -54,80 +46,17 @@
       <!-- partial -->
         <div class="main-panel">
            <div class="content-wrapper">
+	         <h1 class="bottom">[출결관리]</h1>
 	          <div class="row">
 	            <div class="col-lg-10 grid-margin stretch-card">
 	              <div class="card">
-	                <div class="card-body"><h1 class="title-bottom">[공지사항]</h1>
-	                  <div class="table-responsive">
-	                  <h2 class="smalltitle-bottom">${notice.noticeTitle}</h2>
-		                  <div class="row bottom">
-		                  	<div class="col-sm-1">
-		                  		<img src="${pageContext.request.contextPath}/file/memberPhoto/dd.png" class="round left" width="50" height="50">	
-		                  	</div>
-		                  	<div class="col-sm-11 font-size">
-		                  		${notice.loginId}
-								<div>${notice.createDate}</div>	                  	
-		                  	</div>
-		                  </div>
-		                  <div class="left">
-		                  <hr>
-		                  <div style="font-size:6em;">${notice.noticeContent}</div>
-		                  <hr>
-							<!-- 파일 부분 -->
-							<c:if test="${fileList != null && fn:length(fileList) > 0}">
-								<div class="bottom font-size">첨부 파일</div>
-									<c:forEach var="f" items="${fileList}">
-										<c:choose>
-											<c:when test="${f.noticeFileType eq 'image/jpeg' 
-														|| f.noticeFileType eq 'image/png' 
-														|| f.noticeFileType eq 'image/gif'}">
-												<img src="${pageContext.request.contextPath}/file/noticeFile/${f.noticeFileName}" width="100" height="100">
-												<br>
-												<br>
-											</c:when>
-											<c:otherwise>
-												<a href="${pageContext.request.contextPath}/file/noticeFile/${f.noticeFileName}">${f.noticeFileOriginName}</a>
-												<br>
-												<br>
-											</c:otherwise>
-										</c:choose>
-									</c:forEach>
-							</c:if>
-						</div>
-						<c:if test="${sessionLv >= 3}">
-							<div class="float-right top bottom right">
-						    <a class="btn btn-info" href="${pageContext.request.contextPath}/loginCheck/adminManagerCheck/modifyNotice?noticeNo=${notice.noticeNo}">수정</a>
-						    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteNoticeModal">삭제</button>
-					    </div>
-						</c:if>
-	                  </div>
+	                <div class="card-body">
+	                
 	                </div>
 	              </div>
 	            </div>
 	        </div>
 	        
-	        <!-- Modal start-->
-	        <div class="modal fade" id="deleteNoticeModal" tabindex="-1" role="dialog" aria-labelledby="deleteDogModalLabel" aria-hidden="true">
-			  <div class="modal-dialog" role="document">
-			    <div class="modal-content">
-			      <div class="modal-header">
-			        <h5 class="modal-title" id="deleteDogModalLabel">공지사항 삭제</h5>
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			          <span aria-hidden="true">&times;</span>
-			        </button>
-			      </div>
-			      <div class="modal-body">
-			       	공지사항을 삭제하시겠습니까?
-			      </div>
-			      <div class="modal-footer">
-				      <a class="btn btn-danger" href="${pageContext.request.contextPath}/loginCheck/adminManagerCheck/deleteNotice?noticeNo=${notice.noticeNo}">삭제하기</a>
-				      <button type="button" class="btn btn-secondary" data-dismiss="modal">취소하기</button>
-			      </div>
-			    </div>
-			  </div>
-			</div>	
-			<!-- Modal end -->
-			
 	        <!-- content-wrapper ends -->
 	        <!-- partial:partials/_footer.html -->
 	        <footer class="footer">

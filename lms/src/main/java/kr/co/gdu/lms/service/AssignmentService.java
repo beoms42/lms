@@ -63,12 +63,7 @@ public class AssignmentService {
 		log.debug(CF.GMC+"AssignmentService.addAssignment.param assignmentExamNo : " + paramMap.get("assignmentExamNo") + CF.RS);
 		log.debug(CF.GMC+"AssignmentService.addAssignment.param sessionMemberId : " + paramMap.get("loginId") + CF.RS);
 		
-		//교욱 번호, 교육 강의 이름
-		int educationNo = assignmentmapper.selectEducationNo((String)paramMap.get("loginId"));
-		String lectureName = assignmentmapper.selectLectureName((String)paramMap.get("loginId"));
-		//매개변수 
-		paramMap.put("educationNo", educationNo);
-		paramMap.put("lectureName", lectureName);
+
 		
 		//리스트
 		List<AssignmentExam> assignmentList = assignmentmapper.selectAssignmentOne((int)paramMap.get("assignmentExamNo"));
@@ -226,15 +221,22 @@ public class AssignmentService {
 	public void modifiyAssignmentExam(AssignmentExam assignmentExam) {
 		assignmentmapper.updateAssignmentExam(assignmentExam);
 	}
-	public void updateScore(Map<String,Object> paramMap) {
+	public void modifyScore(Map<String,Object> paramMap) {
 		assignmentmapper.updateScore(paramMap);
 	}
 	public void deleteAssignment(int assignmentExamNo) {
 		assignmentmapper.deleteAssignment(assignmentExamNo);
 	}
+	public void deleteAssignmentSubmit(int assignmentExamNo) {
+		assignmentmapper.deleteAssignmentSubmit(assignmentExamNo);
+	}
+	public void deleteAssignmentfile(int assignmentExamNo) {
+		assignmentfilemapper.deleteAssignmentfile(assignmentExamNo);
+	}
 	public List<Lecture> getLectureNameList() {
 		List<Lecture> lectureNameList = assignmentmapper.selectLectureNameList();
 		return lectureNameList;
 	}
+	
 	
 }

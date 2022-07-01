@@ -84,7 +84,19 @@ public interface LectureMapper {
 
 // 자료실
 	// 자료실 리스트
-	List<Reference>selectLectureReferenceList(String lectureName);
+	List<Reference>selectLectureReferenceList(Map<String, Object> map);
+	
+	// 자료실 리스트 카운트
+	int selectReferenceCnt(String lectureName);
+	
+	// 강사 이름
+	String selectTeacherName(String loginId);
+	
+	// 강사 강의명
+	String selectTeacherLectureName(String teacher);
+	
+	// 학생 강의명
+	String selectStudentLectureName(String loginId);
 	
 	// 자료실 상세보기
 	Reference selectReferenceOne(int referenceNo);
@@ -103,9 +115,6 @@ public interface LectureMapper {
 	
 	// 자료실 파일 입력
 	int insertReferenceFile(ReferenceFile referenceFile);
-	
-	// 자료실 파일 수정
-	int updateReferenceFile(ReferenceFile referenceFile);
 	
 	// 자료실 파일 상세보기
 	String selectReferenceFileOne(int referenceFileNo);

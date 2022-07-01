@@ -56,7 +56,92 @@
 <body>
   <div class="container-scroller">
     <!-- partial:partials/_navbar.html -->
-    <jsp:include page="/inc/topbar.jsp"/>
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <a class="navbar-brand brand-logo mr-5" href="${pageContext.request.contextPath}/loginCheck/main">LMS-TFT</a>
+        <a class="navbar-brand brand-logo-mini" href="${pageContext.request.contextPath}/loginCheck/main">LMS</a>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+          <span class="icon-menu"></span>
+        </button>
+        <ul class="navbar-nav mr-lg-2">
+          <li class="nav-item nav-search d-none d-lg-block">
+            <div class="input-group">
+            	
+            </div>
+          </li>
+        </ul>
+        <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item dropdown">
+            <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
+              <i class="icon-bell mx-0"></i>
+              <span class="count"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
+              <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
+              <a class="dropdown-item preview-item">
+                <div class="preview-thumbnail">
+                  <div class="preview-icon bg-success">
+                    <i class="ti-info-alt mx-0"></i>
+                  </div>
+                </div>
+                <div class="preview-item-content">
+                  <h6 class="preview-subject font-weight-normal">Application Error</h6>
+                  <p class="font-weight-light small-text mb-0 text-muted">
+                    Just now
+                  </p>
+                </div>
+              </a>
+              <a class="dropdown-item preview-item">
+                <div class="preview-thumbnail">
+                  <div class="preview-icon bg-warning">
+                    <i class="ti-settings mx-0"></i>
+                  </div>
+                </div>
+                <div class="preview-item-content">
+                  <h6 class="preview-subject font-weight-normal">Settings</h6>
+                  <p class="font-weight-light small-text mb-0 text-muted">
+                    Private message
+                  </p>
+                </div>
+              </a>
+              <a class="dropdown-item preview-item">
+                <div class="preview-thumbnail">
+                  <div class="preview-icon bg-info">
+                    <i class="ti-user mx-0"></i>
+                  </div>
+                </div>
+                <div class="preview-item-content">
+                  <h6 class="preview-subject font-weight-normal">New user registration</h6>
+                  <p class="font-weight-light small-text mb-0 text-muted">
+                    2 days ago
+                  </p>
+                </div>
+              </a>
+            </div>
+          </li>
+          <li class="nav-item nav-profile dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+              <img src="${pageContext.request.contextPath}/images/tftace.jpg" alt="profile"/>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+              <a class="dropdown-item">
+                <i class="ti-settings text-primary"></i>
+                Settings
+              </a>
+              <a class="dropdown-item">
+                <i class="ti-power-off text-primary"></i>
+                Logout
+              </a>
+            </div>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+          <span class="icon-menu"></span>
+        </button>
+      </div>
+    </nav>
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <!-- partial:partials/_settings-panel.html -->
@@ -82,10 +167,11 @@
 					                  <p class="card-description">
 					                  </p>
 					                  <div class="table-responsive">
+					                  <c:forEach var="n" items="${assignmentList}">
 											<table class="table table-striped">
 										        <tbody>
-										        	<c:forEach var="n" items="${assignmentList}">
-											                <input type="number" id ="assignmentExamNo" value="${n.assignmentExamNo}">
+										        	
+											                <input type="hidden" id ="assignmentExamNo" value="${n.assignmentExamNo}">
 											                <input type="hidden" id="educationNo" value="${n.educationNo}">
 											                <tr>
 													        	<td>제목</td>
@@ -110,15 +196,16 @@
 																		</script>
 																	</td>
 														        </tr>
-													      
-												        </c:forEach>
+													    
 										        </tbody>
-						
+									
+											 
 										    </table>
-										    <c:if test="${level>=2 }">
-								      			<a href="${pageContext.request.contextPath}/loginCheck/modifyAssignment?assignmentExamNo=${n.assignmentExamNo}" class="btn btn-primary">수정</a>
+  											<c:if test="${level>=2 }">
+								      			<a href="${pageContext.request.contextPath}/loginCheck/modifyAssignment?assignmentExamNo=${n.assignmentExamNo}&lectureName=${lectureName}" class="btn btn-primary">수정</a>
 								      			<a href="${pageContext.request.contextPath}/loginCheck/deleteAssignment?assignmentExamNo=${n.assignmentExamNo}" class="btn btn-danger">삭제</a>
 											 </c:if>
+											</c:forEach>
 										  </div>
 										  </div>
 										  </div>
@@ -133,7 +220,8 @@
 								                  <p class="card-description"></p>
 								                  <div class="table-responsive">
 														<c:forEach var="m" items="${assignmentSubmitTeacher}">
-															<form action="${pageContext.request.contextPath}/">
+															<form action="${pageContext.request.contextPath}/loginCheck/getScore?lectureName=${lectureName}" method="get">
+																
 																<table class="table table-hover">
 																		<thead>
 																			<tr>
@@ -142,40 +230,40 @@
 																				<th>제출 시간</th>
 																				<th>싸인</th>
 																				<th>점수</th>
-																				<th>파일</th>
+																				
 																			</tr>
 																		</thead>
 																		<tbody>
 																			<tr>
+																				
 																				<td>${m.loginId}</td>
 																				<td>${m.assignmentSubmitContent}</td>
 																				<td>${m.createDate}</td>
 																				<td><img src="${m.assignmentSignfileURL}" width="100%"></td>
 																				<c:if test="${m.assignmentSubmitScore eq '채점중' }">
-																					<c:if test="${level >= 2 }">
 																						<td>
-																							<input type="number" id="updateScore" name="updateScore" max="100" min="0" step="10"><br><br><button type="button" id="submitScore">성적 입력</button>
+																							<input type="hidden" id="lectureName" name="lectureName" value="${lectureName}">
+																							<input type="hidden" id="assignmentExamNo" name="assignmentExamNo" value="${m.assignmentExamNo}">
+																							<input type="hidden" id="educationNo" name="educationNo" value="${m.educationNo}">
+																							<input type="number" id="assignmentSubmitScore" name="assignmentSubmitScore" max="100" min="0" step="10"><br><br>
+																							<button type="submit" id="sumitScore">성적 입력</button>
 																						</td>
-																					</c:if>
-																				<c:if test="${level< 2} ">
-																					<td>${m.assignmentSubmitScore}</td>
-																				</c:if>
 																				</c:if>
 																				<c:if test="${m.assignmentSubmitScore != '채점중'}">
 																						<td>${m.assignmentSubmitScore}</td>
 																				</c:if>
+																				<tr><td>파일</td>
 																				<c:forEach var="f" items="${fileList}">
-																	  				<c:if test="${f.assignmentFileType.equals('image/jpeg') || f.assignmentFileType.equals('image/gif') || f.assignmentFileType.equals('image/PNG') || f.assignmentFileType.equals('image/webp')}">
-																		  				<td><img src="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}" width="100%"></td>
+																  					<c:if test="${f.assignmentFileType.equals('image/jpeg') || f.assignmentFileType.equals('image/gif') || f.assignmentFileType.equals('image/PNG') || f.assignmentFileType.equals('image/webp')}">
+																		  				<td><a href="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}"><img src="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}"></a></td>
 																	  				</c:if>
+																	  				
+																	  				
 																	  				<c:if test="${f.assignmentFileType.equals('application/octet-stream')}">
 																	  					<td><a href="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}">${f.assignmentFileOriginName}</a></td>
 																	  				</c:if>
-																	  				<c:if test="${fn:length(fileList) == 0}">
-																	  					<td></td>
-																	  				</c:if>
 																				</c:forEach>
-																			</tr>
+																				</tr>
 																		</tbody>
 																	</table>
 																</form>
@@ -240,7 +328,6 @@
 																		<th>제출 시간</th>
 																		<th>싸인</th>
 																		<th>점수</th>
-																		<th>파일</th>
 																	</tr>
 																</thead>
 																<tbody>
@@ -250,32 +337,21 @@
 																			<td>${m.assignmentSubmitContent}</td>
 																			<td>${m.createDate}</td>
 																			<td><img src="${m.assignmentSignfileURL}" width="100%"></td>
-																			<c:if test="${m.assignmentSubmitScore eq '채점중' }">
-																			<c:if test="${level >= 2 }">
-																				<td>
-																					<a href="${pageContext.request.contextPath}/loginCheck/updateScore?assignmentExamNo=${m.assignmentExamNo}">입력</a>
-																				</td>
-																			</c:if>
-																			<c:if test="${level< 2} ">
-																				<td>${m.assignmentSubmitScore}</td>
-																			</c:if>
-																			</c:if>
-																			<c:if test="${m.assignmentSubmitScore != '채점중'}">
-																					<td>${m.assignmentSubmitScore}</td>
-																			</c:if>
+																			<td>${m.assignmentSubmitScore}</td>
 																		</c:forEach>
+																		</tr>
+																		<tr><td>파일</td>
 																		<c:forEach var="f" items="${fileList}">
 														  					<c:if test="${f.assignmentFileType.equals('image/jpeg') || f.assignmentFileType.equals('image/gif') || f.assignmentFileType.equals('image/PNG') || f.assignmentFileType.equals('image/webp')}">
-																  				<td><img src="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}" width="100%"></td>
+																  				<td><a href="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}"><img src="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}"></a></td>
 															  				</c:if>
+															  				
 															  				
 															  				<c:if test="${f.assignmentFileType.equals('application/octet-stream')}">
 															  					<td><a href="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}">${f.assignmentFileOriginName}</a></td>
 															  				</c:if>
-														  	
-															
 																		</c:forEach>
-																	</tr>
+																		</tr>
 																</tbody>
 															</table>
 															</div>
@@ -369,23 +445,13 @@
 				$('#addForm').submit();
 				return;
 			} else{
-				alert('파일이 첨부되지 않았습니다.');
 			}
 	});
-	$('#submitScore').click(function(){
-		var url='${pageContext.request.contextPath}';
-		$.ajax({
-				type : "POST"
-				, url : url+"/submitScore"
-				, data : {assignmentSubmitScore:$('#updateScore').val()
-						 ,assignmentExamNo:$('#assignmentExamNo').val()
-						 ,educationNo:$('#educationNo').val()
-						 }
-				, success : function(a) {
-					alert(a);
-				}
-				
-			})
+	$('#sumitScore').click(function(){
+		if($('#assignmentSubmitScore').val() > 100 || $('#assignmentSubmitScore').val() <0){
+			$('#assignmentSubmitScore').val()= null;
+			$('#assignmentSubmitScore').focus();
+		}
 	});
 </script>
 </body>

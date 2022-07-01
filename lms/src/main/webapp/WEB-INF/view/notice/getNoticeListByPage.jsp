@@ -63,7 +63,7 @@
               <div class="card">
                 <div class="card-body"><h3 class="bottom">[공지사항]</h3>
                 <c:if test="${sessionLv >= 3}">
-                    <a class="float-right btn btn-info" href="${pageContext.request.contextPath}/loginCheck/addNotice">게시글 입력</a>
+                    <a class="float-right btn btn-info" href="${pageContext.request.contextPath}/loginCheck/adminManagerCheck/addNotice">게시글 입력</a>
                 </c:if>
                   <div class="table-responsive">
                     <table class="table">

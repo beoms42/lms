@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.gdu.lms.mapper.YoungInMapper">
+	<!-- ===============================강의=============================== -->
 	<select id="selectLearningStudentName"
 		resultType="String">
 		SELECT 
@@ -52,4 +53,100 @@
 		FROM education
 		GROUP BY lecture_name
 	</select>
+	
+		<!-- ===============================커뮤니티=============================== -->
+		
+	<!--  qna insert + 제네레이트 키값 : qnaNo -->
+	<insert id="addQnaAction"
+			parameterType="kr.co.gdu.lms.vo.Qna">
+		<selectKey resultType="int" keyProperty="qnaNo" order="AFTER">
+			SELECT last_insert_id();
+		</selectKey>
+		INSERT INTO qna(
+			qna_title
+			, qna_content
+			, login_id
+			, create_date
+			, qna_disclosure
+			,  qna_kind
+			, qna_state
+		)
+		VALUES(
+			#{qnaTitle}
+			, #{qnaContent}
+			, #{loginId}
+			, NOW()
+			, #{qnaDisclosure}
+			, '문의'
+			, '대기중'
+		)
+	</insert>
+	
+	<!-- 파일 넣기 qna -->
+	<insert id="addQnaFileInsert"
+		parameterType="kr.co.gdu.lms.vo.QnaFile">
+		INSERT INTO qna_file(
+			qna_no
+			, login_id
+			, qna_file_name
+			, qna_file_origin_name
+			, qna_file_type
+			, qna_file_size
+			, qna_file_create_date
+		)
+		VALUES (
+			#{qnaNo}
+			, #{loginId}
+			, #{qnaFileName}
+			, #{qnaFileOriginName}
+			, #{qnaFileType}
+			, #{qnaFileSize}
+			, NOW()
+		)
+	</insert>
+	
+	<!-- qnaOne 보기 -->
+	<select id="selectQnaByQnaNo"
+		parameterType="int"
+		resultType="kr.co.gdu.lms.vo.Qna">
+		SELECT
+			qna_no qnaNo
+			, qna_title qnaTitle
+			, qna_content qnaContent
+			, login_id loginId
+			, create_date createDate
+			, qna_disclosure qnaDisclosure
+			, qna_kind qnaKind
+			, qna_state qnaState
+		FROM qna
+		WHERE qna_kind = '문의' and qna_No = #{qnaNo}
+	</select>
+	
+	<!-- qnaOne 보기 -->
+	<select id="selectQnaByQnaNoAnswer"
+		parameterType="int"
+		resultType="kr.co.gdu.lms.vo.Qna">
+		SELECT
+			qna_no qnaNo
+			, qna_title qnaTitle
+			, qna_content qnaContent
+			, login_id loginId
+			, create_date createDate
+			, qna_disclosure qnaDisclosure
+			, qna_kind qnaKind
+			, qna_state qnaState
+		FROM qna
+		WHERE qna_kind = '답변' and qna_No = #{qnaNo}
+	</select>
+	
+	<!-- qnaOneFileList 보기 -->
+	<select id="selectQnaFileByQnaNo"
+		parameterType="int"
+		resultType="String">
+		SELECT
+			qna_file_name qnaFileName
+		FROM qna_file
+		WHERE qna_no = #{qnaNo}
+	</select>
+	
 </mapper>

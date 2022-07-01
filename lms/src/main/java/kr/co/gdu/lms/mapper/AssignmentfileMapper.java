@@ -11,4 +11,5 @@ import kr.co.gdu.lms.vo.AssignmentFile;
 public interface AssignmentfileMapper {
 	void insertAssingmentfile(AssignmentFile assignmentfile);
 	List<AssignmentFile> selectAssinmetFile(Map<String,Object> map);
+	void deleteAssignmentfile(int assignmentExamNo);
 }

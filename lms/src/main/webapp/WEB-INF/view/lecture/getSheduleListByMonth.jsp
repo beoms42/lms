@@ -68,7 +68,7 @@
 		<a class="btn bg-dark text-white" href="${pageContext.request.contextPath}/loginCheck/getSheduleListByMonth?y=${y}&m=${m-1}">이전달</a>&nbsp;&nbsp;
 		<a class="btn bg-dark text-white" href="${pageContext.request.contextPath}/loginCheck/getSheduleListByMonth?y=${y}&m=${m+1}">다음달</a>
 		<div class="float-right bottom">
-      		<c:if test="${LoginLv > 2}">
+      		<c:if test="${sessionLv > 2}">
       			<button type="button" class="btn bg-dark text-white" data-toggle="modal" data-target="#addScheduleModal">일정추가</button>
       		</c:if>
 		</div>
@@ -212,8 +212,8 @@
 			$('#addScheduleHelper').text('날짜를 선택하세요.');
 		} else if($('#lectureSubjectNo').val() == '') {
 			$('#addScheduleHelper').text('[강의]과목을 선택하세요.');
-		} else if($('#scheduleStartDate').val() >= $('#scheduleEndDate').val()) {
-			$('#addScheduleHelper').text('시작날짜가 종료날짜보다 늦게 되었있습니다.');
+		} else if($('#scheduleStartDate').val() > $('#scheduleEndDate').val()) {
+			$('#addScheduleHelper').text('시작날짜가 종료날짜보다 늦게 되어있습니다.');
 		} else {
 			$('#addScheduleHelper').text('');
 			$('#addScheduleForm').submit();

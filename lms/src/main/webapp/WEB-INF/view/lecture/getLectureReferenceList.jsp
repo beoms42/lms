@@ -45,7 +45,7 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                  <h1>[QnAList]</h1>
+                  <div><h3>[${lectureName}]자료실</h3></div>
                 </div>
                 <div class="col-12 col-xl-4">
                  <div class="justify-content-end d-flex">
@@ -54,34 +54,37 @@
               </div>
             </div>
           </div>
-          
-		<!-- 강의개설 실제부분 --> 
+          		<div>
+	          		<c:if test="${sessionLv == 2}">
+	          			<a href="${pageContext.request.contextPath}/loginCheck/addReference?lectureName=${lectureName}"  class="btn  btn-facebook auth-form-btn">게시글 입력</a>
+	          		</c:if>
+                </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.html -->
+        <!-- partial -->
+        
           <div class="row">
-            <div class="col-lg-6 grid-margin stretch-card">
+            <div class="col-lg-10 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">문의리스트 <a href="${pageContext.request.contextPath}/loginCheck/addQna" style="margin-left: 200px">[글쓰기]</a></h4>
+                  <h4 class="card-title">자료실</h4>
                   <p class="card-description">
                   </p>
                   <div class="table-responsive">
                     <table class="table">
                       <thead>
                         <tr>
-                          <th>제목</th>
-                          <th>작성자</th>
-                          <th>시간</th>
-                          <th>공개여부</th>
-                          <th>답변여부</th>
+                          <th>번호</th>
+                          <th>자료실 제목</th>
+                          <th>작성 날짜</th>
                         </tr>
                       </thead>
                       <tbody>
-                      <c:forEach var="qna" items="${qnaList}">
+                      <c:forEach var="l" items="${list}">
                       	<tr>
-                      		<td><a href="${pageContext.request.contextPath}/loginCheck/qnaListOne?qnaNo=${qna.qnaNo}">${qna.qnaTitle}</a></td>
-                      		<td>${qna.loginId}</td>
-                      		<td>${qna.createDate}</td>
-                      		<td>${qna.qnaDisclosure}</td>
-                      		<td>${qna.qnaState}</td>
+                      		<td>${l.referenceNo}</td>
+                      		<td><a href="${pageContext.request.contextPath}/loginCheck/getReferenceOne?referenceNo=${l.referenceNo}">${l.referenceTitle}</a></td>
+                      		<td>${l.createDate}</td>
                       	</tr>
                       </c:forEach>                
                       </tbody>
@@ -90,14 +93,19 @@
                 </div>
               </div>
             </div>
-          
           </div>
-          <!-- 강의개설 끝 -->
-          
-        <!-- content-wrapper ends -->
-        <!-- partial:partials/_footer.html -->
-        <!-- partial -->
+		<c:if test="${currentPage > 1}">
+			<a href="${pageContext.request.contextPath}/loginCheck/getLectureReferenceList?currentPage=${currentPage-1}">이전</a>
+		</c:if>
+		
+		<c:if test="${currentPage < lastPage}">
+			<a href="${pageContext.request.contextPath}/loginCheck/getLectureReferenceList?currentPage=${currentPage+1}">다음</a>
+		</c:if>
+			
       </div>
+      
+      
+      
       <!-- main-panel ends -->
     </div>   
     <!-- page-body-wrapper ends -->

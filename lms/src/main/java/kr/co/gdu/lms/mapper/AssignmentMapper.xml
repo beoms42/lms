@@ -14,6 +14,7 @@
 		FROM assignment_exam a INNER JOIN education e
 		ON a.education_no = e.education_no
 		WHERE e.lecture_name = #{lectureName}
+		ORDER BY create_date DESC
 		LIMIT #{beginRow},#{rowPerPage}
 	</select>
 	<insert id="insertAssignmentExam"
@@ -136,8 +137,13 @@
 			resultType="kr.co.gdu.lms.vo.Lecture">
 		SELECT lecture_name lectureName FROM lecture
 	</select>
+	<delete id="deleteAssignmentSubmit"
+			parameterType="int">
+		DELETE FROM assignment_submit WHERE assignment_exam_no = #{assignmentExamNo}
+	</delete>
+
 	<delete id="deleteAssignment"
 			parameterType="int">
-		DELETE assignment_exam WHERE assignment_exam_no = #{assignmentExamNo}
+		DELETE FROM assignment_exam WHERE assignment_exam_no = #{assignmentExamNo}
 	</delete>
 </mapper>

@@ -8,15 +8,17 @@ import java.net.URLEncoder;
 
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Transactional
 public class AdRestController {
 @GetMapping("/adRestController")
-public String adRestController() throws IOException {
-int currentPage	=1;
-int rowPerPage = 12;
+public String adRestController(@RequestParam(value="currentPage",defaultValue = "1")int currentPage
+							  ,@RequestParam(value="rowPerPage",defaultValue = "12")int rowPerPage) throws IOException {
+
+
 StringBuilder urlBuilder = new StringBuilder("http://openapi.seoul.go.kr:8088/685a675356656a72363446704b5a72/Json/GetJobInfo/"+currentPage+"/"+rowPerPage+"/"); 
 	/*URL*/
 	urlBuilder.append("/" + URLEncoder.encode("685a675356656a72363446704b5a72","UTF-8") ); /*인증키

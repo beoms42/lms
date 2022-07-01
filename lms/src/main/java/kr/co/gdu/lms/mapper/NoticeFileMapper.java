@@ -18,4 +18,6 @@ public interface NoticeFileMapper {
 	// 공지사항 파일 추가
 	int insertNoticeFile(NoticeFile noticeFile);
 	
+	// 해당 공지사항 번호 공지사항 파일 이름 리스트
+	List<String> selectNoticeFileNameList(int noticeNo);
 }

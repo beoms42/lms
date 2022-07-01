@@ -134,7 +134,6 @@ public class NoticeService {
 		
 		// 저장 장치 파일 삭제 
 		File f = new File(path+noticeFileName);
-		log.debug(CF.OHI+"팡리 사젝 f _"+f+CF.RS);
 		if(f.exists()) {
 			f.delete();
 			log.debug(CF.OHI+"NoticeService.deleteNoticeFile 저장 장치 파일 삭제 성공 "+CF.RS);
@@ -143,6 +142,7 @@ public class NoticeService {
 		}
 		
 		// db에서 해당 이름 가진 파일 삭제
+		
 		int row = noticeFileMapper.deleteNoticeFile(noticeFileName);
 		
 		return row;
@@ -204,6 +204,39 @@ public class NoticeService {
 				} 
 			}
 		}
+		
+		return row;
+	}
+	
+	// 공지사항 삭제 ( 파일까지 모두)
+	public int deleteNotice(int noticeNo, String path) {
+		
+		List<String> fileNameList = noticeFileMapper.selectNoticeFileNameList(noticeNo);
+		log.debug(CF.OHI+"NoticeService.deleteNoice.fileNameList : "+fileNameList+CF.RS);
+		
+		// 공지사항에 파일이 존재한다면
+		if(fileNameList != null) {
+			for(String s : fileNameList) {
+				
+				// db에서 파일 삭제
+				int row = noticeFileMapper.deleteNoticeFile(s);
+				
+				// db에서 삭제됐다면
+				if(row ==1) {
+					File f = new File(path+s);
+					if(f.exists()) {
+						f.delete();
+						log.debug(CF.OHI+"NoticeService.deleteNoticeFile 저장 장치 파일 삭제 성공 "+CF.RS);
+					} else {
+						log.debug(CF.OHI+"NoticeService.deleteNoticeFile 저장 장치 파일 삭제 실패 "+CF.RS);
+					}
+				}
+			}
+		}
+		
+		// 공지사항 삭제
+		int row = noticeMapper.deleteNotice(noticeNo);
+		log.debug(CF.OHI+"NoticeService.deleteNotice row : "+row+CF.RS);
 		
 		return row;
 	}

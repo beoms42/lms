@@ -34,32 +34,42 @@ public class LoginController {
 	@GetMapping("/changePw")
 	public String changePw(@RequestParam(value = "changePwLater", defaultValue = "") String changePwLater
 						, @RequestParam(value = "loginId") String loginId)  {
+		
 		log.debug(CF.LCH+"LoginController.changePw.get changePwLater : "+changePwLater+CF.RS);
+		
 		if("on".equals(changePwLater)) {
 			loginService.modifyLastChangePwDate(loginId);
 			log.debug(CF.LCH+"LoginController.changePw.get 3개월 연장"+CF.RS);
 			return "redirect:/loginCheck/main";
 		}
+		
 		log.debug(CF.LCH+"LoginController.changePw.get 비밀번호 변경"+CF.RS);
 		return "redirect:/modifyLoginPw?loginId="+loginId;
 	}
 	
 	@GetMapping("/loginCheck/modifyAddMemberActiveDenied")
 	public String modifyAddMemberActiveDenied(@RequestParam(name="loginId") String loginId) {
+		
 		log.debug(CF.LCH + "LoginController.modifyAddMemberActiveDenied.get loginId : " + loginId + CF.RS);
+		
 		loginService.modifyAddMemberActiveDenied(loginId);
+		
 		return "redirect:/loginCheck/acceptAddMember";
 	}
 	
 	@GetMapping("/loginCheck/modifyAddMemberActive")
 	public String modifyAddMemberActive(@RequestParam(name="loginId") String loginId) {
+		
 		log.debug(CF.LCH + "LoginController.modifyAddMemberActive.get loginId : " + loginId + CF.RS);
+		
 		loginService.modifyAddMemberActive(loginId);
+		
 		return "redirect:/loginCheck/acceptAddMember";
 	}
 	
 	@GetMapping("/loginCheck/acceptAddMember")
 	public String acceptAddMember(Model model) {
+		
 		Map<String, Object> returnMap = loginService.acceptAddMember();
 		
 		log.debug(CF.LCH + "LoginController.acceptAddMemeber.get returnMap : " + returnMap + CF.RS);
@@ -186,8 +196,8 @@ public class LoginController {
 		
 		if("manager".equals(addChk)) {
 			Map<String, Object> map = loginService.addMemberGetDeptAndPosition();
-			log.debug(CF.OHI+"LoginController.addMember.map dept : "+map.get("dept")+CF.RS);
-			log.debug(CF.OHI+"LoginController.addMember.map position : "+map.get("position")+CF.RS);
+			log.debug(CF.OHI+"LoginController.addMember.map : "+map+CF.RS);
+			
 			model.addAttribute("dept",map.get("dept"));
 			model.addAttribute("position",map.get("position"));
 		}

@@ -45,7 +45,7 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                  <h1>[QnAList]</h1>
+                  <h3>자료실 입력</h3>
                 </div>
                 <div class="col-12 col-xl-4">
                  <div class="justify-content-end d-flex">
@@ -54,46 +54,43 @@
               </div>
             </div>
           </div>
-          
-		<!-- 강의개설 실제부분 --> 
+          <!-- 강의개설 실제부분 --> 
           <div class="row">
-            <div class="col-lg-6 grid-margin stretch-card">
+            <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">문의리스트 <a href="${pageContext.request.contextPath}/loginCheck/addQna" style="margin-left: 200px">[글쓰기]</a></h4>
                   <p class="card-description">
                   </p>
                   <div class="table-responsive">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th>제목</th>
-                          <th>작성자</th>
-                          <th>시간</th>
-                          <th>공개여부</th>
-                          <th>답변여부</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      <c:forEach var="qna" items="${qnaList}">
-                      	<tr>
-                      		<td><a href="${pageContext.request.contextPath}/loginCheck/qnaListOne?qnaNo=${qna.qnaNo}">${qna.qnaTitle}</a></td>
-                      		<td>${qna.loginId}</td>
-                      		<td>${qna.createDate}</td>
-                      		<td>${qna.qnaDisclosure}</td>
-                      		<td>${qna.qnaState}</td>
-                      	</tr>
-                      </c:forEach>                
-                      </tbody>
-                    </table>
+                   	<form id="addReferenceForm" method="post" action="${pageContext.request.contextPath}/loginCheck/addReference" enctype="multipart/form-data">
+	                     <table class="table">
+	                      	<input type="text" name="lectureName" value="${lectureName}" hidden="hidden">
+	                      	<tr>
+				               <td>제목</td>
+				               <td><input type="text" name="referenceTitle" id="referenceTitle" class="form-control"></td>
+				            </tr>
+				            <tr>
+				               <td>내용</td>
+				               <td><textarea rows="5" cols="50" name="referenceContent" id="referenceContent" class="form-control"></textarea></td>
+				            </tr>
+				            <tr>
+				               <td><button class="btn  btn-facebook auth-form-btn" type="button" id="addFileupload" >파일 업로드 추가</button></td>
+				               <td id="fileSection">
+				                  <!-- 파일 업로드 input 태그가 추가될 영역 -->
+				               </td>
+				            </tr>
+				            <tr>
+				               <td colspan="2">
+				                  <button class="btn  btn-facebook auth-form-btn" type="button" id="addReferenceBtn">입력</button>
+				               </td>
+				            </tr>
+                    	</table>
+                    </form>
                   </div>
                 </div>
               </div>
             </div>
-          
           </div>
-          <!-- 강의개설 끝 -->
-          
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
         <!-- partial -->
@@ -125,7 +122,46 @@
   <script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
   <script src="${pageContext.request.contextPath}/js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
-
 </body>
+<script type="text/javascript">
+   $(document).ready(function() { // html페이지를 다 로드시키고 매개변수함수를 실행
+      $('#addFileupload').click(function() {
+         // 추가된 referenceFileList안에 파일이 첨부되지 않았다면 새로운 referenceFileList 추가 X
+         let flag = true; 
+         
+         // jquery api 사용
+         $('.referenceFileList').each(function() { // each함수를 이용한 반복
+            if($(this).val() == '') {
+               flag = false;
+            }
+         });
+         
+         if(flag) {
+            $('#fileSection').append("<div><input class='referenceFileList' type='file' name='referenceFileList' class='form-control'></div>");
+         } else {
+            alert('파일이 첨부되지 않은 referenceFileList가 존재합니다.');
+         }
+      });
+   
+      $('#addReferenceBtn').click(function() {
+         if($('#referenceTitle').val() == '') {
+            alert('referenceTitle 입력하세요');
+         } else if($('#referenceContent').val() == '') {
+            alert('referenceContent 입력하세요');
+         } else {
+            let flag2 = true;
+            $('.referenceFileList').each(function() { // each함수를 이용한 반복
+               if($(this).val() == '') {
+                  flag2 = false;
+               }
+            });
+            if(flag2) {
+               $('#addReferenceForm').submit();
+            } else {
+               alert('파일이 첨부되지 않은 referenceFileList가 존재합니다.');
+            }
+         }
+      });
+   });
+</script>
 </html>
-

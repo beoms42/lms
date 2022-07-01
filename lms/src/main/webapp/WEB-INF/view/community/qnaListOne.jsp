@@ -45,7 +45,7 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                  <h1>[QnAList]</h1>
+                  <h1>[QnA문의]</h1>
                 </div>
                 <div class="col-12 col-xl-4">
                  <div class="justify-content-end d-flex">
@@ -55,44 +55,51 @@
             </div>
           </div>
           
-		<!-- 강의개설 실제부분 --> 
           <div class="row">
-            <div class="col-lg-6 grid-margin stretch-card">
+          	<div class="col-md-2 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">문의리스트 <a href="${pageContext.request.contextPath}/loginCheck/addQna" style="margin-left: 200px">[글쓰기]</a></h4>
-                  <p class="card-description">
-                  </p>
-                  <div class="table-responsive">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th>제목</th>
-                          <th>작성자</th>
-                          <th>시간</th>
-                          <th>공개여부</th>
-                          <th>답변여부</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      <c:forEach var="qna" items="${qnaList}">
-                      	<tr>
-                      		<td><a href="${pageContext.request.contextPath}/loginCheck/qnaListOne?qnaNo=${qna.qnaNo}">${qna.qnaTitle}</a></td>
-                      		<td>${qna.loginId}</td>
-                      		<td>${qna.createDate}</td>
-                      		<td>${qna.qnaDisclosure}</td>
-                      		<td>${qna.qnaState}</td>
-                      	</tr>
-                      </c:forEach>                
-                      </tbody>
-                    </table>
-                  </div>
+                  
+                    <c:forEach var="picture" items="${fileList}"> 
+                    	<blockquote class="blockquote blockquote-primary" style="text-align: center;">
+                    		<img alt="" src="${pageContext.request.contextPath}/file/communityFile/${picture}" width="150px" height="150px">
+                    	</blockquote>
+                    </c:forEach>
+                 
                 </div>
               </div>
             </div>
-          
+            <div class="col-md-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">문의</h4>
+                  <h2 class="card-title">불만있냥</h2>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <address>
+                        <p class="font-weight-bold">집에 가고싶을지도...</p>
+                        <p>
+                          695 lsom Ave,
+                        </p>
+                        <p>
+                           Suite 00
+                        </p>
+                        <p>
+                          San Francisco, CA 94107
+                        </p>
+                      </address>
+                    </div>
+                   
+                  </div>
+                </div>
+                <div class="card-body">
+                  <h4 class="card-title">답변</h4>
+                  <h2 class="card-title">집에 갈래요...</h2>
+                </div>
+              </div>
+            </div>
           </div>
-          <!-- 강의개설 끝 -->
+
           
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
