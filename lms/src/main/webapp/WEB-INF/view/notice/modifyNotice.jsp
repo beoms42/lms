@@ -63,7 +63,7 @@
               <div class="card">
                 <div class="card-body"><h3 class="bottom">[공지사항]</h3>
                   <div class="table-responsive">
-                  <form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyNotice" enctype="multipart/form-data">
+                  <form id="noticeForm" method="post" action="${pageContext.request.contextPath}/loginCheck/modifyNotice" enctype="multipart/form-data">
 	                   <table class="table">
 		                    <colgroup>
 		                    	<col width="20%">
@@ -250,7 +250,7 @@
 			})
 			
 			if(flag) {
-				$('#noticeForm').submit();	
+				$('#noticeForm').submit();
 			} else {
 				alert('파일이 첨부되지않은 공지사항파일이 존재합니다');				
 			}

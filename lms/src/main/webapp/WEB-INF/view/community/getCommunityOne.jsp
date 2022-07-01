@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-    
+<%@ taglib prefix="fn" uri= "http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -27,98 +27,21 @@
   <!-- endinject -->
   <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/tftace.jpg" />
   <style>
-  	.bottom {margin-bottom : 30px;}
+  	.title-bottom {margin-bottom : 50px;}
+  	.round {border-radius: 100%;
+  			margin-right:30px;}
+  	.smalltitle-bottom {margin-bottom : 40px;}
+  	.bottom {margin-bottom : 20px;}
+  	.left {margin-left : 20px;}
+  	.top {margin-top : 30px;}
+  	.right {margin-right : 30px;}
+  	.font-size {font-size : 20px;}
   </style>
 </head>
 <body>
   <div class="container-scroller">
     <!-- partial:partials/_navbar.html -->
-    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo mr-5" href="${pageContext.request.contextPath}/loginCheck/main">LMS-TFT</a>
-        <a class="navbar-brand brand-logo-mini" href="${pageContext.request.contextPath}/loginCheck/main">LMS</a>
-      </div>
-      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-          <span class="icon-menu"></span>
-        </button>
-        <ul class="navbar-nav mr-lg-2">
-          <li class="nav-item nav-search d-none d-lg-block">
-            <div class="input-group">
-            	
-            </div>
-          </li>
-        </ul>
-        <ul class="navbar-nav navbar-nav-right">
-          <li class="nav-item dropdown">
-            <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
-              <i class="icon-bell mx-0"></i>
-              <span class="count"></span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-              <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-success">
-                    <i class="ti-info-alt mx-0"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-normal">Application Error</h6>
-                  <p class="font-weight-light small-text mb-0 text-muted">
-                    Just now
-                  </p>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-warning">
-                    <i class="ti-settings mx-0"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-normal">Settings</h6>
-                  <p class="font-weight-light small-text mb-0 text-muted">
-                    Private message
-                  </p>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-info">
-                    <i class="ti-user mx-0"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-normal">New user registration</h6>
-                  <p class="font-weight-light small-text mb-0 text-muted">
-                    2 days ago
-                  </p>
-                </div>
-              </a>
-            </div>
-          </li>
-          <li class="nav-item nav-profile dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-              <img src="${pageContext.request.contextPath}/images/tftace.jpg" alt="profile"/>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item">
-                <i class="ti-settings text-primary"></i>
-                Settings
-              </a>
-              <a class="dropdown-item">
-                <i class="ti-power-off text-primary"></i>
-                Logout
-              </a>
-            </div>
-          </li>
-        </ul>
-        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-          <span class="icon-menu"></span>
-        </button>
-      </div>
-    </nav>
+  	<jsp:include page="/inc/topbar.jsp"/>
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <!-- partial:partials/_settings-panel.html -->
@@ -130,82 +53,73 @@
       </nav>
       <!-- partial -->
         <div class="main-panel">
-        <div class="content-wrapper">
-          <div class="row">
-            <div class="col-lg-10 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body"><h3 class="bottom">[커뮤니티 게시글]</h3>
-					<a href="${pageContext.request.contextPath}/loginCheck/removeCommunity?communityNo=${community.communityNo}">삭제</a>
-					<a href="${pageContext.request.contextPath}/loginCheck/modifyCommunity?communityNo=${community.communityNo}">수정</a>
-					<br><br>
-					<input type="hidden" name="communityPw" value="${community.communityPw}"><br>
-					<br><br>
-                  <div class="table-responsive">
-                    <table class="table">
-	                    <colgroup>
-	                    	<col width="20%">
-	                    	<col width="*">
-	                    </colgroup>
-						<tr>
-							<th>번호</th>
-							<td>${community.communityNo}</td>
-						</tr>				        
-						<tr>
-							<th>제목</th>
-							<td>${community.communityTitle}</td>
-						</tr>				        
-						<tr>
-							<th>작성자</th>
-							<td>${community.loginId}</td>
-						</tr>				        
-						<tr>
-							<th>내용</th>
-							<td>${community.communityContent}</td>
-						</tr>				        
-						<tr>
-							<td>작성일자</td>
-							<td>${community.createDate}</td>
-						</tr>
-						<tr>
-							<td>수정일자</td>
-							<td>${community.updateDate}</td>
-						</tr>
-						<!-- 파일 부분 -->
-							<c:forEach var="cf" items="${communityFileList}">
-								<c:choose>
-									<c:when test="${cf.getCommunityFileType() eq 'image/gif'
-													|| cf.getCommunityFileType() eq 'image/png'
-													|| cf.getCommunityFileType() eq 'image/jpeg'
-													|| cf.getCommunityFileType() eq 'image/bmp'}">
-										<img src="${pageContext.request.contextPath}/file/communityFile/${cf.getCommunityFileName()}" width="720" height="500"><br>
-									</c:when>
-								<c:otherwise>
-									<a href="${pageContext.request.contextPath}/file/communityFile/${f.getCommunityFileName()}" target="blank">${f.getCommunityFileName()}</a><br>
-								</c:otherwise>
-								</c:choose>
-							</c:forEach>
-				    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
+           <div class="content-wrapper">
+	          <div class="row">
+	            <div class="col-lg-12 grid-margin stretch-card">
+	              <div class="card">
+	                <div class="card-body"><h1 class="title-bottom">[커뮤니티 게시글]</h1>
+	                  <div class="table-responsive">
+	                  <h2 class="smalltitle-bottom">${community.communityTitle}</h2>
+		                  <div class="row bottom">
+		                  	<div class="col-sm-1">
+		                  		<img src="${pageContext.request.contextPath}/file/memberPhoto/${memberFileName}" class="round left" width="50" height="50">	
+		                  	</div>
+		                  	<div class="col-sm-11 font-size">
+		                  		${community.loginId}
+								<div>${community.createDate}</div>	                  	
+		                  	</div>
+		                  </div>
+		                  <div class="left">
+		                  <hr>
+		                  <div>${community.communityContent}</div>
+		                  <hr>
+							<!-- 파일 부분 -->
+							<c:if test="${communityFileList != null && fn:length(communityFileList) > 0}">
+								<div class="bottom font-size">첨부 파일</div>
+									<c:forEach var="cf" items="${communityFileList}">
+										<c:choose>
+											<c:when test="${cf.communityFileType eq 'image/jpeg' 
+														|| cf.communityFileType eq 'image/png' 
+														|| cf.communityFileType eq 'image/gif'}">
+												<img src="${pageContext.request.contextPath}/file/communityFile/${cf.communityFileName}" width="100" height="100">
+												<br>
+												<br>
+											</c:when>
+											<c:otherwise>
+												<a href="${pageContext.request.contextPath}/file/communityFile/${cf.communityFileName}">${cf.communityFileName}</a>
+												<br>
+												<br>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+							</c:if>
+						</div>
+							<div class="float-right top bottom right">
+						    <a class="btn btn-info" href="${pageContext.request.contextPath}/loginCheck/modifyCommunity?communityNo=${community.communityNo}">수정</a>
+						    <a class="btn btn-danger" href="${pageContext.request.contextPath}/loginCheck/removeCommunity?communityNo=${community.communityNo}">삭제</a>
+					    </div>
+	                  </div>
+	                </div>
+	              </div>
+	            </div>
+	        </div>
+	        <!-- content-wrapper ends -->
+	        <!-- partial:partials/_footer.html -->
+	        <footer class="footer">
+	          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+	            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021.  Premium <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a> from BootstrapDash. All rights reserved.</span>
+	            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span>
+	          </div>
+	          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+	            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Distributed by <a href="https://www.themewagon.com/" target="_blank">Themewagon</a></span> 
+	          </div>
+	        </footer> 
+	        <!-- partial -->
         </div>
-        <!-- content-wrapper ends -->
-        <!-- partial:partials/_footer.html -->
-        <footer class="footer">
-          <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021.  Premium <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a> from BootstrapDash. All rights reserved.</span>
-            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span>
-          </div>
-          <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Distributed by <a href="https://www.themewagon.com/" target="_blank">Themewagon</a></span> 
-          </div>
-        </footer> 
-        <!-- partial -->
-      </div>
       <!-- main-panel ends -->
-    </div>   
+      </div>   
     <!-- page-body-wrapper ends -->
+    </div>
   </div>
   <!-- container-scroller -->
 

@@ -3,6 +3,8 @@
     
 <!DOCTYPE html>
 <html>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -26,6 +28,17 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/vertical-layout-light/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/tftace.jpg" />
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+ <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+   <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
   <style>
   	.bottom {margin-bottom : 30px;}
   </style>
@@ -33,92 +46,7 @@
 <body>
   <div class="container-scroller">
     <!-- partial:partials/_navbar.html -->
-    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo mr-5" href="${pageContext.request.contextPath}/loginCheck/main">LMS-TFT</a>
-        <a class="navbar-brand brand-logo-mini" href="${pageContext.request.contextPath}/loginCheck/main">LMS</a>
-      </div>
-      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-          <span class="icon-menu"></span>
-        </button>
-        <ul class="navbar-nav mr-lg-2">
-          <li class="nav-item nav-search d-none d-lg-block">
-            <div class="input-group">
-            	
-            </div>
-          </li>
-        </ul>
-        <ul class="navbar-nav navbar-nav-right">
-          <li class="nav-item dropdown">
-            <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
-              <i class="icon-bell mx-0"></i>
-              <span class="count"></span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
-              <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-success">
-                    <i class="ti-info-alt mx-0"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-normal">Application Error</h6>
-                  <p class="font-weight-light small-text mb-0 text-muted">
-                    Just now
-                  </p>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-warning">
-                    <i class="ti-settings mx-0"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-normal">Settings</h6>
-                  <p class="font-weight-light small-text mb-0 text-muted">
-                    Private message
-                  </p>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item">
-                <div class="preview-thumbnail">
-                  <div class="preview-icon bg-info">
-                    <i class="ti-user mx-0"></i>
-                  </div>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject font-weight-normal">New user registration</h6>
-                  <p class="font-weight-light small-text mb-0 text-muted">
-                    2 days ago
-                  </p>
-                </div>
-              </a>
-            </div>
-          </li>
-          <li class="nav-item nav-profile dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-              <img src="${pageContext.request.contextPath}/images/tftace.jpg" alt="profile"/>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item">
-                <i class="ti-settings text-primary"></i>
-                Settings
-              </a>
-              <a class="dropdown-item">
-                <i class="ti-power-off text-primary"></i>
-                Logout
-              </a>
-            </div>
-          </li>
-        </ul>
-        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-          <span class="icon-menu"></span>
-        </button>
-      </div>
-    </nav>
+  	<jsp:include page="/inc/topbar.jsp"/>
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <!-- partial:partials/_settings-panel.html -->
@@ -135,49 +63,63 @@
             <div class="col-lg-10 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body"><h3 class="bottom">[커뮤니티 게시글 수정]</h3>
-					<br><br>
                   <div class="table-responsive">
-                  <form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyCommunity">
-                    <table class="table">
-	                    <colgroup>
-	                    	<col width="20%">
-	                    	<col width="*">
-	                    </colgroup>
-						<tr>
-							<th>번호</th>
-							<td><input type="text" name="communityNo" value="${community.communityNo}" readonly="readonly"></td>
-						</tr>				        
-						<tr>
-							<th>제목</th>
-							<td><input type="text" name="communityTitle" value="${community.communityTitle}"></td>
-						</tr>				        
-						<tr>
-							<th>비밀번호</th>
-							<td><input type="password" name="communityPw"></td>
-						</tr>				        
-						<tr>
-							<th>작성자</th>
-							<td><input type="text" name="loginId" value="${community.loginId}"></td>
-						</tr>				        
-						<tr>
-							<th>내용</th>
-							<td><textarea row="5" cols="50" name="communityContent">${community.communityContent}</textarea></td>
-						</tr>				        
-						<tr>
-							<td>작성일자</td>
-							<td><input type="text" name="createDate" value="${community.createDate}"></td>
-						</tr>
-						<tr>
-							<td>수정일자</td>
-							<td><input type="text" name="updateDate" value="${community.updateDate}"></td>
-						</tr>
-				    </table>
-						<!-- 파일 부분 -->
-							<c:forEach var="cf" items="${communityFileList}">
-								<span id="cf${cf.getCommunityFileNo()}"> ${cf.getCommunityFileName()} <input type="button" onclick="javascript:fileClick(${cf.getCommunityFileNo()},'${cf.getCommunityFileName()}')" value="삭제"><br/></span>
-							</c:forEach>
-					 <button type="submit">수정하기</button>	        
-				    </form>
+                  <form id="modifyForm" method="post" action="${pageContext.request.contextPath}/loginCheck/modifyCommunity" enctype="multipart/form-data">
+	                   <table class="table">
+		                    <colgroup>
+		                    	<col width="20%">
+		                    	<col width="*">
+		                    </colgroup>
+							<tr>
+								<th>번호</th>
+								<td><input type="text" name="communityNo" value="${community.communityNo}" readonly="readonly" class="form-control"></td>
+							</tr>				        
+							<tr>
+								<th>제목</th>
+								<td><input type="text" name="communityTitle" value="${community.communityTitle}" class="form-control"></td>
+							</tr>				        
+							<tr>
+								<th>비밀번호</th>
+								<td><input type="password" name="communityPw" class="form-control"></td>
+							</tr>				        
+							<tr>
+								<th>작성자</th>
+								<td><input type="text" name="loginId" value="${community.loginId}" readonly="readonly" class="form-control"></td>
+							</tr>				        
+							<tr>
+								<th>내용</th>
+								<td>
+									<textarea id="summernote" name="communityContent">${community.communityContent}</textarea>
+									<script>
+										$('#summernote').summernote({
+											  tabsize: 2,
+											  height: 400
+											});
+										$(".note-editor button[aria-label='Picture']").hide();
+										$(".note-editor button[aria-label='Video']").hide();
+									</script>
+								</td>
+							</tr>				        
+							<tr>
+								<th>작성날짜</th>
+								<td>${community.createDate}</td>
+							</tr>
+							<tr>
+								<th rowspan="2" >첨부 파일</th>
+								<td class="file Section">
+									<button class="btn btn-inverse-primary bottom" type="button" id="modifyFileupload">파일업로드 추가</button>
+									<div id="fileSection">
+										<!-- 파일 업로드 input 추가 할 위치 -->
+									</div>
+								<!-- 파일 부분 -->
+									<c:forEach var="cf" items="${communityFileList}">
+										<span id="cf${cf.getCommunityFileNo()}"> ${cf.getCommunityFileName()} <input type="button" onclick="javascript:fileClick(${cf.getCommunityFileNo()},'${cf.getCommunityFileName()}')" value="삭제"><br/></span>
+									</c:forEach>
+								</td>
+							</tr>
+						</table>
+					<button type="button" id="modifyCommunityBt">수정하기</button>
+					</form>
                   </div>
                 </div>
               </div>
@@ -195,10 +137,11 @@
           </div>
         </footer> 
         <!-- partial -->
-      </div>
+        </div>
       <!-- main-panel ends -->
-    </div>   
+      </div>   
     <!-- page-body-wrapper ends -->
+    </div>
   </div>
   <!-- container-scroller -->
 
@@ -227,7 +170,45 @@
   <!-- End custom js for this page-->
   
   <script type="text/javascript">
-  function fileClick(communityFileNo, communityFileName) {
+  
+		$('#modifyFileupload').click(function(){
+			var flag = true;
+			
+			$('.communityFileList').each(function(){ 
+				if($(this).val() == '') {
+					flag = false;
+				}
+			});
+			
+			if(flag) {
+				$('#fileSection').append("<div><input class='communityFileList' type='file' name='communityFileList'><div>");
+			} else {
+				alert('파일이 첨부되지 않은 communityFileList가 존재합니다');
+			}
+		});
+		
+		$('#modifyCommunityBt').click(function(){
+			if($('#communityTitle').val() == '') {
+				alert('communityTitle 입력하세요');
+			} else if($('#communityContent').val() == '') {
+				alert('communityContent 입력하세요');
+			} else {
+				var flag2 = true;
+				$('.communityFileList').each(function(){ // each함수를 이용한 반복
+					if($(this).val() == '') {
+						flag2 = false;
+					}
+				});
+				if(flag2) {
+					$('#modifyForm').submit();
+				} else {
+					alert('파일이 첨부되지 않은 communityFileList가 존재합니다');
+				}
+			}
+		});
+		
+
+	function fileClick(communityFileNo, communityFileName) {
 		
 		var url = "${pageContext.request.contextPath}";
 		$.ajax({
@@ -246,9 +227,10 @@
 		});
 	 
 	}
+
+			
   
   </script>
-  
 </body>
 </html>
 

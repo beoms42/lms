@@ -6,18 +6,24 @@
 	<!--커뮤니티 게시글 입력-->
 	<insert id="insertCommunity"
 			parameterType="kr.co.gdu.lms.vo.Community">
-			<selectKey resultType="int" keyProperty="communityNo" order="AFTER">
-        	select last_insert_id()
-        	</selectKey>
-		INSERT INTO community(
+		<selectKey resultType="int" keyProperty="communityNo" order="AFTER">
+        	SELECT LAST_INSERT_ID();
+        </selectKey>
+		INSERT INTO community (
 			community_title
 			, community_content
 			, login_id
 			, create_date
 			, update_date
-			, community_pw)
-		VALUES(
-			#{communityTitle}, #{communityContent}, #{loginId}, NOW(), NOW(), PASSWORD(#{communityPw}));
+			, community_pw
+		) VALUES(
+			#{communityTitle}
+			, #{communityContent}
+			, #{loginId}
+			, NOW()
+			, NOW()
+			, PASSWORD(#{communityPw})
+		);
 	</insert>
 	
 	<!--커뮤니티 게시글 selectOne-->
@@ -47,7 +53,7 @@
 			, create_date createDate
 		FROM community
 		ORDER BY create_date DESC
-		limit #{startRow}, #{rowPerPage};
+		LIMIT #{startRow}, #{rowPerPage};
 	</select>
 	
 	<!-- 커뮤니티 게시글 총 개수 -->
@@ -65,15 +71,15 @@
 			, community_content=#{communityContent}
 			, update_date=NOW()
 		WHERE community_no = #{communityNo}
-		AND community_pw = PASSWORD(#{communityPw});
+			AND community_pw = PASSWORD(#{communityPw});
 	</update>
 	
 	<!--커뮤니티 글 삭제-->
 	<delete id="deleteCommunity"
 			parameterType="kr.co.gdu.lms.vo.Community">
-		DELETE from community
+		DELETE FROM community
 		WHERE community_no = #{communityNo}
-		AND community_pw = PASSWORD(#{communityPw});
+			AND community_pw = PASSWORD(#{communityPw});
 	</delete>
 	
 	<!--커뮤니티 파일 입력-->
@@ -86,15 +92,16 @@
 			, community_file_type
 			, community_file_origin_name
 			, community_file_size
-			, community_file_create_date)
-		VALUES(
+			, community_file_create_date
+		) VALUES (
 			#{communityNo}
 			, #{loginId}
 			, #{communityFileName}
 			, #{communityFileType}
 			, #{communityFileOriginName}
 			, #{communityFileSize}
-			, NOW());
+			, NOW()
+		);
 	</insert>
 	
 	<!--커뮤니티 파일 selectOne-->
@@ -140,10 +147,11 @@
 	<insert id="insertRecommend"
 			parameterType="int">
 		INSERT INTO recommend
-		VALUES(
-		#{loginId}
-		, #{communityNo}
-		, NOW());
+		VALUES (
+			#{loginId}
+			, #{communityNo}
+			, NOW()
+		);
 	</insert>
 	
 	<!-- 커뮤니티 추천 중복(1은 추천함, 0은 추천안함)-->
@@ -178,20 +186,21 @@
 	<insert id="insertCommunityComment"
 			parameterType="int">
 		INSERT INTO community_comment
-		VALUES(
-		#{loginId}
-		, NOW()
-		, #{communityCommentContent}
-		, #{communityNo}
-		, NOW()); 
+		VALUES (
+			#{loginId}
+			, NOW()
+			, #{communityCommentContent}
+			, #{communityNo}
+			, NOW()
+		); 
 	</insert>
 
 	<!--댓글 수정-->
 	<update id="updateCommunityComment"
 			parameterType="int">
 		UPDATE community_comment SET
-		community_comment_content = #{communityCommentContent}
-		, update_date=NOW()
+			community_comment_content = #{communityCommentContent}
+			, update_date=NOW()
 		WHERE login_id = #{loginId} AND community_no = #{communityNo};
 	</update>
 	

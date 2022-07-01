@@ -93,7 +93,7 @@
 						  <div class="modal-dialog" role="document">
 						    <div class="modal-content">
 						      <div class="modal-header">
-						        <h5 class="modal-title" id="deleteScheduleModalLabel">일정추가</h5>
+						        <h5 class="modal-title" id="deleteScheduleModalLabel">시간표삭제</h5>
 						        <button type="button" id= "close" class="close" data-dismiss="modal" aria-label="Close">
 						          <span aria-hidden="true">&times;</span>
 						        </button>
