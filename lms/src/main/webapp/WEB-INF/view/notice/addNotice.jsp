@@ -3,8 +3,6 @@
     
 <!DOCTYPE html>
 <html>
-
-
 <head>
 <meta charset="UTF-8">
   <!-- Required meta tags -->
@@ -25,7 +23,6 @@
   <!-- endinject -->
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/tftace.jpg" />
-	 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
    <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
@@ -38,6 +35,7 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
     <style>
   		.bottom {margin-bottom : 30px;}
+  		.top {margin-top : 10px;}
   	</style> 
 </head>
 <body>
@@ -61,7 +59,7 @@
               <div class="card">
                 <div class="card-body"><h3 class="bottom">[공지사항]</h3>
                   <div class="table-responsive">
-	                  <form method="post" action="${pageContext.request.contextPath}/loginCheck/addNotice" enctype="multipart/form-data">
+	                  <form id="noticeForm" method="post" action="${pageContext.request.contextPath}/loginCheck/addNotice" enctype="multipart/form-data">
 		                  <table class="table">
 								<colgroup>
 									<col width="20%">
@@ -69,12 +67,16 @@
 								</colgroup>			        
 								<tr>
 									<th>제목</th>
-									<td><input type="text" name="noticeTitle" class="form-control"></td>
+									<td>
+										<input type="text" name="noticeTitle" class="form-control" id="noticeTitle">
+										<div id="noticeTitleHelper" class="top"></div>
+									</td>
 								</tr>				        				        
 								<tr>
 									<th>내용</th>
 									<td>
 										<textarea id="summernote" name="noticeContent"></textarea>
+										<div id="contentHelper" class="top"></div>
 										<script>
 											$('#summernote').summernote({
 												  tabsize: 2,
@@ -95,7 +97,7 @@
 									</td>
 								</tr>
 						   </table>
-						   <button class="btn btn-primary float-right">공지사항 입력</button>
+						   <button type="button" class="btn btn-primary float-right" id="btn" >공지사항 입력</button>
 	                  </form>
                   </div>
                 </div>
@@ -160,6 +162,37 @@
 			alert('파일이 첨부되지않은 공지사항파일이 존재합니다');				
 		}
 	 });
+	
+	$('#noticeTitle').blur(function() {
+		if ($('#noticeTitle').val() == '') {
+			$('#noticeTitleHelper').text('공지사항 제목을 입력해주세요.');
+		} else {
+			$('#noticeTitleHelper').text('');
+		}
+	});
+	
+	$('#btn').click(function() {
+		if ($('#noticeTitle').val() == '') {
+			$('#noticeTitleHelper').text('공지사항 제목을 입력해주세요.');
+		} else if ($('#summernote').val() == ''){
+			$('#noticeTitleHelper').text('');
+			$('#contentHelper').text('공지사항 내용을 입력해주세요.');
+		} else {
+			let flag = true;
+			
+			$('.noticeFileList').each(function() { // each함수 이용한 반복
+				if($(this).val() == '') { //this는 저 위의 noticeFileList를 가리킴
+					flag = false;
+				}
+			})
+			
+			if(flag) {
+				$('#noticeForm').submit();	
+			} else {
+				alert('파일이 첨부되지않은 공지사항파일이 존재합니다');				
+			}
+		}
+	});
 	
   </script>
 </body>

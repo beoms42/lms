@@ -39,6 +39,7 @@
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
   <style>
   	.bottom {margin-bottom : 30px;}
+  	.top {margin-top : 10px;}
   </style>
 </head>
 <body>
@@ -74,7 +75,10 @@
 							</tr>				        
 							<tr>
 								<th>제목</th>
-								<td><input type="text" name="noticeTitle" value="${notice.noticeTitle}" class="form-control"></td>
+								<td>
+									<input type="text" id="noticeTitle" name="noticeTitle" value="${notice.noticeTitle}" class="form-control">
+									<div id="noticeTitleHelper" class="top"></div>
+								</td>
 							</tr>				        
 							<tr>
 								<th>작성자</th>
@@ -84,6 +88,7 @@
 								<th>내용</th>
 								<td>
 									<textarea id="summernote" name="noticeContent">${notice.noticeContent}</textarea>
+									<div id="contentHelper" class="top"></div>
 									<script>
 										$('#summernote').summernote({
 											  tabsize: 2,
@@ -138,7 +143,7 @@
 								</c:if>
 							</tr>
 						</table>
-					<button class="btn btn-primary float-right">수정하기</button>
+					<button type="button" id="btn" class="btn btn-primary float-right">수정하기</button>
 					</form>
                   </div>
                 </div>
@@ -220,6 +225,37 @@
 			alert('파일이 첨부되지않은 공지사항파일이 존재합니다');				
 		}
 	 });
+  	
+  	$('#noticeTitle').blur(function() {
+		if ($('#noticeTitle').val() == '') {
+			$('#noticeTitleHelper').text('공지사항 제목을 입력해주세요.');
+		} else {
+			$('#noticeTitleHelper').text('');
+		}
+	});
+  	
+  	$('#btn').click(function() {
+		if ($('#noticeTitle').val() == '') {
+			$('#noticeTitleHelper').text('공지사항 제목을 입력해주세요.');
+		} else if ($('#summernote').val() == ''){
+			$('#noticeTitleHelper').text('');
+			$('#contentHelper').text('공지사항 내용을 입력해주세요.');
+		} else {
+			let flag = true;
+			
+			$('.noticeFileList').each(function() { // each함수 이용한 반복
+				if($(this).val() == '') { //this는 저 위의 noticeFileList를 가리킴
+					flag = false;
+				}
+			})
+			
+			if(flag) {
+				$('#noticeForm').submit();	
+			} else {
+				alert('파일이 첨부되지않은 공지사항파일이 존재합니다');				
+			}
+		}
+	});
   
   </script>
 </body>
