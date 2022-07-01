@@ -24,6 +24,7 @@ public class CommunityService {
 	
 	// 희원 -  modifyCommunity 수정 중 파일 삭제(ajax)
 	public int deleteCommunityFileOne(String path, int communityFileNo, String communityFileName) {
+		
 		log.debug(CF.PHW+"CommunityService.deleteCommunityFileOne.path : "+path+CF.RS );
 		log.debug(CF.PHW+"CommunityService.deleteCommunityFileOne.communityFileNo : "+communityFileNo+CF.RS );
 		log.debug(CF.PHW+"CommunityService.deleteCommunityFileOne.communityFileName : "+communityFileName+CF.RS );
@@ -38,6 +39,7 @@ public class CommunityService {
 	
 	// 희원 - modifyCommunity 수정
 	public int modifyCommunity(CommunityForm communityForm, String path, int communityNo, String communityPw) {
+		
 		log.debug(CF.PHW+"CommunityService.modifyCommunity.communityForm : "+communityForm+CF.RS );
 		log.debug(CF.PHW+"CommunityService.modifyCommunity.path : "+path+CF.RS );
 		log.debug(CF.PHW+"CommunityService.modifyCommunity.communityNo : "+communityNo+CF.RS );
@@ -89,6 +91,7 @@ public class CommunityService {
 	
 	// 희원 - modifyCommunity 폼
 	public Map<String, Object> modifyCommunity(Map<String, Object> map){
+		
 		int communityNo = (int)map.get("communityNo");
 		log.debug(CF.PHW+"CommunityService.modifyCommunity.communityNo : "+communityNo+CF.RS );
 		
