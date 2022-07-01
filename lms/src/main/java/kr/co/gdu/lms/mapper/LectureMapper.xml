@@ -288,13 +288,13 @@
 			, ed.lecture_name lectureName
 			, ls.subject_name subjectName
 		FROM schedule s
-			INNER JOIN lecture_subject ls
+		INNER JOIN lecture_subject ls
 			ON s.lecture_subject_no = ls.lecture_subject_no
-			INNER JOIN lecture l
+		INNER JOIN lecture l
 			ON l.lecture_name = ls.lecture_name
-			INNER JOIN education ed
+		INNER JOIN education ed
 			ON ed.lecture_name = l.lecture_name
-			INNER JOIN login lo
+		INNER JOIN login lo
 			ON lo.login_id = ed.login_id
 		WHERE lo.login_id = #{loginId} AND MONTH(s.schedule_date) = #{m} AND YEAR(s.schedule_date) = #{y};
 	</select>
@@ -302,12 +302,13 @@
 	<select id="selectLectureName"
 			parameterType="String"
 			resultType="int">
-		SELECT COUNT(*)
+		SELECT 
+			COUNT(*)
 		FROM lecture
 		WHERE lecture_name = #{lectureName}
 	</select>
 	
-		<!-- 자료실 리스트-->
+	<!-- 자료실 리스트-->
 	<select id="selectLectureReferenceList" 
 			parameterType="java.util.Map" 
 			resultType="kr.co.gdu.lms.vo.Reference">
@@ -338,7 +339,8 @@
 			parameterType="String" 
 			resultType="String">
 		
-		SELECT teacher_name teacherName
+		SELECT 
+			teacher_name teacherName
 		FROM teacher
 		WHERE login_id = #{loginId};
 	</select>
@@ -347,7 +349,8 @@
 	<select id="selectTeacherLectureName"
 			parameterType="String"
 			resultType="String">
-		SELECT lecture_name lectureName
+		SELECT 
+			lecture_name lectureName
 		FROM lecture
 		WHERE teacher = #{teacher};
 	</select>
@@ -356,7 +359,8 @@
 	<select id="selectStudentLectureName"
 			parameterType="String"
 			resultType="String">
-		SELECT lecture_name lectureName
+		SELECT 
+			lecture_name lectureName
 		FROM login l
 		INNER JOIN education e
 			ON l.login_id = e.login_id
@@ -372,6 +376,7 @@
 			, reference_title referenceTitle
 			, reference_content referenceContent
 			, lecture_name lectureName
+			, create_date createDate
 		FROM reference
 		WHERE reference_no = #{referenceNo};
 	</select>
@@ -380,13 +385,14 @@
 	<select id="selectReferenceFileList" 
 			parameterType="int" 
 			resultType="kr.co.gdu.lms.vo.ReferenceFile">
-		SELECT reference_file_no referenceFileNo
-			,reference_no referenceNo
-			,reference_file_name referenceFileName
-			,reference_file_orgin_name referenceFileOrginName
-			,reference_file_type referenceFileType
-			,reference_file_size referenceFileSize
-			,create_date createDate
+		SELECT 
+			reference_file_no referenceFileNo
+			, reference_no referenceNo
+			, reference_file_name referenceFileName
+			, reference_file_orgin_name referenceFileOrginName
+			, reference_file_type referenceFileType
+			, reference_file_size referenceFileSize
+			, create_date createDate
 		FROM reference_file
 		WHERE reference_no = #{referenceNo};
 	</select>
@@ -395,20 +401,21 @@
 	<insert id="insertReference" 
 			parameterType="kr.co.gdu.lms.vo.Reference">
 			<selectKey resultType="int" keyProperty="referenceNo" order="AFTER">
-				SELECT last_insert_id();
+				SELECT LAST_INSERT_ID();
 			</selectKey>
 		INSERT INTO reference(
 			reference_title
-			,reference_content
-			,lecture_name
-			,create_date
-			,update_date
+			, reference_content
+			, lecture_name
+			, create_date
+			, update_date
 		 ) VALUES (
 			#{referenceTitle}
-			,#{referenceContent} 
-			,#{lectureName}
-			,NOW()
-			,NOW());
+			, #{referenceContent} 
+			, #{lectureName}
+			, NOW()
+			, NOW()
+		);
 	</insert>
 	
 	<!--자료실 삭제-->
@@ -423,34 +430,34 @@
 			parameterType="kr.co.gdu.lms.vo.ReferenceFile">
 		INSERT INTO reference_file(
 			reference_no
-			,reference_file_name
-			,reference_file_orgin_name
-			,reference_file_type
-			,reference_file_size
-			,create_date
-			) VALUES(
+			, reference_file_name
+			, reference_file_orgin_name
+			, reference_file_type
+			, reference_file_size
+			, create_date
+		) VALUES (
 			#{referenceNo}
-			,#{referenceFileName}
-			,#{referenceFileOrginName}
-			,#{referenceFileType}
-			,#{referenceFileSize}
-			,NOW());
+			, #{referenceFileName}
+			, #{referenceFileOrginName}
+			, #{referenceFileType}
+			, #{referenceFileSize}
+			, NOW()
+		);
 			
 	</insert>
 	
 	<!--자료실 파일 수정-->
-	<update id="updateReferenceFile" 
-			parameterType="kr.co.gdu.lms.vo.ReferenceFile">	
-		UPDATE reference_file SET 
-		reference_file_name = ${referenceFileName}
-		,reference_file_orgin_name = #{referenceFileOrginName}
-		,reference_file_type = #{referenceFileType}
-		,reference_file_size = #{referenceFileSize}
-		WHERE reference_file_no = #{referenceFileNo};
+	<update id="updateReference"
+			parameterType="kr.co.gdu.lms.vo.Reference">
+		UPDATE reference
+		SET 
+			reference_title = #{referenceTitle}
+			, reference_content = #{referenceContent}
+		WHERE reference_no = #{referenceNo};
 	</update>
 	
 	<!--자료실 파일 삭제-->
-	<delete id="deleteReferenceFile" 
+	<delete id="deleteReferenceFile"
 			parameterType="int">
 		DELETE FROM reference_file 
 		WHERE reference_file_no = #{referenceFileNo};
@@ -477,9 +484,9 @@
 	<select id="selectReferencefileNameList"
 			parameterType="int"
 			resultType="String">
-		select
+		SELECT
 			reference_file_name referenceFileName
-		from reference_file
-		where reference_no = #{referenceNo};
+		FROM reference_file
+		WHERE reference_no = #{referenceNo};
 	</select>
 </mapper>

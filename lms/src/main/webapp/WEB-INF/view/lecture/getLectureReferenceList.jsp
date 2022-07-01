@@ -56,7 +56,7 @@
           </div>
           		<div>
 	          		<c:if test="${sessionLv == 2}">
-	          			<a href="${pageContext.request.contextPath}/loginCheck/addReference?lectureName=${lectureName}"  class="btn  btn-facebook auth-form-btn">게시글 입력</a>
+	          			<a href="${pageContext.request.contextPath}/loginCheck/addReference?lectureName=${lectureName}"  class="btn  btn-facebook auth-form-btn">자료실 입력</a>
 	          		</c:if>
                 </div>
         <!-- content-wrapper ends -->
@@ -103,8 +103,6 @@
 		</c:if>
 			
       </div>
-      
-      
       
       <!-- main-panel ends -->
     </div>   
