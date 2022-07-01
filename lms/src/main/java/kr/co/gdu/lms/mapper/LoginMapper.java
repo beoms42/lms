@@ -17,7 +17,7 @@ public interface LoginMapper {
 	List<Map<String,Object>> selectDormantMemberId();
 	
 	// 모든 회원 로그인 안한지 며칠 됐는지 날짜 출력
-	List<Map<String, Object>> selectDiffDayList();
+	List<Map<String, Object>> selectDiffDayListByLastLoginDate();
 	
 	// 해당 아이디가 비밀번호 변경한 최근 날짜 출력
 	String selectPwRecordDate(String loginId);

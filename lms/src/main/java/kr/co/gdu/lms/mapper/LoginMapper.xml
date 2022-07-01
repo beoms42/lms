@@ -10,7 +10,8 @@
 		WHERE login_active = '0'
 		AND TIMESTAMPDIFF(DAY, last_login_date, NOW()) >= 180
 	</select>
-	<select id="selectDiffDayList"
+	<!-- 모든 회원의 (현재 날짜 - 마지막 로그인 날짜) 출력 -->
+	<select id="selectDiffDayListByLastLoginDate"
 			resultType="java.util.Map">
 		SELECT
 			login_id loginId

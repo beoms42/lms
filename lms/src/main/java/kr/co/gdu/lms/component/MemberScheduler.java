@@ -27,7 +27,7 @@ public class MemberScheduler {
 	
 	@Scheduled(cron = "0 0 0 * * *")
 	public void modifyMemberActive() {
-		List<Map<String, Object>> diffDayList = loginMapper.selectDiffDayList();
+		List<Map<String, Object>> diffDayList = loginMapper.selectDiffDayListByLastLoginDate();
 		
 		for(int i=0; i < diffDayList.size(); i++) {
 			if((int)(diffDayList.get(i).get("diffDay")) >= 90) {
