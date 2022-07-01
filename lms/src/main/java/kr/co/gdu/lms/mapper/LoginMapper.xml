@@ -244,7 +244,7 @@
 	<!-- 학생,강사,매니저 비밀번호 변경 -->
 	<update id="updatePw"
 			parameterType="kr.co.gdu.lms.vo.Login">
-		UPDATE login SET login_pw=PASSWORD(#{loginPw}), update_date = NOW()
+		UPDATE login SET login_pw=PASSWORD(#{loginPw}), update_date = NOW(), pw_update_date = NOW()
 		WHERE login_id = #{loginId};
 	</update>
 	
