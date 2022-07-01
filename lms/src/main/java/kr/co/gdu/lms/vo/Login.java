@@ -11,5 +11,4 @@ public class Login {
 	private String lastLoginDate;
 	private String createDate;
 	private String updateDate;
-	private String pwUpdateDate;
 }
