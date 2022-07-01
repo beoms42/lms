@@ -13,7 +13,7 @@ import kr.co.gdu.lms.vo.Lecture;
 
 @Mapper
 public interface AssignmentMapper {
-	List<AssignmentExam> selectAssignmentExam(Map<String, Object> map);
+	List<AssignmentExam> selectAssignmentExam(String lectureName);
 
 	int selectAssignmentTotalCount();
 
@@ -23,7 +23,7 @@ public interface AssignmentMapper {
 
 	int selectassignmentExamNo();
 
-	int selectEducationNo(String loginId);
+	Map<String,Object> selectEducation(String loginId);
 
 	void insertAssignmentSubmit(AssignmentSubmit assignmentsubmit);
 
@@ -37,7 +37,6 @@ public interface AssignmentMapper {
 
 	void deleteAssignment(int assignmentExamNo);
 
-	String selectLectureName(String loginId);
 
 	List<Lecture> selectLectureNameList();
 
