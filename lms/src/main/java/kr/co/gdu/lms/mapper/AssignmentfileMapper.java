@@ -10,6 +10,8 @@ import kr.co.gdu.lms.vo.AssignmentFile;
 @Mapper
 public interface AssignmentfileMapper {
 	void insertAssingmentfile(AssignmentFile assignmentfile);
-	List<AssignmentFile> selectAssinmetFile(Map<String,Object> map);
+
+	List<AssignmentFile> selectAssinmetFile(Map<String, Object> map);
+
 	void deleteAssignmentfile(int assignmentExamNo);
 }

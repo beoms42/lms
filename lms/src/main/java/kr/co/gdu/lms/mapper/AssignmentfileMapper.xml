@@ -3,43 +3,45 @@
 <mapper namespace="kr.co.gdu.lms.mapper.AssignmentfileMapper">
 	<insert id="insertAssingmentfile">
 		INSERT INTO assignment_file(
-			assignment_exam_no
-			,login_id
-			,assignment_file_name
-			,assignment_file_origin_name
-			,assignment_file_type
-			,assignment_file_size
-			,assignment_file_create_date
+		assignment_exam_no
+		,login_id
+		,assignment_file_name
+		,assignment_file_origin_name
+		,assignment_file_type
+		,assignment_file_size
+		,assignment_file_create_date
 		)VALUES(
-			#{assignmentExamNo}
-			,#{loginId}
-			,#{assignmentFileName}
-			,#{assignmentFileOriginName}
-			,#{assignmentFileType}
-			,#{assignmentFileSize}
-			,NOW()
+		#{assignmentExamNo}
+		,#{loginId}
+		,#{assignmentFileName}
+		,#{assignmentFileOriginName}
+		,#{assignmentFileType}
+		,#{assignmentFileSize}
+		,NOW()
 		)
 	</insert>
-	
-	<select id="selectAssinmetFile"
-			parameterType="java.util.Map"
-			resultType="kr.co.gdu.lms.vo.AssignmentFile">
+
+	<select id="selectAssinmetFile" parameterType="java.util.Map"
+		resultType="kr.co.gdu.lms.vo.AssignmentFile">
 
 		SELECT assignment_exam_no assignmentExamNo
-			,login_id loginId
-			,assignment_file_name assignmentFileName
-			,assignment_file_origin_name assignmentFileOriginName
-			,assignment_file_type assignmentFileType
-			,assignment_file_size assignmentFileSize
-			,assignment_file_create_date assignmentFileCreateDate
+		,login_id loginId
+		,assignment_file_name assignmentFileName
+		,assignment_file_origin_name assignmentFileOriginName
+		,assignment_file_type assignmentFileType
+		,assignment_file_size assignmentFileSize
+		,assignment_file_create_date assignmentFileCreateDate
 		FROM assignment_file
-		WHERE assignment_exam_no = #{assignmentExamNo} 
-		
-		
+		WHERE assignment_exam_no
+		= #{assignmentExamNo} 
+		AND login_id
+		= #{loginId}
+
+
 	</select>
-	<delete id="deleteAssignmentfile"
-			parameterType="int">
-		DELETE FROM assignment_file WHERE assignment_exam_no = #{assignmentExamNo}
+	<delete id="deleteAssignmentfile" parameterType="int">
+		DELETE FROM
+		assignment_file WHERE assignment_exam_no = #{assignmentExamNo}
 	</delete>
 
 

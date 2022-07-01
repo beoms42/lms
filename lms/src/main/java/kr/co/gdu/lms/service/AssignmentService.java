@@ -27,98 +27,103 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 @Service
 public class AssignmentService {
-	@Autowired private AssignmentMapper assignmentmapper;
-	@Autowired private AssignmentfileMapper assignmentfilemapper;
-	public Map<String,Object> getAssignmentExam(Map<String,Object> paramMap){
+	@Autowired
+	private AssignmentMapper assignmentmapper;
+	@Autowired
+	private AssignmentfileMapper assignmentfilemapper;
+
+	public Map<String, Object> getAssignmentExam(Map<String, Object> paramMap) {
 		// 1) 컨트롤러의 입력값 가공
-		int assignmentCurrentPage = (int)paramMap.get("assignmentCurrentPage");
-		String lectureName = (String)paramMap.get("lectureName");
-		int rowPerPage = (int)paramMap.get("rowPerPage");
+		int assignmentCurrentPage = (int) paramMap.get("assignmentCurrentPage");
+		String lectureName = (String) paramMap.get("lectureName");
+		int rowPerPage = (int) paramMap.get("rowPerPage");
 		int beginRow = (assignmentCurrentPage - 1) * rowPerPage;
 		int assignmentTotal = assignmentmapper.selectAssignmentTotalCount();
 		paramMap.put("beginRow", beginRow);
 
 		// 디버깅
-		log.debug(CF.GMC+"getAssignmentExam.AssignmentService assignmentCurrentPage"+assignmentCurrentPage+CF.RS);
-		log.debug(CF.GMC+"getAssignmentExam.AssignmentService lectureName"+lectureName+CF.RS);
-		log.debug(CF.GMC+"getAssignmentExam.AssignmentService rowPerPage"+rowPerPage+CF.RS);
-		log.debug(CF.GMC+"getAssignmentExam.AssignmentService beginRow"+beginRow+CF.RS);
-		log.debug(CF.GMC+"getAssignmentExam.AssignmentService assignmentTotal : "+assignmentTotal+CF.RS);
+		log.debug(CF.GMC + "getAssignmentExam.AssignmentService assignmentCurrentPage" + assignmentCurrentPage + CF.RS);
+		log.debug(CF.GMC + "getAssignmentExam.AssignmentService lectureName" + lectureName + CF.RS);
+		log.debug(CF.GMC + "getAssignmentExam.AssignmentService rowPerPage" + rowPerPage + CF.RS);
+		log.debug(CF.GMC + "getAssignmentExam.AssignmentService beginRow" + beginRow + CF.RS);
+		log.debug(CF.GMC + "getAssignmentExam.AssignmentService assignmentTotal : " + assignmentTotal + CF.RS);
 
-		
 		int lastPage = 0;
-		if((assignmentTotal % rowPerPage) != 0) {
-			assignmentTotal += 1; 
+		if ((assignmentTotal % rowPerPage) != 0) {
+			assignmentTotal += 1;
 		}
 		List<AssignmentExam> assignmentExamList = assignmentmapper.selectAssignmentExam(paramMap);
-		
-		Map<String,Object> returnMap = new HashMap<String, Object>();
+
+		Map<String, Object> returnMap = new HashMap<String, Object>();
 		returnMap.put("assignmentExamList", assignmentExamList);
 		returnMap.put("lastPage", lastPage);
-		
-		return returnMap;
-		
-	}
-	public Map<String,Object> getAssignmentOne(Map<String,Object> paramMap){
-		log.debug(CF.GMC+"AssignmentService.addAssignment.param assignmentExamNo : " + paramMap.get("assignmentExamNo") + CF.RS);
-		log.debug(CF.GMC+"AssignmentService.addAssignment.param sessionMemberId : " + paramMap.get("loginId") + CF.RS);
-		
 
-		
-		//리스트
-		List<AssignmentExam> assignmentList = assignmentmapper.selectAssignmentOne((int)paramMap.get("assignmentExamNo"));
+		return returnMap;
+
+	}
+
+	public Map<String, Object> getAssignmentOne(Map<String, Object> paramMap) {
+		log.debug(CF.GMC + "AssignmentService.addAssignment.param assignmentExamNo : "
+				+ paramMap.get("assignmentExamNo") + CF.RS);
+		log.debug(
+				CF.GMC + "AssignmentService.addAssignment.param sessionMemberId : " + paramMap.get("loginId") + CF.RS);
+
+		// 리스트
+		List<AssignmentExam> assignmentList = assignmentmapper
+				.selectAssignmentOne((int) paramMap.get("assignmentExamNo"));
 		List<AssignmentFile> assignmentListFile = assignmentfilemapper.selectAssinmetFile(paramMap);
-		for(AssignmentFile f : assignmentListFile) {
-			log.debug(CF.GMC+"AssignementService.getAssignmentOne"+f.getAssignmentExamNo()+CF.RS);
+		for (AssignmentFile f : assignmentListFile) {
+			log.debug(CF.GMC + "AssignementService.getAssignmentOne" + f.getAssignmentExamNo() + CF.RS);
 		}
-		Map<String,Object> returnMap = new HashMap<>();
+		Map<String, Object> returnMap = new HashMap<>();
 		returnMap.put("assignmentList", assignmentList);
 		returnMap.put("assignmentListFile", assignmentListFile);
 		return returnMap;
 	}
-	public int addAssignment(AssignmentAddForm assignmentAddForm,String path)  {
-		log.debug(CF.GMC+"AssignmentService.addAssignment.param path : " + path + CF.RS);
-		log.debug(CF.GMC+"AssignmentService.addAssignment.param assignmentfileList : " + assignmentAddForm.getAssignmentFileList() +CF.RS);
-		
+
+	public int addAssignment(AssignmentAddForm assignmentAddForm, String path) {
+		log.debug(CF.GMC + "AssignmentService.addAssignment.param path : " + path + CF.RS);
+		log.debug(CF.GMC + "AssignmentService.addAssignment.param assignmentfileList : "
+				+ assignmentAddForm.getAssignmentFileList() + CF.RS);
+
 		// 데이터 바인딩
-	
-		
+
 		int row = assignmentmapper.insertAssignmentExam(assignmentAddForm);
-	
+
 		log.debug(CF.GMC + "AssignmentService.addAssignment row" + row + CF.RS);
 		int assignmentExamNo = assignmentmapper.selectassignmentExamNo();
 		String loginId = assignmentAddForm.getLoginId();
 		// 과제가 하나 이상이고 입력도 성공했을때
-		if( assignmentAddForm.getAssignmentFileList() != null &&  assignmentAddForm.getAssignmentFileList().get(0).getSize() > 0 
-				&&  assignmentAddForm.getAssignmentFileList().size() > 0 
-				&& row==1) {
-			
-			log.debug(CF.GMC + "AssignmentService.addAssignmentExam : "+ "첨부된 파일이 있습니다" + CF.RS);
-			for(MultipartFile mf :  assignmentAddForm.getAssignmentFileList()) {
-				
+		if (assignmentAddForm.getAssignmentFileList() != null
+				&& assignmentAddForm.getAssignmentFileList().get(0).getSize() > 0
+				&& assignmentAddForm.getAssignmentFileList().size() > 0 && row == 1) {
+
+			log.debug(CF.GMC + "AssignmentService.addAssignmentExam : " + "첨부된 파일이 있습니다" + CF.RS);
+			for (MultipartFile mf : assignmentAddForm.getAssignmentFileList()) {
+
 				AssignmentFile assignmentFile = new AssignmentFile();
-				
-				//원본 이름
+
+				// 원본 이름
 				String originName = mf.getOriginalFilename();
-				
-				//TYPE
+
+				// TYPE
 				String ext = originName.substring(originName.lastIndexOf("."));
-				
-				//중복 방지
+
+				// 중복 방지
 				String filename = UUID.randomUUID().toString(); // 16진수 문자열로 만든 절대 중복될 수 없는 문자 만들어줌
-				
-				//UUID 새로운 이름 
+
+				// UUID 새로운 이름
 				filename = filename.replace("-", "");
 				filename = filename + ext;
-				
-				log.debug(CF.GMC + "AssignmentService.addAssignmentExam originName:" +originName +CF.RS);
-				log.debug(CF.GMC + "AssignmentService.addAssignmentExam ext: " +ext+CF.RS);
-				log.debug(CF.GMC + "AssignmentService.addAssignmentExam filename:" + filename +CF.RS);
-				log.debug(CF.GMC + "AssignmentService.addAssignmentExam assignmentExamNo:" + assignmentExamNo+CF.RS);
-				log.debug(CF.GMC + "AssignmentService.addAssignmentExam : mf.getSize()"+mf.getSize() +CF.RS);
-				log.debug(CF.GMC + "AssignmentService.addAssignmentExam : mf.getContentType()"+mf.getContentType() +CF.RS);
-				
-				
+
+				log.debug(CF.GMC + "AssignmentService.addAssignmentExam originName:" + originName + CF.RS);
+				log.debug(CF.GMC + "AssignmentService.addAssignmentExam ext: " + ext + CF.RS);
+				log.debug(CF.GMC + "AssignmentService.addAssignmentExam filename:" + filename + CF.RS);
+				log.debug(CF.GMC + "AssignmentService.addAssignmentExam assignmentExamNo:" + assignmentExamNo + CF.RS);
+				log.debug(CF.GMC + "AssignmentService.addAssignmentExam : mf.getSize()" + mf.getSize() + CF.RS);
+				log.debug(CF.GMC + "AssignmentService.addAssignmentExam : mf.getContentType()" + mf.getContentType()
+						+ CF.RS);
+
 				assignmentFile.setAssignmentExamNo(assignmentExamNo);
 				assignmentFile.setAssignmentFileName(filename);
 				assignmentFile.setAssignmentFileOriginName(originName);
@@ -126,77 +131,82 @@ public class AssignmentService {
 				assignmentFile.setAssignmentFileType(mf.getContentType());
 				assignmentFile.setLoginId(loginId);
 				assignmentfilemapper.insertAssingmentfile(assignmentFile);
-				
-				//파일 저장
+
+				// 파일 저장
 				try {
-					mf.transferTo(new File(path+filename));
+					mf.transferTo(new File(path + filename));
 				} catch (Exception e) {
 					e.printStackTrace();
 					throw new RuntimeException();
 				}
 			}
-		}else {
+		} else {
 			log.debug("파일이 비어있습니다");
 		}
-		
+
 		return row;
 	}
-	public int getEducationNo(@RequestParam (name="sessionMemberId") String loginId) {
+
+	public int getEducationNo(@RequestParam(name = "sessionMemberId") String loginId) {
 		int educationNo = assignmentmapper.selectEducationNo(loginId);
 		return educationNo;
 	}
-	public String getLectureName(@RequestParam (name="sessionMemberId")String loginId) {
+
+	public String getLectureName(@RequestParam(name = "sessionMemberId") String loginId) {
 		String lectureName = assignmentmapper.selectLectureName(loginId);
 		return lectureName;
 	}
+
 	public void addAssignmentSubmit(AssignmentSubmit assignmentSubmit) {
-		assignmentmapper.insertAssignmentSubmit(assignmentSubmit); 
+		assignmentmapper.insertAssignmentSubmit(assignmentSubmit);
 	}
-	public List<AssignmentSubmit> getAssignmentSubmit(Map<String,Object> map){
+
+	public Map<String, Object> getAssignmentSubmit(Map<String, Object> map) {
 		List<AssignmentSubmit> assignmentSubmit = assignmentmapper.selectAssignmentSubmit(map);
-		return assignmentSubmit;
+		List<AssignmentSubmit> assignmentSubmitTeacher = assignmentmapper.selectAssignmentSubmitTeacher(map);
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("assignmentSubmit", assignmentSubmit);
+		returnMap.put("assignmentSubmitTeacher", assignmentSubmitTeacher);
+		return returnMap;
 	}
-	public List<AssignmentSubmit>  getAssignmentSubmitTeacher(Map<String,Object> map) {
-		List<AssignmentSubmit> assignmentSubmit = assignmentmapper.selectAssignmentSubmitTeacher(map);
-		return assignmentSubmit;
-	}
-	public void addAssignmentSubmitFile(AssignmentSubmitForm assignmentSubmitForm
-									,String path
-									,@RequestParam (name="assignmentExamNo") int assignmentExamNo)  {
-		
-		
-		log.debug(CF.GMC+"AssignmentService.addAssignment.param path : " + path + CF.RS);
-		log.debug(CF.GMC+"AssignmentService.addAssignment.param assignmentfileList : " + assignmentSubmitForm.getAssignmentSubmitFileList() +CF.RS);
-		
+
+	public void addAssignmentSubmitFile(AssignmentSubmitForm assignmentSubmitForm, String path,
+			@RequestParam(name = "assignmentExamNo") int assignmentExamNo) {
+
+		log.debug(CF.GMC + "AssignmentService.addAssignment.param path : " + path + CF.RS);
+		log.debug(CF.GMC + "AssignmentService.addAssignment.param assignmentfileList : "
+				+ assignmentSubmitForm.getAssignmentSubmitFileList() + CF.RS);
+
 		String loginId = assignmentSubmitForm.getLoginId();
 		// 과제가 하나 이상이고 입력도 성공했을때
-		if( assignmentSubmitForm.getAssignmentSubmitFileList() != null &&  assignmentSubmitForm.getAssignmentSubmitFileList().get(0).getSize() > 0 
-				&&  assignmentSubmitForm.getAssignmentSubmitFileList().size() > 0 ) {
-			
-			log.debug(CF.GMC + "AssignmentService.addAssignmentExam : "+ "첨부된 파일이 있습니다" + CF.RS);
-			for(MultipartFile mf :  assignmentSubmitForm.getAssignmentSubmitFileList()) {
+		if (assignmentSubmitForm.getAssignmentSubmitFileList() != null
+				&& assignmentSubmitForm.getAssignmentSubmitFileList().get(0).getSize() > 0
+				&& assignmentSubmitForm.getAssignmentSubmitFileList().size() > 0) {
+
+			log.debug(CF.GMC + "AssignmentService.addAssignmentExam : " + "첨부된 파일이 있습니다" + CF.RS);
+			for (MultipartFile mf : assignmentSubmitForm.getAssignmentSubmitFileList()) {
 				AssignmentFile assignmentFile = new AssignmentFile();
-				//원본 이름
+				// 원본 이름
 				String originName = mf.getOriginalFilename();
-				
-				//TYPE
+
+				// TYPE
 				String ext = originName.substring(originName.lastIndexOf("."));
-				
-				//중복 방지
+
+				// 중복 방지
 				String filename = UUID.randomUUID().toString(); // 16진수 문자열로 만든 절대 중복될 수 없는 문자 만들어줌
-				
-				//UUID 새로운 이름 
+
+				// UUID 새로운 이름
 				filename = filename.replace("-", "");
 				filename = filename + ext;
-				
-				log.debug(CF.GMC + "AssignmentService.addAssignmentExam originName:" +originName +CF.RS);
-				log.debug(CF.GMC + "AssignmentService.addAssignmentExam ext: " +ext+CF.RS);
-				log.debug(CF.GMC + "AssignmentService.addAssignmentExam filename:" + filename +CF.RS);
-				log.debug(CF.GMC + "AssignmentService.addAssignmentExam assignmentExamNo:" + assignmentExamNo+CF.RS);
-				log.debug(CF.GMC + "AssignmentService.addAssignmentExam : mf.getSize()"+mf.getSize() +CF.RS);
-				log.debug(CF.GMC + "AssignmentService.addAssignmentExam : mf.getContentType()"+mf.getContentType() +CF.RS);
-				
-				
+
+				log.debug(CF.GMC + "AssignmentService.addAssignmentExam originName:" + originName + CF.RS);
+				log.debug(CF.GMC + "AssignmentService.addAssignmentExam ext: " + ext + CF.RS);
+				log.debug(CF.GMC + "AssignmentService.addAssignmentExam filename:" + filename + CF.RS);
+				log.debug(CF.GMC + "AssignmentService.addAssignmentExam assignmentExamNo:" + assignmentExamNo + CF.RS);
+				log.debug(CF.GMC + "AssignmentService.addAssignmentExam : mf.getSize()" + mf.getSize() + CF.RS);
+				log.debug(CF.GMC + "AssignmentService.addAssignmentExam : mf.getContentType()" + mf.getContentType()
+						+ CF.RS);
+
 				assignmentFile.setAssignmentExamNo(assignmentExamNo);
 				assignmentFile.setAssignmentFileName(filename);
 				assignmentFile.setAssignmentFileOriginName(originName);
@@ -204,39 +214,36 @@ public class AssignmentService {
 				assignmentFile.setAssignmentFileType(mf.getContentType());
 				assignmentFile.setLoginId(loginId);
 				assignmentfilemapper.insertAssingmentfile(assignmentFile);
-				
-				//파일 저장
+
+				// 파일 저장
 				try {
-					mf.transferTo(new File(path+filename));
+					mf.transferTo(new File(path + filename));
 				} catch (Exception e) {
 					e.printStackTrace();
 					throw new RuntimeException();
 				}
 			}
-			
-		
+
 		}
-				
+
 	}
+
 	public void modifiyAssignmentExam(AssignmentExam assignmentExam) {
 		assignmentmapper.updateAssignmentExam(assignmentExam);
 	}
-	public void modifyScore(Map<String,Object> paramMap) {
+
+	public void modifyScore(Map<String, Object> paramMap) {
 		assignmentmapper.updateScore(paramMap);
 	}
+
 	public void deleteAssignment(int assignmentExamNo) {
+		assignmentfilemapper.deleteAssignmentfile(assignmentExamNo);
+		assignmentmapper.deleteAssignmentSubmit(assignmentExamNo);
 		assignmentmapper.deleteAssignment(assignmentExamNo);
 	}
-	public void deleteAssignmentSubmit(int assignmentExamNo) {
-		assignmentmapper.deleteAssignmentSubmit(assignmentExamNo);
-	}
-	public void deleteAssignmentfile(int assignmentExamNo) {
-		assignmentfilemapper.deleteAssignmentfile(assignmentExamNo);
-	}
+
 	public List<Lecture> getLectureNameList() {
 		List<Lecture> lectureNameList = assignmentmapper.selectLectureNameList();
 		return lectureNameList;
 	}
-	
-	
 }

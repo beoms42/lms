@@ -7,7 +7,7 @@ $(function() {
   var data = {
     labels: ["2013", "2014", "2014", "2015", "2016", "2017"],
     datasets: [{
-      label: '# of Votes',
+      label: "grade",
       data: [10, 19, 3, 5, 2, 3],
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
@@ -33,7 +33,7 @@ $(function() {
     labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
     datasets: [{
         label: 'Dataset 1',
-        data: [12, 19, 3, 5, 2, 3],
+        data: [10, 19, 3, 5, 2, 3],
         borderColor: [
           '#587ce4'
         ],
