@@ -32,33 +32,15 @@ public class AssignmentService {
 	@Autowired
 	private AssignmentfileMapper assignmentfilemapper;
 
-	public Map<String, Object> getAssignmentExam(Map<String, Object> paramMap) {
-		// 1) 컨트롤러의 입력값 가공
-		int assignmentCurrentPage = (int) paramMap.get("assignmentCurrentPage");
-		String lectureName = (String) paramMap.get("lectureName");
-		int rowPerPage = (int) paramMap.get("rowPerPage");
-		int beginRow = (assignmentCurrentPage - 1) * rowPerPage;
-		int assignmentTotal = assignmentmapper.selectAssignmentTotalCount();
-		paramMap.put("beginRow", beginRow);
-
+	public	List<AssignmentExam> getAssignmentExam(String lectureName) {
+		
 		// 디버깅
-		log.debug(CF.GMC + "getAssignmentExam.AssignmentService assignmentCurrentPage" + assignmentCurrentPage + CF.RS);
 		log.debug(CF.GMC + "getAssignmentExam.AssignmentService lectureName" + lectureName + CF.RS);
-		log.debug(CF.GMC + "getAssignmentExam.AssignmentService rowPerPage" + rowPerPage + CF.RS);
-		log.debug(CF.GMC + "getAssignmentExam.AssignmentService beginRow" + beginRow + CF.RS);
-		log.debug(CF.GMC + "getAssignmentExam.AssignmentService assignmentTotal : " + assignmentTotal + CF.RS);
 
-		int lastPage = 0;
-		if ((assignmentTotal % rowPerPage) != 0) {
-			assignmentTotal += 1;
-		}
-		List<AssignmentExam> assignmentExamList = assignmentmapper.selectAssignmentExam(paramMap);
+		List<AssignmentExam> assignmentExamList = assignmentmapper.selectAssignmentExam(lectureName);
 
-		Map<String, Object> returnMap = new HashMap<String, Object>();
-		returnMap.put("assignmentExamList", assignmentExamList);
-		returnMap.put("lastPage", lastPage);
 
-		return returnMap;
+		return assignmentExamList;
 
 	}
 
@@ -69,8 +51,7 @@ public class AssignmentService {
 				CF.GMC + "AssignmentService.addAssignment.param sessionMemberId : " + paramMap.get("loginId") + CF.RS);
 
 		// 리스트
-		List<AssignmentExam> assignmentList = assignmentmapper
-				.selectAssignmentOne((int) paramMap.get("assignmentExamNo"));
+		List<AssignmentExam> assignmentList = assignmentmapper.selectAssignmentOne((int) paramMap.get("assignmentExamNo"));
 		List<AssignmentFile> assignmentListFile = assignmentfilemapper.selectAssinmetFile(paramMap);
 		for (AssignmentFile f : assignmentListFile) {
 			log.debug(CF.GMC + "AssignementService.getAssignmentOne" + f.getAssignmentExamNo() + CF.RS);
@@ -147,15 +128,11 @@ public class AssignmentService {
 		return row;
 	}
 
-	public int getEducationNo(@RequestParam(name = "sessionMemberId") String loginId) {
-		int educationNo = assignmentmapper.selectEducationNo(loginId);
-		return educationNo;
+	public Map<String,Object> getEducation(@RequestParam(name = "sessionMemberId") String loginId) {
+		Map<String,Object> returnMap = assignmentmapper.selectEducation(loginId);
+		return returnMap;
 	}
 
-	public String getLectureName(@RequestParam(name = "sessionMemberId") String loginId) {
-		String lectureName = assignmentmapper.selectLectureName(loginId);
-		return lectureName;
-	}
 
 	public void addAssignmentSubmit(AssignmentSubmit assignmentSubmit) {
 		assignmentmapper.insertAssignmentSubmit(assignmentSubmit);

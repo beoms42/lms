@@ -2,8 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.gdu.lms.mapper.HyeinMapper">
 	
-	<select id="">
-	
-	
+	<select id="selectAttendance"
+			parameterType="java.util.Map"
+			resultType="java.util.Map">
+		SELECT 
+			a.attendance_record attendanceRecord
+			, st.student_name studentName
+			, sc.schedule_date scheduleDate
+			, l.lecture_name lectuerName
+			, l.teacher
+		FROM attendance a
+		JOIN education e
+			ON a.education_no = e.education_no
+		JOIN lecture l
+			ON e.lecture_name = l.lecture_name
+		JOIN schedule sc
+			ON sc.schedule_no = a.schedule_no
+		JOIN student st
+			ON st.login_id = e.login_id
+		GROUP BY e.login_id
+		HAVING l.teacher = #{loginId}
+			AND 출결날짜 = #{scheduleDate}
 	</select>
+	
+	
 </mapper>

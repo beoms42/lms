@@ -54,11 +54,6 @@
               </div>
             </div>
           </div>
-          <form>
-          		<div>
-                <a href="${pageContext.request.contextPath}/loginCheck/addCommunity">게시글 입력</a>
-                </div>
-          </form>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
         <!-- partial -->
@@ -68,6 +63,9 @@
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">커뮤니티 게시판</h4>
+          		<div align="right">
+                <a class="btn btn-secondary" href="${pageContext.request.contextPath}/loginCheck/addCommunity" >게시글 입력</a>
+                </div>
                   <p class="card-description">
                   </p>
                   <div class="table-responsive">
@@ -97,11 +95,11 @@
             </div>
           </div>
 		<c:if test="${currentPage > 1}">
-			<a href="${pageContext.request.contextPath}/loginCheck/getCommunityListByPage?currentPage=${currentPage-1}">이전</a>
+			<a class="btn btn-success" href="${pageContext.request.contextPath}/loginCheck/getCommunityListByPage?currentPage=${currentPage-1}">이전</a>
 		</c:if>
 		
 		<c:if test="${currentPage < lastPage}">
-			<a href="${pageContext.request.contextPath}/loginCheck/getCommunityListByPage?currentPage=${currentPage+1}">다음</a>
+			<a class="btn btn-success" href="${pageContext.request.contextPath}/loginCheck/getCommunityListByPage?currentPage=${currentPage+1}">다음</a>
 		</c:if>
 			
       </div>

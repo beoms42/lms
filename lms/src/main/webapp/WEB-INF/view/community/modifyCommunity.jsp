@@ -118,7 +118,9 @@
 								</td>
 							</tr>
 						</table>
-					<button type="button" id="modifyCommunityBt">수정하기</button>
+						<div class="float-right top bottom right">
+						<button type="button" id="modifyCommunityBt" class="btn btn-info">수정하기</button>
+						</div>
 					</form>
                   </div>
                 </div>
