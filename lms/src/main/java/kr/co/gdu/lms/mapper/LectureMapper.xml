@@ -334,17 +334,6 @@
 		WHERE lecture_name = #{lectureName};
 	</select>
 	
-	<!-- 강사 자료실(이름) -->
-	<select id="selectTeacherName"
-			parameterType="String" 
-			resultType="String">
-		
-		SELECT 
-			teacher_name teacherName
-		FROM teacher
-		WHERE login_id = #{loginId};
-	</select>
-	
 	<!-- 강사 자료실(강의명) -->
 	<select id="selectTeacherLectureName"
 			parameterType="String"
@@ -352,7 +341,7 @@
 		SELECT 
 			lecture_name lectureName
 		FROM lecture
-		WHERE teacher = #{teacher};
+		WHERE teacher = #{loginId};
 	</select>
 	
 	<!-- 학생 자료실 -->
@@ -489,4 +478,7 @@
 		FROM reference_file
 		WHERE reference_no = #{referenceNo};
 	</select>
+	
+	
+	
 </mapper>

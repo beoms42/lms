@@ -89,9 +89,6 @@ public interface LectureMapper {
 	// 자료실 리스트 카운트
 	int selectReferenceCnt(String lectureName);
 	
-	// 강사 이름
-	String selectTeacherName(String loginId);
-	
 	// 강사 강의명
 	String selectTeacherLectureName(String teacher);
 	

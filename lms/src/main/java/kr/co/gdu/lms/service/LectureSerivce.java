@@ -1,12 +1,14 @@
 package kr.co.gdu.lms.service;
 
 import java.io.File;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -251,19 +253,54 @@ public class LectureSerivce {
 	}
 	
 	// 시간표 추가
-	public int addSchedule(Schedule schedule) {
+	public int addSchedule(Date scheduleStartDate,Date scheduleEndDate,int lectureSubjectNo) {
 		
 		// 매개변수 디버깅
-		log.debug(CF.HJI+"LectureService.addSchedule : "+schedule+CF.RS);
-		// 실행
-		int row = lectureMapper.insertSchedule(schedule);
+		log.debug(CF.HJI+"LectureService.addSchedule : "+scheduleStartDate+CF.RS);
+		log.debug(CF.HJI+"LectureService.addSchedule : "+scheduleEndDate+CF.RS);
+		log.debug(CF.HJI+"LectureService.addSchedule : "+lectureSubjectNo+CF.RS);
 		
-		// 디버깅
-		log.debug(CF.HJI+"LectureService.addSchedule row : "+row+CF.RS);
-		if(row == 1) {
-			log.debug(CF.HJI+"LectureService.addSchedule : "+"성공"+CF.RS);
-		} else {
-			log.debug(CF.HJI+"LectureService.addSchedule : "+"실패"+CF.RS);
+		// 실행
+		int row = 0;
+		// 날짜끼리의 차이 구하기
+		long diff = scheduleEndDate.getTime() - scheduleStartDate.getTime(); // 나열된 시간은 millisecond 즉 1/1000초를 나타냄 1970년 1월 1일 자정을 기준으로 함참고로 음수가 나타날 경우 1970년 이전을 의미
+		log.debug(CF.HJI+"LectureService.addShedule diff===================== : "+diff+CF.RS);
+		// TimeUnit(시간데이터가 없으니 입력해야 쓸수 있다.)쓰는 방식이 이러니 왜 이거냐 물음X convert에서(diff를 MILLISECONDS로 들고 오겠다.) 다시 1분단위로으로 변환
+        long diffMinutes = TimeUnit.MINUTES.convert(diff, TimeUnit.MILLISECONDS); 
+         
+         // 분으로 계산되어서 나누어주기
+         int diffDay = (int)(diffMinutes/(60*24));
+         log.debug(CF.HJI+"LectureService.addShedule diffDay : "+diffDay+CF.RS);
+         
+         for(int i=0; i <= diffDay; i++) {
+        	 // 켈린더 선언
+        	 Calendar cal = Calendar.getInstance();
+        	 // 켈린더로 변환(Date 날짜를 calendar로 바꾸기 때문에 다른 설정이 필요 없다.) 타입만 바뀜
+        	 cal.setTime(scheduleStartDate);
+        	 // 이 켈린더의 date를 i 만큼 더하겠다. day + i
+        	 cal.add(Calendar.DATE, i);
+        	 log.debug(CF.HJI+"LectureService.addShedule cal : "+cal+CF.RS);
+        	 // 일주일에서 주말은 제외하기 위해 dayOfWeek 선언
+        	 // 켈린더타입에서 주를 구할 수 있다.
+        	 int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+        	 log.debug(CF.HJI+"LectureService.addShedule dayOfWeek : "+dayOfWeek+CF.RS);
+        	 // 토일이 아니면
+        	 if(dayOfWeek != 1 && dayOfWeek != 7) {
+        		// String으로 변환하기 위해 다시 한번 타입 변환(yyyy-MM-dd)
+        		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
+	        	// fm안에 있는 YYYY-MM-DD를 포맷하겠다. String으로 (이건 자동으로 되는것 같다.)
+        		String scheduleDate = fm.format(cal.getTime());
+            	log.debug(CF.HJI+"LectureService.addShedule scheduleDate : "+scheduleDate+CF.RS);
+            	Schedule schedule = new Schedule();
+         		schedule.setScheduleDate(scheduleDate);
+         		schedule.setLectureSubjectNo(lectureSubjectNo);
+         		row = lectureMapper.insertSchedule(schedule);
+         		if(row == 1) {
+        			log.debug(CF.HJI+"LectureService.addShedule 성공! : "+row+CF.RS);
+        		} else {
+        			log.debug(CF.HJI+"LectureService.addShedule 실패! : "+row+CF.RS);
+        		} 
+        	 }
 		}
 		
 		return row;
@@ -345,10 +382,8 @@ public class LectureSerivce {
 		
 		// 강사, 학생 강의명 찾기
 		String lectureName = "";
-		String teacher = "";
 		if(loginLv > 1) {
-			teacher = lectureMapper.selectTeacherName(loginId);
-			lectureName = lectureMapper.selectTeacherLectureName(teacher);
+			lectureName = lectureMapper.selectTeacherLectureName(loginId);
 			log.debug(CF.HJI+"LectureService.selectLectureReferenceList lectureName : "+lectureName+CF.RS);
 		} else {
 			lectureName = lectureMapper.selectStudentLectureName(loginId);

@@ -2,10 +2,7 @@ package kr.co.gdu.lms.controller;
 
 
 import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -322,45 +319,13 @@ public class LectureController {
 		log.debug(CF.HJI+"LectureController.addShedule m : "+m+CF.RS);
 		log.debug(CF.HJI+"LectureController.addShedule y : "+y+CF.RS);
 		
-		// 날짜끼리의 차이 구하기
-		long elapsedms = scheduleEndDate.getTime() - scheduleStartDate.getTime();
-		log.debug(CF.HJI+"LectureController.addShedule elapsedms===================== : "+elapsedms+CF.RS);
-        long diff = TimeUnit.MINUTES.convert(elapsedms, TimeUnit.MILLISECONDS);
-         
-         // 분으로 계산되어서 나누어주기
-         diff = (diff/(60*24));
-         log.debug(CF.HJI+"LectureController.addShedule diff : "+diff+CF.RS);
-         
-         for(int i=0; i <= diff; i++) {
-        	 // 켈린더로 변환
-        	 Calendar cal = Calendar.getInstance();
-        	 // 변환
-        	 cal.setTime(scheduleStartDate);
-        	 // 형식 바꾸기 참조...
-        	 DateFormat df = new SimpleDateFormat("YYYY-MM-DD");
-        	 cal.add(Calendar.DATE, i);
-        	 // 일주일에서 주말은 제외하기 위해 dayOfWeek 선언
-        	 int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-        	 log.debug(CF.HJI+"LectureController.addShedule dayOfWeek : "+dayOfWeek+CF.RS);
-        	 // 토일이 아니면
-        	 if(dayOfWeek != 1 && dayOfWeek != 7) {
-        		 
-        		// String으로 변환하기 위해
-	        	SimpleDateFormat fm = new SimpleDateFormat("YYYY-MM-DD");
-	        	log.debug(CF.HJI+"LectureController.addShedule fm : "+fm+CF.RS);
-        		String scheduleDate = fm.format(cal.getTime());
-            	log.debug(CF.HJI+"LectureController.addShedule scheduleDate : "+scheduleDate+CF.RS);
-            	Schedule schedule = new Schedule();
-         		schedule.setScheduleDate(scheduleDate);
-         		schedule.setLectureSubjectNo(lectureSubjectNo);
-         		int row = lectureService.addSchedule(schedule);
-         		if(row == 1) {
-        			log.debug(CF.HJI+"LectureController.addShedule 성공! : "+row+CF.RS);
-        		} else {
-        			log.debug(CF.HJI+"LectureController.addShedule 실패! : "+row+CF.RS);
-        		} 
-        	 }
-		}
+		// 모델값 추출
+		int row = lectureService.addSchedule(scheduleStartDate, scheduleEndDate, lectureSubjectNo);
+ 		if(row == 1) {
+			log.debug(CF.HJI+"LectureController.addShedule 성공! : "+row+CF.RS);
+		} else {
+			log.debug(CF.HJI+"LectureController.addShedule 실패! : "+row+CF.RS);
+		} 
 		
          return "redirect:/loginCheck/getSheduleListByMonth?m="+m+"&y="+y;
 	}
