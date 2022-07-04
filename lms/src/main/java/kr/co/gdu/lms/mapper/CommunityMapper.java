@@ -19,7 +19,7 @@ public interface CommunityMapper {
 	int countCommunityList();
 	
 	// 희원 - Community 게시글 1개 선택
-	Community selectCommunityOne(int communityNo);
+	CommunityMember selectCommunityOne(int communityNo);
 	
 	// 희원 - Community 게시글 1개의 file List 가져오기
 	List<CommunityFile> selectCommunityFileOne(int communityNo);

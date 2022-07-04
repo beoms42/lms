@@ -59,19 +59,19 @@
 	              <div class="card">
 	                <div class="card-body"><h1 class="title-bottom">[커뮤니티 게시글]</h1>
 	                  <div class="table-responsive">
-	                  <h2 class="smalltitle-bottom">${community.communityTitle}</h2>
+	                  <h2 class="smalltitle-bottom">${communityMember.communityTitle}</h2>
 		                  <div class="row bottom">
 		                  	<div class="col-sm-1">
-		                  		<img src="${pageContext.request.contextPath}/file/memberPhoto/${memberFileName}" class="round left" width="50" height="50">	
+		                  		<img src="${pageContext.request.contextPath}/file/memberPhoto/${communityMember.memberFileName}" class="round left" width="50" height="50">	
 		                  	</div>
 		                  	<div class="col-sm-11 font-size">
-		                  		${community.loginId}
-								<div>${community.createDate}</div>	                  	
+		                  		${communityMember.loginId}
+								<div>${communityMember.createDate}</div>	                  	
 		                  	</div>
 		                  </div>
 		                  <div class="left">
 		                  <hr>
-		                  <div>${community.communityContent}</div>
+		                  <div>${communityMember.communityContent}</div>
 		                  <hr>
 							<!-- 파일 부분 -->
 							<c:if test="${communityFileList != null && fn:length(communityFileList) > 0}">
@@ -95,8 +95,8 @@
 							</c:if>
 						</div>
 							<div class="float-right top bottom right">
-						    <a class="btn btn-info" href="${pageContext.request.contextPath}/loginCheck/modifyCommunity?communityNo=${community.communityNo}">수정</a>
-						    <a class="btn btn-danger" href="${pageContext.request.contextPath}/loginCheck/removeCommunity?communityNo=${community.communityNo}">삭제</a>
+						    <a class="btn btn-info" href="${pageContext.request.contextPath}/loginCheck/modifyCommunity?communityNo=${communityMember.communityNo}">수정</a>
+						    <a class="btn btn-danger" href="${pageContext.request.contextPath}/loginCheck/removeCommunity?communityNo=${communityMember.communityNo}">삭제</a>
 					    </div>
 	                  </div>
 	                </div>

@@ -72,11 +72,11 @@
 		                    </colgroup>
 							<tr>
 								<th>번호</th>
-								<td><input type="text" name="communityNo" value="${community.communityNo}" readonly="readonly" class="form-control"></td>
+								<td><input type="text" name="communityNo" value="${communityMember.communityNo}" readonly="readonly" class="form-control"></td>
 							</tr>				        
 							<tr>
 								<th>제목</th>
-								<td><input type="text" name="communityTitle" value="${community.communityTitle}" class="form-control"></td>
+								<td><input type="text" name="communityTitle" value="${communityMember.communityTitle}" class="form-control"></td>
 							</tr>				        
 							<tr>
 								<th>비밀번호</th>
@@ -84,12 +84,12 @@
 							</tr>				        
 							<tr>
 								<th>작성자</th>
-								<td><input type="text" name="loginId" value="${community.loginId}" readonly="readonly" class="form-control"></td>
+								<td><input type="text" name="loginId" value="${communityMember.loginId}" readonly="readonly" class="form-control"></td>
 							</tr>				        
 							<tr>
 								<th>내용</th>
 								<td>
-									<textarea id="summernote" name="communityContent">${community.communityContent}</textarea>
+									<textarea id="summernote" name="communityContent">${communityMember.communityContent}</textarea>
 									<script>
 										$('#summernote').summernote({
 											  tabsize: 2,

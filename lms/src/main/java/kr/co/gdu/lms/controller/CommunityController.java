@@ -57,7 +57,7 @@ public class CommunityController {
 		log.debug(CF.PHW+"CommunityController.modifyCommunity.get updateMap : "+updateMap+CF.RS );
 		
 		model.addAttribute("communityNo", updateMap.get("communityNo"));
-		model.addAttribute("community", updateMap.get("community"));
+		model.addAttribute("communityMember", updateMap.get("communityMember"));
 		model.addAttribute("communityFileList", updateMap.get("communityFileList"));
 		
 		return "community/modifyCommunity";
@@ -136,11 +136,11 @@ public class CommunityController {
 		Map<String, Object> returnMap = communityService.getCommunityOne(map);
 		log.debug(CF.PHW+"CommunityController.getCommunityOne.get communityNo : "+returnMap.get("communityNo")+CF.RS );
 		log.debug(CF.PHW+"CommunityController.getCommunityOne.get communityFileList : "+returnMap.get("communityFileList")+CF.RS );
-		log.debug(CF.PHW+"CommunityController.getCommunityOne.get community : "+returnMap.get("community")+CF.RS );
+		log.debug(CF.PHW+"CommunityController.getCommunityOne.get communityMember : "+returnMap.get("communityMember")+CF.RS );
 		
 		model.addAttribute("communityNo", returnMap.get("communityNo"));
 		model.addAttribute("communityFileList", returnMap.get("communityFileList"));
-		model.addAttribute("community", returnMap.get("community"));
+		model.addAttribute("communityMember", returnMap.get("communityMember"));
 		
 		return "community/getCommunityOne";
 				

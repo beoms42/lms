@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.mapper.CommunityMapper;
 import kr.co.gdu.lms.vo.CommunityForm;
+import kr.co.gdu.lms.vo.CommunityMember;
 import kr.co.gdu.lms.vo.Community;
 import kr.co.gdu.lms.vo.CommunityFile;
 import kr.co.gdu.lms.vo.Qna;
@@ -95,11 +96,11 @@ public class CommunityService {
 		int communityNo = (int)map.get("communityNo");
 		log.debug(CF.PHW+"CommunityService.modifyCommunity.communityNo : "+communityNo+CF.RS );
 		
-		Community community = communityMapper.selectCommunityOne(communityNo);
+		CommunityMember communityMember = communityMapper.selectCommunityOne(communityNo);
 		List<CommunityFile> communityFileList = communityMapper.selectCommunityFileOne(communityNo);
 		
 		map.put("communityNo", communityNo);
-		map.put("community", community);
+		map.put("communityMember", communityMember);
 		map.put("communityFileList", communityFileList);
 		log.debug(CF.PHW+"CommunityService.modifyCommunity.map : "+map+CF.RS );
 		
@@ -184,15 +185,15 @@ public class CommunityService {
 		int communityNo = (int)map.get("communityNo");
 		log.debug(CF.PHW+"CommunityService.getCommunityOne communityNo : "+communityNo+CF.RS );
 		
-		Community community = communityMapper.selectCommunityOne(communityNo);
+		CommunityMember communityMember = communityMapper.selectCommunityOne(communityNo);
 		List<CommunityFile> communityFileList = communityMapper.selectCommunityFileOne(communityNo);
 		
-		log.debug(CF.PHW+"CommunityService.getCommunityOne community : "+community+CF.RS );
+		log.debug(CF.PHW+"CommunityService.getCommunityOne communityMember : "+communityMember+CF.RS );
 		log.debug(CF.PHW+"CommunityService.getCommunityOne communityFileList : "+communityFileList+CF.RS );
 		
 		
 		map.put("communityNo", communityNo);
-		map.put("community", community);
+		map.put("communityMember", communityMember);
 		map.put("communityFileList", communityFileList);
 		
 		

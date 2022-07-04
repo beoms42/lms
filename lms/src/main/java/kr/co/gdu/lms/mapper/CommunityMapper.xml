@@ -29,17 +29,20 @@
 	<!--커뮤니티 게시글 selectOne-->
 	<select id="selectCommunityOne"
 			parameterType="int"
-			resultType="kr.co.gdu.lms.vo.Community">
+			resultType="kr.co.gdu.lms.vo.CommunityMember">
 		SELECT
-			community_no communityNo
-			, community_title communityTitle
-			, community_content communityContent
-			, community_pw communityPw
-			, login_id loginId
-			, create_date createDate
-			, update_date updateDate
-		FROM community
-		WHERE community_no = #{communityNo};
+			c.community_no communityNo
+			, c.community_title communityTitle
+			, c.community_content communityContent
+			, c.community_pw communityPw
+			, c.login_id loginId
+			, mf.member_file_name memberFileName
+			, c.create_date createDate
+			, c.update_date updateDate
+		FROM community c
+		JOIN member_file mf
+			ON c.login_id = mf.login_id
+		WHERE c.community_no = #{communityNo};
 	</select>
 	
 	<!--커뮤니티 게시글 List-->
