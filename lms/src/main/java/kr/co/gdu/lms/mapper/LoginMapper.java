@@ -13,11 +13,14 @@ import kr.co.gdu.lms.vo.Teacher;
 
 @Mapper
 public interface LoginMapper {
+	// 마지막 로그인 날짜 3개월 지난 사람 active 업데이트 해주는 메서드
+	int updateActiveByDormantMember(String loginId);
+	
+	// 마지막 로그인 날짜 3개월 지난 사람 리스트
+	List<String> selectMemberIdListByLastLoginDate();
+	
 	// 휴먼계정 아이디 출력
 	List<Map<String,Object>> selectDormantMemberId();
-	
-	// 모든 회원 로그인 안한지 며칠 됐는지 날짜 출력
-	List<Map<String, Object>> selectDiffDayListByLastLoginDate();
 	
 	// 해당 아이디가 비밀번호 변경한 최근 날짜 출력
 	String selectPwRecordDate(String loginId);

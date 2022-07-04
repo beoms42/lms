@@ -25,21 +25,24 @@ public class MemberScheduler {
 	@Autowired private ManagerMapper managerMapper;
 	@Autowired private MemberFileMapper memberFileMapper;
 	
+	// 로그인 안한지 3개월이 지나면 휴먼계정으로 변경
 	@Scheduled(cron = "0 0 0 * * *")
 	public void modifyMemberActive() {
-		List<Map<String, Object>> diffDayList = loginMapper.selectDiffDayListByLastLoginDate();
 		
-		for(int i=0; i < diffDayList.size(); i++) {
-			if((int)(diffDayList.get(i).get("diffDay")) >= 90) {
-				int row = 0;
-				log.debug(CF.LCH + row + "명의 아이디가 비활성화 됐습니다." + CF.RS);
-			}
+		List<String> memberIdList = loginMapper.selectMemberIdListByLastLoginDate();
+		int dormantRow = 0;
+		
+		for(String s : memberIdList) {
+			dormantRow += loginMapper.updateActiveByDormantMember(s);
 		}
+		
+		log.debug(dormantRow + "명의 사용자가 비활성화 됐습니다.");
 	}
 	
 	// 0초 0분 0시 1일 매월 요일 상관없이
 	@Scheduled(cron = "0 0 0 * * *")
 	public void deleteDormantMember() {
+		
 		List<Map<String,Object>> dormantMemberIdList = loginMapper.selectDormantMemberId();
 		int stRow = 0;
 		int teRow = 0;
