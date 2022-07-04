@@ -1,13 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri= "http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <head>
-<meta charset="UTF-8">
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -28,6 +25,7 @@
   <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/tftace.jpg" />
   <style>
 	.bottom {margin-bottom : 40px;}
+	.top {margin-top : 30px;}
   </style>
 </head>
 <body>
@@ -51,7 +49,42 @@
 	            <div class="col-lg-10 grid-margin stretch-card">
 	              <div class="card">
 	                <div class="card-body">
-	                
+		                <h2>강의명 [${list[0].lectureName}]</h2>
+		                <form id="attendanceDateForm" method="get" action="${pageContext.request.contextPath}/loginCheck/getAttendanceList">
+		                	 <h3 class="float-right bottom">
+		                		<input id="scheduleDate" type="date" name="scheduleDate" value="${list[0].scheduleDate}">
+		                	</h3>
+		                </form>
+		                <form method="post" action="${pageContext.request.contextPath}/loginCheck/getAttendanceList">
+			                <table class="table">
+		                		<thead>
+		                			<tr>
+		                				<th>학생아이디</th>
+		                				<th>학생이름</th>
+		                				<th>출결</th>
+		                			</tr>
+		                		</thead>
+		                		<tbody>
+		                			<input type="hidden" name="scheduleDate" value="${list[0].scheduleDate}">
+			                		<c:forEach var="a" items="${list}">
+			                			<tr>
+			                				<td>${a.loginId}</td>
+		                					<td>${a.studentName}</td>
+		                					<td>
+		                						<select name="list" class="form-control">
+		                							<option value="${a.scheduleNo}/${a.loginId}/출결전" <c:if test="${a.attendanceRecord eq '출결전'}">selected</c:if>>출결전</option>
+		                							<option value="${a.scheduleNo}/${a.loginId}/출석" <c:if test="${a.attendanceRecord eq '출석'}">selected</c:if>>출석</option>
+		                							<option value="${a.scheduleNo}/${a.loginId}/지각" <c:if test="${a.attendanceRecord eq '지각'}">selected</c:if>>지각</option>
+		                							<option value="${a.scheduleNo}/${a.loginId}/조퇴" <c:if test="${a.attendanceRecord eq '조퇴'}">selected</c:if>>조퇴</option>
+		                							<option value="${a.scheduleNo}/${a.loginId}/결석" <c:if test="${a.attendanceRecord eq '결석'}">selected</c:if>>결석</option>
+		                						</select>
+		                					</td>
+		                				</tr>
+			                		</c:forEach>
+		                		</tbody>
+		                	</table>
+		                	<button id="bb" class="btn btn-primary float-right top">출결 변경</button>
+		                </form>
 	                </div>
 	              </div>
 	            </div>
@@ -100,6 +133,12 @@
   <script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
   <script src="${pageContext.request.contextPath}/js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
+  <script>
+	$('#scheduleDate').change(function() {
+		$('#attendanceDateForm').submit();		
+	})
+			
+  </script>
 </body>
 </html>
 
