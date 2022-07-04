@@ -8,7 +8,9 @@ import kr.co.gdu.lms.vo.*;
 
 @Mapper
 public interface LectureMapper {
-
+	
+	//종강한 강의 리스트
+	List<Map<String, Object>> selectLectureListByEndDate();
 	// 강의개설시 필요한 드롭다운 메뉴 : 강사 / 매니저 / 강의실 / 정원(강의실)
 	
 	// 강사

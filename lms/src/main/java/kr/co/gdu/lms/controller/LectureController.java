@@ -665,5 +665,13 @@ public class LectureController {
 		
 		return "redirect:/loginCheck/getSubjectList";
 	}
-	
+	// 종강한 강의 리스트
+		@GetMapping("/loginCheck/getEndOfLectureList")
+		public String getEndOfLectureList(Model model) {
+			List<Map<String, Object>>list = lectureService.selectLectureListByEndDate();
+			model.addAttribute("list", list);
+			log.debug(CF.PSH+"LectureController.getEndOfLectureList List:"+list+CF.RS);
+			return"lecture/getEndOfLectureList";
+
+}
 }
