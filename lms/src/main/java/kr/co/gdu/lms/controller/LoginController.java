@@ -310,8 +310,11 @@ public class LoginController {
 	// 로그인 폼
 	@GetMapping("/login") 
 	public String login(Model model
-						, HttpServletRequest request) {
+						, HttpServletRequest request
+						, @RequestParam(value = "msg2", defaultValue = "true") String msg2) {
 		
+		model.addAttribute("msg2", msg2);
+		log.debug(CF.LCH+"LoginController.login.get msg2 : " + msg2 + CF.RS);
 		String cookieId = null; // model에 담을 cookieId 선언 
 		Cookie[] cookies = null;
 		if(request.getCookies() != null) {
@@ -364,7 +367,7 @@ public class LoginController {
 		
 		if(login == null) { // 로그인 정보가 일치하지 않으면
 			log.debug(CF.OHI+"LoginController.login.post 로그인 정보가 일치하지 않습니다"+login+CF.RS);
-			return "redirect:/login"; //다시 로그인 페이지로
+			return "redirect:/login?msg2=fail"; //다시 로그인 페이지로
 		}
 		
 		if("on".equals(idSave)) {

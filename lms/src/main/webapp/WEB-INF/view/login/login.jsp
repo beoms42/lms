@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/vendors/feather/feather.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/vendors/ti-icons/css/themify-icons.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/vendors/css/vendor.bundle.base.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <!-- endinject -->
   <!-- Plugin css for this page -->
   <!-- End plugin css for this page -->
@@ -132,19 +133,28 @@
   <script src="${pageContext.request.contextPath}/js/todolist.js"></script>
   <!-- endinject -->
   <script>
+  	let msg2 = '${msg2}';
+  	console.log(msg2+ "찬희 바보야");
   	
-  
+  	if(msg2 == 'fail') {
+  		console.log("성공했어요");
+  		$('#pwHelper').text('아이디나 비밀번호가 틀렸습니다.');
+  	} else {
+  		console.log("실패했어요");
+  		$('#pwHelper').text('');
+  	}
+  	
   	$('#signIn').click(function() {
   		if($('#loginId').val() == '') {
   			$('#idHelper').text('id를 입력하세요');
   		} else if($('#loginPw').val() == '') {
   			$('#idHelper').text('');
-  			
   			$('#pwHelper').text('pw를 입력하세요');
   		} else {
   			$('#signupForm').submit();
   		}
   	});
+  	
   </script>
 </body>
 
