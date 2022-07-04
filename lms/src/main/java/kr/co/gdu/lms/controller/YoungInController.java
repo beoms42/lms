@@ -203,4 +203,17 @@ public class YoungInController {
 		return "redirect:/loginCheck/qnaListOne?qnaNo="+qna.getQnaNo();
 	}
 	
+	// 영인 - get방식 deleteByQnaNo 삭제
+	@GetMapping("/loginCheck/deleteByQnaNo")
+	public String deleteByQnaNo(HttpServletRequest request
+								, @RequestParam(name = "qnaNo") int qnaNo
+								, Qna qna){
+		
+		//삭제시 우선순위 : 물리(파일)삭제, db(qnaFile)날리기, 게시글(qna)날리기
+		String path = request.getServletContext().getRealPath("/file/communityFile/");
+		
+		youngInService.deleteByQnaNo(qnaNo, path);
+		
+		return "redirect:/loginCheck/getQnaListByPage";
+	}
 }

@@ -146,7 +146,7 @@
                  	</c:if>
                  </c:if>
                  <c:if test="${loginLv >= 3}">
-                 	<button type="button" class="btn btn-inverse-danger btn-fw">삭제</button>
+                 	<A HREF="${pageContext.request.contextPath}/loginCheck/deleteByQnaNo?qnaNo=${qnaInquiry.qnaNo}"><button type="button" class="btn btn-inverse-danger btn-fw">삭제</button></A>
                  </c:if>
                  </div>
                  

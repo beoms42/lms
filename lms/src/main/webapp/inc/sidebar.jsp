@@ -48,6 +48,11 @@
 	                <c:if test="${sessionLv == 4}">
 		                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/acceptLecture">관리자 - 강의승인</a></li>
 	                </c:if>
+	                
+	                <c:if test="${sessionLv == 4}">
+		                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/acceptLecture">관리자 - 강의교재</a></li>
+	                </c:if>
+	                
 	              </ul>
 	            </div>
 	        </li>

@@ -179,4 +179,18 @@
 		SET qna_state = '답변완료'
 		WHERE qna_no = #{qnaNo}
 	</update>
+	
+	<!-- qna파일 삭제 -->
+	<delete id="deleteByQnaFileNo"	
+			parameterType="int">
+		DELETE FROM qna_file
+		WHERE qna_no = #{qnaNo}
+	</delete>
+	
+	<!-- qna 삭제 -->
+	<delete id="deleteByQnaNo"
+			parameterType="int">
+		DELETE FROM qna
+		WHERE qna_no = #{qnaNo} OR qna_answer_no = #{qnaNo}		
+	</delete>
 </mapper>

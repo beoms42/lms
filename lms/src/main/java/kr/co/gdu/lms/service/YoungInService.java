@@ -122,6 +122,22 @@ public class YoungInService {
 		youngInMapper.insertQnaAnswer(qna);
 		youngInMapper.updateByinsertQnaAnswer(qna.getQnaNo());
 		
+	}
+	
+	// 영인 - post방식 deleteByQnaNo 삭제
+	public void deleteByQnaNo(int qnaNo, String path) {
 		
+		//파일 삭제
+		List<String> fList = youngInMapper.selectQnaFileByQnaNo(qnaNo);
+		
+		for(String s : fList) {
+			File f = new File(path + s);
+	        f.delete();
+		}
+		
+		//디비 qna파일삭제
+		youngInMapper.deleteByQnaFileNo(qnaNo);
+		//디비 qna삭제
+		youngInMapper.deleteByQnaNo(qnaNo);
 	}
 }

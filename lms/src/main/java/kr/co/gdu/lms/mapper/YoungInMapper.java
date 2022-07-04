@@ -44,6 +44,13 @@ public interface YoungInMapper {
 	// qna답변 insert
 	void insertQnaAnswer(Qna qna);
 	
-	//qna 답변의 원글 답변완료로 변경 메서드
+	// qna 답변의 원글 답변완료로 변경 메서드
 	void updateByinsertQnaAnswer(int qnaNo);
+	
+	// qna file 삭제
+	void deleteByQnaFileNo(int qnaNo);
+	
+	// qna 삭제
+	void deleteByQnaNo(int qnaNo);
+	
 }
