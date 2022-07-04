@@ -101,11 +101,7 @@
 		<c:if test="${currentPage < lastPage}">
 			<a class="btn btn-success" href="${pageContext.request.contextPath}/loginCheck/getCommunityListByPage?currentPage=${currentPage+1}">다음</a>
 		</c:if>
-			
       </div>
-      
-      
-      
       <!-- main-panel ends -->
     </div>   
     <!-- page-body-wrapper ends -->

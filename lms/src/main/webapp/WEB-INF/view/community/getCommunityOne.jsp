@@ -103,6 +103,17 @@
 	              </div>
 	            </div>
 	        </div>
+	        
+	        <c:forEach car="ccl" items="${communityCommentList}">
+				<div>
+					${ccl.loginId}	
+					${ccl.communityCommentContent}      	
+					${ccl.createDate}
+					<a href="#">수정</a>
+					<a href="#">삭제</a>
+				</div>
+			</c:forEach>
+			        
 	        <!-- content-wrapper ends -->
 	        <!-- partial:partials/_footer.html -->
 	        <footer class="footer">

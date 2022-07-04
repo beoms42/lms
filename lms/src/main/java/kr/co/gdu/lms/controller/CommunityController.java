@@ -126,21 +126,31 @@ public class CommunityController {
 	// 희원 - get방식 communityOne 호출
 	@GetMapping("/loginCheck/getCommunityOne")
 	public String getCommunityOne(Model model
-								, @RequestParam (name="communityNo") int communityNo) {
+								, @RequestParam (name="communityNo") int communityNo
+								, @RequestParam (name="commentCurrentPage", defaultValue = "1") int commentCurrentPage
+								, @RequestParam (name="commentRowPerPage", defaultValue = "10") int commentRowPerPage){
 		
 		log.debug(CF.PHW+"CommunityController.getCommunityOne.get communityNo : "+communityNo+CF.RS );
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("communityNo", communityNo);
+		map.put("commentCurrentPage", commentCurrentPage);
+		map.put("commentRowPerPage", commentRowPerPage);
 		
-		Map<String, Object> returnMap = communityService.getCommunityOne(map);
+		Map<String, Object> returnMap = communityService.getCommunityAndCommentList(map);
 		log.debug(CF.PHW+"CommunityController.getCommunityOne.get communityNo : "+returnMap.get("communityNo")+CF.RS );
-		log.debug(CF.PHW+"CommunityController.getCommunityOne.get communityFileList : "+returnMap.get("communityFileList")+CF.RS );
 		log.debug(CF.PHW+"CommunityController.getCommunityOne.get communityMember : "+returnMap.get("communityMember")+CF.RS );
+		log.debug(CF.PHW+"CommunityController.getCommunityOne.get communityFileList : "+returnMap.get("communityFileList")+CF.RS );
+		log.debug(CF.PHW+"CommunityController.getCommunityOne.get communityCommentList : "+returnMap.get("communityCommentList")+CF.RS );
+		log.debug(CF.PHW+"CommunityController.getCommunityOne.get commentCurrentPage : "+returnMap.get("commentCurrentPage")+CF.RS );
+		log.debug(CF.PHW+"CommunityController.getCommunityOne.get commentLastPage : "+returnMap.get("commentLastPage")+CF.RS );
 		
 		model.addAttribute("communityNo", returnMap.get("communityNo"));
-		model.addAttribute("communityFileList", returnMap.get("communityFileList"));
 		model.addAttribute("communityMember", returnMap.get("communityMember"));
+		model.addAttribute("communityFileList", returnMap.get("communityFileList"));
+		model.addAttribute("communityCommentList", returnMap.get("communityCommentList"));
+		model.addAttribute("commentCurrentPage", returnMap.get("commentCurrentPage"));
+		model.addAttribute("commentLastPage", returnMap.get("commentLastPage"));
 		
 		return "community/getCommunityOne";
 				

@@ -13,6 +13,7 @@ import kr.co.gdu.lms.mapper.CommunityMapper;
 import kr.co.gdu.lms.vo.CommunityForm;
 import kr.co.gdu.lms.vo.CommunityMember;
 import kr.co.gdu.lms.vo.Community;
+import kr.co.gdu.lms.vo.CommunityComment;
 import kr.co.gdu.lms.vo.CommunityFile;
 import kr.co.gdu.lms.vo.Qna;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CommunityService {
 	@Autowired private CommunityMapper communityMapper;
 	
+
 	// 희원 -  modifyCommunity 수정 중 파일 삭제(ajax)
 	public int deleteCommunityFileOne(String path, int communityFileNo, String communityFileName) {
 		
@@ -87,7 +89,6 @@ public class CommunityService {
 		
 		return row;
 	}
-	
 	
 	
 	// 희원 - modifyCommunity 폼
@@ -178,32 +179,50 @@ public class CommunityService {
 		}
 	}
 	
-	
 	// 희원 - communityOne
-	public Map<String, Object> getCommunityOne(Map<String, Object> map) {
+	public Map<String, Object> getCommunityAndCommentList(Map<String, Object> map) {
 		
 		int communityNo = (int)map.get("communityNo");
-		log.debug(CF.PHW+"CommunityService.getCommunityOne communityNo : "+communityNo+CF.RS );
+		int commentCurrentPage = (int)map.get("commentCurrentPage");
+		int commentRowPerPage = (int)map.get("commentRowPerPage");
+		int commentStartRow = (commentCurrentPage - 1) * commentRowPerPage;
 		
-		CommunityMember communityMember = communityMapper.selectCommunityOne(communityNo);
-		List<CommunityFile> communityFileList = communityMapper.selectCommunityFileOne(communityNo);
+		log.debug(CF.PHW+"CommunityService.getCommunityAndCommentList communityNo : "+communityNo+CF.RS );
+		log.debug(CF.PHW+"CommunityService.getCommunityAndCommentList commentCurrentPage : "+commentCurrentPage+CF.RS );
+		log.debug(CF.PHW+"CommunityService.getCommunityAndCommentList commentRowPerPage : "+commentRowPerPage+CF.RS );
+		log.debug(CF.PHW+"CommunityService.getCommunityAndCommentList commentStartRow : "+commentStartRow+CF.RS );
 		
-		log.debug(CF.PHW+"CommunityService.getCommunityOne communityMember : "+communityMember+CF.RS );
-		log.debug(CF.PHW+"CommunityService.getCommunityOne communityFileList : "+communityFileList+CF.RS );
-		
-		
+		Map<String,Object> paramMap = new HashMap<>();
 		map.put("communityNo", communityNo);
-		map.put("communityMember", communityMember);
-		map.put("communityFileList", communityFileList);
+		map.put("commentStartRow", commentStartRow);
+		map.put("commentRowPerPage", commentRowPerPage);
 		
+		CommunityMember communityMember = communityMapper.selectCommunityOne((int)map.get("communityNo"));
+		List<CommunityFile> communityFileList = communityMapper.selectCommunityFileOne((int)map.get("communityNo"));
+		List<CommunityComment> communityCommentList = communityMapper.selectCommunityCommentList(paramMap);
+		int commentTotalCount = communityMapper.countCommunityComment();
+		int commentLastPage = (int)Math.ceil((double)commentTotalCount/(double)map.get("commentRowPerPage"));
 		
-		return map;
+		log.debug(CF.PHW+"CommunityService.getCommunityAndCommentList communityMember : "+communityMember+CF.RS );
+		log.debug(CF.PHW+"CommunityService.getCommunityAndCommentList communityFileList : "+communityFileList+CF.RS );
+		log.debug(CF.PHW+"CommunityService.getCommunityAndCommentList communityCommentList : "+communityCommentList+CF.RS );
+		log.debug(CF.PHW+"CommunityService.getCommunityAndCommentList commentTotalCount : "+commentTotalCount+CF.RS );
+		log.debug(CF.PHW+"CommunityService.getCommunityAndCommentList commentLastPage : "+commentLastPage+CF.RS );
+		
+		Map<String,Object> returnMap = new HashMap<>();
+		returnMap .put("communityNo", communityNo);
+		returnMap .put("communityMember", communityMember);
+		returnMap .put("communityFileList", communityFileList);
+		returnMap .put("communityCommentList", communityCommentList);
+		returnMap .put("commentCurrentPage", commentCurrentPage);
+		returnMap .put("commentLastPage", commentLastPage);
+		
+		return returnMap;
 	}
-	
 	
 	// 희원 - communityList
 	public Map<String, Object> getCommunityList(int currentPage, int rowPerPage){
-		int startRow = (currentPage - 1)* rowPerPage;
+		int startRow = (currentPage - 1) * rowPerPage;
 		
 		log.debug(CF.PHW+"CommunityService.getCommunityList. currentPage : "+currentPage+CF.RS );
 		log.debug(CF.PHW+"CommunityService.getCommunityList. rowPerPage : "+rowPerPage+CF.RS );

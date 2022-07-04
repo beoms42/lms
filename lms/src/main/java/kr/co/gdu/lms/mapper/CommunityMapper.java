@@ -45,4 +45,10 @@ public interface CommunityMapper {
 	// 희원 - CommunityFile 수정-삭제
 	int deleteCommunityFileOne(int communityFileNo);
 	
+	// 희원 - CommunityComment 댓글 List
+	List<CommunityComment> selectCommunityCommentList(Map<String,Object> map);
+	
+	// 희원 - CommunityComment 댓글 총 개수
+	int countCommunityComment();
+	
 }

@@ -215,8 +215,8 @@
 	</delete>
 	
 	<!-- 댓글 select-->
-	<select id="selectCommunityComment"
-			parameterType="String"
+	<select id="selectCommunityCommentList"
+			parameterType="java.util.Map"
 			resultType="kr.co.gdu.lms.vo.CommunityComment">
 		SELECT
 			login_id loginId
@@ -225,7 +225,15 @@
 			, community_no communityNo
 			, update_date updateDate
 		FROM community_comment
-		WHERE #{communityNo};
+		WHERE community_no = #{communityNo}
+		ORDER BY create_date ASC
+		LIMIT #{commentStartRow}, #{commentRowPerPage};
+	</select>
+	
+	<!-- 커뮤니티 게시글 총 개수 -->
+	<select id="countCommunityComment"
+			resultType="int">
+		SELECT COUNT(*) FROM community_comment;
 	</select>
 	
 	<!-- selectQnAlist 영인 -->
