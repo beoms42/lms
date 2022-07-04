@@ -479,6 +479,58 @@
 		WHERE reference_no = #{referenceNo};
 	</select>
 	
+	<!-- 과목리스트 -->
+	<select id="selectSubjectList"
+			resultType="kr.co.gdu.lms.vo.Subject">
+		SELECT 
+			subject_name subjectName
+			, create_date createDate
+		FROM subject;
+	</select>
 	
+	<!-- 과목 입력 -->
+	<insert id="insertSubjectName"
+			parameterType="kr.co.gdu.lms.vo.Subject">
+		INSERT INTO subject(
+			subject_name
+			, create_date
+			, update_date
+		) VALUES (
+			#{subjectName}
+			, NOW()
+			, NOW()
+		);
+	</insert>
+	
+	<!-- 스케줄러 과목 번호리스트  -->
+	<select id="selectSubjectNameList"
+			parameterType="String"
+			resultType="kr.co.gdu.lms.vo.Subject">
+		SELECT 
+			lecture_subject_no lectureSubjectNo
+		FROM lecture_subject
+		WHERE subject_name = #{subjectName};
+	</select>
+	
+	<!-- 과목 삭제(스케줄) -->
+	<delete id="deleteSubjectSudule"
+			parameterType="int">
+		DELETE FROM lecture_subject
+		WHERE lecture_subject_no = #{lectureSubjectNo};
+	</delete>
+	
+	<!-- 과목 삭제(강의_과목) -->
+	<delete id="deleteLectureSubject"
+			parameterType="String">
+		DELETE FROM lecture_subject
+		WHERE subject_name = #{subjectName};
+	</delete>
+	
+	<!-- 과목 삭제(과목) -->
+	<delete id="deleteSubject"
+				parameterType="String">
+		DELETE FROM subject
+		WHERE subject_name = #{subjectName};
+	</delete>
 	
 </mapper>

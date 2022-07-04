@@ -125,4 +125,23 @@ public interface LectureMapper {
 	// 자료실 개인별 파일 리스트
 	List<String> selectReferencefileNameList(int referenceNo);
 	
+// 과목
+	// 과목리스트
+	List<Subject> selectSubjectList();
+	
+	// 과목입력
+	int insertSubjectName(Subject subject);
+	
+	// 과목삭제
+	// 스케줄러 과목 번호리스트
+	List<Integer> selectSubjectNameList(String subjectName);
+	
+	// 과목 삭제(스케줄러)
+	int deleteSubjectSudule(int lectureSubjectNo);
+	
+	// 과목 삭제(강의_과목)
+	int deleteLectureSubject(String subjectName);
+	
+	// 과목 삭제(과목)
+	int deleteSubject(String subjectName);
 }

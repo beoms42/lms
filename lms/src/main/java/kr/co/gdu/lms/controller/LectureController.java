@@ -24,6 +24,7 @@ import kr.co.gdu.lms.vo.LectureSubject;
 import kr.co.gdu.lms.vo.Reference;
 import kr.co.gdu.lms.vo.ReferenceForm;
 import kr.co.gdu.lms.vo.Schedule;
+import kr.co.gdu.lms.vo.Subject;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -300,6 +301,7 @@ public class LectureController {
 		model.addAttribute("totalTd",scheduleMap.get("totalTd"));
 		model.addAttribute("m",scheduleMap.get("m"));
 		model.addAttribute("y",scheduleMap.get("y"));
+		model.addAttribute("lectureName",scheduleMap.get("lectureName"));
 		
 		return "/lecture/getSheduleListByMonth";
 	}
@@ -413,6 +415,7 @@ public class LectureController {
 	public String modifySchedule(Schedule schedule
 								,@RequestParam(name="m")int m
 								,@RequestParam(name="y")int y) {
+		
 		// 요청값 분석
 		log.debug(CF.HJI+"LectureController.modifyScheduleAction schedule : "+schedule+CF.RS);
 		log.debug(CF.HJI+"LectureController.modifyScheduleAction m : "+m+CF.RS);
@@ -440,6 +443,7 @@ public class LectureController {
 	public String getLectureReferenceList(Model model, HttpSession session
 										, @RequestParam(name = "currentPage", defaultValue = "1") int currentPage
 										, @RequestParam(name = "rowPerPage", defaultValue = "10") int rowPerPage) {
+		
 		String loginId = (String)session.getAttribute("sessionId");
 		int loginLv = (int)session.getAttribute("sessionLv");
 		// 요청값 디버깅
@@ -472,6 +476,7 @@ public class LectureController {
 	@GetMapping("/loginCheck/getReferenceOne")
 	public String getReferenceOne(Model model
 								,@RequestParam(name="referenceNo") int referenceNo) {
+		
 		// 요청값 디버깅
 		log.debug(CF.HJI+"LectureController.getReferenceOne referenceNo : "+referenceNo+CF.RS);
 		
@@ -491,6 +496,7 @@ public class LectureController {
 	@GetMapping("/loginCheck/addReference")
 	public String addReferenceForm(Model model
 									,@RequestParam(name="lectureName")String lectureName) {
+		
 		// 요청값 디버깅
 		log.debug(CF.HJI+"LectureController.getReferenceOne lectureName : "+lectureName+CF.RS);
 		
@@ -503,6 +509,7 @@ public class LectureController {
 	@PostMapping("/loginCheck/addReference")
 	public String addReferenceAction(HttpServletRequest request
 									, ReferenceForm referenceForm) {
+		
 		String path = request.getServletContext().getRealPath("/file/referenceFile/");
 		// 요청값 디버깅
 		log.debug(CF.HJI+"LectureController.addReferenceAction referenceForm : "+referenceForm+CF.RS);
@@ -526,6 +533,7 @@ public class LectureController {
 	@GetMapping("/loginCheck/updateReference")
 	public String updateReferenceForm(Model model
 										,@RequestParam(name = "referenceNo") int referenceNo) {
+		
 		// 요청값 디버깅
 		log.debug(CF.HJI+"LectureController.updateAddReferenceForm referenceNo : "+referenceNo+CF.RS);
 		
@@ -544,6 +552,7 @@ public class LectureController {
 	public String updateReferenceAction(Model model, HttpServletRequest request
 											,@RequestParam(name = "referenceNo") int referenceNo
 											,ReferenceForm referenceForm) {
+		
 		String path = request.getServletContext().getRealPath("/file/referenceFile/");
 		// 요청값 디버깅
 		log.debug(CF.HJI+"LectureController.updateReferenceAction referenceNo : "+referenceNo+CF.RS);
@@ -576,6 +585,7 @@ public class LectureController {
 	public String removeReferenceFile(Model model,HttpServletRequest request
 										,@RequestParam(name = "referenceNo") int referenceNo
 										,@RequestParam(name = "referenceFileNo") int referenceFileNo) {
+		
 		String path = request.getServletContext().getRealPath("/file/referenceFile/");
 		// 요청값 디버깅
 		log.debug(CF.HJI+"LectureController.removeReferenceFile referenceNo : "+referenceNo+CF.RS);
@@ -596,6 +606,7 @@ public class LectureController {
 	@GetMapping("/loginCheck/removeReference")
 	public String removeReference(HttpServletRequest request
 									,@RequestParam(name="referenceNo")int referenceNo) {
+		
 		String path = request.getServletContext().getRealPath("/file/referenceFile/");
 		// 요청값 추출
 		log.debug(CF.HJI+"LectureController.removeReference referenceNo : "+referenceNo+CF.RS);
@@ -606,4 +617,53 @@ public class LectureController {
 		
 		return "redirect:/loginCheck/getLectureReferenceList";
 	}
+	
+	// 과목
+	
+	// 과목 리스트
+	@GetMapping("/loginCheck/getSubjectList")
+	public String getSubjectList(Model model) {
+		
+		// 실행
+		List<Subject> list = lectureService.getSubjectList();
+		
+		// 모델로 보내기
+		model.addAttribute("list",list);
+		
+		return "/lecture/getSubjectList";
+	}
+	
+	// 과목 입력
+	@PostMapping("/loginCheck/addSubject")
+	public String addSubject(Subject subject) {
+		
+		// 디버깅
+		log.debug(CF.HJI+"LectureController.addSubject subject : "+subject+CF.RS);
+		
+		// 실행
+		int row = lectureService.addSubject(subject);
+		
+		// 디버깅
+		if(row == 1) {
+			log.debug(CF.HJI+"LectureController.addSubject 성공! : "+row+CF.RS);
+		} else {
+			log.debug(CF.HJI+"LectureController.addSubject 실패! : "+row+CF.RS);
+		}
+		
+		return"redirect:/loginCheck/getSubjectList";
+	}
+	
+	// 과목 삭제
+	@GetMapping("/loginCheck/removeSubject")
+	public String removeSubject(@RequestParam(name="subjectName")String subjectName) {
+		
+		// 디버깅
+		log.debug(CF.HJI+"LectureController.addSubject subjectName : "+subjectName+CF.RS);
+		
+		// 실행
+		lectureService.removeSubject(subjectName);
+		
+		return "redirect:/loginCheck/getSubjectList";
+	}
+	
 }

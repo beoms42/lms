@@ -35,14 +35,18 @@
             </a>
 	            <div class="collapse" id="ui-basic">
 	              <ul class="nav flex-column sub-menu">
-	                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">내 강의</a></li>
+	                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/getSheduleListByMonth">내 강의</a></li>
 	                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/getAssignmentExam">과제</a></li>
 	                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">성적</a></li>
+	                <c:if test="${sessionLv <= 2}">
+	                	<li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/getLectureReferenceList">자료실</a></li>
+	                </c:if>
 	                <c:if test="${sessionLv >= 2}">
 		                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/attendance">출결 관리</a></li>
 	                </c:if>
 	                <c:if test="${sessionLv >= 3}">
 		                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/addLecture">관리자 - 강의개설</a></li>
+						<li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/getSubjectList">관리자 - 과목관리</a></li>
 		                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/manageLecture">관리자 - 강의관리</a></li>
 	                </c:if>
 	                <c:if test="${sessionLv == 4}">

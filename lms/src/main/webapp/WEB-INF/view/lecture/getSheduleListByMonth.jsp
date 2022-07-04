@@ -59,7 +59,12 @@
             <div class="col-lg-11 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Letcure 시간표</h4>
+                  <c:if test="${sessionLv <= 2}">
+                  	<h4 class="card-title">${lectureName} 시간표</h4>
+                  </c:if>
+                  <c:if test="${sessionLv > 2}">
+                  	<h4 class="card-title">전체 시간표</h4>
+                  </c:if>
                   <p class="card-description">
                   </p>
                   <div class="table-responsive">

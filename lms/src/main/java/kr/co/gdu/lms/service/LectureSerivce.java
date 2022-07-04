@@ -211,10 +211,13 @@ public class LectureSerivce {
 		
 		// mapper로 모델값 추출
 		List<CalendarMap> list = new ArrayList<CalendarMap>();
+		String lectureName ="";
 		if(loginLv >= 3) {	// 관리자, 강사
 			list = lectureMapper.selectScheduleList(mapMapper);
+			lectureName = lectureMapper.selectTeacherLectureName(loginId);
 		} else {	// 강사, 학생
 			list = lectureMapper.selectMemberSchedule(mapMapper);
+			lectureName = lectureMapper.selectStudentLectureName(loginId);
 		}
 		
 		// 디버깅
@@ -234,6 +237,7 @@ public class LectureSerivce {
 		map.put("totalTd", totalTd);
 		map.put("m", m);
 		map.put("y", y);
+		map.put("lectureName", lectureName);
 				
 		return map;
 	}
@@ -266,6 +270,7 @@ public class LectureSerivce {
 		long diff = scheduleEndDate.getTime() - scheduleStartDate.getTime(); // 나열된 시간은 millisecond 즉 1/1000초를 나타냄 1970년 1월 1일 자정을 기준으로 함참고로 음수가 나타날 경우 1970년 이전을 의미
 		log.debug(CF.HJI+"LectureService.addShedule diff===================== : "+diff+CF.RS);
 		// TimeUnit(시간데이터가 없으니 입력해야 쓸수 있다.)쓰는 방식이 이러니 왜 이거냐 물음X convert에서(diff를 MILLISECONDS로 들고 오겠다.) 다시 1분단위로으로 변환
+		//  즉 CONVERT 함수는 데이터를 다른 유형으로 변환할 때 사용하는 함수
         long diffMinutes = TimeUnit.MINUTES.convert(diff, TimeUnit.MILLISECONDS); 
          
          // 분으로 계산되어서 나누어주기
@@ -624,4 +629,71 @@ public class LectureSerivce {
 		int row2= lectureMapper.deleteReference(referenceNo);
 		log.debug(CF.HJI+"LectureService.removeReference.row2 : "+row2+CF.RS);
 	}
+	
+	// 과목
+	// 과목 리스트
+	public List<Subject> getSubjectList() {
+		// 실행
+		List<Subject> list = lectureMapper.selectSubjectList();
+		// 디버깅
+		log.debug(CF.HJI+"LectureService.getSubjectList.list : "+list+CF.RS);
+		
+		return list;
+	}
+	// 과목 입력
+	public int addSubject(Subject subject) {
+		int row = 0;
+		// 요청값 디버깅
+		log.debug(CF.HJI+"LectureService.addSubject.subject : "+subject+CF.RS);
+		
+		// 실행
+		row = lectureMapper.insertSubjectName(subject);
+		// 디버깅
+		if(row == 1) {
+			log.debug(CF.HJI+"LectureService.addSubject.row 성공! : " + row+CF.RS);
+		} else {
+			log.debug(CF.HJI+"LectureService.addSubject.row 실패! : " + row+CF.RS);
+		}
+		
+		return row;
+	}
+	
+	public int removeSubject(String subjectName) {
+		int row = 0;
+		int check = 0;
+		// 요청값 디버깅
+		log.debug(CF.HJI+"LectureService.removeSubject.subjectName : " + subjectName+CF.RS);
+		
+		// 스케줄러에 있는 과목 삭제 
+		List<Integer> list = lectureMapper.selectSubjectNameList(subjectName);
+		log.debug(CF.HJI+"LectureService.removeSubject.list : " + list+CF.RS);
+		if(list != null) {
+			for(int i = 0; i < list.size(); i++) {
+				check += lectureMapper.deleteSubjectSudule(list.get(i));
+			}
+		}
+		// 디버깅
+		log.debug(CF.HJI+"LectureService.removeSubject.selectSubjectNameList check : " + check+CF.RS);
+		
+		// 강의_과목 삭제
+		row = lectureMapper.deleteLectureSubject(subjectName);
+		// 디버깅
+		if(row == 1) {
+			log.debug(CF.HJI+"LectureService.removeSubject.deleteLectureSubject row 성공! : " + row+CF.RS);
+		} else {
+			log.debug(CF.HJI+"LectureService.removeSubject.deleteLectureSubject row 없거나 실패 ! : " + row+CF.RS);
+		}
+		row = 0;
+		
+		// 과목 삭제
+		row = lectureMapper.deleteSubject(subjectName);
+		// 디버깅
+		if(row == 1) {
+			log.debug(CF.HJI+"LectureService.removeSubject.deleteSubject row 성공! : " + row+CF.RS);
+		} else {
+			log.debug(CF.HJI+"LectureService.removeSubject.deleteSubject row 실패! : " + row+CF.RS);
+		}
+		return row;
+	}
+	
 }
