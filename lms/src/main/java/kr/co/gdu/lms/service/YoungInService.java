@@ -13,6 +13,8 @@ import kr.co.gdu.lms.mapper.YoungInMapper;
 import kr.co.gdu.lms.vo.Qna;
 import kr.co.gdu.lms.vo.QnaFile;
 import kr.co.gdu.lms.vo.Student;
+import kr.co.gdu.lms.vo.SubjectTextbook;
+import kr.co.gdu.lms.vo.Textbook;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -56,7 +58,62 @@ public class YoungInService {
 		return returnMap;
 	
 	}
+	// 교재등록 =  textbook insert
+	// 과목등록 = textbook > subject에 귀속시킴
+	// 두개를 한번에 만드는 controller제작 > 관리자만 가능
+	// 영인 - get방식 subjectTextbookInsert Form
+	public Map<String, Object> subjectTextbookInsertNeed() {
+		Map<String, Object> returnMap  = new HashMap<>();
+		
+		List<Textbook> bookList = youngInMapper.selectTextbookList();
+		
+		List<String> subjectList = youngInMapper.selectSubjectList();
+		
+		returnMap.put("bookList", bookList);
+		returnMap.put("subjectList", subjectList);
+		
+		return returnMap;
+	}
+	
+	// 교재등록 =  textbook insert
+	public void textbookInsert(Textbook tx) {
+		youngInMapper.insertTextbook(tx);
+	}
+	
+	// 과목등록 = textbook > subject에 귀속시킴
+	public void insertSubjectTextbook(SubjectTextbook sb) {
+		youngInMapper.insertSubjectTextbook(sb);
+	}
+	
+	// 책을 수령했는지 안했는지 판별가능한 HashMap의 ArrayList로 만들어주는 서비스
+	public List<HashMap<String, Object>> selectRecordBook(String loginId) {
+		
+		//학생의 로그인아이디로 강의명 알아내기
+		String lectureName = youngInMapper.selectLectureNameByLoginId(loginId);
+		
+		// subjectName > 강의에 귀속된 subjectName(과목)의 List<String>값
+		List<String> subjectName = youngInMapper.selectSubjectListByLectureNameYoungIn(lectureName);
+		
+		//인자값으로 넣을 해시맵
+		Map<String, Object> inputMap = null;
+		
+		// SubjectName > db구현, cnt > 0또는 1인 HashMap의 ArrayList
+		List<HashMap<String, Object>> returnList = new ArrayList<HashMap<String, Object>>();
+		
+		// subjectName으로 과목에 맞는 책을 수령했는지 판별하는식을 for문으로 돌려서 어레이리스트에 추가
+		for(String s : subjectName) {
+			inputMap = new HashMap<String, Object>();
+			
+			inputMap.put("subjectName", s);
+			inputMap.put("loginId", loginId);
+			
+			returnList.add((HashMap<String, Object>) youngInMapper.selectRecordBook(inputMap));
+		}
 
+		return returnList;
+	}
+	
+	
 	//----------------------------------------커뮤니티------------------------------------------
 	
 	// 업데이트 서비스

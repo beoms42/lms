@@ -27,6 +27,8 @@ import kr.co.gdu.lms.vo.CommunityForm;
 import kr.co.gdu.lms.vo.Lecture;
 import kr.co.gdu.lms.vo.Qna;
 import kr.co.gdu.lms.vo.Student;
+import kr.co.gdu.lms.vo.SubjectTextbook;
+import kr.co.gdu.lms.vo.Textbook;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -131,6 +133,57 @@ public class YoungInController {
 		return "lecture/manageLectureOne";
 	}
 	
+	// 교재등록 =  textbook insert
+	// 과목등록 = textbook > subject에 귀속시킴
+	// 두개를 한번에 만드는 controller제작 > 관리자만 가능
+	// 영인 - get방식 subjectTextbookInsert Form
+	@GetMapping("/loginCheck/subjectTextbookInsert")
+	public String subjectTextbookInsert(Model model){
+		
+		Map<String, Object> getMap = youngInService.subjectTextbookInsertNeed();
+		List<Textbook> bookList = (List<Textbook>) getMap.get("bookList");
+		List<String> subjectList = (List<String>) getMap.get("subjectList");
+		
+		model.addAttribute("bookList", bookList);
+		model.addAttribute("subjectList", subjectList);
+		
+		return "lecture/subjectTextbookInsert";
+	}
+	
+	// 교재등록
+	@PostMapping("/loginCheck/textbookInsert")
+	public String textbookInsert(Textbook textbook){
+		
+		log.debug(CF.JYI+"YoungInController.textbookInsert.get textbook : "+textbook+CF.RS);
+		youngInService.textbookInsert(textbook);
+		
+		
+		return "redirect:/loginCheck/subjectTextbookInsert";
+	}
+	
+	// 과목등록 = textbook > subject에 귀속시킴
+
+	@PostMapping("/loginCheck/insertSubjectTextbook")
+	public String insertSubjectTextbook(SubjectTextbook su){
+		
+		log.debug(CF.JYI+"YoungInController.insertSubjectTextbook.get SubjectTextbook : "+su+CF.RS);
+		youngInService.insertSubjectTextbook(su);
+		
+		return "redirect:/loginCheck/subjectTextbookInsert";
+	}
+	
+	//학생 - 책 수령 Get
+	@GetMapping("/loginCheck/getBooks")
+	public String getBooks(HttpSession session){
+		
+		String loginId = (String) session.getAttribute("sessionId"); // 학생 이름얻기
+		
+		//이름으로 강의명 가져오기
+		List<HashMap<String, Object>> list = youngInService.selectRecordBook(loginId);
+		log.debug(CF.JYI+"youngInController.getBooks.get selectRecordBook : "+list+CF.RS);
+		return "";
+	}
+		
 	//----------------------------------------커뮤니티------------------------------------------
 	
 	// 영인 - get방식 qnaListOne호출
@@ -216,4 +269,5 @@ public class YoungInController {
 		
 		return "redirect:/loginCheck/getQnaListByPage";
 	}
+	
 }

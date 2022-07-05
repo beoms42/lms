@@ -54,7 +54,7 @@
 	                </c:if>
 	                
 	                <c:if test="${sessionLv == 4}">
-		                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/acceptLecture">관리자 - 강의교재</a></li>
+		               <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/subjectTextbookInsert">관리자 - 교재과목</a></li>
 	                </c:if>
 	                
 	              </ul>

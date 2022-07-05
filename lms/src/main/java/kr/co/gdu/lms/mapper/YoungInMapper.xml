@@ -54,6 +54,86 @@
 		GROUP BY lecture_name
 	</select>
 	
+	
+	<insert id="insertTextbook"
+			parameterType="kr.co.gdu.lms.vo.Textbook">
+		INSERT INTO textbook(
+			textbook_name
+			, textbook_publisher
+			, textbook_writer
+			, textbook_price
+			, textbook_page
+			, create_date
+			, update_date
+		)
+		VALUES (
+			#{textbookName}
+			, #{textbookPublisher}
+			, #{textbookWriter}
+			, #{textbookPrice}
+			, #{textbookPage}
+			, NOW()
+			, NOW()
+		)
+		
+	</insert>
+	
+	<select id="selectTextbookList"
+			resultType="kr.co.gdu.lms.vo.Textbook">
+		SELECT 
+			textbook_name textbookName
+			, textbook_no textbookNo
+		FROM textbook;
+	</select>
+	
+	<select id="selectSubjectList"
+			resultType="String">
+		SELECT
+			subject_name subjectName
+		FROM subject;
+	</select>
+	
+	<insert id="insertSubjectTextbook"
+			parameterType="kr.co.gdu.lms.vo.SubjectTextbook">
+		INSERT INTO subject_textbook(subject_name, textbook_no)
+		VALUES(#{subjectName}, #{textbookNo})
+	</insert>
+	
+	<!--  책을 수령 했는지 안했는지 판별 -->
+	<select id="selectRecordBook"
+			parameterType="map"
+			resultType="map">
+		SELECT
+			ls.subject_name subjectName
+			, COUNT(*) cnt
+		FROM textbook_record tr
+			INNER JOIN education edu
+		ON tr.education_no = edu.education_no
+			INNER JOIN lecture_subject ls
+		ON tr.lecture_subject_no = ls.lecture_subject_no
+		WHERE ls.subject_name = #{subjectName}
+			and edu.login_id = #{loginId}
+	</select>
+	
+	<!--  디스틴트로 강의별 과목 가져오는 매퍼 -->
+	<select id="selectSubjectListByLectureNameYoungIn"
+		parameterType="String"
+		resultType="String">
+		SELECT distinct
+			subject_name subjectName 
+		FROM lecture_subject
+		WHERE lecture_name = #{lectureName}
+	</select>
+	
+	<select id="selectLectureNameByLoginId"
+			parameterType="String"
+			resultType="String">
+		SELECT
+			lecture_name
+		FROM education
+			WHERE login_id = #{loginId}
+		
+	</select>
 		<!-- ===============================커뮤니티=============================== -->
 		
 	<!--  qna insert + 제네레이트 키값 : qnaNo -->
