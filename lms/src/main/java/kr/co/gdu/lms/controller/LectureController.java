@@ -664,7 +664,7 @@ public class LectureController {
 		lectureService.removeSubject(subjectName);
 		
 		return "redirect:/loginCheck/getSubjectList";
-	}
+	 }
 	// 종강한 강의 리스트
 		@GetMapping("/loginCheck/getEndOfLectureList")
 		public String getEndOfLectureList(Model model) {
@@ -673,5 +673,5 @@ public class LectureController {
 			log.debug(CF.PSH+"LectureController.getEndOfLectureList List:"+list+CF.RS);
 			return"lecture/getEndOfLectureList";
 
-}
+	 }
 }

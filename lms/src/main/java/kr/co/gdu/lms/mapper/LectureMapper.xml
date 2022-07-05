@@ -4,8 +4,9 @@
 <select id="selectLectureListByEndDate"
 			resultType="Map">
 		SELECT 
-			lecture_name
-			, DATEDIFF(NOW(), lecture_end_date) 
+			lecture_name lectureName
+			, lecture_end_date lectureEndDate
+			, DATEDIFF(NOW(), lecture_end_date) DATEDIFF
 		FROM lecture 
 		WHERE DATEDIFF(NOW(), lecture_end_date) <![CDATA[ < ]]> 0
 	</select>	

@@ -699,9 +699,8 @@ public class LectureSerivce {
 	//종강한 강의 리스트
 		public List<Map<String, Object>> selectLectureListByEndDate(){
 			List<Map<String, Object>> list = (List<Map<String, Object>>) lectureMapper.selectLectureListByEndDate();
-			
 			log.debug(CF.PSH+"LectureService.selectLectureListByEndDate List:"+list+CF.RS);
 			return list;
 
-}
+		}
 }
