@@ -17,10 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.service.LectureSerivce;
-import kr.co.gdu.lms.vo.CalendarMap;
 import kr.co.gdu.lms.vo.Lecture;
 import kr.co.gdu.lms.vo.LectureRoom;
-import kr.co.gdu.lms.vo.LectureSubject;
 import kr.co.gdu.lms.vo.Reference;
 import kr.co.gdu.lms.vo.ReferenceForm;
 import kr.co.gdu.lms.vo.Schedule;
@@ -383,9 +381,6 @@ public class LectureController {
 								,@RequestParam(name="scheduleNo") int scheduleNo
 								,@RequestParam(name="m")int m
 								,@RequestParam(name="y")int y) {
-		
-		int loginLv = (int)session.getAttribute("sessionLv");
-		String loginId = (String)session.getAttribute("sessionId");
 		// 요청값 디버깅
 		log.debug(CF.HJI+"LectureController.modifyScheduleForm scheduleNo : "+scheduleNo+CF.RS);
 		log.debug(CF.HJI+"LectureController.modifyScheduleForm m : "+m+CF.RS);
@@ -664,15 +659,6 @@ public class LectureController {
 		lectureService.removeSubject(subjectName);
 		
 		return "redirect:/loginCheck/getSubjectList";
-	 }
-	// 종강한 강의 리스트
-		@GetMapping("/loginCheck/getEndOfLectureList")
-		public String getEndOfLectureList(Model model) {
-			List<Map<String, Object>>list = lectureService.selectLectureListByEndDate();
-			model.addAttribute("list", list);
-			log.debug(CF.PSH+"LectureController.getEndOfLectureList List:"+list+CF.RS);
-			return"lecture/getEndOfLectureList";
-
-	 }
+	}
+	
 }
-	// 종강한 강의 리뷰 보기
