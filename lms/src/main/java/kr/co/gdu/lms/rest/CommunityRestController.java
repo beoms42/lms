@@ -29,7 +29,7 @@ public class CommunityRestController {
 		log.debug(CF.PHW+"CommunityRestController.removeCommunityfileOne.communityFileNo : "+communityFileNo+CF.RS );
 		log.debug(CF.PHW+"CommunityRestController.removeCommunityfileOne.communityFileName : "+communityFileName+CF.RS );
 		
-		int row = communityService.deleteCommunityFileOne(path, communityFileNo, communityFileName);
+		int row = communityService.removeCommunityFileOne(path, communityFileNo, communityFileName);
 		log.debug(CF.PHW+"CommunityRestController.removeCommunityfileOne.row : "+row+CF.RS );
 		
 		return row+"";

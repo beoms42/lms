@@ -24,13 +24,20 @@ import lombok.extern.slf4j.Slf4j;
 public class CommunityService {
 	@Autowired private CommunityMapper communityMapper;
 	
-
-	// 희원 -  modifyCommunity 수정 중 파일 삭제(ajax)
-	public int deleteCommunityFileOne(String path, int communityFileNo, String communityFileName) {
+	// 희원 - removeCommunityComment
+	public void removeCommunityComment(CommunityComment communityComment) {
 		
-		log.debug(CF.PHW+"CommunityService.deleteCommunityFileOne.path : "+path+CF.RS );
-		log.debug(CF.PHW+"CommunityService.deleteCommunityFileOne.communityFileNo : "+communityFileNo+CF.RS );
-		log.debug(CF.PHW+"CommunityService.deleteCommunityFileOne.communityFileName : "+communityFileName+CF.RS );
+		int row = communityMapper.deleteCommunityComment(communityComment);
+		log.debug(CF.PHW+"CommunityService.removeCommunityComment.row : "+row+CF.RS );
+		
+	}
+	
+	// 희원 -  modifyCommunity 수정 중 파일 삭제(ajax)
+	public int removeCommunityFileOne(String path, int communityFileNo, String communityFileName) {
+		
+		log.debug(CF.PHW+"CommunityService.removeCommunityFileOne.path : "+path+CF.RS );
+		log.debug(CF.PHW+"CommunityService.removeCommunityFileOne.communityFileNo : "+communityFileNo+CF.RS );
+		log.debug(CF.PHW+"CommunityService.removeCommunityFileOne.communityFileName : "+communityFileName+CF.RS );
 		
 		File file = new File(path+communityFileName);
 		if(file.exists()) {
@@ -179,7 +186,7 @@ public class CommunityService {
 		}
 	}
 	
-	// 희원 - communityOne
+	// 희원 - communityOne & communityCommentList
 	public Map<String, Object> getCommunityAndCommentList(Map<String, Object> map) {
 		
 		log.debug(CF.PHW+"CommunityService.getCommunityAndCommentList map : "+map+CF.RS ); // 디버깅

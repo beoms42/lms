@@ -209,9 +209,11 @@
 	
 	<!--댓글 삭제-->
 	<delete id="deleteCommunityComment"
-			parameterType="int">
+			parameterType="kr.co.gdu.lms.vo.CommunityComment">
 		DELETE FROM community_comment
-		WHERE login_id = #{loginId} AND community_no = #{communityNo};
+		WHERE login_id = #{loginId}
+			AND community_no = #{communityNo}
+			AND create_date = #{createDate};
 	</delete>
 	
 	<!-- 댓글 select-->

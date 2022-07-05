@@ -24,6 +24,18 @@ import lombok.extern.slf4j.Slf4j;
 public class CommunityController {
 	@Autowired private CommunityService communityService;
 	
+	
+	// 희원 - removeCommunityComment 액션
+	@GetMapping("/loginCheck/removeCommunityComment")
+	public String removeCommunityComment(CommunityComment communitycomment) {
+		log.debug(CF.PHW+"CommunityController.removeCommunityComment.get communitycomment : "+communitycomment+CF.RS );
+		
+		communityService.removeCommunityComment(communitycomment);
+		
+		return "redirect:/loginCheck/getCommunityOne?communityNo="+communitycomment.getCommunityNo();
+			
+		}
+	
 	// 희원 - modifyCommunity 액션
 	@PostMapping("/loginCheck/modifyCommunity")
 	public String modifyCommunity(HttpServletRequest request
@@ -36,11 +48,14 @@ public class CommunityController {
 		log.debug(CF.PHW+"CommunityController.modifyCommunity.post communityNo : "+communityNo+CF.RS );
 		log.debug(CF.PHW+"CommunityController.modifyCommunity.post communityPw : "+communityPw+CF.RS );
 		
-		// if문 분기하기 row=1시 어디로 보내고 0시 어디로 보내고...
+		// if문 분기하기 row=1시 어디로 보내고 0시 어디로 보내고..
 		int row = communityService.modifyCommunity(communityForm, path, communityNo, communityPw);
-		log.debug(CF.PHW+"CommunityController.modifyCommunity.post row : "+row+CF.RS );
+		if(row == 1) {
+			return "redirect:/loginCheck/getCommunityOne?communityNo="+communityNo;
+		} else {
+			return "redirect:/loginCheck/modifyCommunity?communityNo="+communityNo;
+		}
 		
-		return "redirect:/loginCheck/getCommunityOne?communityNo="+communityNo;
 	}
 	
 	
@@ -79,11 +94,14 @@ public class CommunityController {
 		community.setCommunityPw(communityPw);		
 		
 		int row = communityService.removeCommunity(communityNo, communityPw, path);
-		log.debug(CF.PHW+"CommunityController.removeCommunity.post row : "+row+CF.RS );
 		
-		return "redirect:/loginCheck/getCommunityListByPage";
+		if(row == 1) {
+			return "redirect:/loginCheck/getCommunityListByPage";
+		} else {
+			return "redirect:/loginCheck/remove"
+					+ "Community?communityNo="+communityNo;
+		}
 	}
-	
 	
 	// 희원 - removeCommunity 폼
 	@GetMapping("/loginCheck/removeCommunity")
