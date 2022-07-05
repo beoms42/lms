@@ -130,23 +130,19 @@ public class CommunityController {
 								, @RequestParam (name="commentCurrentPage", defaultValue = "1") int commentCurrentPage
 								, @RequestParam (name="commentRowPerPage", defaultValue = "10") int commentRowPerPage){
 		
-		log.debug(CF.PHW+"CommunityController.getCommunityOne.get communityNo : "+communityNo+CF.RS );
+		log.debug(CF.PHW+"CommunityController.getCommunityOne.get communityNo : "+communityNo+CF.RS ); // 디버깅
 		
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>(); // map에 communityNo, commentCurrentPage, commentRowPerPage 담기
 		map.put("communityNo", communityNo);
 		map.put("commentCurrentPage", commentCurrentPage);
 		map.put("commentRowPerPage", commentRowPerPage);
 		
-		Map<String, Object> returnMap = communityService.getCommunityAndCommentList(map);
-		log.debug(CF.PHW+"CommunityController.getCommunityOne.get communityNo : "+returnMap.get("communityNo")+CF.RS );
-		log.debug(CF.PHW+"CommunityController.getCommunityOne.get communityMember : "+returnMap.get("communityMember")+CF.RS );
-		log.debug(CF.PHW+"CommunityController.getCommunityOne.get communityFileList : "+returnMap.get("communityFileList")+CF.RS );
-		log.debug(CF.PHW+"CommunityController.getCommunityOne.get communityCommentList : "+returnMap.get("communityCommentList")+CF.RS );
-		log.debug(CF.PHW+"CommunityController.getCommunityOne.get commentCurrentPage : "+returnMap.get("commentCurrentPage")+CF.RS );
-		log.debug(CF.PHW+"CommunityController.getCommunityOne.get commentLastPage : "+returnMap.get("commentLastPage")+CF.RS );
+		Map<String, Object> returnMap = communityService.getCommunityAndCommentList(map); // service단에서 returnMap 값 가져오기
+		log.debug(CF.PHW+"CommunityController.getCommunityOne.get returnMap : "+returnMap+CF.RS ); // 디버깅
 		
-		model.addAttribute("communityNo", returnMap.get("communityNo"));
-		model.addAttribute("communityMember", returnMap.get("communityMember"));
+		// view단으로 전달할 값 담기
+		model.addAttribute("communityNo", returnMap.get("communityNo")); 
+		model.addAttribute("communityMember", returnMap.get("communityMember")); 
 		model.addAttribute("communityFileList", returnMap.get("communityFileList"));
 		model.addAttribute("communityCommentList", returnMap.get("communityCommentList"));
 		model.addAttribute("commentCurrentPage", returnMap.get("commentCurrentPage"));

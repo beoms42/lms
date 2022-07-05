@@ -104,7 +104,7 @@
 	            </div>
 	        </div>
 	        
-	        <c:forEach car="ccl" items="${communityCommentList}">
+	        <c:forEach var="ccl" items="${communityCommentList}">
 				<div>
 					${ccl.loginId}	
 					${ccl.communityCommentContent}      	
@@ -113,18 +113,15 @@
 					<a href="#">삭제</a>
 				</div>
 			</c:forEach>
-			        
+			<c:if test="${commentCurrentPage > 1}">
+				<a href="${pageContext.request.contextPath}/loginCheck/getCommunityOne?communityNo=${communityNo}&commentCurrentPage=${commentCurrentPage-1}">이전</a>
+			</c:if>			        
+			<c:if test="${commentCurrentPage < commentLastPage}">
+				<a href="${pageContext.request.contextPath}/loginCheck/getCommunityOne?communityNo=${communityNo}&commentCurrentPage=${commentCurrentPage+1}">다음</a>
+			</c:if>			        
 	        <!-- content-wrapper ends -->
 	        <!-- partial:partials/_footer.html -->
-	        <footer class="footer">
-	          <div class="d-sm-flex justify-content-center justify-content-sm-between">
-	            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021.  Premium <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a> from BootstrapDash. All rights reserved.</span>
-	            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span>
-	          </div>
-	          <div class="d-sm-flex justify-content-center justify-content-sm-between">
-	            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Distributed by <a href="https://www.themewagon.com/" target="_blank">Themewagon</a></span> 
-	          </div>
-	        </footer> 
+	        <jsp:include page="/inc/footer.jsp"/>
 	        <!-- partial -->
         </div>
       <!-- main-panel ends -->
