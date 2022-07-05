@@ -24,6 +24,18 @@ import lombok.extern.slf4j.Slf4j;
 public class CommunityController {
 	@Autowired private CommunityService communityService;
 	
+	
+	// 희원 - removeCommunityComment 액션
+	@GetMapping("/loginCheck/removeCommunityComment")
+	public String removeCommunityComment(CommunityComment communitycomment) {
+		log.debug(CF.PHW+"CommunityController.removeCommunityComment.get communitycomment : "+communitycomment+CF.RS );
+		
+		communityService.removeCommunityComment(communitycomment);
+		
+		return "redirect:/loginCheck/getCommunityOne?communityNo="+communitycomment.getCommunityNo();
+			
+		}
+	
 	// 희원 - modifyCommunity 액션
 	@PostMapping("/loginCheck/modifyCommunity")
 	public String modifyCommunity(HttpServletRequest request
@@ -36,11 +48,14 @@ public class CommunityController {
 		log.debug(CF.PHW+"CommunityController.modifyCommunity.post communityNo : "+communityNo+CF.RS );
 		log.debug(CF.PHW+"CommunityController.modifyCommunity.post communityPw : "+communityPw+CF.RS );
 		
-		// if문 분기하기 row=1시 어디로 보내고 0시 어디로 보내고...
+		// if문 분기하기 row=1시 어디로 보내고 0시 어디로 보내고..
 		int row = communityService.modifyCommunity(communityForm, path, communityNo, communityPw);
-		log.debug(CF.PHW+"CommunityController.modifyCommunity.post row : "+row+CF.RS );
+		if(row == 1) {
+			return "redirect:/loginCheck/getCommunityOne?communityNo="+communityNo;
+		} else {
+			return "redirect:/loginCheck/modifyCommunity?communityNo="+communityNo;
+		}
 		
-		return "redirect:/loginCheck/getCommunityOne?communityNo="+communityNo;
 	}
 	
 	
@@ -79,11 +94,14 @@ public class CommunityController {
 		community.setCommunityPw(communityPw);		
 		
 		int row = communityService.removeCommunity(communityNo, communityPw, path);
-		log.debug(CF.PHW+"CommunityController.removeCommunity.post row : "+row+CF.RS );
 		
-		return "redirect:/loginCheck/getCommunityListByPage";
+		if(row == 1) {
+			return "redirect:/loginCheck/getCommunityListByPage";
+		} else {
+			return "redirect:/loginCheck/remove"
+					+ "Community?communityNo="+communityNo;
+		}
 	}
-	
 	
 	// 희원 - removeCommunity 폼
 	@GetMapping("/loginCheck/removeCommunity")
@@ -130,23 +148,19 @@ public class CommunityController {
 								, @RequestParam (name="commentCurrentPage", defaultValue = "1") int commentCurrentPage
 								, @RequestParam (name="commentRowPerPage", defaultValue = "10") int commentRowPerPage){
 		
-		log.debug(CF.PHW+"CommunityController.getCommunityOne.get communityNo : "+communityNo+CF.RS );
+		log.debug(CF.PHW+"CommunityController.getCommunityOne.get communityNo : "+communityNo+CF.RS ); // 디버깅
 		
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>(); // map에 communityNo, commentCurrentPage, commentRowPerPage 담기
 		map.put("communityNo", communityNo);
 		map.put("commentCurrentPage", commentCurrentPage);
 		map.put("commentRowPerPage", commentRowPerPage);
 		
-		Map<String, Object> returnMap = communityService.getCommunityAndCommentList(map);
-		log.debug(CF.PHW+"CommunityController.getCommunityOne.get communityNo : "+returnMap.get("communityNo")+CF.RS );
-		log.debug(CF.PHW+"CommunityController.getCommunityOne.get communityMember : "+returnMap.get("communityMember")+CF.RS );
-		log.debug(CF.PHW+"CommunityController.getCommunityOne.get communityFileList : "+returnMap.get("communityFileList")+CF.RS );
-		log.debug(CF.PHW+"CommunityController.getCommunityOne.get communityCommentList : "+returnMap.get("communityCommentList")+CF.RS );
-		log.debug(CF.PHW+"CommunityController.getCommunityOne.get commentCurrentPage : "+returnMap.get("commentCurrentPage")+CF.RS );
-		log.debug(CF.PHW+"CommunityController.getCommunityOne.get commentLastPage : "+returnMap.get("commentLastPage")+CF.RS );
+		Map<String, Object> returnMap = communityService.getCommunityAndCommentList(map); // service단에서 returnMap 값 가져오기
+		log.debug(CF.PHW+"CommunityController.getCommunityOne.get returnMap : "+returnMap+CF.RS ); // 디버깅
 		
-		model.addAttribute("communityNo", returnMap.get("communityNo"));
-		model.addAttribute("communityMember", returnMap.get("communityMember"));
+		// view단으로 전달할 값 담기
+		model.addAttribute("communityNo", returnMap.get("communityNo")); 
+		model.addAttribute("communityMember", returnMap.get("communityMember")); 
 		model.addAttribute("communityFileList", returnMap.get("communityFileList"));
 		model.addAttribute("communityCommentList", returnMap.get("communityCommentList"));
 		model.addAttribute("commentCurrentPage", returnMap.get("commentCurrentPage"));

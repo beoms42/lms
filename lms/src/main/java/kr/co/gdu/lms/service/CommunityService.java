@@ -24,13 +24,20 @@ import lombok.extern.slf4j.Slf4j;
 public class CommunityService {
 	@Autowired private CommunityMapper communityMapper;
 	
-
-	// 희원 -  modifyCommunity 수정 중 파일 삭제(ajax)
-	public int deleteCommunityFileOne(String path, int communityFileNo, String communityFileName) {
+	// 희원 - removeCommunityComment
+	public void removeCommunityComment(CommunityComment communityComment) {
 		
-		log.debug(CF.PHW+"CommunityService.deleteCommunityFileOne.path : "+path+CF.RS );
-		log.debug(CF.PHW+"CommunityService.deleteCommunityFileOne.communityFileNo : "+communityFileNo+CF.RS );
-		log.debug(CF.PHW+"CommunityService.deleteCommunityFileOne.communityFileName : "+communityFileName+CF.RS );
+		int row = communityMapper.deleteCommunityComment(communityComment);
+		log.debug(CF.PHW+"CommunityService.removeCommunityComment.row : "+row+CF.RS );
+		
+	}
+	
+	// 희원 -  modifyCommunity 수정 중 파일 삭제(ajax)
+	public int removeCommunityFileOne(String path, int communityFileNo, String communityFileName) {
+		
+		log.debug(CF.PHW+"CommunityService.removeCommunityFileOne.path : "+path+CF.RS );
+		log.debug(CF.PHW+"CommunityService.removeCommunityFileOne.communityFileNo : "+communityFileNo+CF.RS );
+		log.debug(CF.PHW+"CommunityService.removeCommunityFileOne.communityFileName : "+communityFileName+CF.RS );
 		
 		File file = new File(path+communityFileName);
 		if(file.exists()) {
@@ -179,43 +186,40 @@ public class CommunityService {
 		}
 	}
 	
-	// 희원 - communityOne
+	// 희원 - communityOne & communityCommentList
 	public Map<String, Object> getCommunityAndCommentList(Map<String, Object> map) {
 		
-		int communityNo = (int)map.get("communityNo");
-		int commentCurrentPage = (int)map.get("commentCurrentPage");
-		int commentRowPerPage = (int)map.get("commentRowPerPage");
-		int commentStartRow = (commentCurrentPage - 1) * commentRowPerPage;
+		log.debug(CF.PHW+"CommunityService.getCommunityAndCommentList map : "+map+CF.RS ); // 디버깅
 		
-		log.debug(CF.PHW+"CommunityService.getCommunityAndCommentList communityNo : "+communityNo+CF.RS );
-		log.debug(CF.PHW+"CommunityService.getCommunityAndCommentList commentCurrentPage : "+commentCurrentPage+CF.RS );
-		log.debug(CF.PHW+"CommunityService.getCommunityAndCommentList commentRowPerPage : "+commentRowPerPage+CF.RS );
-		log.debug(CF.PHW+"CommunityService.getCommunityAndCommentList commentStartRow : "+commentStartRow+CF.RS );
+		int commentStartRow = ((int)map.get("commentCurrentPage") - 1) * (int)map.get("commentRowPerPage");
+		log.debug(CF.PHW+"CommunityService.getCommunityAndCommentList commentStartRow : "+commentStartRow+CF.RS ); // 디커깅
 		
-		Map<String,Object> paramMap = new HashMap<>();
-		map.put("communityNo", communityNo);
-		map.put("commentStartRow", commentStartRow);
-		map.put("commentRowPerPage", commentRowPerPage);
+		Map<String,Object> paramMap = new HashMap<>(); // paramMap에 communityNo, commentStartRow, commentRowPerPage 담기
+		paramMap.put("communityNo", map.get("communityNo"));
+		paramMap.put("commentStartRow", commentStartRow);
+		paramMap.put("commentRowPerPage", map.get("commentRowPerPage"));
 		
-		CommunityMember communityMember = communityMapper.selectCommunityOne((int)map.get("communityNo"));
-		List<CommunityFile> communityFileList = communityMapper.selectCommunityFileOne((int)map.get("communityNo"));
-		List<CommunityComment> communityCommentList = communityMapper.selectCommunityCommentList(paramMap);
-		int commentTotalCount = communityMapper.countCommunityComment();
-		int commentLastPage = (int)Math.ceil((double)commentTotalCount/(double)map.get("commentRowPerPage"));
+		CommunityMember communityMember = communityMapper.selectCommunityOne((int)map.get("communityNo")); // 커뮤니티 게시글 가져오기(게시글 작성 멤버 사진파일name 포함)
+		List<CommunityFile> communityFileList = communityMapper.selectCommunityFileOne((int)map.get("communityNo")); // 커뮤니티 게시글 파일(리스트) 가져오기
+		List<CommunityComment> communityCommentList = communityMapper.selectCommunityCommentList(paramMap); // 커뮤니티 게시글 댓글 리스트 가져오기
+		int commentTotalCount = communityMapper.countCommunityComment(); // 커뮤니티 게시글 총 개수 가져오기
 		
-		log.debug(CF.PHW+"CommunityService.getCommunityAndCommentList communityMember : "+communityMember+CF.RS );
+		int commentLastPage = (int)Math.ceil(commentTotalCount/(int)paramMap.get("commentRowPerPage")); // 커뮤니티 댓글 lastPage 구하기
+		
+		// 디버깅
+		log.debug(CF.PHW+"CommunityService.getCommunityAndCommentList communityMember : "+communityMember+CF.RS ); 
 		log.debug(CF.PHW+"CommunityService.getCommunityAndCommentList communityFileList : "+communityFileList+CF.RS );
 		log.debug(CF.PHW+"CommunityService.getCommunityAndCommentList communityCommentList : "+communityCommentList+CF.RS );
 		log.debug(CF.PHW+"CommunityService.getCommunityAndCommentList commentTotalCount : "+commentTotalCount+CF.RS );
 		log.debug(CF.PHW+"CommunityService.getCommunityAndCommentList commentLastPage : "+commentLastPage+CF.RS );
 		
-		Map<String,Object> returnMap = new HashMap<>();
-		returnMap .put("communityNo", communityNo);
-		returnMap .put("communityMember", communityMember);
-		returnMap .put("communityFileList", communityFileList);
-		returnMap .put("communityCommentList", communityCommentList);
-		returnMap .put("commentCurrentPage", commentCurrentPage);
-		returnMap .put("commentLastPage", commentLastPage);
+		Map<String,Object> returnMap = new HashMap<>(); // returnMap에 return한 값 넣기
+		returnMap.put("communityNo", paramMap.get("communityNo")); // communityNo(게시글번호)
+		returnMap.put("communityMember", communityMember); // communityMember(vo)
+		returnMap.put("communityFileList", communityFileList); // 커뮤니티 파일 리스트
+		returnMap.put("communityCommentList", communityCommentList); // 커뮤니티 댓글 리스트
+		returnMap.put("commentCurrentPage", map.get("commentCurrentPage")); // commentCurrentPage
+		returnMap.put("commentLastPage", commentLastPage); // commentLastPage
 		
 		return returnMap;
 	}

@@ -664,24 +664,32 @@ public class LectureSerivce {
 		// 요청값 디버깅
 		log.debug(CF.HJI+"LectureService.removeSubject.subjectName : " + subjectName+CF.RS);
 		
-		// 스케줄러에 있는 과목 삭제 
+		// 스케줄러에 있는 과목 삭제
 		List<Integer> list = lectureMapper.selectSubjectNameList(subjectName);
-		log.debug(CF.HJI+"LectureService.removeSubject.list : " + list+CF.RS);
+		log.debug(CF.HJI+"LectureService.removeSubject.list.selectSubjectNameList : " + list+CF.RS);
 		if(list != null) {
 			for(int i = 0; i < list.size(); i++) {
 				check += lectureMapper.deleteSubjectSudule(list.get(i));
 			}
+			log.debug(CF.HJI+"LectureService.removeSubject.check.deleteSubjectSudule : " + check+CF.RS);
 		}
-		// 디버깅
-		log.debug(CF.HJI+"LectureService.removeSubject.selectSubjectNameList check : " + check+CF.RS);
 		
 		// 강의_과목 삭제
 		row = lectureMapper.deleteLectureSubject(subjectName);
 		// 디버깅
-		if(row == 1) {
+		if(row > 0) {
 			log.debug(CF.HJI+"LectureService.removeSubject.deleteLectureSubject row 성공! : " + row+CF.RS);
 		} else {
 			log.debug(CF.HJI+"LectureService.removeSubject.deleteLectureSubject row 없거나 실패 ! : " + row+CF.RS);
+		}
+		row = 0;
+		
+		// 교재 삭제
+		row = lectureMapper.deleteSubjectTexbook(subjectName);
+		if(row > 0) {
+			log.debug(CF.HJI+"LectureService.removeSubject.deleteSubjectTexbook row 성공! : " + row+CF.RS);
+		} else {
+			log.debug(CF.HJI+"LectureService.removeSubject.deleteSubjectTexbook row 없거나 실패 ! : " + row+CF.RS);
 		}
 		row = 0;
 		
@@ -693,15 +701,15 @@ public class LectureSerivce {
 		} else {
 			log.debug(CF.HJI+"LectureService.removeSubject.deleteSubject row 실패! : " + row+CF.RS);
 		}
+		
 		return row;
 	}
 	
 	//종강한 강의 리스트
 		public List<Map<String, Object>> selectLectureListByEndDate(){
 			List<Map<String, Object>> list = (List<Map<String, Object>>) lectureMapper.selectLectureListByEndDate();
-			
 			log.debug(CF.PSH+"LectureService.selectLectureListByEndDate List:"+list+CF.RS);
 			return list;
 
-}
+		}
 }

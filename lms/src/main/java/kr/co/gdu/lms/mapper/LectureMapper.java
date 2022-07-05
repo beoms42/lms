@@ -128,6 +128,7 @@ public interface LectureMapper {
 	List<String> selectReferencefileNameList(int referenceNo);
 	
 // 과목
+	
 	// 과목리스트
 	List<Subject> selectSubjectList();
 	
@@ -146,4 +147,7 @@ public interface LectureMapper {
 	
 	// 과목 삭제(과목)
 	int deleteSubject(String subjectName);
+	
+	// 과목 삭제(교재)
+	int deleteSubjectTexbook(String subjectName);
 }

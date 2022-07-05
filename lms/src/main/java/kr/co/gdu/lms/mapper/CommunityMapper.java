@@ -51,4 +51,7 @@ public interface CommunityMapper {
 	// 희원 - CommunityComment 댓글 총 개수
 	int countCommunityComment();
 	
+	// 힁원- CommunityComment 댓글 삭제
+	int deleteCommunityComment(CommunityComment communityComment);
+	
 }

@@ -104,27 +104,76 @@
 	            </div>
 	        </div>
 	        
-	        <c:forEach car="ccl" items="${communityCommentList}">
+	        
+	        
+	        <c:forEach var="ccl" items="${communityCommentList}">
 				<div>
 					${ccl.loginId}	
 					${ccl.communityCommentContent}      	
 					${ccl.createDate}
 					<a href="#">수정</a>
-					<a href="#">삭제</a>
+					<button type="button" data-toggle="modal" data-target="#deleteCommunityCommentModal">삭제</button>
 				</div>
+				
+			<!-- Modal start-->
+	        <div class="modal fade" id="deleteCommunityCommentModal" tabindex="-1" role="dialog" aria-labelledby="deleteDogModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="deleteDogModalLabel">댓글 삭제</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			       	댓글을 삭제하시겠습니까?
+			      </div>
+			<form action="${pageContext.request.contextPath}/loginCheck/removeCommunityComment">	
+			      <div class="modal-footer">
+					<input type="hidden" name="loginId" value="${ccl.loginId}">
+					<input type="hidden" name="communityCommentContent" value="${ccl.communityCommentContent}">
+					<input type="hidden" name="createDate" value="${ccl.createDate}">
+					<input type="hidden" name="communityNo" value="${communityNo}">
+					
+					<button type="submit" class="btn btn-danger">삭제하기</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소하기</button>
+			      </div>
+			</form>	
+			    </div>
+			  </div>
+			</div>	
+			<!-- Modal end -->
+				
 			</c:forEach>
-			        
+			<c:if test="${commentCurrentPage > 1}">
+				<a href="${pageContext.request.contextPath}/loginCheck/getCommunityOne?communityNo=${communityNo}&commentCurrentPage=${commentCurrentPage-1}">이전</a>
+			</c:if>			        
+			<c:if test="${commentCurrentPage < commentLastPage}">
+				<a href="${pageContext.request.contextPath}/loginCheck/getCommunityOne?communityNo=${communityNo}&commentCurrentPage=${commentCurrentPage+1}">다음</a>
+			</c:if>	
+				
+				<form method="post" action="/loginCheck/removeCommunityComment">
+					<br>
+					<table class="table table-bordered table-sm">
+						<tr>
+							<td>작성자</td>
+							<td><input type="text" name="communityNo" value="${communityNo}" readonly="readonly"></td>
+						</tr>
+						<tr>
+							<td>작성자</td>
+							<td><input type="text" name="loginId" value="${communityMember.loginId}" readonly="readonly"></td>
+						</tr>
+						<tr>
+							<td>댓글달기</td>
+							<td><textarea name="communityCommentContent" rows="3" cols="135"></textarea></td>
+						</tr>
+					</table>
+					<button type="submit" class="btn btn-success btn-sm">댓글입력</button>
+				</form>
+			
 	        <!-- content-wrapper ends -->
 	        <!-- partial:partials/_footer.html -->
-	        <footer class="footer">
-	          <div class="d-sm-flex justify-content-center justify-content-sm-between">
-	            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021.  Premium <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a> from BootstrapDash. All rights reserved.</span>
-	            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span>
-	          </div>
-	          <div class="d-sm-flex justify-content-center justify-content-sm-between">
-	            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Distributed by <a href="https://www.themewagon.com/" target="_blank">Themewagon</a></span> 
-	          </div>
-	        </footer> 
+	        <jsp:include page="/inc/footer.jsp"/>
 	        <!-- partial -->
         </div>
       <!-- main-panel ends -->
