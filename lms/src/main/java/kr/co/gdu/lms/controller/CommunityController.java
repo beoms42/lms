@@ -24,15 +24,24 @@ import lombok.extern.slf4j.Slf4j;
 public class CommunityController {
 	@Autowired private CommunityService communityService;
 	
+	// 희원 - addCommunityComment 액션
+	@PostMapping("/loginCheck/addCommunityComment")
+	public String addCommunityComment(CommunityComment communityComment) {
+		log.debug(CF.PHW+"CommunityController.removeCommunityComment.get communitycomment : "+communityComment+CF.RS );
+		
+		communityService.addCommunityComment(communityComment);
+		
+		return "redirect:/loginCheck/getCommunityOne?communityNo="+communityComment.getCommunityNo();
+	}
 	
 	// 희원 - removeCommunityComment 액션
 	@GetMapping("/loginCheck/removeCommunityComment")
-	public String removeCommunityComment(CommunityComment communitycomment) {
-		log.debug(CF.PHW+"CommunityController.removeCommunityComment.get communitycomment : "+communitycomment+CF.RS );
+	public String removeCommunityComment(CommunityComment communityComment) {
+		log.debug(CF.PHW+"CommunityController.removeCommunityComment.get communityComment : "+communityComment+CF.RS );
 		
-		communityService.removeCommunityComment(communitycomment);
+		communityService.removeCommunityComment(communityComment);
 		
-		return "redirect:/loginCheck/getCommunityOne?communityNo="+communitycomment.getCommunityNo();
+		return "redirect:/loginCheck/getCommunityOne?communityNo="+communityComment.getCommunityNo();
 			
 		}
 	

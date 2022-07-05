@@ -24,6 +24,13 @@ import lombok.extern.slf4j.Slf4j;
 public class CommunityService {
 	@Autowired private CommunityMapper communityMapper;
 	
+	// 희원 - addCommunityComment
+	public void addCommunityComment(CommunityComment communityComment) {
+		
+		int row = communityMapper.insertCommunityComment(communityComment);
+		log.debug(CF.PHW+"CommunityService.addCommunityComment.row : "+row+CF.RS );
+	}
+	
 	// 희원 - removeCommunityComment
 	public void removeCommunityComment(CommunityComment communityComment) {
 		
@@ -204,7 +211,11 @@ public class CommunityService {
 		List<CommunityComment> communityCommentList = communityMapper.selectCommunityCommentList(paramMap); // 커뮤니티 게시글 댓글 리스트 가져오기
 		int commentTotalCount = communityMapper.countCommunityComment(); // 커뮤니티 게시글 총 개수 가져오기
 		
-		int commentLastPage = (int)Math.ceil(commentTotalCount/(int)paramMap.get("commentRowPerPage")); // 커뮤니티 댓글 lastPage 구하기
+		int commentLastPage = commentTotalCount/(int)paramMap.get("commentRowPerPage"); // 커뮤니티 댓글 lastPage 구하기
+		
+		if(commentTotalCount % (int)paramMap.get("commentRowPerPage") != 0) { // commentTotalCount % commentRowPerPage 나머지가 0이 아닐때
+			commentLastPage++;
+		} 
 		
 		// 디버깅
 		log.debug(CF.PHW+"CommunityService.getCommunityAndCommentList communityMember : "+communityMember+CF.RS ); 

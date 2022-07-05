@@ -143,8 +143,8 @@
 			  </div>
 			</div>	
 			<!-- Modal end -->
-				
 			</c:forEach>
+			${commentCurrentPage} / ${commentLastPage}
 			<c:if test="${commentCurrentPage > 1}">
 				<a href="${pageContext.request.contextPath}/loginCheck/getCommunityOne?communityNo=${communityNo}&commentCurrentPage=${commentCurrentPage-1}">이전</a>
 			</c:if>			        
@@ -152,13 +152,9 @@
 				<a href="${pageContext.request.contextPath}/loginCheck/getCommunityOne?communityNo=${communityNo}&commentCurrentPage=${commentCurrentPage+1}">다음</a>
 			</c:if>	
 				
-				<form method="post" action="/loginCheck/removeCommunityComment">
+				<form method="post" action="${pageContext.request.contextPath}/loginCheck/addCommunityComment">
 					<br>
 					<table class="table table-bordered table-sm">
-						<tr>
-							<td>작성자</td>
-							<td><input type="text" name="communityNo" value="${communityNo}" readonly="readonly"></td>
-						</tr>
 						<tr>
 							<td>작성자</td>
 							<td><input type="text" name="loginId" value="${communityMember.loginId}" readonly="readonly"></td>
@@ -168,6 +164,8 @@
 							<td><textarea name="communityCommentContent" rows="3" cols="135"></textarea></td>
 						</tr>
 					</table>
+					<input type="hidden" name="communityNo" value="${communityNo}" readonly="readonly">
+					<input type="hidden" name="updateDate">
 					<button type="submit" class="btn btn-success btn-sm">댓글입력</button>
 				</form>
 			

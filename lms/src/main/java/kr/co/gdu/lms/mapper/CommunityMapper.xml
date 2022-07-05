@@ -187,7 +187,7 @@
 	<!--댓글 crud-->
 	<!--댓글 입력-->
 	<insert id="insertCommunityComment"
-			parameterType="int">
+			parameterType="kr.co.gdu.lms.vo.CommunityComment">
 		INSERT INTO community_comment
 		VALUES (
 			#{loginId}
