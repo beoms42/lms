@@ -675,3 +675,4 @@ public class LectureController {
 
 	 }
 }
+	// 종강한 강의 리뷰 보기
