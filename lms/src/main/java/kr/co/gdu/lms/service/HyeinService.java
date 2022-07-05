@@ -17,14 +17,21 @@ import lombok.extern.slf4j.Slf4j;
 public class HyeinService {
 @Autowired HyeinMapper hyeinMapper;
 
+	// 출결상태 모두 출석으로 변경
+	public void modifyAttendanceListAll(int scheduleNo) {
+		
+		int row = hyeinMapper.updateAttendanceListAll(scheduleNo);
+		log.debug(CF.OHI+"HyeinService.modifyAttendanceListAll row : "+row+CF.RS);
+	}
+	
 	// 강사별 맡고있는 강의의 학생이름, 출결, 강의 이름 , 출결날짜 뽑기
 	public List<Map<String, Object>> getAttendanceList(Map<String, Object> map) {
 		
-		log.debug(CF.OHI+"HyeinService.getAttendanceList map"+map+CF.RS);
+		log.debug(CF.OHI+"HyeinService.modifyAttendanceList map"+map+CF.RS);
 		
 		List<Map<String, Object>> attendanceList = hyeinMapper.selectAttendance(map);
 		
-		log.debug(CF.OHI+"HyeinService.getAttendanceList attendanceMap : "+attendanceList+CF.RS);
+		log.debug(CF.OHI+"HyeinService.modifyAttendanceList attendanceList : "+attendanceList+CF.RS);
 		
 		return attendanceList;
 	}

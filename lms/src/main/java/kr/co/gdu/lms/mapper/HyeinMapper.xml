@@ -2,6 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.gdu.lms.mapper.HyeinMapper">
 	
+	<!-- 버튼 누르면 모두 출석으로 -->
+	<update id="updateAttendanceListAll"
+			parameterType="int">
+		UPDATE attendance SET
+			attendance_record='출석'
+		WHERE schedule_no = #{scheduleNo};
+	</update>
+	
 	<!-- 강사별 맡고있는 강의의 학생이름, 출결, 강의 이름 , 출결날짜 뽑기 -->
 	<select id="selectAttendance"
 			parameterType="java.util.Map"
@@ -42,6 +50,7 @@
 		WHERE login_id=#{loginId}
 	</select>
 
+	<!-- 출결사항 수정 -->
 	<update id = "updateAttendance"
 			parameterType="java.util.Map">
 		UPDATE attendance SET

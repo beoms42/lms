@@ -26,6 +26,11 @@
   <style>
 	.bottom {margin-bottom : 40px;}
 	.top {margin-top : 30px;}
+	.btn-pink {
+  		color: #fff;
+    	background-color: #FF6C6C;
+    	border-color: #FF6C6C;
+	}	
   </style>
 </head>
 <body>
@@ -50,12 +55,13 @@
 	              <div class="card">
 	                <div class="card-body">
 		                <h2>강의명 [${list[0].lectureName}]</h2>
-		                <form id="attendanceDateForm" method="get" action="${pageContext.request.contextPath}/loginCheck/getAttendanceList">
+		                <form id="attendanceDateForm" method="get" action="${pageContext.request.contextPath}/loginCheck/modifyAttendanceList">
 		                	 <h3 class="float-right bottom">
 		                		<input id="scheduleDate" type="date" name="scheduleDate" value="${list[0].scheduleDate}">
 		                	</h3>
 		                </form>
-		                <form method="post" action="${pageContext.request.contextPath}/loginCheck/getAttendanceList">
+		                <form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyAttendanceList">
+		                	<input type="hidden" name="scheduleDate" value="${list[0].scheduleDate}">
 			                <table class="table">
 		                		<thead>
 		                			<tr>
@@ -65,7 +71,6 @@
 		                			</tr>
 		                		</thead>
 		                		<tbody>
-		                			<input type="hidden" name="scheduleDate" value="${list[0].scheduleDate}">
 			                		<c:forEach var="a" items="${list}">
 			                			<tr>
 			                				<td>${a.loginId}</td>
@@ -83,7 +88,10 @@
 			                		</c:forEach>
 		                		</tbody>
 		                	</table>
-		                	<button id="bb" class="btn btn-primary float-right top">출결 변경</button>
+		                	<div class="float-right top">
+		                		<a class="btn btn-success" href="${pageContext.request.contextPath}/loginCheck/modifyAttendanceListAll?scheduleNo=${list[0].scheduleNo}&scheduleDate=${list[0].scheduleDate}">모두 출석으로 변경</a>
+		                		<button class="btn btn-primary">출결 변경</button>
+		                	</div>
 		                </form>
 	                </div>
 	              </div>
