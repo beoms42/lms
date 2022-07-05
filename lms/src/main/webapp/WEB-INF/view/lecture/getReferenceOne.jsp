@@ -62,48 +62,47 @@
                   <p class="card-description">
                   </p>
                   <div class="table-responsive">
-                  <table class="table">
-			            
-				        <tr>
-				        	<th>referenceNo</th>
-				        	<td>${reference.referenceNo}</td>
-				        </tr>
-				        <tr>
-				        	<th>제목 :  </th>
-				        	<td>${reference.referenceTitle}</td>
-				        </tr>
-				        <tr>
-				        	<th>생성날짜 : </th>
-				        	<td>${reference.createDate}</td>
-				        </tr>  
-				        <tr>
-				        	<td> 자료내용 </td>
-				        </tr>
-				        <tr >
-				        	<td colspan="2">${reference.referenceContent}</td>
-				        </tr>
-				        <tr>
-					        <td colspan="2">
-				            		자료파일
-				            </td>
-			            </tr>
-				        <tr>
-				    		<c:forEach var="n" items="${referenceFileList}">
-				    			<c:choose>
-				    				<c:when test="${n.getReferenceFileType() eq 'image/gif'|| n.getReferenceFileType() eq 'image/png'|| n.getReferenceFileType() eq 'image/jpeg' || n.getReferenceFileType() eq 'image/bmp'}">
-				    		 			<td><img src="${pageContext.request.contextPath}/file/referenceFile/${n.getReferenceFileName()}" width="400" height="400"></td>
-				    		 		</c:when>
-				    		 		<c:otherwise>
-				    		 			<td><a href="${pageContext.request.contextPath}/file/referenceFile/${n.getReferenceFileName()}">${n.getReferenceFileName()}</a></td>
-				    		 		</c:otherwise>
-				    		 	</c:choose>    		 	
-				    		</c:forEach>
-				    	</tr>
-				        <tr>
-				        	<td><a class="btn  btn-facebook auth-form-btn" href="${pageContext.request.contextPath}/loginCheck/updateReference?referenceNo=${reference.referenceNo}">수정</a></td>
-				        	<td><button  class="btn btn-danger" type="button" class="site-btn" data-toggle="modal" data-target="#deleteReferenceModal">삭제</button></td>
-				        </tr>
-			        </table>
+			        <div class="col-sm-11 font-size">
+	                  	<div class = "row">
+	                  			제목 : ${reference.referenceTitle} 
+	                  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	                  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								생성날짜 : ${reference.createDate}
+						</div>	                  	
+	                 </div>
+	                </div>
+			        <div class="left">
+		                  <hr>
+		                  <div>내용</div>
+		                  <div>${reference.referenceContent}</div>		                  
+		                  <hr>
+							<!-- 파일 부분 -->
+							<div>
+			                  	<c:forEach var="n" items="${referenceFileList}">
+					    			<c:choose>
+					    				<c:when test="${n.getReferenceFileType() eq 'image/gif'|| n.getReferenceFileType() eq 'image/png'|| n.getReferenceFileType() eq 'image/jpeg' || n.getReferenceFileType() eq 'image/bmp'}">
+					    		 			<td><img src="${pageContext.request.contextPath}/file/referenceFile/${n.getReferenceFileName()}" width="400" height="400"></td>
+					    		 		</c:when>
+					    		 		<c:otherwise>
+					    		 			<td><a href="${pageContext.request.contextPath}/file/referenceFile/${n.getReferenceFileName()}">${n.getReferenceFileName()}</a></td>
+					    		 		</c:otherwise>
+					    		 	</c:choose>    		 	
+					    		</c:forEach>
+			                  </div>
+						</div>
+						<div class="float-right top bottom right">
+					    	<a class="btn  btn-facebook auth-form-btn" href="${pageContext.request.contextPath}/loginCheck/updateReference?referenceNo=${reference.referenceNo}">수정</a>
+				        	<button  class="btn btn-danger" type="button" class="site-btn" data-toggle="modal" data-target="#deleteReferenceModal">삭제</button>
 			       	<!-- modal -->
 			        	<div class="modal fade" id="deleteReferenceModal" tabindex="-1" role="dialog" aria-labelledby="deleteReferenceModalLabel" aria-hidden="true">
 						  <div class="modal-dialog" role="document">

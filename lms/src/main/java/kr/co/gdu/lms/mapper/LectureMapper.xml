@@ -515,7 +515,7 @@
 	<!-- 스케줄러 과목 번호리스트  -->
 	<select id="selectSubjectNameList"
 			parameterType="String"
-			resultType="kr.co.gdu.lms.vo.Subject">
+			resultType="Integer">
 		SELECT 
 			lecture_subject_no lectureSubjectNo
 		FROM lecture_subject
@@ -525,7 +525,7 @@
 	<!-- 과목 삭제(스케줄) -->
 	<delete id="deleteSubjectSudule"
 			parameterType="int">
-		DELETE FROM lecture_subject
+		DELETE FROM schedule
 		WHERE lecture_subject_no = #{lectureSubjectNo};
 	</delete>
 	
@@ -541,6 +541,13 @@
 				parameterType="String">
 		DELETE FROM subject
 		WHERE subject_name = #{subjectName};
+	</delete>
+	
+	<!-- 과목_삭제(교재) -->
+	<delete id="deleteSubjectTexbook"
+			parameterType="String">
+		DELETE FROM subject_textbook
+		WHERE subject_name =#{subjectName};
 	</delete>
 	
 </mapper>
