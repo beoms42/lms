@@ -33,6 +33,14 @@ public class LoginService {
 	@Autowired private ManagerMapper managerMapper;
 	@Autowired private MemberFileMapper memberFileMapper;
 	
+	public void modifyActiveByMember(String loginId) {
+		loginMapper.updateActiveByMember(loginId);
+	}
+	
+	public List<Map<String, Object>> getRecoveryMember() {
+		return loginMapper.selectRecoveryMemberList();
+	}
+	
 	// 로그인 성공했을 때 레벨 출력
 	public Login getLoginLevel(Login loginTest) {
 		return loginMapper.loginAndSelectLevel(loginTest);

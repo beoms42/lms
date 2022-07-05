@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.gdu.lms.mapper.LoginMapper">
+	<update id="updateActiveByMember"
+			parameterType="String">
+		UPDATE login
+		SET login_active = '1'
+		WHERE login_id = #{loginId}
+	</update>
+
+	<select id="selectRecoveryMemberList"
+			resultType="map">
+	 	SELECT
+			login_id loginId
+			, DATEDIFF(NOW(), last_login_date) lastLoginDate
+		FROM login
+		WHERE login_active = '0'
+		AND DATEDIFF(NOW(), last_login_date) >= 90
+		AND DATEDIFF(NOW(), last_login_date) &lt; 180
+	</select>
 	<!-- 3개월 동안 로그인 안한 사용자 비활성화 -->
 	<update id="updateActiveByDormantMember"
 			parameterType="String">

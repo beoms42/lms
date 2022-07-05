@@ -13,6 +13,12 @@ import kr.co.gdu.lms.vo.Teacher;
 
 @Mapper
 public interface LoginMapper {
+	// 계정 복구 시 active 1로 바꾸는 메서드
+	int updateActiveByMember(String loginId);
+	
+	// 비활성화 계정 중 로그인 안한지 3개월 이상 6개월 미만인 회원 로그인 아이디 출력
+	List<Map<String, Object>> selectRecoveryMemberList();
+	
 	// 마지막 로그인 날짜 3개월 지난 사람 active 업데이트 해주는 메서드
 	int updateActiveByDormantMember(String loginId);
 	

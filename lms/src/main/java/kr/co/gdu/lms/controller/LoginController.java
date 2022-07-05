@@ -1,9 +1,9 @@
 package kr.co.gdu.lms.controller;
 
 import java.time.LocalDate;
-
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.service.LoginService;
 import kr.co.gdu.lms.service.MemberService;
-import kr.co.gdu.lms.vo.MemberForm;
 import kr.co.gdu.lms.vo.Login;
 import kr.co.gdu.lms.vo.MemberFile;
+import kr.co.gdu.lms.vo.MemberForm;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -31,6 +31,12 @@ public class LoginController {
 
 	@Autowired private LoginService loginService;
 	@Autowired private MemberService memberService;
+	
+	@GetMapping("/accountRecovery") 
+	public String accountRecovery(@RequestParam(name = "loginId") String loginId) {
+		loginService.modifyActiveByMember(loginId);
+		return "redirect:/login";
+	}
 	
 	@GetMapping("/changePw")
 	public String changePw(@RequestParam(value = "changePwLater", defaultValue = "") String changePwLater
@@ -342,6 +348,16 @@ public class LoginController {
 		
 		log.debug(CF.OHI+"LoginController.login.post login : "+loginTest+CF.RS);
 		log.debug(CF.OHI+"LoginController.login.post idSave : "+idSave+CF.RS);
+		
+		// 비활성화 계정 중 6개월 이내에 로그인하면 활성화 할 지 물어보기
+		List<Map<String, Object>> recoveryMemberList = loginService.getRecoveryMember();
+		for(Map m : recoveryMemberList) {
+			if(m.get("loginId").equals(loginTest.getLoginId())) {
+				model.addAttribute("lastLoginDate", m.get("lastLoginDate"));
+				model.addAttribute("loginId", m.get("loginId"));
+				return "login/accountRecovery";
+			}
+		}
 		
 		// 비밀번호 변경 며칠이 지났는지
 		int diffDay = loginService.getDiffDay(loginTest.getLoginId());
