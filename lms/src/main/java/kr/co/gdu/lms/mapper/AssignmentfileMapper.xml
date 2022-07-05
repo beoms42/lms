@@ -1,47 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.gdu.lms.mapper.AssignmentfileMapper">
+	<!--  과제 파일 입력 -->
 	<insert id="insertAssingmentfile">
 		INSERT INTO assignment_file(
-		assignment_exam_no
-		,login_id
-		,assignment_file_name
-		,assignment_file_origin_name
-		,assignment_file_type
-		,assignment_file_size
-		,assignment_file_create_date
+			assignment_exam_no
+			,login_id
+			,assignment_file_name
+			,assignment_file_origin_name
+			,assignment_file_type
+			,assignment_file_size
+			,assignment_file_create_date
 		)VALUES(
-		#{assignmentExamNo}
-		,#{loginId}
-		,#{assignmentFileName}
-		,#{assignmentFileOriginName}
-		,#{assignmentFileType}
-		,#{assignmentFileSize}
-		,NOW()
+			#{assignmentExamNo}
+			,#{loginId}
+			,#{assignmentFileName}
+			,#{assignmentFileOriginName}
+			,#{assignmentFileType}
+			,#{assignmentFileSize}
+			,NOW()
 		)
 	</insert>
-
-	<select id="selectAssinmetFile" parameterType="java.util.Map"
-		resultType="kr.co.gdu.lms.vo.AssignmentFile">
+	<!-- 과제 파일 검색 -->
+	<select id="selectAssinmetFile" 
+			parameterType="java.util.Map"
+			resultType="kr.co.gdu.lms.vo.AssignmentFile">
 
 		SELECT assignment_exam_no assignmentExamNo
-		,login_id loginId
-		,assignment_file_name assignmentFileName
-		,assignment_file_origin_name assignmentFileOriginName
-		,assignment_file_type assignmentFileType
-		,assignment_file_size assignmentFileSize
-		,assignment_file_create_date assignmentFileCreateDate
-		FROM assignment_file
-		WHERE assignment_exam_no
-		= #{assignmentExamNo} 
-		AND login_id
-		= #{loginId}
-
-
+			,f.login_id loginId
+			,assignment_file_name assignmentFileName
+			,assignment_file_origin_name assignmentFileOriginName
+			,assignment_file_type assignmentFileType
+			,assignment_file_size assignmentFileSize
+			,assignment_file_create_date assignmentFileCreateDate
+		FROM assignment_file f INNER JOIN education e
+		ON f.login_id = e.login_id
+		WHERE assignment_exam_no = #{assignmentExamNo}
 	</select>
+	<!-- 과제 삭제시 파일도 함께 삭제 -->
 	<delete id="deleteAssignmentfile" parameterType="int">
-		DELETE FROM
-		assignment_file WHERE assignment_exam_no = #{assignmentExamNo}
+		DELETE	
+		FROM
+			assignment_file 
+		WHERE assignment_exam_no = #{assignmentExamNo}
 	</delete>
 
 

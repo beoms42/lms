@@ -101,6 +101,7 @@
 		FROM assignment_submit
 		WHERE assignment_exam_no = ${assignmentExamNo} AND education_no=${educationNo}
 	</select>
+	<!-- 모든 학생 과제 강사 입장에서 보는 쿼리 -->
 	<select id="selectAssignmentSubmitTeacher"
 			parameterType="java.util.Map"
 			resultType="kr.co.gdu.lms.vo.AssignmentSubmit">
@@ -118,12 +119,14 @@
 		ON e.education_no = a.education_no
 		WHERE assignment_exam_no = #{assignmentExamNo} AND e.lecture_name = #{lectureName}
 	</select>
+	<!-- 점수 입력 -->
 	<update id="updateScore" 
 			parameterType="java.util.Map">
 		UPDATE assignment_submit SET 
 			assignment_submit_score = #{assignmentSubmitScore}
 		WHERE assignment_exam_no = #{assignmentExamNo} AND education_no= #{educationNo}
 	</update>
+	<!-- 과제 변경 -->
 	<update id="updateAssignmentExam"
 			parameterType="kr.co.gdu.lms.vo.AssignmentExam">
 		UPDATE assignment_exam SET 
@@ -132,20 +135,18 @@
 			, assignment_exam_content = #{assignmentExamContent}
 		WHERE assignment_exam_no = #{assignmentExamNo}
 	</update>
-	<select id="selectAssignmentTotalCount" resultType="int">
-		SELECT
-		COUNT(*) cnt FROM assignment_exam
-	</select>
+	<!-- 과목 리스트 뽑아오기 -->
 	<select id="selectLectureNameList"
 			resultType="kr.co.gdu.lms.vo.Lecture">
 		SELECT lecture_name lectureName FROM lecture
 	</select>
+	<!-- 과제 과제 삭제 -->
 	<delete id="deleteAssignmentSubmit" 
 			parameterType="int">
 		DELETE FROM assignment_submit 
 		WHERE assignment_exam_no = #{assignmentExamNo}
 	</delete>
-
+	<!-- 과목 삭제 -->
 	<delete id="deleteAssignment" 
 			parameterType="int">
 		DELETE FROM assignment_exam 

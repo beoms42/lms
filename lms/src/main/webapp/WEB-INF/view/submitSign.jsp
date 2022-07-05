@@ -44,7 +44,6 @@
                       <br><br><br>
                       <button id="clear" class="btn btn-danger">초기화</button>
 						<button id="json" type="button">제출</button>
-                      <textarea id="signature" name="signed" style="display: none"></textarea>
                   </div>
                 </div>
            </div>

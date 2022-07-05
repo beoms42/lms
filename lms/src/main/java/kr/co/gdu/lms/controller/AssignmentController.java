@@ -29,8 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class AssignmentController {
-	@Autowired
-	private AssignmentService assignmentservice;
+	@Autowired private AssignmentService assignmentservice;
 
 	@GetMapping("/loginCheck/getAssignmentExam")
 	// 과제 리스트 출력
@@ -92,7 +91,7 @@ public class AssignmentController {
 	public String addAssignmentExam(Model model
 									, HttpServletRequest request
 									, AssignmentAddForm assignmentAddForm
-									,@RequestParam(name = "lectureName") String lectureName) {
+									, @RequestParam(name = "lectureName") String lectureName) {
 
 		// 아이디 세션/레벨 받아오기
 		HttpSession session = request.getSession();
@@ -131,9 +130,10 @@ public class AssignmentController {
 
 	// 과제 제출 페이지
 	@GetMapping("/loginCheck/getAssignmentOne")
-	public String getAssignmentOne(Model model, HttpServletRequest request,
-			@RequestParam(name = "assignmentExamNo") int assignmentExamNo,
-			@RequestParam(name = "lectureName", defaultValue = "자바") String lectureName) {
+	public String getAssignmentOne(Model model
+								   , HttpServletRequest request
+								   , @RequestParam(name = "assignmentExamNo") int assignmentExamNo
+								   , @RequestParam(name = "lectureName", defaultValue = "자바") String lectureName) {
 		log.debug(CF.GMC + "AssignmentController.getAssignmentOne assignmentExamNo : " + assignmentExamNo + CF.RS);
 		HttpSession session = request.getSession();
 		String sessionMemberId = (String) session.getAttribute("sessionId");
@@ -150,12 +150,12 @@ public class AssignmentController {
 			log.debug(CF.GMC + "AssignmentController.getAssignment lectureName" + lectureName + CF.RS);
 			lectureName = (String) request.getParameter("lectureName");
 		}
-		int edcuationNo = (int)educationMap.get("educationNo");
+		int educationNo = (int)educationMap.get("educationNo");
 	
 		//매개변수로 사용할 Map 세팅
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("lectureName", lectureName);
-		paramMap.put("educationNo", edcuationNo);
+		paramMap.put("educationNo", educationNo);
 		paramMap.put("loginId", sessionMemberId);
 		paramMap.put("assignmentExamNo", assignmentExamNo);
 		Map<String, Object> returnMap = assignmentservice.getAssignmentOne(paramMap);
@@ -220,10 +220,11 @@ public class AssignmentController {
 
 	// 과제 제출->
 	@GetMapping("/loginCheck/addAssignmentSubmit")
-	public String assignmentSubmit(Model model, HttpServletRequest request,
-			@RequestParam(name = "ImageURL") String ImageURL,
-			@RequestParam(name = "assignmentSubmitContent") String assignmentSubmitContent,
-			@RequestParam(name = "assignmentExamNo") int assignmentExamNo) {
+	public String assignmentSubmit(Model model
+								   , HttpServletRequest request
+								   , @RequestParam(name = "ImageURL") String ImageURL
+								   , @RequestParam(name = "assignmentSubmitContent") String assignmentSubmitContent
+								   , @RequestParam(name = "assignmentExamNo") int assignmentExamNo) {
 		HttpSession session = request.getSession();
 		String sessionMemberId = (String) session.getAttribute("sessionId");
 		int level = (int) session.getAttribute("sessionLv");
@@ -264,11 +265,12 @@ public class AssignmentController {
 
 	// 점수 입력
 	@GetMapping("/loginCheck/getScore")
-	public String getScore(HttpServletRequest request, Model model,
-			@RequestParam(name = "assignmentSubmitScore") int assignmentSubmitScore,
-			@RequestParam(name = "educationNo") int educationNo,
-			@RequestParam(name = "assignmentExamNo") int assignmentExamNo,
-			@RequestParam(name = "lectureName") String lectureName, RedirectAttributes redirect) {
+	public String getScore(HttpServletRequest request
+			 			   , Model model
+						   , @RequestParam(name = "assignmentSubmitScore") int assignmentSubmitScore
+						   , @RequestParam(name = "educationNo") int educationNo
+						   , @RequestParam(name = "assignmentExamNo") int assignmentExamNo
+						   , @RequestParam(name = "lectureName") String lectureName, RedirectAttributes redirect) {
 		HttpSession session = request.getSession();
 		String sessionMemberId = (String) session.getAttribute("sessionId");
 		int level = (int) session.getAttribute("sessionLv");
@@ -284,8 +286,9 @@ public class AssignmentController {
 
 	// 수정 폼
 	@GetMapping("/loginCheck/modifyAssignment")
-	public String modifyAssignment(Model model, HttpServletRequest request,
-			@RequestParam(name = "assignmentExamNo") int assignmentExamNo) {
+	public String modifyAssignment(Model model
+								   ,HttpServletRequest request
+								   ,@RequestParam(name = "assignmentExamNo") int assignmentExamNo) {
 		log.debug(CF.GMC + "AssignmentController.getAssignmentOne assignmentExamNo : " + assignmentExamNo + CF.RS);
 		HttpSession session = request.getSession();
 		String sessionMemberId = (String) session.getAttribute("sessionId");
@@ -321,8 +324,8 @@ public class AssignmentController {
 	public String modifyAssignment(Model model
 								   , HttpServletRequest request
 								   , @RequestParam(name = "assignmentExamNo") int assignmentExamNo
-								   , AssignmentExam assignmentExam
-								   , @RequestParam(name = "lectureName") String lectureName) {
+								   , @RequestParam(name = "lectureName") String lectureName
+								   , AssignmentExam assignmentExam) {
 		
 		assignmentExam.setAssignmentExamNo(assignmentExamNo);
 		assignmentservice.modifiyAssignmentExam(assignmentExam);
@@ -334,11 +337,9 @@ public class AssignmentController {
 		//과목 번호
 		Map<String,Object> educationMap = assignmentservice.getEducation(sessionMemberId);
 		int educationNo = (int)educationMap.get("educationNo");
-		
+		log.debug(CF.GMC + "AssignmentController.getAssignmentmodifty lectureName : " + lectureName + CF.RS);
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("educationNo", educationNo);
-
-		log.debug(CF.GMC + "AssignmentController.getAssignmentmodifty lectureName : " + lectureName + CF.RS);
 		paramMap.put("loginId", sessionMemberId);
 		paramMap.put("assignmentExamNo", assignmentExamNo);
 		paramMap.put("lectureName", lectureName);

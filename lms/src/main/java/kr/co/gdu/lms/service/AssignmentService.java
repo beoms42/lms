@@ -27,10 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 @Service
 public class AssignmentService {
-	@Autowired
-	private AssignmentMapper assignmentmapper;
-	@Autowired
-	private AssignmentfileMapper assignmentfilemapper;
+	@Autowired private AssignmentMapper assignmentmapper;
+	@Autowired private AssignmentfileMapper assignmentfilemapper;
 
 	public	List<AssignmentExam> getAssignmentExam(String lectureName) {
 		
