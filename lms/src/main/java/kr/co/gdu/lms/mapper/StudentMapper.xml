@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.gdu.lms.mapper.StudentMapper">
-	<select id="selectStudentList" 
-		   	resultType="kr.co.gdu.lms.vo.Student">
-		SELECT
-			login_id loginId
-			, student_name studentName
-			, student_birth studentBirth
-			, create_date createDate
-		FROM student 
-	</select>
+		<select id="selectStudentList" 
+			   resultType="kr.co.gdu.lms.vo.Student">
+			SELECT
+				login_id loginId
+				, student_name studentName
+				, student_birth studentBirth
+				, create_date createDate
+			FROM student 
+		</select>
 
 	<select id="selectStudentOne"
 			resultType="kr.co.gdu.lms.vo.Student"
 			parameterType="String">
-	  SELECT
-		  login_id loginId
-		  , student_name studentName
-		  , student_birth studentBirth
-		  , student_gender studentGender
-		  , address address
-		  , detail_address detailAddress
-		  , student_email studentEmail
-		  , student_phone studentPhone
-		  , military_status militaryStatus
-		  , graduate
-		  , create_date createDate   
+		SELECT
+         login_id loginId
+         , student_name studentName
+         , student_birth studentBirth
+         , student_gender studentGender
+         , address address
+         , detail_address detailAddress
+         , student_email studentEmail
+         , student_phone studentPhone
+         , military_status militaryStatus
+         , graduate
+         , create_date createDate   
       FROM student
       WHERE login_id = #{loginId}	
 	</select>
@@ -33,7 +33,9 @@
 	<update id="updateStudent"
 			parameterType="kr.co.gdu.lms.vo.Student">
 		UPDATE student
-		SET student_name = #{studentName}
+		SET login_id = #{loginId}
+			,student_name = #{studentName}
+			, student_birth = #{studentBirth}
 			, student_gender = #{studentGender}
 			, address = #{address}
 			, detail_address = #{detailAddress}
@@ -53,16 +55,14 @@
 	
 	<update id="updateStudentActive"
 			parameterType="kr.co.gdu.lms.vo.Login">
-		UPDATE login 
-		SET login_active = '0'
+		UPDATE login SET login_active = '0'
 		WHERE login_id = #{loginId} AND  login_pw = PASSWORD(#{loginPw})
 	</update>
 	
 	<select id="pwCheck"
 			resultType="int"
 			parameterType="kr.co.gdu.lms.vo.Login">
-		SELECT 
-			COUNT(*)
+		SELECT COUNT(*)
 		FROM login
 		WHERE login_id = #{loginId} AND login_pw = PASSWORD(#{loginPw})
 	</select>

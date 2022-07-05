@@ -43,18 +43,20 @@ public class MemberController {
 	   if("student".equals(msg)) {
 		   List<Student> studentList = memberService.getStudentList();
 		   log.debug(CF.GDH+"MemberController.getMemberList studentList : " + studentList + CF.RS);
+		   model.addAttribute("msg", msg);
 		   model.addAttribute("studentList", studentList);
 	   } else if("teacher".equals(msg)) {
 		   List<Teacher> teacherList = memberService.getTeacherList();
 		   log.debug(CF.GDH+"MemberController.getMemberList teacherList : " + teacherList + CF.RS);
+		   model.addAttribute("msg", msg);
 		   model.addAttribute("teacherList", teacherList);
 	   } else if("manager".equals(msg)) {
 		   List<Manager> managerList = memberService.getManagerList();
 	       log.debug(CF.GDH+"MemberController.getMemberList managerList : " + managerList + CF.RS);
+	       model.addAttribute("msg", msg);
 	       model.addAttribute("managerList", managerList);
 	   }
-	   
-	   model.addAttribute("msg", msg);
+       
        return "member/getMemberList";
    }
 
@@ -127,19 +129,7 @@ public class MemberController {
       model.addAttribute("memberFile", returnMap.get("memberFile"));
       return "member/modifyMember";
    }
-
-   // 학생정보 수정액션
-   @PostMapping("/loginCheck/modifyStudent")
-   public String modifyStudent(Student student) {
-      // 받아온 매개변수 디버깅
-      log.debug(CF.GDH + "MemberController.modifyStudent.Post student : " + student + CF.RS);
-
-      // 서비스로 보내기
-      int row = memberService.modifyStudent(student);
-
-      return "redirect:/loginCheck/getStudentOne?loginId=" + student.getLoginId();
-   }
-
+   
    // 멤버정보 수정시 비밀번호 체크폼
    @GetMapping("/loginCheck/modifyPwCheck")
    public String modifyPwCheck(Model model, HttpSession session) {
@@ -158,10 +148,128 @@ public class MemberController {
       } else {
          return "redirect:/loginCheck/modifyPwCheck";
       }
+   }
+   
+   // 학생정보 수정액션
+   @PostMapping("/loginCheck/modifyStudent")
+   public String modifyStudent(HttpSession session
+		   						, Student student
+		   						, @RequestParam(name="incomeAddress") String incomeAddress
+		   						, @RequestParam(name="writtenAddress", defaultValue = "none") String writtenAddress) {
+	  
+	  // 세션을 통해 아이디 받아오기
+	  String loginId = (String) session.getAttribute("sessionId");
+	  log.debug(CF.GDH + "MemberController.modifyStudent.Post loginId : " + loginId + CF.RS);
+	  
+	  // student에 아이디 넣어주기
+	  student.setLoginId(loginId);
+	  
+      // 받아온 매개변수 디버깅
+      log.debug(CF.GDH + "MemberController.modifyStudent.Post student : " + student + CF.RS);
+      log.debug(CF.GDH + "MemberController.modifyStudent.Post incomeAddress : " + incomeAddress + CF.RS);
+      log.debug(CF.GDH + "MemberController.modifyStudent.Post writtenAddress : " + writtenAddress + CF.RS);
+      
+      if(writtenAddress.equals("none")) {
+    	  student.setAddress(incomeAddress);
+    	  log.debug(CF.GDH + "MemberController.modifyStudent.Post student.setAddress(incomeAddress) : " + student + CF.RS);
+      } else {
+    	  student.setAddress(writtenAddress);
+    	  log.debug(CF.GDH + "MemberController.modifyStudent.Post student.setAddress(writtenAddress) : " + student + CF.RS);
+      }
+      
+      // 서비스 실행
+      int row = memberService.modifyStudent(student);
+      
+      if(row==1) {
+    	  log.debug(CF.GDH + "MemberController.modifyStudent.Post modifyStudent : 수정성공"+ CF.RS);
+    	  return "redirect:/loginCheck/getMemberOne?loginId="+loginId;
+      } else { 
+    	  log.debug(CF.GDH + "MemberController.modifyStudent.Post modifyStudent : 수정실패"+ CF.RS);
+    	  return "redirect:/loginCheck/modifyStudent?loginId="+loginId;
+      }
       
    }
+   
+   // 강사정보 수정액션
+   @PostMapping("/loginCheck/modifyTeacher")
+   public String modifyTeacher(HttpSession session,
+		   						Teacher teacher
+		   						, @RequestParam(name="incomeAddress") String incomeAddress
+		   						, @RequestParam(name="writtenAddress", defaultValue = "none") String writtenAddress) {
+	  
+	   // 세션을 통해 아이디 받아오기
+	  String loginId = (String) session.getAttribute("sessionId");
+	  log.debug(CF.GDH + "MemberController.modifyStudent.Post loginId : " + loginId + CF.RS);
+	  
+	  // teacher에 아이디 넣어주기
+	  teacher.setLoginId(loginId);
+	  
+      // 받아온 매개변수 디버깅
+      log.debug(CF.GDH + "MemberController.modifyTeacher.Post teacher : " + teacher + CF.RS);
+      log.debug(CF.GDH + "MemberController.modifyTeacher.Post incomeAddress : " + incomeAddress + CF.RS);
+      log.debug(CF.GDH + "MemberController.modifyTeacher.Post writtenAddress : " + writtenAddress + CF.RS);
+      
+      if(writtenAddress.equals("none")) {
+    	  teacher.setAddress(incomeAddress);
+    	  log.debug(CF.GDH + "MemberController.modifyTeacher.Post teacher.setAddress(incomeAddress) : " + teacher + CF.RS);
+      } else {
+    	  teacher.setAddress(writtenAddress);
+    	  log.debug(CF.GDH + "MemberController.modifyTeacher.Post teacher.setAddress(writtenAddress) : " + teacher + CF.RS);
+      }
+      
+      // 서비스 실행
+      int row = memberService.modifyTeacher(teacher);
+      
+      if(row==1) {
+    	  log.debug(CF.GDH + "MemberController.modifyTeacher.Post modifyTeacher : 수정성공"+ CF.RS);
+    	  return "redirect:/loginCheck/getMemberOne?loginId="+loginId;
+      } else { 
+    	  log.debug(CF.GDH + "MemberController.modifyTeacher.Post modifyTeacher : 수정실패"+ CF.RS);
+    	  return "redirect:/loginCheck/modifyTeacher?loginId="+loginId;
+      }
+	      
+   }
+   
+   // 매니저정보 수정액션
+   @PostMapping("/loginCheck/modifyManager")
+   public String modifyManager(HttpSession session,
+				Manager manager
+				, @RequestParam(name="incomeAddress") String incomeAddress
+				, @RequestParam(name="writtenAddress", defaultValue = "none") String writtenAddress) {
 
-   // 학생정보 삭제시 비밀번호 체크폼
+		// 세션을 통해 아이디 받아오기
+		String loginId = (String) session.getAttribute("sessionId");
+		log.debug(CF.GDH + "MemberController.modifyManager.Post loginId : " + loginId + CF.RS);
+		
+		// manager에 아이디 넣어주기
+		manager.setLoginId(loginId);
+		
+		// 받아온 매개변수 디버깅
+		log.debug(CF.GDH + "MemberController.modifyManager.Post manager : " + manager + CF.RS);
+		log.debug(CF.GDH + "MemberController.modifyManager.Post incomeAddress : " + incomeAddress + CF.RS);
+		log.debug(CF.GDH + "MemberController.modifyManager.Post writtenAddress : " + writtenAddress + CF.RS);
+		
+		if(writtenAddress.equals("none")) {
+			manager.setAddress(incomeAddress);
+		log.debug(CF.GDH + "MemberController.modifyManager.Post manager.setAddress(incomeAddress) : " + manager + CF.RS);
+		} else {
+			manager.setAddress(writtenAddress);
+		log.debug(CF.GDH + "MemberController.modifyManager.Post manager.setAddress(writtenAddress) : " + manager + CF.RS);
+		}
+		
+		// 서비스 실행
+		int row = memberService.modifyManager(manager);
+		
+		if(row==1) {
+		log.debug(CF.GDH + "MemberController.modifyManager.Post modifyManager : 수정성공"+ CF.RS);
+		return "redirect:/loginCheck/getMemberOne?loginId="+loginId;
+		} else { 
+		log.debug(CF.GDH + "MemberController.modifyManager.Post modifyManager : 수정실패"+ CF.RS);
+		return "redirect:/loginCheck/modifyManager?loginId="+loginId;
+		}
+   }
+   
+   // 회원정보 삭제시 비밀번호 체크폼
    @GetMapping("/loginCheck/removePwCheck")
    public String removePwCheck(Model model, HttpSession session) {
       String loginId = (String) session.getAttribute("sessionId");
@@ -169,21 +277,33 @@ public class MemberController {
       return "member/removePwCheck";
    }
 
-   // 학생정보 삭제시 비밀번호 체크액션
+   // 회원정보 삭제시 비밀번호 체크액션
    @PostMapping("/loginCheck/removePwCheck")
-   public String removePwCheck(Login login) {
+   public String removePwCheck(Login login, HttpSession session) {
 
       // 패스워드가 일치하는지 확인
       int row = memberService.getPwCheck(login);
-
+      
+      // 레벨 받아오기
+      int level = (int)session.getAttribute("sessionLv");
+      log.debug(CF.GDH + "MemberController.removePwCheck level : " + level + CF.RS);
+      
+      
+      // 세션으로 나누어서 진행
       if (row == 1) {
-         memberService.removeStudent(login);
+         if(level == 1) {
+        	 memberService.removeStudent(login);
+         } else if(level == 2) {
+        	 memberService.removeTeacher(login);
+         } else if(level == 3) {
+        	 memberService.removeManager(login);
+         }
          return "redirect:/login";
       } else {
          return "redirect:/loginCheck/removePwCheck";
       }
    }
-
+   
    // 멤버 사진 수정 폼
    @GetMapping("/loginCheck/modifyMemberFile")
    public String modifyMemberFile(Model model, @RequestParam(name = "memberFileName") String memberFileName) {
@@ -221,49 +341,6 @@ public class MemberController {
             return "redirect:/loginCheck/getStudentOne"; }
    }
    
-    // 강사 정보 수정액션
-    @PostMapping("/loginCheck/modifyTeacher")
-    public String modifyTeacher(Teacher teacher
-          ,HttpSession session
-          ,HttpServletRequest request
-          ) {
-       int row = 0;
-       String loginId = teacher.getLoginId();
-       row = memberService.modifyTeacher(teacher);
-        log.debug(CF.PSH+"MemberController.modifyTeacher :"+teacher+CF.RS);
-       return "redirect:/loginCheck/getTeacherOne?loginId="+loginId; 
-    }
-    
-    // 강사 회원탈퇴
-    @GetMapping("/loginCheck/deleteTeacher")
-    public String deleteTeacher(Model model, String loginId) {
-       int row = 0;
-       row = memberService.deleteTeacher(loginId);
-        log.debug(CF.PSH+"MemberController.deleteTeacher :"+loginId+CF.RS);
-       return "member/getTeacherList";
-    }
-    
-    // 매니저 정보 수정액션
-    @PostMapping("/loginCheck/modifyManager")
-    public String modifyManager(Manager manager
-                         ,HttpSession session
-                         ,HttpServletRequest request
-                         ) {
-          int row = 0;
-          String loginId = manager.getLoginId();
-          row = memberService.modifyManager(manager);
-           log.debug(CF.PSH+"MemberController.modifyManager :"+manager+CF.RS);
-          return "redirect:/loginCheck/getmanagerOne?loginId="+loginId; //리다
-    }
-    
-    // 매니저 회원탈퇴
-    @GetMapping("/loginCheck/deleteManager")
-    public String deleteManager(Model model, String loginId) {
-       int row = 0;
-       row = memberService.deleteManager(loginId);
-        log.debug(CF.PSH+"MemberController.deleteManager :"+loginId+CF.RS);
-       return "member/getmanagerList";
-    }
     
    
  }

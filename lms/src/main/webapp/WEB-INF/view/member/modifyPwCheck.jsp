@@ -43,19 +43,19 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                  <h3 style="font-weight: bold;">회원수정</h3><br>
+                  <h3 style="font-weight: bold;">본인확인</h3><br>
 	                <form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyPwCheck">
 						<table class="table">
 							<tr>
 								<th>아이디</th>
-								<td><input type="text" name="loginId" value="${loginId}" readonly="readonly"></td>
+								<td><input type="text" class="form-control-df" name="loginId" value="${loginId}" readonly="readonly"></td>
 							</tr>
 							<tr>
 								<th>비밀번호 입력</th>
-								<td><input type="password" name="loginPw"></td>
+								<td><input type="password" class="form-control-df" name="loginPw"></td>
 							</tr>
 						</table><br>
-						<button class="btn btn-secondary" style="border-radius: 0%;">비밀번호 입력</button>
+						<button class="btn btn-primary" style="border-radius: 4 4 4 4;">수정하기</button>
 					</form>
                 </div>
                 <div class="col-12 col-xl-4">
@@ -111,8 +111,3 @@
 </body>
 
 </html>
-
-
-
-
-	

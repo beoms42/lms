@@ -82,13 +82,11 @@ public class MemberService {
       return returnMap;
    } 
    
-   
-   
-   
    // 학생정보 수정하기
    public int modifyStudent(Student student) {
       log.debug(CF.GDH+"MemberService.modifyStudent student : " + student + CF.RS);
-      return studentMapper.updateStudent(student);
+      int row = studentMapper.updateStudent(student);
+      return row;
    }
    
    // 학생정보 삭제하기
@@ -163,9 +161,6 @@ public class MemberService {
       }
       return dmRow;
    }
-   
-   
-       
        
    // 부서리스트
    public List<Dept> getDeptList() {
@@ -183,61 +178,67 @@ public class MemberService {
       return positionList;
    }
       
-      // 매니저 정보 수정하기
-      public int modifyManager(Manager manager) {
-         log.debug(CF.PSH+"MemberService.modifyManager :"+manager+CF.RS);
-         int row = managerMapper.updateManager(manager);
-         return row;
-      }
+	// 강사 정보 수정하기
+	public int modifyTeacher(Teacher teacher) {
+	    log.debug(CF.PSH+"MemberService.modifyTeacher teacher : " + teacher + CF.RS);
+	    int row = teacherMapper.updateTeacher(teacher);
+	  	return row;
+	}
+   
+    // 매니저 정보 수정하기
+   	public int modifyManager(Manager manager) {
+        log.debug(CF.PSH+"MemberService.modifyManager :"+manager+CF.RS);
+        int row = managerMapper.updateManager(manager);
+        return row;
+    }
+    
+   	// 강사 회원탈퇴
+    public int removeTeacher(Login login) {
+    	log.debug(CF.GDH+"MemberService.removeTeacher login : " + login + CF.RS);
+    	
+    	int activeRow = teacherMapper.updateTeacherActive(login);
+    	log.debug(CF.GDH+"MemberService.removeTeacher activeRow : " + activeRow + CF.RS);
+        
+    	return teacherMapper.deleteTeacher(login.getLoginId());
+    }
        
-       // 매니저 회원탈퇴
-       public int deleteManager(String loginId) {
-          int row = 0;
-          row = managerMapper.deleteManager(loginId);
-          log.debug(CF.PSH+"MemberService.deleteManager :"+loginId+CF.RS);
-          return row;
-       }
-       
-      // 강사 정보 수정하기
-      public int modifyTeacher(Teacher teacher) {
-         log.debug(CF.PSH+"MemberService.modifyTeacher :"+teacher+CF.RS);
-         int row = teacherMapper.updateTeacher(teacher);
-         return row;
-      }
+    // 매니저 회원탈퇴
+    public int removeManager(Login login) {
+    	log.debug(CF.GDH+"MemberService.removeManager login : " + login + CF.RS);
+    	
+    	int activeRow = managerMapper.updateManagerActive(login);
+    	log.debug(CF.GDH+"MemberService.removeManager activeRow : " + activeRow + CF.RS);
+        
+    	return managerMapper.deleteManager(login.getLoginId());
+    }
          
-       // 강사 회원탈퇴
-         public int deleteTeacher(String loginId) {
-            int row =0;
-            row = teacherMapper.deleteTeacher(loginId);
-            log.debug(CF.PSH+"MemberService.deleteTeacher 삭제:"+loginId+CF.RS);
-            return row;
-            }
+    // 사진 한장 불러오기
+    public String getMemberFileOne(String loginId) {
+        MemberFile mem = memberFileMapper.selectMemberFile(loginId);
+        String fileName = mem.getMemberFileName();
+        return fileName;
+    }
          
-         // 사진 한장 불러오기
-         public String getMemberFileOne(String loginId) {
-            MemberFile mem = memberFileMapper.selectMemberFile(loginId);
-            String fileName = mem.getMemberFileName();
-            return fileName;
-         }
+    // 학생 리스트
+    public List<Student> getStudentList() {
+        List<Student> list = studentMapper.selectStudentList();
+  	   	log.debug(CF.PSH+"MemberService.getStudentList :"+CF.RS);
+  	   	return list;   
+    }
+    
+    // 강사 리스트
+    public List<Teacher> getTeacherList() {
+        List<Teacher> list = teacherMapper.selectTeacherList();
+        log.debug(CF.PSH+"MemberService.getTeacherList :"+list+CF.RS);
+        return list;
+    } 
+    
+    // 매니저 리스트
+    public List<Manager> getManagerList() {
+        List<Manager> list = managerMapper.selectManagerList();
+        log.debug(CF.PSH+"MemberService.getManagerList :"+CF.RS);
+        return list;   
+    }
          
-         // 학생 리스트
-         public List<Student> getStudentList() {
-      	   	 List<Student> list = studentMapper.selectStudentList();
-      	   	 log.debug(CF.PSH+"MemberService.getStudentList :"+CF.RS);
-      	   	 return list;   
-         }
-         
-         // 매니저 리스트
-         public List<Manager> getManagerList() {
-             List<Manager> list = managerMapper.selectManagerList();
-             log.debug(CF.PSH+"MemberService.getManagerList :"+CF.RS);
-             return list;   
-         }
-         
-         // 강사 리스트
-         public List<Teacher> getTeacherList() {
-        	 List<Teacher> list = teacherMapper.selectTeacherList();
-        	 log.debug(CF.PSH+"MemberService.getTeacherList :"+list+CF.RS);
-        	 return list;
-         }         
-   }
+          
+}

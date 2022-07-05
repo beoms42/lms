@@ -58,7 +58,9 @@
                       			<table class="table">
                   					<tr style="height: 15px;">
                      					<th>아이디</th>
-                     					<td>${member.loginId}</td>
+                     					<td>
+                     						<input type="text" class="form-control-df" name="loginId" value="${member.loginId}" readonly="readonly">
+                     					</td>
                      					<td rowspan="4" style="width: 70px;">
                         					<img src="${pageContext.request.contextPath}/file/memberPhoto/${memberFile.memberFileName}" style="border-radius: 0%; width: 130px; height: 150px; display: block; margin: 0 auto;" ><br><br>
                      					</td>
@@ -88,11 +90,11 @@
 				                       	<th>주소</th>
 				                       	<td colspan="2">
 				                       	<div class="input-group mb-3">
-				                        	<input type="text" class="form-control text-body" placeholder="${member.address}" id="addr">
+				                        	<input type="text" class="form-control text-body" name="incomeAddress" value="${member.address}" id="addr">
 				                        	<button type="button" class="btn btn-primary" id="searchAddr" style="border-radius: 0% 4px 4px 0%;">주소 검색</button>              	
 				                       	</div>
 				                       	<div id="addrHelper" class="helper"></div>
-			                           	<select name="address"  class="form-control-df text-body" id="searchAddrList">
+			                           	<select name="writtenAddress" class="form-control-df text-body" id="searchAddrList">
 			                              <!-- 주소 들어올 공간 -->
 			                           	</select>
 				                     	</td>    
@@ -147,7 +149,9 @@
 				                 <table class="table">
 				                 	<tr style="height: 15px;">
 				                    	<th>아이디</th>
-				                     	<td>${member.loginId}</td>
+				                     	<td>
+                     						<input type="text" class="form-control-df" name="loginId" value="${member.loginId}" readonly="readonly">
+                     					</td>
 				                     	<td rowspan="4" style="width: 70px;">
 				                        	<img src="${pageContext.request.contextPath}/file/memberPhoto/${memberFile.memberFileName}" style="border-radius: 0%; width: 130px; height: 150px; display: block; margin: 0 auto;" ><br><br>
 				                     	</td>
@@ -174,22 +178,22 @@
 				                       	<th>주소</th>
 				                       	<td colspan="2">
 				                       	<div class="input-group mb-3">
-				                        	<input type="text" class="form-control text-body" placeholder="${member.address}" id="addr">
+				                        	<input type="text" class="form-control text-body" name="incomeAddress" value="${member.address}" id="addr">
 				                        	<button type="button" class="btn btn-primary" id="searchAddr" style="border-radius: 0% 4px 4px 0%;">주소 검색</button>              	
 				                       	</div>
 				                       	<div id="addrHelper" class="helper"></div>
-			                           	<select name="address"  class="form-control-df text-body" id="searchAddrList">
+			                           	<select name="writtenAddress" class="form-control-df text-body" id="searchAddrList">
 			                              <!-- 주소 들어올 공간 -->
 			                           	</select>
 				                     	</td>    
-				                    </tr>   
-				                  	<tr>
-				                    	<th>상세주소</th>
-				                     	<td colspan="2">
-				                     		<input type="text" class="form-control-df" value="${member.detailAddr}" name="detailAddress" id="detailAddress">&nbsp;
-				                     		<div id="detailAddressHelper" class="helper"></div>
-				                     	</td>
-				                  	</tr>
+				                     </tr>   
+				                  	 <tr>
+					                    <th>상세주소</th>
+					                    <td colspan="2">
+					                    	<input type="text" class="form-control-df" value="${member.detailAddr}" name="detailAddr" id="detailAddress">&nbsp;
+					                    	<div id="detailAddressHelper" class="helper"></div>
+					                    </td>
+					                </tr>
 				                  	<tr>
 				                     	<th>이메일</th>
 				                     	<td colspan="2">
@@ -223,7 +227,9 @@
 				                <table class="table">
 				                	<tr style="height: 15px;">
 				                    	<th>아이디</th>
-				                     	<td>${member.loginId}</td>
+				                     	<td>
+                     						<input type="text" class="form-control-df" name="loginId" value="${member.loginId}" readonly="readonly">
+                     					</td>
 				                     	<td rowspan="4" style="width: 70px;">
 				                        	<img src="${pageContext.request.contextPath}/file/memberPhoto/${memberFile.memberFileName}" style="border-radius: 0%; width: 140px; height: 170px; display: block; margin: 0 auto;" ><br><br>
 				                     	</td>
@@ -250,22 +256,22 @@
 				                       	<th>주소</th>
 				                       	<td colspan="2">
 				                       	<div class="input-group mb-3">
-				                        	<input type="text" class="form-control text-body" placeholder="${member.address}" id="addr">
+				                        	<input type="text" class="form-control text-body" name="incomeAddress" value="${member.address}" id="addr">
 				                        	<button type="button" class="btn btn-primary" id="searchAddr" style="border-radius: 0% 4px 4px 0%;">주소 검색</button>              	
 				                       	</div>
 				                       	<div id="addrHelper" class="helper"></div>
-			                           	<select name="address"  class="form-control-df text-body" id="searchAddrList">
+			                           	<select name="writtenAddress" class="form-control-df text-body" id="searchAddrList">
 			                              <!-- 주소 들어올 공간 -->
 			                           	</select>
-				                     	</td>   
+				                     	</td>    
 				                     </tr>   
 				                  	 <tr>
-				                     	<th>상세주소</th>
-				                     	<td colspan="2">
-				                     		<input type="text" class="form-control-df" value="${member.detailAddr}" name="detailAddress" id="detailAddress">&nbsp;
-				                     		<div id="detailAddressHelper" class="helper"></div>
-				                     	</td>
-				                  	 </tr>
+					                    <th>상세주소</th>
+					                    <td colspan="2">
+					                    	<input type="text" class="form-control-df" value="${member.detailAddr}" name="detailAddr" id="detailAddress">&nbsp;
+					                    	<div id="detailAddressHelper" class="helper"></div>
+					                    </td>
+					                </tr>
 				                     <tr>
 				                     	<th>이메일</th>
 				                     	<td colspan="2">
@@ -484,8 +490,3 @@
 </script>
 
 </html>
-
-
-
-
-   

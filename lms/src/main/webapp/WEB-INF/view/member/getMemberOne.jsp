@@ -60,6 +60,12 @@
 			                           	<a href="${pageContext.request.contextPath}/loginCheck/modifyMemberFile?memberFileName=${memberFile.memberFileName}"} style="padding-left: 70px;">사진수정</a>
 			                        </td>
 	                    		 </tr>
+	                    		 <tr style="height: 15px;">
+			                        <th>비밀번호</th>
+			                        <td>****
+			                        	<a href="${pageContext.request.contextPath}/loginCheck/modifyPwCheck">비밀번호 수정</a>
+			                        </td>
+			                     </tr>
 			                     <tr style="height: 15px;">
 			                        <th>이름</th>
 			                        <td>${member.studentName}</td>
@@ -117,6 +123,10 @@
 			                           <a href="${pageContext.request.contextPath}/loginCheck/modifyMemberFile?memberFileName=${memberFile.memberFileName}"} style="padding-left: 70px;">사진수정</a>
 			                        </td>
 			                     </tr>
+			                     <tr style="height: 15px;">
+			                        <th>비밀번호</th>
+			                        <td>****</td>
+			                     </tr>
 		                         <tr> 
 		                             <th>이름</th>
 		                             <td>${member.teacherName}</td>
@@ -168,6 +178,10 @@
 		                           		<a href="${pageContext.request.contextPath}/loginCheck/modifyMemberFile?memberFileName=${memberFile.memberFileName}"} style="padding-left: 70px;">사진수정</a>
 		                        	  </td>
 		                     	  </tr>
+		                     	  <tr style="height: 15px;">
+			                        <th>비밀번호</th>
+			                        <td>****</td>
+			                     </tr>
 		                          <tr> 
 		                              <th>이름</th>
 		                              <td>${member.managerName}</td>
