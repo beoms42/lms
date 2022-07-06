@@ -499,11 +499,11 @@
 	<!-- 강의과목리스트 -->
 	<select id="selectLectureSubjecList" 
 			resultType="kr.co.gdu.lms.vo.LectureSubject">
-		lecture_subject_no lectureSubjectNo
+		SELECT
+			lecture_subject_no lectureSubjectNo
 			,lecture_name lectureName
-			,subject_name subjectName 
+			,subject_name subjectName
 		FROM lecture_subject
-		ORDER BY create_date DESC;
 	</select>
 	
 	<!-- 과목 입력 -->
