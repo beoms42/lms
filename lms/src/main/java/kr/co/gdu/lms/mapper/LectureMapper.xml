@@ -496,13 +496,14 @@
 		WHERE reference_no = #{referenceNo};
 	</select>
 	
-	<!-- 과목리스트 -->
-	<select id="selectSubjectList"
-			resultType="kr.co.gdu.lms.vo.Subject">
-		SELECT 
-			subject_name subjectName
-			, create_date createDate
-		FROM subject;
+	<!-- 강의과목리스트 -->
+	<select id="selectLectureSubjecList" 
+			resultType="kr.co.gdu.lms.vo.LectureSubject">
+		lecture_subject_no lectureSubjectNo
+			,lecture_name lectureName
+			,subject_name subjectName 
+		FROM lecture_subject
+		ORDER BY create_date DESC;
 	</select>
 	
 	<!-- 과목 입력 -->
