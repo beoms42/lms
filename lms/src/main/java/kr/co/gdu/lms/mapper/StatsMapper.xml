@@ -9,7 +9,11 @@
 		FROM assignment_submit a
 		INNER JOIN education e
 		ON a.education_no = e.education_no
+		INNER JOIN lecture l 
+		ON l.lecture_name = e.lecture_name
+		WHERE l.lecture_active = '1'
 		GROUP BY e.lecture_name
 	</select>
+	<!--  -->
 
 </mapper>

@@ -15,12 +15,10 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class StatsRestController {
 	@Autowired private StatsService statsservice;
-	@GetMapping("/stats")
-	public List<Map<String,Object>> selectAvgScore(){
+	@GetMapping("/addAvgScore")
+	public List<Map<String,Object>> addAvgScore(){
 		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 		list = statsservice.selectAvgScore();
-		
 		return list;
-				
 	}
 }
