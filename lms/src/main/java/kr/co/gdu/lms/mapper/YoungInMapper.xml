@@ -134,6 +134,58 @@
 			WHERE login_id = #{loginId}
 		
 	</select>
+	
+	<select id="selectEducationNoByLoginId"
+			parameterType="String"
+			resultType="int">
+		SELECT
+			education_no
+		FROM education
+			WHERE login_id = #{loginId}
+		
+	</select>
+	
+	<select id="selectLectSubNo"
+			parameterType="kr.co.gdu.lms.vo.LectureSubject"
+			resultType="int">
+		SELECT 
+			lecture_subject_no lectureSubjectNo
+		FROM lecture_subject
+		WHERE lecture_name = #{lectureName}
+		AND subject_name = #{subjectName}
+	</select>
+	
+	<insert id="insertTextbookRecord"
+			parameterType="kr.co.gdu.lms.vo.TextbookRecord">
+		INSERT INTO textbook_record(
+			education_no
+			, lecture_subject_no
+			, textbook_signfile_name
+			, textbook_signfile_origin_name
+			, textbook_signfile_type
+			, textbook_signfile_size
+			, create_date
+		)
+		VALUES(
+			#{educationNo}
+			, #{lectureSubjectNo}
+			, #{textbookSignfileName}
+			, 'none'
+			, 'none'
+			, 0
+			, NOW()
+		)
+	</insert>
+	
+	<select id="selectSignfileName"
+			parameterType="int"
+			resultType="String">
+		SELECT
+			textbook_signfile_name
+		FROM textbook_record
+		WHERE education_no = #{educationNo}
+		AND lecture_subject_no = #{lectureSubjectNo}
+	</select>
 		<!-- ===============================커뮤니티=============================== -->
 		
 	<!--  qna insert + 제네레이트 키값 : qnaNo -->

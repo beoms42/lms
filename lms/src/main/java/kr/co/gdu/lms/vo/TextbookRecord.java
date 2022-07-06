@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class TextbookRecord {
 	private int educationNo;
-	private int subjectTextbookNo;
+	private int lectureSubjectNo;
 	private String textbookSignfileName;
 	private String textbookSignfileOriginName;
 	private String textbookSignfileType;
