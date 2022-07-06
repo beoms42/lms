@@ -8,7 +8,7 @@
 			, lecture_end_date lectureEndDate
 			, DATEDIFF(NOW(), lecture_end_date) dateDiff
 		FROM lecture 
-		WHERE DATEDIFF(NOW(), lecture_end_date) <![CDATA[ < ]]> 0
+		WHERE DATEDIFF(NOW(), lecture_end_date) <![CDATA[ > ]]> 0
 	</select>	
 
 	<select id="selectTeacher"
