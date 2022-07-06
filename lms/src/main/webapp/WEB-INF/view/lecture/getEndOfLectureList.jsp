@@ -101,7 +101,7 @@
 			                			<tr>
 			                				<td>${EL.lectureName}</td>
 		                					<td>${EL.lectureEndDate}</td>
-		                					<td>${EL.DATEDIFF * -1}일</td>
+		                					<td>${EL.dateDiff * -1}일</td>
 		                					<td><link href="/assets/css/star.css" rel="stylesheet"/>
 							 	<form class="mb-3" name="myform" id="myform" method="post">
 									<fieldset>
