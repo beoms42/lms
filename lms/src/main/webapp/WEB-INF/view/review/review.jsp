@@ -24,7 +24,13 @@
   <!-- endinject -->
   <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/tftace.jpg" />
   <link href="/assets/css/star.css" rel="stylesheet"/>
-  <style>
+<link href="/assets/css/star.css" rel="stylesheet"/> 
+<link
+	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css"
+	rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<style>
 	.bottom {margin-bottom : 40px;}
 	.top {margin-top : 30px;}
 	
@@ -81,60 +87,49 @@
       <!-- partial -->
         <div class="main-panel">
            <div class="content-wrapper">
-	         <h1 class="bottom">종강 강의 리스트</h1>
+           	<h1>Review</h1>
 	          <div class="row">
-	            <div class="col-lg-10 grid-margin stretch-card">
+	            <div class="col-lg-16 grid-margin stretch-card">
 	              <div class="card">
 	                <div class="card-body">
-		               <form method="post" action="${pageContext.request.contextPath}/loginCheck/getAttendanceList">
-			                <table class="table">
-		                		<thead>
-		                			<tr>
-		                				<th>강의명</th>
-		                				<th>종강 날짜</th>
-		                				<th>수료 경과일 </th>
-		                				<th>평점</th>
-		                			</tr>
-		                		</thead>
-		                		<tbody>
-			                		<c:forEach var="EL" items="${list}">
-			                			<tr>
-			                				<td>${EL.lectureName}</td>
-		                					<td>${EL.lectureEndDate}</td>
-		                					<td>${EL.dateDiff * -1}일</td>
-		                					<td><link href="/assets/css/star.css" rel="stylesheet"/>
-							 	<form class="mb-3" name="myform" id="myform" method="post">
-									<fieldset>
-										<span class="text-bold">별점을 선택해주세요</span>
-										
-										<input type="radio" name="reviewStar" value="1" id="rate1"><label
-											for="rate1">★</label>
-										<input type="radio" name="reviewStar" value="2" id="rate2"><label
-											for="rate2">★</label>
-										<input type="radio" name="reviewStar" value="3" id="rate3"><label
-											for="rate3">★</label>
-										<input type="radio" name="reviewStar" value="4" id="rate4"><label
-											for="rate4">★</label>
-										<input type="radio" name="reviewStar" value="5" id="rate5"><label
-											for="rate5">★</label>
-										</fieldset>
-									 </td>
-								  </form>
-		                				</tr>
-			                	   </c:forEach>
-			                     </tbody>
-			                  </table>
-			               </form>
-			               <form>
-			               <div>
-						<textarea class="col-auto form-control" type="text" id="reviewContents"
-					 		 placeholder="좋은 수강평을 남겨주시면 감사"></textarea>
+					<form class="mb-3" name="myform" id="myform" action="${pageContext.request.contextPath}/loginCheck/addReview" method="post">
+						<input type="hidden" id="lectureName" value="${lectureName}">
+						<textarea name="educationReviewContent" id="summernote"></textarea>
+						 <script>
+									$(
+											'#summernote')
+											.summernote(
+													{
+														tabsize : 2,
+														height : 400
+													});
+									$(
+											".note-editor button[aria-label='Picture']")
+											.hide();
+									$(
+											".note-editor button[aria-label='Video']")
+											.hide();
+									$(
+											".note-editor .note-view")
+											.hide();
+								</script>
+						<fieldset>
+							<input type="radio" name="educationReviewStar" value="1" id="rate1"><label
+								for="rate1">★</label>
+							<input type="radio" name="educationReviewStar" value="2" id="rate2"><label
+								for="rate2">★</label>
+							<input type="radio" name="educationReviewStar" value="3" id="rate3"><label
+								for="rate3">★</label>
+							<input type="radio" name="educationReviewStar" value="4" id="rate4"><label
+								for="rate4">★</label>
+							<input type="radio" name="educationReviewStar" value="5" id="rate5"><label
+								for="rate5">★</label>
+						</fieldset>
+						<div style="text-align:right">
+							<button type="submit" class="btn btn-primary">리뷰 등록</button>
 						</div>
-				</form>	
-		                </div>
-		              </div>
-		           </div>
-		         </div>
+					</form>
+					</div>
 	        <!-- content-wrapper ends -->
 	        <!-- partial:partials/_footer.html -->
 	        <footer class="footer">
@@ -153,6 +148,8 @@
     <!-- page-body-wrapper ends -->
     </div>
   </div>
+ 	</div>
+ 	</div>
   <!-- container-scroller -->
 
   <!-- container-scroller -->

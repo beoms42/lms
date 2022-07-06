@@ -546,11 +546,9 @@ to {
 		<!-- End custom js for this page-->
 		<script>
 			var arr;
-			var chanhee =[];
-			var minchang = [];
 			$.ajax({
 				type : 'get'
-				,url : '/lms/stats'
+				,url : '/lms/addAvgScore'
 				,success : function(jsonData) {
 						let a = [];
 						let b = [];
