@@ -45,7 +45,7 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                  <h1>[강의관리]</h1>
+                  <h1>[교재수령]</h1>
                 </div>
                 <div class="col-12 col-xl-4">
                  <div class="justify-content-end d-flex">
@@ -56,10 +56,10 @@
           </div>
           <!-- 강의개설 실제부분 --> 
           <div class="row">
-            <div class="col-lg-12 grid-margin stretch-card">
+            <div class="col-lg-7 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">현재 승인된 강의리스트</h4>
+                  <h4 class="card-title">강의명 : ${lectureName}</h4>
                   <p class="card-description">
                   </p>
                   <div class="table-responsive">
@@ -85,12 +85,21 @@
                       		수령완료
                       		</c:if>
                       		</td>
-                      		<td><label class="badge badge-success">수령하기</label></td>
                       		<td>
-                      		<a href="${pageContext.request.contextPath}/loginCheck/addSubjectInLecture?lectureName=${lect.lectureName}"><label class="badge badge-warning">과목설정</label></a>
-                      		<a href="${pageContext.request.contextPath}/loginCheck/addStudentInLectureForm?lectureName=${lect.lectureName}"><label class="badge badge-success">학생배정</label></a>
-                      		<a href="${pageContext.request.contextPath}/loginCheck/updateLectureForm?lectureName=${lect.lectureName}"><label class="badge badge-info">수정</label></a>
-                      		<a href="#"><label class="badge badge-danger">삭제</label></a>
+                      		<c:if test="${get.cnt == 0}">
+                      		<a href="${pageContext.request.contextPath}/loginCheck/getBooksSign?subjectName=${get.subjectName}">
+                      		<label class="badge badge-success">수령하기</label>
+                      		</a>
+                      		</c:if>
+                      		
+                      		<c:if test="${get.cnt == 1}">
+                      		<label class="badge badge-danger">수령완료</label>
+                      		</c:if>
+                      		</td>
+                      		<td>
+                      		<c:if test="${get.cnt == 1}">
+                      			<img alt="" src="${get.textbookSignfileName}" width="150px">
+                      		</c:if>
                       		</td>
                       	</tr>
                       </c:forEach>                
