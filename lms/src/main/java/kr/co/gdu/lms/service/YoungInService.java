@@ -112,7 +112,6 @@ public class YoungInService {
 			int var2 = Long.valueOf(var).intValue();
 			// cnt가 0일때도 과목명은 필요해서 추가해주는 메서드
 			if(var2 == 0) {
-				log.debug(CF.JYI+"에러지점3======================================"+CF.RS);
 				map.put("subjectName", s.toString());
 			}
 			log.debug(CF.JYI+"youngInService.selectRecordBook.youngInMapper.map : "+map+CF.RS);
