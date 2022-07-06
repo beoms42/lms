@@ -41,6 +41,7 @@
 	                <c:if test="${sessionLv <= 2}">
 	                	<li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/getLectureReferenceList">자료실</a></li>
 	                </c:if>
+	                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/getAssignmentExam">학생 - 교재수령</a></li>
 	                <c:if test="${sessionLv >= 2}">
 		                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/attendance">출결 관리</a></li>
 	                </c:if>

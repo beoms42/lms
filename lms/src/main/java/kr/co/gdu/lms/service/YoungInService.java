@@ -86,14 +86,14 @@ public class YoungInService {
 	}
 	
 	// 책을 수령했는지 안했는지 판별가능한 HashMap의 ArrayList로 만들어주는 서비스
-	public List<HashMap<String, Object>> selectRecordBook(String loginId) {
+	public Map<String, Object> selectRecordBook(String loginId) {
 		
 		//학생의 로그인아이디로 강의명 알아내기
 		String lectureName = youngInMapper.selectLectureNameByLoginId(loginId);
-		
+		log.debug(CF.JYI+"youngInService.selectRecordBook. lectureName 이름으로얻은강의명 : "+lectureName+CF.RS);
 		// subjectName > 강의에 귀속된 subjectName(과목)의 List<String>값
 		List<String> subjectName = youngInMapper.selectSubjectListByLectureNameYoungIn(lectureName);
-		
+		log.debug(CF.JYI+"youngInService.selectRecordBook. subjectName 서브젝트리스트 : "+subjectName+CF.RS);
 		//인자값으로 넣을 해시맵
 		Map<String, Object> inputMap = null;
 		
@@ -106,11 +106,27 @@ public class YoungInService {
 			
 			inputMap.put("subjectName", s);
 			inputMap.put("loginId", loginId);
-			
-			returnList.add((HashMap<String, Object>) youngInMapper.selectRecordBook(inputMap));
+			Map<String, Object> map = youngInMapper.selectRecordBook(inputMap);
+			// long으로 받아져서 int로 캐스팅해야 사용 가능
+			long var = (long) map.get("cnt");
+			int var2 = Long.valueOf(var).intValue();
+			// cnt가 0일때도 과목명은 필요해서 추가해주는 메서드
+			if(var2 == 0) {
+				log.debug(CF.JYI+"에러지점3======================================"+CF.RS);
+				map.put("subjectName", s.toString());
+			}
+			log.debug(CF.JYI+"youngInService.selectRecordBook.youngInMapper.map : "+map+CF.RS);
+			returnList.add((HashMap<String, Object>) map);
 		}
-
-		return returnList;
+		
+		//강의명도 돌려줘야되는대..그럼 returnList / lectureName / subjectName 세개를 리턴해주자
+		Map<String, Object> returnMap = new HashMap<>();
+		returnMap.put("returnList", returnList);
+		returnMap.put("lectureName", lectureName);
+		returnMap.put("subjectName", subjectName);
+		
+		return returnMap;
+		
 	}
 	
 	

@@ -174,14 +174,26 @@ public class YoungInController {
 	
 	//학생 - 책 수령 Get
 	@GetMapping("/loginCheck/getBooks")
-	public String getBooks(HttpSession session){
+	public String getBooks(HttpSession session
+							, Model model){
 		
 		String loginId = (String) session.getAttribute("sessionId"); // 학생 이름얻기
 		
+		
 		//이름으로 강의명 가져오기
-		List<HashMap<String, Object>> list = youngInService.selectRecordBook(loginId);
-		log.debug(CF.JYI+"youngInController.getBooks.get selectRecordBook : "+list+CF.RS);
-		return "";
+		Map<String, Object> map = youngInService.selectRecordBook(loginId);
+		
+		// 강의명 / 과목별 교재수령 / 강의에 귀속된 과목리스트
+		String lectureName = (String) map.get("lectureName");
+		List<HashMap<String, Object>> getBookList = (List<HashMap<String, Object>>) map.get("returnList");
+		List<String> subjectName = (List<String>) map.get("subjectName");
+		
+				
+		model.addAttribute("lectureName", lectureName);
+		model.addAttribute("getBookList", getBookList);
+		model.addAttribute("subjectName", subjectName);
+		
+		return "lecture/getBooks";
 	}
 		
 	//----------------------------------------커뮤니티------------------------------------------
