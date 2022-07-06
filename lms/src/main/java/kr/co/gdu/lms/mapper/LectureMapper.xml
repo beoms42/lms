@@ -268,14 +268,14 @@
 		WHERE schedule_no = #{scheduleNo};
 	</delete>
 	
-	<!-- 강의과목리스트 -->
-	<select id="selectLectureSubjecList" 
-			resultType="kr.co.gdu.lms.vo.LectureSubject">
+	<!-- 과목리스트 -->
+	<select id="selectSubjectList"
+			resultType="kr.co.gdu.lms.vo.Subject">
 		SELECT 
-			lecture_subject_no lectureSubjectNo
-			,lecture_name lectureName
-			,subject_name subjectName 
-		FROM lecture_subject;
+			subject_name subjectName
+			, create_date createDate
+		FROM subject
+		ORDER BY create_date DESC;
 	</select>
 	
 	<!-- 시간표상세보기 -->

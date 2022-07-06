@@ -77,43 +77,6 @@
       			<button type="button" class="btn bg-dark text-white" data-toggle="modal" data-target="#addScheduleModal">일정추가</button>
       		</c:if>
 		</div>
-		<!-- addSchedule modal start -->
-		<div class="modal fade" id="addScheduleModal" tabindex="-1" role="dialog" aria-labelledby="addScheduleModalLabel" aria-hidden="true">
-		  <div class="modal-dialog" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h5 class="modal-title" id="addScheduleModalLabel">일정추가</h5>
-		        <button type="button" id= "close" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span>
-		        </button>
-		      </div>
-		       	 <form id="addScheduleForm" method="post" action="${pageContext.request.contextPath}/loginCheck/addSchedule">
-		       	 <div class="modal-body">
-		       	 	<span id="addScheduleHelper" class="helper"></span>
-					<div>강의기간</div>
-					<div> </div>
-		       	 	<div>강의시작 : <input id="scheduleStartDate" type="date" name="scheduleStartDate"></div>
-		       	 	<div>강의종료 : <input id="scheduleEndDate" type="date" name="scheduleEndDate"></div>
-		       	 	<div>강의과목 : 
-			       	 	<select id="lectureSubjectNo" name="lectureSubjectNo">
-			       	 		<option value="" selected>[강의]과목을 선택하세요.</option>
-			       	 		<c:forEach var="a" items="${lectureSubjectList}">
-			       	 			<option value="${a.lectureSubjectNo}">[${a.lectureName}]${a.subjectName}</option>
-			       	 		</c:forEach>
-			       	 	</select>
-		       	 	</div>
-		       	 	<div><input type="number" name = "m" value="${m}" hidden="hidden"></div>
-			       	 <div><input type="number" name="y" value="${y}" hidden="hidden"></div>
-				 </div>
-				 <div class="modal-footer">
-					<button id="addScheduleBtn"type="button" class="btn btn-danger">추가</button>
-					<button type="button" id="btn"class="btn btn-secondary" data-dismiss="modal">취소</button>
-				 </div>
-		      </form>
-		    </div>
-		  </div>
-		</div>
-		<!-- addSchedule modal end -->
 	<table class="table table-hover">
 		<thead>
 			<tr>
@@ -146,14 +109,13 @@
 								${i - startBlank}
 								<div>
 									<c:forEach var="c" items="${list}">
-									<a href="${pageContext.request.contextPath}/loginCheck/getScheduleOne?scheduleNo=${c.scheduleNo}&m=${m}&y=${y}">
 										<c:if test="${(c.scheduleDateDay) ==  (i - startBlank)}">
-											<div>
-												[${c.lectureName}]
-												${c.subjectName}
-											</div>
+											<span id="c${c.scheduleNo}">
+											<input name="scheduleNo" class="btn btn-sm bg-white text-dark" type="button" data-toggle="modal" data-target="#ScheduleOneModal" onclick="javascript:Click(${c.scheduleNo})" value="[${c.lectureName}]${c.subjectName}">
+											<a class="btn btn-sm btn-primary" href="${pageContext.request.contextPath}/loginCheck/modifySchedule?scheduleNo=${c.scheduleNo}&y=${y}&m=${m}">수정</a>
+											<a class="btn btn-sm btn-danger" href="${pageContext.request.contextPath}/loginCheck/removeSchedule?scheduleNo=${c.scheduleNo}&y=${y}&m=${m}">삭제</a><br>
+											</span>
 										</c:if>
-									</a>
 									</c:forEach>
 								</div>
 							</td>
@@ -210,6 +172,66 @@
   <script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
   <script src="${pageContext.request.contextPath}/js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
+	<!-- addSchedule modal start -->
+	<div class="modal fade" id="addScheduleModal" tabindex="-1" role="dialog" aria-labelledby="addScheduleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="addScheduleModalLabel">일정추가</h5>
+	        <button type="button" id= "close" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	       	 <form id="addScheduleForm" method="post" action="${pageContext.request.contextPath}/loginCheck/addSchedule">
+	      	 <div class="modal-body">
+	      	 	<span id="addScheduleHelper" class="helper"></span>
+			<div>강의기간</div>
+			<div> </div>
+	      	 	<div>강의시작 : <input id="scheduleStartDate" type="date" name="scheduleStartDate"></div>
+	      	 	<div>강의종료 : <input id="scheduleEndDate" type="date" name="scheduleEndDate"></div>
+	      	 	<div>강의과목 : 
+	       	 	<select id="lectureSubjectNo" name="lectureSubjectNo">
+	       	 		<option value="" selected>[강의]과목을 선택하세요.</option>
+	       	 		<c:forEach var="a" items="${lectureSubjectList}">
+	       	 			<option value="${a.lectureSubjectNo}">[${a.lectureName}]${a.subjectName}</option>
+	       	 		</c:forEach>
+	       	 	</select>
+	      	 	</div>
+	      	 	<div><input type="number" name = "m" value="${m}" hidden="hidden"></div>
+	       	 <div><input type="number" name="y" value="${y}" hidden="hidden"></div>
+			 </div>
+			 <div class="modal-footer">
+				<button id="addScheduleBtn"type="button" class="btn btn-danger">추가</button>
+				<button type="button" id="btn"class="btn btn-secondary" data-dismiss="modal">취소</button>
+			 </div>
+	      </form>
+	    </div>
+	  </div>
+	</div>
+	<!-- addSchedule modal end -->
+	<!-- ScheduleOne modal start -->
+	<div class="modal fade" id="ScheduleOneModal" tabindex="-1" role="dialog" aria-labelledby="ScheduleOneModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="ScheduleOneModalLabel">강의상세보기</h5>
+	        <button type="button" id= "close" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	       	 <div class="modal-body">
+	       	 <div> 강의 : <span id="lectureName"></span></div>
+			 <div> 과목 : <span id="subjectName"></span></div>
+			 <div> 시간표 : <span id="scheduleDate"></span></div>
+			 </div>
+			 <div class="modal-footer">
+				<!-- 요기다 좀 찾아라 hidden="hidden" -->
+				<button type="button" id="btn"class="btn btn-secondary" data-dismiss="modal">확인</button>
+			 </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- ScheduleOne modal end -->
  <script>
 	<!-- 유효성 검사-->
 	$('#addScheduleBtn').click(function(){
@@ -223,16 +245,40 @@
 			$('#addScheduleHelper').text('');
 			$('#addScheduleForm').submit();
 		}
-	})
+	});
 	<!-- 일정추가 하다가 취소버튼 누르면 초기화-->
 	$('#btn').click(function(){
 		$('#scheduleDate').val('')
 		$('#lectureSubjectNo').val('')	
-	})
+	});
 	$('#close').click(function(){
 		$('#scheduleDate').val('')
 		$('#lectureSubjectNo').val('')	
-	})
+	});
+	
+	
+	<!-- 상세보기 AJAX-->
+	function Click(scheduleNo) {
+		
+		var url = "${pageContext.request.contextPath}";
+		$.ajax({
+			type: "GET", //요청 메소드 방식(post, get)
+			url: url+"/getReferenceOne", // Controller url 주소 (@GetMapping("/url") / @PostMapping("/url"))
+			data :  "scheduleNo="+scheduleNo,
+			dataType:"json", //서버가 요청 URL을 통해서 응답하는 내용의 타입 (return값)
+			success : function(result){ // 응답성공시 실행할 
+				//서버의 응답데이터가 클라이언트에게 도착하면 자동으로 실행되는함수(콜백)
+			console.log(result);
+				$('#lectureName').text(result.lectureName)
+				$('#subjectName').text(result.subjectName)
+				$('#scheduleDate').text(result.scheduleDate)
+			},
+			error : function(a, b, c){
+				//통신 실패시 발생하는 함수(콜백)
+				alert(a + b + c);
+			}
+		});
+	}
  </script>
 </body>
 </html>

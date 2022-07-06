@@ -503,15 +503,15 @@ public class LectureSerivce {
 		
 	// 자료실 수정(updateReferenceFile(referenceFile), deleteReferenceFile(referenceFileNo),insertReferenceFile(referenceFile))
 	// 자료실 파일 개별 삭제
-	public Map<String,Object> removeReferenceFile(int referenceFileNo, String path, int referenceNo) {
+	public int removeReferenceFile(int referenceFileNo, String path, String referenceFileName) {
 		
 		// 매개변수 디버깅
 		log.debug(CF.HJI+"LectureService.removeReferenceFile.referenceFileNo : "+referenceFileNo+CF.RS);
+		log.debug(CF.HJI+"LectureService.removeReferenceFile.referenceFileName : "+referenceFileName+CF.RS);
 		log.debug(CF.HJI+"LectureService.removeReferenceFile.path : "+path+CF.RS);
-		log.debug(CF.HJI+"LectureService.removeReferenceFile.referenceNo : "+referenceNo+CF.RS);
 		
 		// 모델값 추출
-		String deleteReferenceFile = lectureMapper.selectReferenceFileOne(referenceFileNo);
+		String deleteReferenceFile = referenceFileName;
 		log.debug(CF.HJI+"LectureService.removeReferenceFile.deleteReferenceFile : "+deleteReferenceFile+CF.RS);
 		
 		// Spring boot내에 있는 파일 삭제
@@ -522,6 +522,7 @@ public class LectureSerivce {
 			f.delete();
 			log.debug(CF.HJI+"LectureService.removeReferenceFile f : "+f+CF.RS);
 		}
+		
 		// 파일 삭제후 DB삭제
 		int row = lectureMapper.deleteReferenceFile(referenceFileNo);
 		if(row == 1) {
@@ -530,25 +531,9 @@ public class LectureSerivce {
 			log.debug(CF.HJI+"LectureService.removeReferenceFile.deleteReferenceFile 실패! : " + row+CF.RS);
 		}
 		
-		// 수정폼 가기 위해 상세보기 모델값 추출
-		Reference reference = new Reference();
-		reference = lectureMapper.selectReferenceOne(referenceNo);
-		log.debug(CF.HJI+"LectureService.removeReferenceFile reference : "+reference+CF.RS);
-		
-		List<ReferenceFile> referenceFileList = new ArrayList<ReferenceFile>();
-		referenceFileList = lectureMapper.selectReferenceFileList(referenceNo);
-		log.debug(CF.HJI+"LectureService.removeReferenceFile referenceFilelist : "+referenceFileList+CF.RS);
-		
-		String deleteNoticeFile = lectureMapper.selectReferenceFileOne(referenceFileNo);
-		log.debug(CF.HJI+"LectureService.removeReferenceFile.deleteNoticeFile : "+deleteNoticeFile+CF.RS);
-		
 		// map에 넣고 리턴
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("reference", reference);
-		map.put("referenceFileList", referenceFileList);
-		log.debug(CF.HJI+"LectureService.selectReferenceOne map : "+map+CF.RS);
-		
-		return map;
+		row = 1;
+		return row;
 	}
 	
 	
@@ -574,9 +559,9 @@ public class LectureSerivce {
 		log.debug(CF.HJI+"LectureService.updateAddReference.referenceNo : "+referenceNo+CF.RS);
 		log.debug(CF.HJI+"LectureService.updateAddReference.path : "+path+CF.RS);
 		List<MultipartFile> updateAddReferenceFileList = referenceForm.getReferenceFileList();
-		
+		log.debug(CF.HJI+"LectureService.updateAddReference.updateAddReferenceFileList : "+updateAddReferenceFileList+CF.RS);
 		// 넣을 파일이 있다면
-		if(updateAddReferenceFileList.get(0).getSize() > 0) {
+		if(updateAddReferenceFileList != null && updateAddReferenceFileList.size() > 0) {
 			log.debug(CF.HJI+"LectureService.updateAddReferenceFileList() : 첨부된 파일이 있습니다."+CF.RS);
 			for(MultipartFile mf : updateAddReferenceFileList) {
 				ReferenceFile referencefile = new ReferenceFile();
