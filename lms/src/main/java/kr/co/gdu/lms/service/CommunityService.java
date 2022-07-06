@@ -24,6 +24,12 @@ import lombok.extern.slf4j.Slf4j;
 public class CommunityService {
 	@Autowired private CommunityMapper communityMapper;
 	
+	// 희원 - modifyCommunityComment 
+	public void modifyCommunityComment(CommunityComment communityComment) {
+		int row = communityMapper.updateCommunityComment(communityComment);
+		log.debug(CF.PHW+"CommunityService.modifyCommunityComment.row : "+row+CF.RS );
+	}
+	
 	// 희원 - addCommunityComment
 	public void addCommunityComment(CommunityComment communityComment) {
 		
@@ -140,6 +146,7 @@ public class CommunityService {
 		
 		communityMapper.deleteCommunityFileList(communityNo);
 		int row = communityMapper.deleteCommunity(communityNo, communityPw);
+		communityMapper.deleteCommunityCommentByCommunityNo(communityNo);
 		
 		return row;
 		

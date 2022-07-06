@@ -106,15 +106,28 @@
 	        
 	        
 	        
-	        <c:forEach var="ccl" items="${communityCommentList}">
-				<div>
-					${ccl.loginId}	
-					${ccl.communityCommentContent}      	
-					${ccl.createDate}
-					<a href="#">수정</a>
-					<button type="button" data-toggle="modal" data-target="#deleteCommunityCommentModal">삭제</button>
-				</div>
-				
+	        <c:forEach var="ccl" items="${communityCommentList}" varStatus="idx">
+				<form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyCommunityComment">
+					<table class="table table-bordered table-sm">
+						<tr>
+							<td>작성자</td>
+							<td><input type="text" name="loginId" id="commentLoginId${idx.count}" value="${ccl.loginId}" readonly="readonly"></td>
+							<td>작성일자</td>
+							<td><input type="text" name="createDate" id="commentCreateDate${idx.count}" value="${ccl.createDate}" readonly="readonly"></td>
+							<td>
+								<button type="button" id="modifyBtn${idx.count}" class="btn btn-info btn-sm" onclick="fn_modify_form('${idx.count}')">수정</button>
+								<button type="submit" id="modifySaveBtn${idx.count}" class="btn btn-success btn-sm" hidden="hidden">저장</button>
+								<button type="button" data-toggle="modal" class="btn btn-danger btn-sm" data-target="#deleteCommunityCommentModal">삭제</button>
+							</td>
+						</tr>
+						<tr>
+							<td>댓글달기</td>
+							<td colspan="4"><textarea name="communityCommentContent" id="commentContent${idx.count}" rows="3" cols="135" disabled="disabled">${ccl.communityCommentContent}  </textarea></td>
+						</tr>
+					</table>
+					<input type="hidden" name="communityNo" value="${ccl.communityNo}" readonly="readonly">
+					<input type="hidden" name="updateDate">
+				</form>
 			<!-- Modal start-->
 	        <div class="modal fade" id="deleteCommunityCommentModal" tabindex="-1" role="dialog" aria-labelledby="deleteDogModalLabel" aria-hidden="true">
 			  <div class="modal-dialog" role="document">
@@ -204,6 +217,17 @@
   <script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
   <script src="${pageContext.request.contextPath}/js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
+  
+  <script type="text/javascript">
+  
+  function fn_modify_form(cnt){
+	  $('#commentContent'+cnt).prop("disabled", false);
+	  $('#modifyBtn'+cnt).prop('hidden', 'hidden');
+	  $('#modifySaveBtn'+cnt).prop('hidden', false);
+  }
+  
+
+  </script>
 </body>
 </html>
 
