@@ -43,8 +43,27 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                  <h1>회원탈퇴</h1>
-	                 <form method="post" action="${pageContext.request.contextPath}/loginCheck/removePwCheck">
+                  <c:choose>
+                  <c:when test="${msg eq 'modifyPwCheck'}">
+                  <h3 style="font-weight: bold;">본인확인</h3><br>
+	                <form method="post" action="${pageContext.request.contextPath}/loginCheck/pwCheck?msg=modifyPwCheck">
+						<table class="table">
+							<tr>
+								<th>아이디</th>
+								<td><input type="text" class="form-control-df" name="loginId" value="${loginId}" readonly="readonly"></td>
+							</tr>
+							<tr>
+								<th>비밀번호 입력</th>
+								<td><input type="password" class="form-control-df" name="loginPw"></td>
+							</tr>
+						</table><br>
+						<button class="btn btn-primary" style="border-radius: 4 4 4 4;">수정하기</button>
+					</form>
+					</c:when>
+					
+					<c:when test="${msg eq 'removePwCheck'}">
+					<h3 style="font-weight: bold;">회원탈퇴</h3><br>
+	                 <form method="post" action="${pageContext.request.contextPath}/loginCheck/pwCheck?msg=removePwCheck">
 						<table class="table">
 							<tr>
 								<th>아이디</th>
@@ -53,11 +72,29 @@
 							<tr>
 								<th>비밀번호 입력</th>
 								<td><input type="password" name="loginPw"></td>
-								
 							</tr>
 						</table>
 						<button>탈퇴하기</button>
 					</form>
+					</c:when>
+					
+					<c:when test="${msg eq 'modifyPwPwCheck'}">
+					<h3 style="font-weight: bold;">본인확인</h3><br>
+	                <form method="post" action="${pageContext.request.contextPath}/loginCheck/pwCheck?msg=modifyPwPwCheck">
+						<table class="table">
+							<tr>
+								<th>아이디</th>
+								<td><input type="text" class="form-control-df" name="loginId" value="${loginId}" readonly="readonly"></td>
+							</tr>
+							<tr>
+								<th>비밀번호 입력</th>
+								<td><input type="password" class="form-control-df" name="loginPw"></td>
+							</tr>
+						</table><br>
+						<button class="btn btn-primary" style="border-radius: 4 4 4 4;">수정하기</button>
+					</form>
+					</c:when>
+					</c:choose>
                 </div>
                 <div class="col-12 col-xl-4">
                  <div class="justify-content-end d-flex">
@@ -112,8 +149,3 @@
 </body>
 
 </html>
-
-
-
-
-	

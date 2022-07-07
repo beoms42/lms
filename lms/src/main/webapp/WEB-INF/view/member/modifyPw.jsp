@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/vertical-layout-light/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/tftace.jpg" />
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </head>
 <body>
   <div class="container-scroller">
@@ -44,7 +45,7 @@
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
                   <h3 style="font-weight: bold;">비밀번호 변경</h3><br>
-	                <form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyPw">
+	                <form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyPw" id="loginPwForm">
 						<table class="table">
 							<tr>
 								<th>아이디</th>
@@ -52,14 +53,16 @@
 							</tr>
 							<tr>
 								<th>변경할 비밀번호</th>
-								<td><input type="password" class="form-control-df"></td>
+								<td><input type="password" class="form-control-df" id="tryPw"> 
+								<span id="tryPwHelper"></span></td>
 							</tr>
 							<tr>
 								<th>변경할 비밀번호 확인</th>
-								<td><input type="password" class="form-control-df" name="loginPw"></td>
+								<td><input type="password" class="form-control-df" name="loginPw" id="loginPw">
+								<span id="loginPwHelper"></span></td>
 							</tr>
 						</table><br>
-						<button class="btn btn-primary" style="border-radius: 4 4 4 4;">변경하기</button>
+						<button class="btn btn-primary" id="loginPwBtn" style="border-radius: 4 4 4 4;">변경하기</button>
 					</form>
                 </div>
                 <div class="col-12 col-xl-4">
@@ -112,9 +115,76 @@
   <script src="js/dashboard.js"></script>
   <script src="js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
+  <script>
+  
+    var spc = RegExp(/[~!@#$%^&*()|<>?:{}]/); // RegExp는 정규표현식을 사용하기 위한 객체  , 정규표현식은 /와 /사이에 식을 넣어서 사용한다.
+	
+    //유효성 
+	$('#tryPw').blur(function() {
+		if($('#tryPw').val()=='') {
+			alert('dddddd');
+			$('#tryPwHelper').text('비밀번호를 입력해주세요.');
+		} else if(!spc.test($('#tryPw').val())) { // tryPw에 spc가 없다면
+			alert('dddddd');
+			$('#tryPwHelper').text('비밀번호에 특수문자를 포함해주세요.');
+		} else if($('#tryPw').val().length <9) {
+			alert('dddddd');
+			$('#tryPwHelper').text('비밀번호를 8자 이상 입력해주세요.');
+		} else {
+			$('#tryPwHelper').text('');
+		}
+	})
+	
+	$('#loginPw').blur(function() {
+  		 if($('#loginPw').val()=='') {
+   			$('#loginPwHelper').text('확인 할 비밀번호를 입력하세요');
+  		 } else if($('#tryPw').val() != $('#loginPw').val()) {
+   			$('#loginPwHelper').text('비밀번호와 일치하지 않습니다.');
+  		 } else {
+  			$('#loginPwHelper').text('');
+  		 }
+  	})
+  	
+  	// 버튼 눌렀을시 유효성 검사
+  	$('#loginPwBtn').click(function() {
+  		if($('#tryPw').val()=='') {
+  			$('#tryPwHelper').text('비밀번호를 입력해주세요.');
+  		} else if(!spc.test($('#tryPw').val())) { // tryPw에 spc가 없다면
+  			$('#tryPwHelper').text('비밀번호에 특수문자를 포함해주세요.');
+  		} else if($('#tryPw').val().length <9) {
+  			$('#tryPwHelper').text('비밀번호를 8자 이상 입력해주세요.');
+  		} else if($('#loginPw').val()=='') {
+  			$('#tryPwHelper').text('');
+  			$('#loginPwHelper').text('확인 할 비밀번호를 입력하세요');
+  		} else if($('#tryPw').val() != $('#loginPw').val()) {
+  			$('#loginPwHelper').text('비밀번호와 일치하지 않습니다.');
+  		} else {
+  			$('#loginPwForm').submit();
+  		}
+  	}
+  	
+ 	// enter키 눌렀을때 유효성 검사
+  	$(document).keydown(function(event){
+  		if(event.keyCode==13) {
+  			event.preventDefault();
+  			if($('#tryPw').val()=='') {
+  	  			$('#tryPwHelper').text('비밀번호를 입력해주세요.');
+  	  		} else if(!spc.test($('#tryPw').val())) { // tryPw에 spc가 없다면
+  	  			$('#tryPwHelper').text('비밀번호에 특수문자를 포함해주세요.');
+  	  		} else if($('#tryPw').val().length <9) {
+  	  			$('#tryPwHelper').text('비밀번호를 8자 이상 입력해주세요.');
+  	  		} else if($('#loginPw').val()=='') {
+  	  			$('#tryPwHelper').text('');
+  	  			$('#loginPwHelper').text('확인 할 비밀번호를 입력하세요');
+  	  		} else if($('#tryPw').val() != $('#loginPw').val()) {
+  	  			$('#loginPwHelper').text('비밀번호와 일치하지 않습니다.');
+  	  		}
+  		}
+  	}
+  </script>
 </body>
 
-</html>l>
+</html>
 
 
 

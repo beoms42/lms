@@ -57,13 +57,13 @@
 	                        		<td>${member.loginId}</td>
 			                        <td rowspan="4" >
 			                           <img src="${pageContext.request.contextPath}/file/memberPhoto/${memberFile.memberFileName}" style="border-radius: 0%; width: 130px; height: 150px; display: block; margin: 0 auto;" ><br><br>
-			                           	<a href="${pageContext.request.contextPath}/loginCheck/modifyMemberFile?memberFileName=${memberFile.memberFileName}"} style="padding-left: 70px;">사진수정</a>
+			                           <a href="${pageContext.request.contextPath}/loginCheck/modifyMemberFile?memberFileName=${memberFile.memberFileName}"} style="padding-left: 70px;">사진수정</a>
 			                        </td>
 	                    		 </tr>
 	                    		 <tr style="height: 15px;">
 			                        <th>비밀번호</th>
 			                        <td>****
-			                        	<a href="${pageContext.request.contextPath}/loginCheck/modifyPwPwCheck">비밀번호 수정</a>
+			                        	<a href="${pageContext.request.contextPath}/loginCheck/pwCheck?msg=modifyPwPwCheck">비밀번호 수정</a>
 			                        </td>
 			                     </tr>
 			                     <tr style="height: 15px;">
@@ -77,7 +77,7 @@
 			                     <tr>
 			                        <th>성별</th>
 			                        <td>${member.studentGender}</td>
-			                        
+			                        <td></td>
 			                     </tr>
 			                     <tr>
 			                        <th>주소</th>
@@ -125,7 +125,9 @@
 			                     </tr>
 			                     <tr style="height: 15px;">
 			                        <th>비밀번호</th>
-			                        <td>****</td>
+			                        <td>****
+			                        	<a href="${pageContext.request.contextPath}/loginCheck/pwCheck?msg=modifyPwPwCheck">비밀번호 수정</a>
+			                        </td>
 			                     </tr>
 		                         <tr> 
 		                             <th>이름</th>
@@ -138,6 +140,7 @@
 		                         <tr> 
 		                             <th>성별</th>
 		                             <td>${member.teacherGender}</td>
+		                             <td></td>
 		                         </tr>
 		                         <tr> 
 		                             <th>주소</th>
@@ -180,7 +183,9 @@
 		                     	  </tr>
 		                     	  <tr style="height: 15px;">
 			                        <th>비밀번호</th>
-			                        <td>****</td>
+			                        <td>****
+			                        	<a href="${pageContext.request.contextPath}/loginCheck/pwCheck?msg=modifyPwPwCheck">비밀번호 수정</a>
+			                        </td>
 			                     </tr>
 		                          <tr> 
 		                              <th>이름</th>
@@ -193,6 +198,7 @@
 		                          <tr> 
 		                              <th>성별</th>
 		                              <td>${member.managerGender}</td>
+		                              <td></td>
 		                          </tr>
 		                          <tr> 
 		                              <th>주소</th>
@@ -269,8 +275,8 @@
 		                     </c:choose> 
 			                 <c:if test="${sessionLv!=4}">
 			                 <div>
-			                     <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/loginCheck/modifyPwCheck">수정</a>
-			                     <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/loginCheck/removePwCheck">삭제</a>
+			                     <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/loginCheck/pwCheck?msg=modifyPwCheck">수정</a>
+			                     <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/loginCheck/pwCheck?msg=removePwCheck">삭제</a>
 			                 </div>
 			                 </c:if>
 		                 </div>
