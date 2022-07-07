@@ -111,18 +111,20 @@
 					<table class="table table-bordered table-sm">
 						<tr>
 							<td>작성자</td>
-							<td><input type="text" name="loginId" id="commentLoginId${idx.count}" value="${ccl.loginId}" readonly="readonly"></td>
+							<td><input type="text" name="loginId" id="commentLoginId${idx.count}" value="${ccl.loginId}" readonly="readonly" class="form-control"></td>
 							<td>작성일자</td>
-							<td><input type="text" name="createDate" id="commentCreateDate${idx.count}" value="${ccl.createDate}" readonly="readonly"></td>
-							<td>
+							<td><input type="text" name="createDate" id="commentCreateDate${idx.count}" value="${ccl.createDate}" readonly="readonly" class="form-control"></td>
+							<td style="width: 20%">
+							<c:if test="${sessionId eq ccl.loginId}">
 								<button type="button" id="modifyBtn${idx.count}" class="btn btn-info btn-sm" onclick="fn_modify_form('${idx.count}')">수정</button>
 								<button type="submit" id="modifySaveBtn${idx.count}" class="btn btn-success btn-sm" hidden="hidden">저장</button>
 								<button type="button" data-toggle="modal" class="btn btn-danger btn-sm" data-target="#deleteCommunityCommentModal">삭제</button>
+							</c:if>
 							</td>
 						</tr>
 						<tr>
 							<td>댓글달기</td>
-							<td colspan="4"><textarea name="communityCommentContent" id="commentContent${idx.count}" rows="3" cols="135" disabled="disabled">${ccl.communityCommentContent}  </textarea></td>
+							<td colspan="4"><textarea name="communityCommentContent" id="commentContent${idx.count}" rows="2" cols="135" disabled="disabled" class="form-control">${ccl.communityCommentContent}  </textarea></td>
 						</tr>
 					</table>
 					<input type="hidden" name="communityNo" value="${ccl.communityNo}" readonly="readonly">
@@ -157,7 +159,6 @@
 			</div>	
 			<!-- Modal end -->
 			</c:forEach>
-			${commentCurrentPage} / ${commentLastPage}
 			<c:if test="${commentCurrentPage > 1}">
 				<a href="${pageContext.request.contextPath}/loginCheck/getCommunityOne?communityNo=${communityNo}&commentCurrentPage=${commentCurrentPage-1}">이전</a>
 			</c:if>			        
@@ -170,16 +171,18 @@
 					<table class="table table-bordered table-sm">
 						<tr>
 							<td>작성자</td>
-							<td><input type="text" name="loginId" value="${communityMember.loginId}" readonly="readonly"></td>
+							<td><input type="text" name="loginId" value="${sessionId}" readonly="readonly" class="form-control"></td>
 						</tr>
 						<tr>
 							<td>댓글달기</td>
-							<td><textarea name="communityCommentContent" rows="3" cols="135"></textarea></td>
+							<td><textarea name="communityCommentContent" rows="2" cols="135" class="form-control"></textarea></td>
 						</tr>
 					</table>
 					<input type="hidden" name="communityNo" value="${communityNo}" readonly="readonly">
 					<input type="hidden" name="updateDate">
-					<button type="submit" class="btn btn-success btn-sm">댓글입력</button>
+					<div style="text-align: right">
+					<br><button type="submit" class="btn btn-success btn-sm">댓글입력</button>
+					</div>
 				</form>
 			
 	        <!-- content-wrapper ends -->
