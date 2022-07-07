@@ -117,9 +117,6 @@ public class AssignmentController {
 
 		log.debug(CF.GMC + "AssignmentController.addAssignment path : " + path + CF.RS);
 		log.debug(CF.GMC + "AssignmentController.addAssignment assignmentexam : " + assignmentAddForm + CF.RS);
-		int row;
-		row = assignmentservice.addAssignment(assignmentAddForm, path);
-		log.debug("assingmentController.row : ", row);
 
 		
 		model.addAttribute("loginId",sessionMemberId);
@@ -197,7 +194,6 @@ public class AssignmentController {
 		String path = request.getServletContext().getRealPath("/file/assignmentSubmitFile/");
 
 		List<MultipartFile> assignmentFileList = assignmentSubmitForm.getAssignmentSubmitFileList();
-		assignmentSubmitForm.setLoginId(sessionMemberId);
 		// 과제 제출 내용
 		String assignmentSubmitContent = assignmentSubmitForm.getAssignmentSubmitContent();
 

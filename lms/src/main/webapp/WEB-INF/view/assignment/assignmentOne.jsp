@@ -316,10 +316,10 @@ input {
 																				<td>파일</td>
 																				<c:forEach var="f" items="${fileList}">
 																					<c:if
-																						test="${f.assignmentFileType.equals('image/jpeg') || f.assignmentFileType.equals('image/gif') || f.assignmentFileType.equals('image/PNG') || f.assignmentFileType.equals('image/webp')}">
+																						test="${f.assignmentFileType.equals('image/jpeg') || f.assignmentFileType.equals('image/gif') || f.assignmentFileType.equals('image/PNG') || f.assignmentFileType.equals('image/png') || f.assignmentFileType.equals('image/webp')}">
 																						<td><a
 																							href="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}"><img
-																								src="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}"></a></td>
+																								src="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}" width="100%"></a></td>
 																					</c:if>
 
 
@@ -424,18 +424,11 @@ input {
 																		<tr>
 																			<td>파일</td>
 																			<c:forEach var="f" items="${fileList}">
-																				<c:if
-																					test="${f.assignmentFileType.equals('image/jpeg') || f.assignmentFileType.equals('image/gif') || f.assignmentFileType.equals('image/PNG') || f.assignmentFileType.equals('image/webp')}">
-																					<td><a
-																						href="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}"><img
-																							src="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}"></a></td>
+																				<c:if test="${f.assignmentFileType.equals('image/jpeg') || f.assignmentFileType.equals('image/gif') || f.assignmentFileType.equals('image/PNG')|| f.assignmentFileType.equals('image/png') || f.assignmentFileType.equals('image/webp')}">
+																					<td><a href="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}"><img src="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}" width="100%"></a></td>
 																				</c:if>
-
-
-																				<c:if
-																					test="${f.assignmentFileType.equals('application/octet-stream')}">
-																					<td><a
-																						href="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}">${f.assignmentFileOriginName}</a></td>
+																				<c:if test="${f.assignmentFileType.equals('application/octet-stream')}">
+																					<td><a href="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}">${f.assignmentFileOriginName}</a></td>
 																				</c:if>
 																			</c:forEach>
 																		</tr>

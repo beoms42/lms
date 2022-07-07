@@ -147,7 +147,7 @@
 		FROM lecture 
 		WHERE lecture_active = '1'
 	</select>
-	<!-- 과제 과제 삭제 -->
+	<!-- 과제 삭제 -->
 	<delete id="deleteAssignmentSubmit" 
 			parameterType="int">
 		DELETE FROM assignment_submit 

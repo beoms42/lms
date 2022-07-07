@@ -36,6 +36,7 @@
 		FROM assignment_file f INNER JOIN education e
 		ON f.login_id = e.login_id
 		WHERE assignment_exam_no = #{assignmentExamNo}
+		GROUP BY assignment_file_name
 	</select>
 	<!-- 과제 삭제시 파일도 함께 삭제 -->
 	<delete id="deleteAssignmentfile" parameterType="int">
