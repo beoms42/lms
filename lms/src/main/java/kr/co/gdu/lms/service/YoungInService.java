@@ -10,11 +10,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.mapper.YoungInMapper;
+import kr.co.gdu.lms.vo.LectureSubject;
 import kr.co.gdu.lms.vo.Qna;
 import kr.co.gdu.lms.vo.QnaFile;
 import kr.co.gdu.lms.vo.Student;
 import kr.co.gdu.lms.vo.SubjectTextbook;
 import kr.co.gdu.lms.vo.Textbook;
+import kr.co.gdu.lms.vo.TextbookRecord;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -97,6 +99,9 @@ public class YoungInService {
 		//인자값으로 넣을 해시맵
 		Map<String, Object> inputMap = null;
 		
+		// 로그인아이디로 eduNo알아내기
+		int eduNo = youngInMapper.selectEducationNoByLoginId(loginId);
+
 		// SubjectName > db구현, cnt > 0또는 1인 HashMap의 ArrayList
 		List<HashMap<String, Object>> returnList = new ArrayList<HashMap<String, Object>>();
 		
@@ -113,7 +118,19 @@ public class YoungInService {
 			// cnt가 0일때도 과목명은 필요해서 추가해주는 메서드
 			if(var2 == 0) {
 				map.put("subjectName", s.toString());
+			} else {
+				LectureSubject lectSub = new LectureSubject();
+				
+				lectSub.setLectureName(lectureName);
+				lectSub.setSubjectName(s);
+				
+				int lecture_subject_no = youngInMapper.selectLectSubNo(lectSub);
+				
+				String textbookSignfileName = youngInMapper.selectSignfileName(eduNo, lecture_subject_no);
+				map.put("textbookSignfileName", textbookSignfileName);
 			}
+			
+			
 			log.debug(CF.JYI+"youngInService.selectRecordBook.youngInMapper.map : "+map+CF.RS);
 			returnList.add((HashMap<String, Object>) map);
 		}
@@ -124,10 +141,36 @@ public class YoungInService {
 		returnMap.put("lectureName", lectureName);
 		returnMap.put("subjectName", subjectName);
 		
+		
 		return returnMap;
 		
 	}
 	
+	public Map<String, Object> getSignNeed(String loginId, String subjectName) {
+		
+		LectureSubject lectSub = new LectureSubject();
+		
+		String lectureName = youngInMapper.selectLectureNameByLoginId(loginId);
+		
+		lectSub.setLectureName(lectureName);
+		lectSub.setSubjectName(subjectName);
+		
+		log.debug(CF.JYI+"youngInService.getSignNeed.getSignNeed.map : "+lectSub+CF.RS);
+		
+		int eduNo = youngInMapper.selectEducationNoByLoginId(loginId);
+		int lecture_subject_no = youngInMapper.selectLectSubNo(lectSub);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("eduNo", eduNo);
+		map.put("lecture_subject_no", lecture_subject_no);
+		
+		return map;
+	}
+	
+	public void getSignAction(TextbookRecord tx) {
+		
+		youngInMapper.insertTextbookRecord(tx);
+	}
 	
 	//----------------------------------------커뮤니티------------------------------------------
 	

@@ -57,4 +57,9 @@ public interface CommunityMapper {
 	// 희원 - CommunityComment 댓글 입력 
 	int insertCommunityComment(CommunityComment communityComment);
 	
+	// 희원 - 커뮤니티 부모 게시글 삭제시 댓글 삭제
+	int deleteCommunityCommentByCommunityNo(int communityNo);
+
+	// 희원 - CommunityComment 수정
+	int updateCommunityComment(CommunityComment communityComment);
 }

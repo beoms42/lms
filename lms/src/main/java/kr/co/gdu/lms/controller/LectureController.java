@@ -330,29 +330,6 @@ public class LectureController {
          return "redirect:/loginCheck/getSheduleListByMonth?m="+m+"&y="+y;
 	}
 	
-	// 시간표 상세보기
-	@GetMapping("/loginCheck/getScheduleOne")
-	public String getScheduleOne(Model model
-								,@RequestParam(name="scheduleNo") int scheduleNo
-								,@RequestParam(name="m")int m
-								,@RequestParam(name="y")int y) {
-		// 요청값 디버깅
-		log.debug(CF.HJI+"LectureController.getScheduleOne scheduleNo : "+scheduleNo+CF.RS);
-		log.debug(CF.HJI+"LectureController.addShedule m : "+m+CF.RS);
-		log.debug(CF.HJI+"LectureController.addShedule y : "+y+CF.RS);
-		
-		// 실행
-		Map<String,Object> getScheduleOneMap = lectureService.getScheduleOne(scheduleNo);
-		log.debug(CF.HJI+"LectureController.getScheduleOne getScheduleOneMap : "+getScheduleOneMap+CF.RS);
-	
-		// model로 리턴
-		model.addAttribute("getScheduleOneMap",getScheduleOneMap);
-		model.addAttribute("m",m);
-		model.addAttribute("y",y);
-		
-		return "/lecture/getScheduleOne";
-	}
-	
 	// 시간표 삭제
 	@GetMapping("/loginCheck/removeSchedule")
 	public String removeSchedule(@RequestParam(name="scheduleNo") int scheduleNo
@@ -428,7 +405,7 @@ public class LectureController {
 			log.debug(CF.HJI+"LectureController.modifyScheduleAction 실패! : "+row+CF.RS);
 		}
 		
-		return "redirect:/loginCheck/getScheduleOne?scheduleNo="+scheduleNo+"&m="+m+"&y="+y;
+		return "redirect:/loginCheck/getSheduleListByMonth?m="+m+"&y="+y;
 	} 
 	
 	// 자료실
@@ -466,7 +443,6 @@ public class LectureController {
 		
 		return "/lecture/getLectureReferenceList";
 	}
-	
 	// 자료실 상세보기
 	@GetMapping("/loginCheck/getReferenceOne")
 	public String getReferenceOne(Model model
@@ -575,28 +551,6 @@ public class LectureController {
 		return "redirect:/loginCheck/getReferenceOne?referenceNo="+referenceNo;
 	}
 	
-	// 자료실 파일 삭제
-	@GetMapping("/loginCheck/removeReferenceFile")
-	public String removeReferenceFile(Model model,HttpServletRequest request
-										,@RequestParam(name = "referenceNo") int referenceNo
-										,@RequestParam(name = "referenceFileNo") int referenceFileNo) {
-		
-		String path = request.getServletContext().getRealPath("/file/referenceFile/");
-		// 요청값 디버깅
-		log.debug(CF.HJI+"LectureController.removeReferenceFile referenceNo : "+referenceNo+CF.RS);
-		log.debug(CF.HJI+"LectureController.removeReferenceFile referenceFileNo : "+referenceFileNo+CF.RS);
-		log.debug(CF.HJI+"LectureController.removeReferenceFile path : "+path+CF.RS);
-		
-		// 실행
-		Map<String, Object> map = lectureService.removeReferenceFile(referenceFileNo, path, referenceNo);
-		log.debug(CF.HJI+"LectureController.removeReferenceFile map : "+map+CF.RS);
-		
-		// model 로 보내기
-		model.addAttribute("referenceFileList", map.get("referenceFileList"));
-		model.addAttribute("reference", map.get("reference"));
-		return "/lecture/updateReference";
-	}
-	
 	// 자료실 삭제
 	@GetMapping("/loginCheck/removeReference")
 	public String removeReference(HttpServletRequest request
@@ -660,15 +614,5 @@ public class LectureController {
 		
 		return "redirect:/loginCheck/getSubjectList";
 	}
-
-	//종강한 강의 리스트
-			@GetMapping("/loginCheck/getEndOfLectureList")
-			public String getEndOfLectureList(Model model) {
-				List<Map<String, Object>>list = lectureService.selectLectureListByEndDate();
-				model.addAttribute("list", list);
-				log.debug(CF.PSH+"LectureController.getEndOfLectureList List:"+list+CF.RS);
-				return"lecture/getEndOfLectureList";
-
-	 }
+	
 }
-

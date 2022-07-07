@@ -29,6 +29,7 @@ import kr.co.gdu.lms.vo.Qna;
 import kr.co.gdu.lms.vo.Student;
 import kr.co.gdu.lms.vo.SubjectTextbook;
 import kr.co.gdu.lms.vo.Textbook;
+import kr.co.gdu.lms.vo.TextbookRecord;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -195,7 +196,37 @@ public class YoungInController {
 		
 		return "lecture/getBooks";
 	}
+	
+	// 학생 - 책 수령 싸인
+	@GetMapping("/loginCheck/getBooksSign")
+	public String getBooksSign(HttpSession session
+				, Model model
+				, @RequestParam(name = "subjectName") String subjectName){
+	
+	String loginId = (String) session.getAttribute("sessionId"); // 학생 이름얻기
+	
+	Map<String, Object> map = youngInService.getSignNeed(loginId, subjectName);
+	 
+	int eduNo = (int) map.get("eduNo");
+	int lectureSubjectNo = (int) map.get("lecture_subject_no");
+	
+	model.addAttribute("eduNo", eduNo);
+	model.addAttribute("lectureSubjectNo", lectureSubjectNo);
+	
+	return "lecture/getbooksSign";
+	}
+	
+	//
+	@PostMapping("/loginCheck/getBooksAction")
+	public String getBooksAction(HttpSession session
+			, Model model
+			, TextbookRecord textbookRecord){
+
+		log.debug(CF.JYI+"YoungInController.textbookRecord.get textbookRecord : "+textbookRecord+CF.RS);
 		
+		youngInService.getSignAction(textbookRecord);
+	return "redirect:/loginCheck/getBooks";
+	}
 	//----------------------------------------커뮤니티------------------------------------------
 	
 	// 영인 - get방식 qnaListOne호출

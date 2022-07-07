@@ -6,25 +6,27 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import kr.co.gdu.lms.vo.LectureSubject;
 import kr.co.gdu.lms.vo.Qna;
 import kr.co.gdu.lms.vo.QnaFile;
 import kr.co.gdu.lms.vo.Student;
 import kr.co.gdu.lms.vo.SubjectTextbook;
 import kr.co.gdu.lms.vo.Textbook;
+import kr.co.gdu.lms.vo.TextbookRecord;
 
 @Mapper
 public interface YoungInMapper {
-	//----------------------------------------媛뺤쓽------------------------------------------
+	//----------------------------------------강의------------------------------------------
 	
 	List<String> selectLearningStudentName();
 	
 	void insertStudentInLecture(String lectureName, String loginId);
 	
-	// 媛뺤쓽�뿉 諛곗젙�맂 �븰�깮媛��졇�삤湲�
+	// 강의에 배정된 학생가져오기
 	List<Student> selectStudentListByLectureName(String lectureName);
 	
-	//媛뺤쓽蹂� 諛곗젙�씤�썝�닔 / �씤�썝�닔 
-	//�빐�떆留듭쑝濡� �꽔�쓣嫄대뜲,, �궎 > 媛뺤쓽紐낆쑝濡� 媛� > �씤�썝�닔
+	//강의별 배정인원수 / 인원수 
+	//해시맵으로 넣을건데,, 키 > 강의명으로 값 > 인원수
 	List<HashMap<String, Object>> selectStudentGroup();
 	
 	//textbook insert
@@ -39,41 +41,53 @@ public interface YoungInMapper {
 	//subject_textbook insert
 	void insertSubjectTextbook(SubjectTextbook subjectTextbook);
 	
-	//媛뺤쓽蹂� 怨쇰ぉ 媛��졇�삤湲�
+	// 이름으로 과목명을 받아오기
 	List<String> selectSubjectListByLectureNameYoungIn(String lectureName);
 	
-	// subjectName�쑝濡� 怨쇰ぉ�뿉 留욌뒗 梨낆쓣 �닔�졊�뻽�뒗吏� �뙋蹂꾪븯�뒗�떇
+	// subjectName / lecture로 현재 어떤 책을 수령했는지?
 	Map<String, Object> selectRecordBook(Map<String, Object> map);
 	
-	// �씠由꾩쑝濡� 媛뺤쓽紐� 媛��졇�삤湲�
+	// 이름으로 강의이름 받아오기
 	String selectLectureNameByLoginId(String loginId);
-	//----------------------------------------而ㅻ�ㅻ땲�떚------------------------------------------
 	
-	// addQna �븯怨� �젣�꽕�젅�씠�듃�궎媛믪쑝濡� qnaNo諛섑솚
+	// 로그인id로 educationNo 받아오기
+	int selectEducationNoByLoginId(String loginId);
+	
+	// lecture_name + subejctName으로 lecture_subject_no 얻기
+	int selectLectSubNo(LectureSubject lectureSubject);
+	
+	// insertTextbookRecord
+	void insertTextbookRecord(TextbookRecord textbookRecord);
+	
+	// map에 넣을 textSignFilename얻기
+	String selectSignfileName(int educationNo, int lectureSubjectNo);
+	//----------------------------------------커뮤니티------------------------------------------
+	
+	// addQna 하고 제네레이트키값으로 qnaNo반환
 	int addQnaAction(Qna qna);
 	
 	// qnaFile foreach insert
 	void addQnaFileInsert(QnaFile qnaFile);
 	
-	// qnaNo濡� �븯�굹蹂닿린 - 臾몄쓽
+	// qnaNo로 하나보기 - 문의
 	Qna selectQnaByQnaNo(int qnaNo);
 	
-	// qnaNo濡� �븯�굹蹂닿린 - �떟蹂�
+	// qnaNo로 하나보기 - 답변
 	Qna selectQnaByQnaNoAnswer(int qnaNo);
 	
-	// qnaNo濡� �뙆�씪由ъ뒪�듃媛��졇�삤湲�
+	// qnaNo로 파일리스트가져오기
 	List<String> selectQnaFileByQnaNo(int qnaNo);
 	
-	// qna�떟蹂� insert
+	// qna답변 insert
 	void insertQnaAnswer(Qna qna);
 	
-	// qna �떟蹂��쓽 �썝湲� �떟蹂��셿猷뚮줈 蹂�寃� 硫붿꽌�뱶
+	// qna 답변의 원글 답변완료로 변경 메서드
 	void updateByinsertQnaAnswer(int qnaNo);
 	
-	// qna file �궘�젣
+	// qna file 삭제
 	void deleteByQnaFileNo(int qnaNo);
 	
-	// qna �궘�젣
+	// qna 삭제
 	void deleteByQnaNo(int qnaNo);
 	
 	

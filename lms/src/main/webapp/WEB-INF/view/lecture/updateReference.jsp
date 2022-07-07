@@ -64,17 +64,7 @@
                   <div class="table-responsive">
                   	<div>자료파일</div>
 			    		<c:forEach var="n" items="${referenceFileList}">
-			    			<c:choose>
-			    				<c:when test="${n.getReferenceFileType() eq 'image/gif'|| n.getReferenceFileType() eq 'image/png'|| n.getReferenceFileType() eq 'image/jpeg' || n.getReferenceFileType() eq 'image/bmp'}">
-			    		 			<td>
-			    		 				<img src="${pageContext.request.contextPath}/file/referenceFile/${n.getReferenceFileName()}" width="400" height="400">
-			    		 				<a class="btn  btn-danger auth-form-btn" href="${pageContext.request.contextPath}/loginCheck/removeReferenceFile?referenceFileNo=${n.getReferenceFileNo()}&referenceNo=${reference.referenceNo}">삭제</a>
-			    		 			</td>
-			    		 		</c:when>
-			    		 		<c:otherwise>
-			    		 			<td><a href="${pageContext.request.contextPath}/file/referenceFile/${n.getReferenceFileName()}">${n.getReferenceFileName()}</a></td>
-			    		 		</c:otherwise>
-			    		 	</c:choose>
+			    			<span id="n${n.referenceFileNo}"> ${n.referenceFileName} <input type="button" onclick="javascript:fileClick(${n.referenceFileNo},'${n.referenceFileName}')" value="삭제"><br/></span>
 			    		</c:forEach>
                    	<form id="updateReferenceForm" method="post" action="${pageContext.request.contextPath}/loginCheck/updateReference" enctype="multipart/form-data">
 	                     <table class="table">
@@ -178,5 +168,26 @@
          }
       });
    });
+   
+function fileClick(referenceFileNo, referenceFileName) {
+	
+	var url = "${pageContext.request.contextPath}";
+	$.ajax({
+		type: "GET", //요청 메소드 방식(post, get)
+		url: url+"/removeReferenceFile", // Controller url 주소 (@GetMapping("/url") / @PostMapping("/url"))
+		data : "referenceFileNo="+referenceFileNo+"&referenceFileName="+referenceFileName,
+		dataType:"json", //서버가 요청 URL을 통해서 응답하는 내용의 타입 (return값)
+		success : function(result){ // 응답성공시 실행할 
+			//서버의 응답데이터가 클라이언트에게 도착하면 자동으로 실행되는함수(콜백)
+			$("#n"+referenceFileNo).remove();
+		},
+		error : function(a, b, c){
+			//통신 실패시 발생하는 함수(콜백)
+			alert(a + b + c);
+		}
+	});
+ 
+}
+
 </script>
 </html>

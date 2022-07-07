@@ -200,11 +200,13 @@
 
 	<!--댓글 수정-->
 	<update id="updateCommunityComment"
-			parameterType="int">
+			parameterType="kr.co.gdu.lms.vo.CommunityComment">
 		UPDATE community_comment SET
 			community_comment_content = #{communityCommentContent}
-			, update_date=NOW()
-		WHERE login_id = #{loginId} AND community_no = #{communityNo};
+			, update_date = NOW()
+		WHERE login_id = #{loginId}
+			AND community_no = #{communityNo}
+			AND create_date = #{createDate};
 	</update>
 	
 	<!--댓글 삭제-->
@@ -214,6 +216,13 @@
 		WHERE login_id = #{loginId}
 			AND community_no = #{communityNo}
 			AND create_date = #{createDate};
+	</delete>
+	
+	<!--부모글 삭제시 댓글 전체 삭제-->
+	<delete id="deleteCommunityCommentByCommunityNo"
+			parameterType="kr.co.gdu.lms.vo.CommunityComment">
+		DELETE FROM community_comment
+		WHERE community_no = #{communityNo};
 	</delete>
 	
 	<!-- 댓글 select-->
