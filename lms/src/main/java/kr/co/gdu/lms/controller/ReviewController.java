@@ -31,7 +31,7 @@ public class ReviewController {
 	}
 	@PostMapping("/loginCheck/addReview")
 	public String getEndOfLectureList(Model model
-									  ,@RequestParam (name="lectureName") String lectureName
+									  ,@RequestParam (name="lectureNo") String lectureName
 									  ,HttpSession session
 									  ,EducationReview educationreview) {
 		String loginId = (String) session.getAttribute("sessionId");

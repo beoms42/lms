@@ -92,6 +92,27 @@
 	            <div class="col-lg-16 grid-margin stretch-card">
 	              <div class="card">
 	                <div class="card-body">
+	                <table class="table">
+		                		<thead>
+		                			<tr>
+		                				<th>아이디//앞에 2자리만?</th>
+		                				<th>리뷰</th>
+		                				<th>평점</th>
+		                				<th>작성날짜</th>
+		                			</tr>
+		                		</thead>
+		                		<tbody>
+			                		<c:forEach var="ED" items="${list}">
+			                			<tr>
+			                				<td></td>
+		                					<td>${ED.educationReviewContent}</td>
+		                					<td>${ED.educationReviewStar}</td>
+		                					<td>${ED.createDate}</td>
+		                				</tr>
+			                	   </c:forEach>
+			                     </tbody>
+			                  </table>
+	                
 					<form class="mb-3" name="myform" id="myform" action="${pageContext.request.contextPath}/loginCheck/addReview" method="post">
 						<input type="hidden" id="lectureName" value="${lectureName}">
 			            <div>

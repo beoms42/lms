@@ -99,38 +99,14 @@
 		                		<tbody>
 			                		<c:forEach var="EL" items="${list}">
 			                			<tr>
-			                				<td>${EL.lectureName}</td>
+			                				<td><a href="${pageContext.request.contextPath}/loginCheck/addReview?educationNo=${EL.lectureName}">${EL.lectureName}</a></td>
 		                					<td>${EL.lectureEndDate}</td>
 		                					<td>${EL.dateDiff }일</td>
-		                					<td><link href="/assets/css/star.css" rel="stylesheet"/>
-										 	<form class="mb-3" name="myform" id="myform" method="post">
-												<fieldset>
-													<span class="text-bold">별점을 선택해주세요</span>
-													
-													<input type="radio" name="reviewStar" value="1" id="rate1"><label
-														for="rate1">★</label>
-													<input type="radio" name="reviewStar" value="2" id="rate2"><label
-														for="rate2">★</label>
-													<input type="radio" name="reviewStar" value="3" id="rate3"><label
-														for="rate3">★</label>
-													<input type="radio" name="reviewStar" value="4" id="rate4"><label
-														for="rate4">★</label>
-													<input type="radio" name="reviewStar" value="5" id="rate5"><label
-														for="rate5">★</label>
-													</fieldset>
-												 </td>
-											  </form>
 		                				</tr>
 			                	   </c:forEach>
 			                     </tbody>
 			                  </table>
 			               </form>
-			               <form>
-			               <div>
-						<textarea class="col-auto form-control" type="text" id="reviewContents"
-					 		 placeholder="좋은 수강평을 남겨주시면 감사"></textarea>
-						</div>
-				</form>	
 		                </div>
 		              </div>
 		           </div>
