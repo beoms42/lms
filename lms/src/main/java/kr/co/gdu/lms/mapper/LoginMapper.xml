@@ -216,9 +216,9 @@
 	<select id = "selectAllLoginId"
 			parameterType="java.util.Map"
 			resultType="String">
-		SELECT l.login_id loginId
+		SELECT 
+			l.login_id loginId
 		FROM login AS l
-		
 		<if test='"student".equals(msg)'>
 			JOIN student AS s
 				ON l.login_id = s.login_id

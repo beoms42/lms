@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,11 +17,11 @@ import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.mapper.LoginMapper;
 import kr.co.gdu.lms.mapper.ManagerMapper;
 import kr.co.gdu.lms.mapper.MemberFileMapper;
-import kr.co.gdu.lms.vo.MemberForm;
 import kr.co.gdu.lms.vo.Dept;
 import kr.co.gdu.lms.vo.Login;
 import kr.co.gdu.lms.vo.Manager;
 import kr.co.gdu.lms.vo.MemberFile;
+import kr.co.gdu.lms.vo.MemberForm;
 import kr.co.gdu.lms.vo.Position;
 import kr.co.gdu.lms.vo.Student;
 import kr.co.gdu.lms.vo.Teacher;
@@ -32,6 +34,7 @@ public class LoginService {
 	@Autowired private LoginMapper loginMapper;
 	@Autowired private ManagerMapper managerMapper;
 	@Autowired private MemberFileMapper memberFileMapper;
+	@Autowired private JavaMailSender javaMailSender;
 	
 	public void modifyActiveByMember(String loginId) {
 		loginMapper.updateActiveByMember(loginId);
@@ -99,8 +102,6 @@ public class LoginService {
 	// 학생, 강사, 매니저 비밀번호 변경 이력 테이블 삽입
 	public int addPwRecord(Login login) {
 		log.debug(CF.PHW+"LoginService.addPwRecord login : "+login+CF.RS );
-	
-		
 		return loginMapper.insertPwRecord(login);
 	}
 	
@@ -118,19 +119,36 @@ public class LoginService {
 
 	// 학생, 강사, 매니저 아이디 찾기
 	public String searchAllLoginId(Map<String, Object> map) {
-		log.debug(CF.PHW+"LoginService.searchLoginIdByStudent map : "+map+CF.RS );
-		return loginMapper.selectAllLoginId(map);
+		
+		log.debug(CF.PHW+"LoginService.searchLoginIdByStudent map : "+map+CF.RS);
+		String loginId = loginMapper.selectAllLoginId(map);
+		
+		log.debug(CF.OHI+"LoginService.searchAllLoginId loginId : "+loginId+CF.RS);
+		
+		SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+		simpleMailMessage.setTo((String) map.get("email"));
+		simpleMailMessage.setFrom("LMS-TFT");
+		simpleMailMessage.setSubject("LMS-TFT 아이디 발송");
+		simpleMailMessage.setText("회원님의 아이디는 "+loginId+" 입니다.");
+		
+		log.debug(CF.OHI+"LoginService.searchAllLoginId simpleMailMessage"+simpleMailMessage+CF.RS);
+		
+		javaMailSender.send(simpleMailMessage);
+		
+		return "resultMsg";
 	}
-
+		
+	// 로그인
 	public Login login(Login loginTest) {
 		log.debug(CF.OHI+"LoginService.login loginTest : "+loginTest+CF.RS);
 		
 		// 로그인 정보 넣어서 맞다면 로그인아이디와 level 들고오기
 		Login login = loginMapper.loginAndSelectLevel(loginTest);
+		// 마지막 로그인 날짜 업데이트
 		int row = loginMapper.updateLastLoginDate(loginTest.getLoginId());
 		
-		log.debug(CF.OHI+"LoginService.login.selectLevel login : "+login+CF.RS);
-		log.debug(CF.OHI+"LoginService.login.updateLoginDate row : "+row+CF.RS);
+		log.debug(CF.OHI+"LoginService.login login : "+login+CF.RS);
+		log.debug(CF.OHI+"LoginService.login row : "+row+CF.RS);
 		
 		return login;
 	}

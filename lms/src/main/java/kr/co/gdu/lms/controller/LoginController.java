@@ -171,10 +171,10 @@ public class LoginController {
 		map.put("email", email);
 		map.put("msg", msg);
 		
-		String loginId = loginService.searchAllLoginId(map);
-		log.debug(CF.PHW+"LoginController.searchLoginId.post loginId : "+loginId+CF.RS );
+		String resultMsg = loginService.searchAllLoginId(map);
+		log.debug(CF.PHW+"LoginController.searchLoginId.post resultMsg : "+resultMsg+CF.RS);
 		
-		model.addAttribute("loginId", loginId);
+		model.addAttribute("resultMsg", resultMsg);
 		
 		return "login/searchLoginId";
 	}

@@ -27,6 +27,18 @@
   		color: #4C4C4C;
   	}
     .boxShadow {box-shadow: 0 20px 25px -5px rgb(0 0 0 / 10%);}
+     .msgbox{
+	   position: fixed;
+	   top:10px;
+	   left: 35%;
+	   background-color: #ffffff;
+	   padding-top: 100px;
+	   padding-bottom: 100px;
+	   padding-left: 50px;
+	   padding-right: 50px;
+	   width: 500px;
+	   height: 600px;
+    }
   </style>
 </head>
 
@@ -84,16 +96,20 @@
 							            <input type="text" name="email" class="form-control" placeholder="email" id="email">
 							            <span id="emailHelper"></span>
 						            </div>
-						            
-						            <c:if test="${loginId == null}">
-						            	<button id="searchId" type="button" class="btn btn-primary mr-2">아이디 찾기</button>
-						            	<a href="${pageContext.request.contextPath}/login" class="btn btn-light" type="button">로그인 화면으로</a>
+					            	<button id="searchId" type="button" class="btn btn-primary mr-2">아이디 찾기</button>
+					            	<a href="${pageContext.request.contextPath}/login" class="btn btn-light" type="button">로그인 화면으로</a>
+					            	
+						            <c:if test="${resultMsg != null}">
+					   				      <div class="msgbox">
+							                 회원님의 아이디를 이메일로 발송했습니다. <br>
+							                 <br>
+							                 <br>
+							                 <div class="text-center">
+							                 <a href="${pageContext.request.contextPath}/login" class="btn btn-primary mr-2" type="button">로그인 하러가기</a>
+							                 <a href="${pageContext.request.contextPath}/searchLoginPw" class="btn btn-light" type="button">비밀번호 찾기</a>
+							                 </div>
+			          				   	 </div>         
 						            </c:if>
-						         
-						             <c:if test="${loginId != null}"> ${loginId}
-						             	<br><br><a href="${pageContext.request.contextPath}/login" class="btn btn-primary mr-2" type="button">로그인 하러가기</a>
-						             	<a href="${pageContext.request.contextPath}/searchLoginPw" class="btn btn-light" type="button">비밀번호 찾기</a>
-						             </c:if>
 					            </form>
 					        </div>
 						</div>

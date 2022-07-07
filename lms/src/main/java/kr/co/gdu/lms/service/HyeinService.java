@@ -15,8 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class HyeinService {
-@Autowired HyeinMapper hyeinMapper;
-
+	@Autowired HyeinMapper hyeinMapper;
+	
 	// 출결상태 모두 출석으로 변경
 	public void modifyAttendanceListAll(int scheduleNo) {
 		
