@@ -94,35 +94,21 @@
 	                <div class="card-body">
 					<form class="mb-3" name="myform" id="myform" action="${pageContext.request.contextPath}/loginCheck/addReview" method="post">
 						<input type="hidden" id="lectureName" value="${lectureName}">
-						<textarea name="educationReviewContent" id="summernote"></textarea>
-						 <script>
-									$(
-											'#summernote')
-											.summernote(
-													{
-														tabsize : 2,
-														height : 400
-													});
-									$(
-											".note-editor button[aria-label='Picture']")
-											.hide();
-									$(
-											".note-editor button[aria-label='Video']")
-											.hide();
-									$(
-											".note-editor .note-view")
-											.hide();
-								</script>
+			            <div>
+						<textarea class="col-auto form-control" type="text" id="educationReviewContent" name="educationReviewContent"
+					 		 placeholder="좋은 수강평을 남겨주시면 감사"></textarea>
+						</div>
+					
 						<fieldset>
-							<input type="radio" name="educationReviewStar" value="1" id="rate1"><label
+							<input type="radio" name="educationReviewStar" value="5" id="rate1"><label
 								for="rate1">★</label>
-							<input type="radio" name="educationReviewStar" value="2" id="rate2"><label
+							<input type="radio" name="educationReviewStar" value="4" id="rate2"><label
 								for="rate2">★</label>
 							<input type="radio" name="educationReviewStar" value="3" id="rate3"><label
 								for="rate3">★</label>
-							<input type="radio" name="educationReviewStar" value="4" id="rate4"><label
+							<input type="radio" name="educationReviewStar" value="2" id="rate4"><label
 								for="rate4">★</label>
-							<input type="radio" name="educationReviewStar" value="5" id="rate5"><label
+							<input type="radio" name="educationReviewStar" value="1" id="rate5"><label
 								for="rate5">★</label>
 						</fieldset>
 						<div style="text-align:right">

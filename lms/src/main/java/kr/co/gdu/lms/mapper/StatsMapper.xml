@@ -14,6 +14,13 @@
 		WHERE l.lecture_active = '1'
 		GROUP BY e.lecture_name
 	</select>
-	<!--  -->
-
+	<!-- 반당 중탈 인원수 -->
+	<select id="selectDropRecord"
+			resultType="java.util.Map">
+				SELECT 
+			e.lecture_name DlectureName,(COUNT(e.lecture_name))  Dcnt 
+		FROM education e INNER JOIN drop_record d 
+		ON e.education_no = d.education_no 
+		GROUP BY e.lecture_name
+	</select>
 </mapper>

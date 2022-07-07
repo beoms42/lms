@@ -6,7 +6,7 @@
 		parameterType="java.util.Map">
 	SELECT education_no educationNo 
 	FROM education e INNER JOIN lecture l
-	ON e.lecture_name = l.lecture_name
+		ON e.lecture_name = l.lecture_name
 	WHERE e.login_id=#{loginId} 
 	AND l.lecture_name=#{lectureName}
 </select>

@@ -22,5 +22,17 @@ public class StatsService {
 		
 		return avgList;
 	}
+	public List<Map<String,Object>> addDropRecord(){
+		List<Map<String,Object>> dropList = new ArrayList<>();
+		List<Map<String,Object>> lectureList = new ArrayList<>();
+		dropList = statsmapper.selectDropRecord();
+		lectureList = statsmapper.selectlectureCount();
+		for(int i=0; i<lectureList.size(); i++) {
+			if(lectureList.get(i).get("lectureName") == dropList.get(i)) {
+				
+			}
+		}
+		return dropList;
+	}
 }
 	
