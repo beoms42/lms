@@ -139,6 +139,7 @@
 		WHERE community_no = #{communityNo};
 	</delete>
 	
+	<!-- 커뮤니티 파일 1개만 삭제-->
 	<delete id="deleteCommunityFileOne"
 			parameterType="int">
 		DELETE FROM community_file

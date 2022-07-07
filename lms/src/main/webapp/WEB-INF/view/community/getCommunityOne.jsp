@@ -94,10 +94,12 @@
 									</c:forEach>
 							</c:if>
 						</div>
+							<c:if test="${sessionId eq communityMember.loginId}">
 							<div class="float-right top bottom right">
 						    <a class="btn btn-info" href="${pageContext.request.contextPath}/loginCheck/modifyCommunity?communityNo=${communityMember.communityNo}">수정</a>
 						    <a class="btn btn-danger" href="${pageContext.request.contextPath}/loginCheck/removeCommunity?communityNo=${communityMember.communityNo}">삭제</a>
 					    </div>
+					    	</c:if>
 	                  </div>
 	                </div>
 	              </div>
