@@ -62,4 +62,14 @@ public interface CommunityMapper {
 
 	// 희원 - CommunityComment 수정
 	int updateCommunityComment(CommunityComment communityComment);
-}
+	
+	// 희원 - Recommend count
+	int selectRecommendCnt(int communityNo);
+	
+	// 희원 - selectRecommendCheck
+	int selectRecommendCheck(Recommend recommend);
+	
+	// 희원 - insertRecommend
+	void insertRecommend(Recommend recommend);
+	
+	}

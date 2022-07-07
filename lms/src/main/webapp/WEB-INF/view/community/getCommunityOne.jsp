@@ -26,6 +26,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/vertical-layout-light/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/tftace.jpg" />
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
   <style>
   	.title-bottom {margin-bottom : 50px;}
   	.round {border-radius: 100%;
@@ -36,6 +37,27 @@
   	.top {margin-top : 30px;}
   	.right {margin-right : 30px;}
   	.font-size {font-size : 20px;}
+   .boxShadow {box-shadow: 0 20px 25px -5px rgb(0 0 0 / 10%);}
+  	.msgbox{
+	   position: fixed;
+	   border-radius: 30px;
+	   top:130px;
+	   left: 35%;
+	   background-color: #ffffff;
+	   padding-top: 100px;
+	   padding-bottom: 100px;
+	   padding-left: 50px;
+	   padding-right: 50px;
+	   width: 400px;
+	   height: 300px;
+	   box-shadow: 0 20px 25px -5px rgb(0 0 0 / 30%);
+    }
+    .modal_background{
+	  position: fixed;
+	  top:0; left: 0; bottom: 0; right: 0;
+	  background: rgba(0, 0, 0, 0.8);
+	}
+	   
   </style>
 </head>
 <body>
@@ -66,7 +88,23 @@
 		                  	</div>
 		                  	<div class="col-sm-11 font-size">
 		                  		${communityMember.loginId}
-								<div>${communityMember.createDate}</div>	                  	
+								<div>${communityMember.createDate}</div>	
+								<div style="text-align: right">
+									<br><a href="${pageContext.request.contextPath}/loginCheck/recommandAction?communityNo=${communityMember.communityNo}" type="button" id="recommandBtn"><i class="fa fa-solid fa-thumbs-up"></i></a>
+									<br>추천수 : ${recommendCnt}
+									
+									<c:if test="${checkRow == 1}">
+									 <div class="modal_background">
+										<div class="msgbox">
+							                 <h4 class="text-center">이미 추천한 게시물 입니다.</h4>
+							                 <hr>
+							                 <div class="text-center">
+							                 	 <a href="${pageContext.request.contextPath}/loginCheck/getCommunityOne?communityNo=${communityMember.communityNo}" class="btn btn-secondary" type="button">확인</a>
+							                 </div>
+							                 </div>
+							            </div>    	
+									</c:if>
+								</div>                  	
 		                  	</div>
 		                  </div>
 		                  <div class="left">
@@ -106,8 +144,6 @@
 	            </div>
 	        </div>
 	        
-	        
-	        
 	        <c:forEach var="ccl" items="${communityCommentList}" varStatus="idx">
 				<form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyCommunityComment">
 					<table class="table table-bordered table-sm">
@@ -132,6 +168,7 @@
 					<input type="hidden" name="communityNo" value="${ccl.communityNo}" readonly="readonly">
 					<input type="hidden" name="updateDate">
 				</form>
+				
 			<!-- Modal start-->
 	        <div class="modal fade" id="deleteCommunityCommentModal" tabindex="-1" role="dialog" aria-labelledby="deleteDogModalLabel" aria-hidden="true">
 			  <div class="modal-dialog" role="document">
@@ -160,6 +197,7 @@
 			  </div>
 			</div>	
 			<!-- Modal end -->
+			
 			</c:forEach>
 			<c:if test="${commentCurrentPage > 1}">
 				<a href="${pageContext.request.contextPath}/loginCheck/getCommunityOne?communityNo=${communityNo}&commentCurrentPage=${commentCurrentPage-1}">이전</a>
@@ -231,7 +269,11 @@
 	  $('#modifySaveBtn'+cnt).prop('hidden', false);
   }
   
-
+  $('#checkRowChk').click(function () {
+		$('.msgbox').css('display','none');
+	})
+  
+  
   </script>
 </body>
 </html>

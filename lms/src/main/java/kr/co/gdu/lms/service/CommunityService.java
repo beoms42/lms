@@ -16,6 +16,7 @@ import kr.co.gdu.lms.vo.Community;
 import kr.co.gdu.lms.vo.CommunityComment;
 import kr.co.gdu.lms.vo.CommunityFile;
 import kr.co.gdu.lms.vo.Qna;
+import kr.co.gdu.lms.vo.Recommend;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -23,6 +24,37 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class CommunityService {
 	@Autowired private CommunityMapper communityMapper;
+	
+	// 희원 - recommandAction 게시물 추천 중복 확인 및 추천하기 
+	public int recommandAction(int communityNo, String loginId) {
+		
+		log.debug(CF.PHW+"CommunityService.recommandAction.communityNo : "+communityNo+CF.RS );
+		log.debug(CF.PHW+"CommunityService.recommandAction.loginId : "+loginId+CF.RS );
+		
+		//유효성체크까지해야하니까 리턴값은 void
+		Recommend recommend = new Recommend();
+		recommend.setCommunityNo(communityNo);
+		recommend.setLoginId(loginId);
+		
+		int checkRow = communityMapper.selectRecommendCheck(recommend);
+		log.debug(CF.PHW+"CommunityService.recommandAction.checkRow : "+checkRow+CF.RS );
+		
+		// 0일때
+		if(checkRow == 0) {
+			communityMapper.insertRecommend(recommend);
+			log.debug(CF.PHW+"CommunityService.recommandAction.checkRow : 추천 성공!"+CF.RS );
+		}
+		
+		return checkRow;
+	}
+	
+	// 희원 - getRecommendCnt 게시물 추천수 가져오기
+	public int getRecommendCnt(int communityNo) {
+		int recommendCnt = communityMapper.selectRecommendCnt(communityNo);
+		log.debug(CF.PHW+"CommunityService.modifyCommunityComment.recommendCnt : "+recommendCnt+CF.RS );
+		
+		return recommendCnt;
+	}
 	
 	// 희원 - modifyCommunityComment 
 	public void modifyCommunityComment(CommunityComment communityComment) {

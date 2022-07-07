@@ -146,10 +146,18 @@
 		WHERE community_file_no = #{communityFileNo};
 	</delete>
 	
+	<!-- 커뮤니티 추천 개수 -->
+	<select id="selectRecommendCnt"
+			parameterType="int"
+			resultType="int">
+		SELECT COUNT(*)
+		FROM recommend
+		WHERE community_no =  #{communityNo};
+	</select>
 	
 	<!--커뮤니티 게시글 추천입력-->
 	<insert id="insertRecommend"
-			parameterType="int">
+			parameterType="kr.co.gdu.lms.vo.Recommend">
 		INSERT INTO recommend
 		VALUES (
 			#{loginId}
@@ -160,8 +168,8 @@
 	
 	<!-- 커뮤니티 추천 중복(1은 추천함, 0은 추천안함)-->
 	<select id="selectRecommendCheck"
-			parameterType="String"
-			resultType="kr.co.gdu.lms.vo.Recommend">
+			parameterType="kr.co.gdu.lms.vo.Recommend"
+			resultType="int">
 		SELECT COUNT(*) cnt
 		FROM recommend
 		WHERE login_id = #{loginId} AND community_no = #{communityNo};

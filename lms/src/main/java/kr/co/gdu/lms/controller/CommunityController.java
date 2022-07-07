@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,26 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class CommunityController {
 	@Autowired private CommunityService communityService;
+	
+	// 희원 - Recommand Action - get방식
+	@GetMapping("/loginCheck/recommandAction")
+	public String recommandAction(@RequestParam (name = "communityNo") int communityNo
+								, HttpSession session) {
+		
+		String loginId = (String) session.getAttribute("sessionId"); // 현재 세션의 로그인아이디얻어오기
+		
+		log.debug(CF.PHW+"CommunityController.recommandAction.get loginId : "+loginId+CF.RS );
+		log.debug(CF.PHW+"CommunityController.recommandAction.get communityNo : "+communityNo+CF.RS );
+		
+		int checkRow = communityService.recommandAction(communityNo, loginId);
+		log.debug(CF.PHW+"CommunityController.recommandAction.get checkRow : "+checkRow+CF.RS );
+		
+		if(checkRow == 1) {
+			return "redirect:/loginCheck/getCommunityOne?communityNo="+communityNo+"&checkRow="+checkRow;
+		} 
+		
+		return "redirect:/loginCheck/getCommunityOne?communityNo="+communityNo;
+	}
 	
 	// 희원 - modifyCommunityComment 액션
 	@PostMapping("/loginCheck/modifyCommunityComment")
@@ -165,9 +186,11 @@ public class CommunityController {
 	public String getCommunityOne(Model model
 								, @RequestParam (name="communityNo") int communityNo
 								, @RequestParam (name="commentCurrentPage", defaultValue = "1") int commentCurrentPage
-								, @RequestParam (name="commentRowPerPage", defaultValue = "10") int commentRowPerPage){
-		
+								, @RequestParam (name="commentRowPerPage", defaultValue = "10") int commentRowPerPage
+								, @RequestParam (name="checkRow", defaultValue = "0") int checkRow) {
+								
 		log.debug(CF.PHW+"CommunityController.getCommunityOne.get communityNo : "+communityNo+CF.RS ); // 디버깅
+		log.debug(CF.PHW+"CommunityController.getCommunityOne.get checkRow : "+checkRow+CF.RS ); // 디버깅
 		
 		Map<String, Object> map = new HashMap<>(); // map에 communityNo, commentCurrentPage, commentRowPerPage 담기
 		map.put("communityNo", communityNo);
@@ -177,6 +200,9 @@ public class CommunityController {
 		Map<String, Object> returnMap = communityService.getCommunityAndCommentList(map); // service단에서 returnMap 값 가져오기
 		log.debug(CF.PHW+"CommunityController.getCommunityOne.get returnMap : "+returnMap+CF.RS ); // 디버깅
 		
+		int recommendCnt = communityService.getRecommendCnt(communityNo);
+		log.debug(CF.PHW+"CommunityController.getCommunityOne.get recommendCnt : "+recommendCnt+CF.RS ); // 디버깅
+		
 		// view단으로 전달할 값 담기
 		model.addAttribute("communityNo", returnMap.get("communityNo")); 
 		model.addAttribute("communityMember", returnMap.get("communityMember")); 
@@ -184,6 +210,9 @@ public class CommunityController {
 		model.addAttribute("communityCommentList", returnMap.get("communityCommentList"));
 		model.addAttribute("commentCurrentPage", returnMap.get("commentCurrentPage"));
 		model.addAttribute("commentLastPage", returnMap.get("commentLastPage"));
+		model.addAttribute("recommendCnt", recommendCnt); // 추천수 
+		model.addAttribute("checkRow", checkRow); // 추천중복여부
+		
 		
 		return "community/getCommunityOne";
 				
