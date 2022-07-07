@@ -1,5 +1,6 @@
 package kr.co.gdu.lms.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,12 @@ public class ReviewService {
 	}
 	public void insertReview(EducationReview educationreview) {
 		reviewMapper.insertReview(educationreview);
+	}
+	public List<Map<String,Object>>selectEducationReviewList(){
+		List<Map<String, Object>>list = (List<Map<String, Object>>) reviewMapper.selectEducationReviewList();
+		log.debug(CF.PSH+"LectureService.selectEducationReviewList:"+list+CF.RS);
+	
+	return list;
+
 	}
 }

@@ -2,6 +2,7 @@ package kr.co.gdu.lms.controller;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -30,20 +31,24 @@ public class ReviewController {
 	}
 	@PostMapping("/loginCheck/addReview")
 	public String getEndOfLectureList(Model model
-									  ,@RequestParam (name="lectureName",defaultValue ="자바 공공데이터 46기") String lectureName
+									  ,@RequestParam (name="lectureName") String lectureName
 									  ,HttpSession session
 									  ,EducationReview educationreview) {
 		String loginId = (String) session.getAttribute("sessionId");
 		Map<String,Object> paramMap = new HashMap<>();
-
+		List<Map<String,Object>>list= reviewservice.selectEducationReviewList();
+		
 		paramMap.put("loginId", loginId);
 		paramMap.put("lectureName", lectureName);
+	    log.debug(CF.PSH+"LectureController.selectEducationReviewList:"+list+CF.RS);
 		log.debug(CF.GMC + loginId+CF.RS);
 		log.debug(CF.GMC + lectureName+CF.RS);
 		int educationNo = reviewservice.selectEducationNo(paramMap);
+		model.addAttribute("list", list);
 		educationreview.setEducationNo(educationNo);
 		reviewservice.insertReview(educationreview);
 		return"review/review";
-
 	}
+	
 }
+
