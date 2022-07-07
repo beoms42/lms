@@ -304,6 +304,11 @@ public class MemberController {
       }
    }
    
+   // 멤버 사진 수정시 비밀번호 확인폼
+  
+   // 멤버 사진 수정시 비밀번호 확인액션
+   
+   
    // 멤버 사진 수정 폼
    @GetMapping("/loginCheck/modifyMemberFile")
    public String modifyMemberFile(Model model, @RequestParam(name = "memberFileName") String memberFileName) {
@@ -312,7 +317,6 @@ public class MemberController {
 
       return "member/modifyMemberFile";
    }
-
    
    // 멤버 사진 수정 액션
    @PostMapping("/loginCheck/modifyMemberFile") 
@@ -327,11 +331,11 @@ public class MemberController {
          //세션으로 부터 아이디 받아오기
          String loginId = (String) session.getAttribute("sessionId");
          
-         // 1) 폴더에서 사진삭제
+         // 지울 파일 경로설정
          String path = request.getServletContext().getRealPath("/file/memberPhoto/");
          log.debug(CF.GDH + "MemberController.modifyMemberFile.Post path : " + path + CF.RS);
-         memberService.removeMemberFile(path, memberFileName);
          
+         // 1) 폴더에서 사진삭제
          // 2) DB에서 사진삭제 및 입력
          int row = memberService.modifyMemberFile(loginId, memberFileName, insertMemberFile, path);
          
@@ -340,6 +344,67 @@ public class MemberController {
          } else { 
             return "redirect:/loginCheck/getStudentOne"; }
    }
+   
+   // 비밀번호 수정시 비밀번호 체크폼
+   @GetMapping("/loginCheck/modifyPwPwCheck")
+   public String modifyPwPwCheck(Model model, HttpSession session) {
+       // 세션을 통해 로그인ID 받아오기
+	   String loginId = (String) session.getAttribute("sessionId");
+       
+	   // 모델에 담아서 넘기기
+	   model.addAttribute("loginId", loginId);
+       return "member/modifyPwPwCheck";
+   }
+   
+   // 비밀번호 수정시 비밀번호 액션폼
+   @PostMapping("/loginCheck/modifyPwPwCheck")
+   public String modifyPwPwCheck(Model model
+								, @RequestParam(name = "loginId") String loginId) {
+	   
+	   // 받아온 매개변수 디버깅
+	   log.debug(CF.GDH + "MemberController.modifyPwPwCheck.Post loginId : " + loginId + CF.RS);
+	   
+	   // 모델에 담아서 넘기기
+	   model.addAttribute("loginId", loginId);
+	   return "member/modifyPw";
+   }
+   
+   // 멤버 비밀번호 수정폼
+   @GetMapping("/loginCheck/modifyPw")
+   public String modifyPw(Model model
+		   						, @RequestParam(name = "loginId") String loginId
+		   						, @RequestParam(name = "loginPw") String loginPw) {
+	   	
+	    // 받아온 매개변수 디버깅
+        log.debug(CF.GDH + "MemberController.modifyPwPwCheck.Get loginId : " + loginId + CF.RS);
+        log.debug(CF.GDH + "MemberController.modifyPwPwCheck.Get loginPw : " + loginPw + CF.RS);
+        
+        // 모델에 담아서 넘기기
+        model.addAttribute("loginId", loginId);
+        model.addAttribute("loginPw", loginPw);
+
+      return "member/modifyPw";
+   }
+   
+   // 멤버 비밀번호 액션폼
+   @PostMapping("/loginCheck/modifyPw")
+   public String modifyPw(@RequestParam(name = "loginId") String loginId
+		   					,@RequestParam(name = "loginPw") String loginPw) {
+	   
+	   // 로그인 객체 생성
+	   Login login =  new Login();
+	   login.setLoginId(loginId);
+	   login.setLoginPw(loginPw);
+	   
+	   // 서비스에서 비밀번호 변경
+	   int row = memberService.modifyPw(login);
+	   if(row == 1) {
+		   return "redirect:/loginCheck/getMemberOne?loginId="+loginId;
+	   } else {
+		   return "redirect:/loginCheck/modifyPw?";
+	   }
+   }
+   
    
     
    

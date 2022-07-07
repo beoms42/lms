@@ -43,12 +43,19 @@
             <div class="col-md-12 grid-margin">
               <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                  <h3 style="font-weight: bold;">비밀번호 변경</h3><br>
-	                 <form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyMemberFile" enctype="multipart/form-data">
-						<input type="file" class="form-control"name = "insertMemberFile" >
-						<input type="text" class="form-control-df" name = "deleteMemberFileName" value="${memberFileName}" hidden="hidden">
-						<br>
-						<button class="btn btn-primary" style="border-radius: 4 4 4 4;">사진수정</button>
+                  <h3 style="font-weight: bold;">본인확인</h3><br>
+	                <form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyPwPwCheck">
+						<table class="table">
+							<tr>
+								<th>아이디</th>
+								<td><input type="text" class="form-control-df" name="loginId" value="${loginId}" readonly="readonly"></td>
+							</tr>
+							<tr>
+								<th>비밀번호 입력</th>
+								<td><input type="password" class="form-control-df" name="loginPw"></td>
+							</tr>
+						</table><br>
+						<button class="btn btn-primary" style="border-radius: 4 4 4 4;">수정하기</button>
 					</form>
                 </div>
                 <div class="col-12 col-xl-4">
@@ -103,4 +110,4 @@
   <!-- End custom js for this page-->
 </body>
 
-</html>
+</html>l>

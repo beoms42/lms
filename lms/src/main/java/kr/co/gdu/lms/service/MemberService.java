@@ -109,21 +109,24 @@ public class MemberService {
       return row;
    }
    
-   // 멤버파일 폴더에서 삭제하기
-   public void removeMemberFile(String path, String memberFileName) {
-      log.debug(CF.GDH+"MemberService.removeMemberFile memberFileName : " + memberFileName + CF.RS);
-      log.debug(CF.GDH+"MemberService.removeMemberFile path : " + path + CF.RS);
-      
-      // 폴더 내에서 파일을 삭제
-      File f = new File(path + memberFileName);
-      f.delete();
+   // 비밀번호 수정하기
+   public int modifyPw(Login login) {
+	   log.debug(CF.GDH+"MemberService.moidfyPw login : " + login + CF.RS);
+	   
+	   int row = memberFileMapper.updateMemberPw(login);
+	   log.debug(CF.GDH+"MemberService.moidfyPw row : " + row + CF.RS);
+	   
+	   return row;
    }
-   
    
    // 멤버파일 수정하기
    public int modifyMemberFile(String loginId, String memberFileName, MultipartFile insertMemberFile, String path) {
       log.debug(CF.GDH+"MemberService.modifyMemberFile loginId : " + loginId + CF.RS);
       log.debug(CF.GDH+"MemberService.modifyMemberFile path : " + path + CF.RS);
+      
+      // 폴더 내에서 파일을 삭제
+      File f = new File(path + memberFileName);
+      f.delete();
       
       // 사진
       MemberFile memberFile =  new MemberFile();
@@ -131,6 +134,7 @@ public class MemberService {
       // DB사진삭제
       int dmRow = memberFileMapper.deleteMemberFile(loginId);
       log.debug(CF.GDH+"MemberService.updateMemberFile dmRow : " + dmRow + CF.RS);
+      
       if(dmRow == 1) {
          // DB사진입력
          String originalFileName = insertMemberFile.getOriginalFilename();
@@ -139,6 +143,7 @@ public class MemberService {
          String fileName = UUID.randomUUID().toString();
          fileName = fileName.replace("-", "");
          fileName = fileName + ext;
+         memberFile.setLoginId(loginId);
          memberFile.setMemberFileOriginName(originalFileName);
          memberFile.setMemberFileName(fileName);
          memberFile.setMemberFileType(insertMemberFile.getContentType());

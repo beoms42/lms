@@ -63,7 +63,7 @@
 	                    		 <tr style="height: 15px;">
 			                        <th>비밀번호</th>
 			                        <td>****
-			                        	<a href="${pageContext.request.contextPath}/loginCheck/modifyPwCheck">비밀번호 수정</a>
+			                        	<a href="${pageContext.request.contextPath}/loginCheck/modifyPwPwCheck">비밀번호 수정</a>
 			                        </td>
 			                     </tr>
 			                     <tr style="height: 15px;">

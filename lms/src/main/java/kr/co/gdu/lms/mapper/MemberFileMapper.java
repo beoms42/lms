@@ -2,6 +2,7 @@ package kr.co.gdu.lms.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import kr.co.gdu.lms.vo.Login;
 import kr.co.gdu.lms.vo.MemberFile;
 
 @Mapper
@@ -15,4 +16,6 @@ public interface MemberFileMapper {
 	// 파일 입력
 	int insertMemberFile(MemberFile memberFile);
 	
+	// 비밀번호 수정
+	int updateMemberPw(Login login);
 }
