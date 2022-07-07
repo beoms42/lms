@@ -11,16 +11,30 @@
 		ON a.education_no = e.education_no
 		INNER JOIN lecture l 
 		ON l.lecture_name = e.lecture_name
-		WHERE l.lecture_active = '1'
+	
 		GROUP BY e.lecture_name
 	</select>
 	<!-- 반당 중탈 인원수 -->
 	<select id="selectDropRecord"
 			resultType="java.util.Map">
-				SELECT 
-			e.lecture_name DlectureName,(COUNT(e.lecture_name))  Dcnt 
+		SELECT 
+			e.lecture_name DlectureName,(COUNT(e.lecture_name)) Dcnt 
 		FROM education e INNER JOIN drop_record d 
 		ON e.education_no = d.education_no 
 		GROUP BY e.lecture_name
+	</select>
+	<!-- 반당 평균 나이 -->
+	<select id="selectClassAverAge"
+			resultType="java.util.Map">
+		SELECT lecture_name lectureName,SUM(YEAR(NOW())-YEAR(student_birth))/COUNT(student_name) cnt
+		FROM student s 
+		INNER JOIN education e
+			ON s.login_id = e.login_id
+		GROUP BY lecture_name
+	</select>
+	<!-- 전체 학생 남녀 비율 -->
+	<select id="genderRate"
+			resultType="java.util.Map">
+		SELECT student_gender gender,(COUNT(student_gender)/(SELECT COUNT(student_gender) FROM student))*100 cnt FROM student GROUP BY student_gender
 	</select>
 </mapper>

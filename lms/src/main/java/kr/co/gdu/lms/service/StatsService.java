@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import kr.co.gdu.lms.mapper.StatsMapper;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Transactional
 @Service
 public class StatsService {
@@ -24,15 +23,18 @@ public class StatsService {
 	}
 	public List<Map<String,Object>> addDropRecord(){
 		List<Map<String,Object>> dropList = new ArrayList<>();
-		List<Map<String,Object>> lectureList = new ArrayList<>();
 		dropList = statsmapper.selectDropRecord();
-		lectureList = statsmapper.selectlectureCount();
-		for(int i=0; i<lectureList.size(); i++) {
-			if(lectureList.get(i).get("lectureName") == dropList.get(i)) {
-				
-			}
-		}
 		return dropList;
+	}
+	public List<Map<String,Object>> selectClassAverAge(){
+		List<Map<String,Object>> ageList = new ArrayList<>();
+		ageList = statsmapper.selectClassAverAge();
+		return ageList;
+	}
+	public List<Map<String,Object>> genderRate(){
+		List<Map<String,Object>> genderList = new ArrayList<>();
+		genderList = statsmapper.genderRate();
+		return genderList;
 	}
 }
 	

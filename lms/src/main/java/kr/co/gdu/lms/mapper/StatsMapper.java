@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface StatsMapper {
 	
 	List<Map<String,Object>> selectAvgScore();
-	List<Map<String,Object>> selectlectureCount();
 	List<Map<String,Object>> selectDropRecord();
+	List<Map<String,Object>> selectClassAverAge();
+	List<Map<String,Object>> genderRate();
 }

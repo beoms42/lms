@@ -215,7 +215,7 @@ public class AssignmentController {
 		model.addAttribute("assignmentSubmitContent", assignmentSubmitContent);
 		model.addAttribute("level", level);
 		model.addAttribute("assignmentExamNo", assignmentExamNo);
-		return "submitSign";
+		return "assignment/submitSign";
 	}
 
 	// 과제 제출->

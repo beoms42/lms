@@ -26,4 +26,16 @@ public class StatsRestController {
 		list = statsservice.addDropRecord();
 		return list;
 	}
+	@GetMapping("/ageAvg")
+	public List<Map<String,Object>> ageAvg(){
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+		list = statsservice.selectClassAverAge();
+		return list;
+	}
+	@GetMapping("/genderStats")
+	public List<Map<String,Object>> genderStats(){
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+		list = statsservice.genderRate();
+		return list;
+	}
 }
