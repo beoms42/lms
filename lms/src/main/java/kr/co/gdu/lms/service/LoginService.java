@@ -125,16 +125,16 @@ public class LoginService {
 		
 		log.debug(CF.OHI+"LoginService.searchAllLoginId loginId : "+loginId+CF.RS);
 		
-		if(loginId != null) {
+		if(loginId != null) { // 일치하는 정보 있을때
 			SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
 			simpleMailMessage.setTo((String) map.get("email"));
 			simpleMailMessage.setFrom("LMS-TFT");
-			simpleMailMessage.setSubject("LMS-TFT 아이디 발송");
-			simpleMailMessage.setText("회원님의 아이디는 "+loginId+" 입니다.");
+			simpleMailMessage.setSubject("LMS-TFT 아이디 발송"); // 제목
+			simpleMailMessage.setText("회원님의 아이디는 "+loginId+" 입니다."); // 내용
 			
 			log.debug(CF.OHI+"LoginService.searchAllLoginId simpleMailMessage"+simpleMailMessage+CF.RS);
 			
-			javaMailSender.send(simpleMailMessage);
+			javaMailSender.send(simpleMailMessage); // 메일 발송 
 			
 			return "true";
 		} else {
