@@ -261,6 +261,18 @@
   <script src="${pageContext.request.contextPath}/js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
   
+  
+  <!-- 
+	JSTL [c:forEach] varStatus 관련 참고 사이트
+	https://jetalog.net/20
+	
+	.prop() 속성값 가져오거나 추가 관련 참고 사이트
+	https://www.codingfactory.net/10341
+	
+	java script onclick 관련 참고 사이트
+	https://lightair.tistory.com/entry/onclick-%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EC%82%AC%EC%9A%A9%EB%B2%95-%EB%B0%8F-%EA%B0%84%EB%8B%A8%ED%95%9C-%EC%98%88%EC%A0%9C%EC%9E%90%EB%B0%94%EC%8A%A4%ED%8A%B8%EB%A6%BD%ED%8A%B8-%EC%9D%B4%EB%B2%A4%ED%8A%B8
+   -->
+  
   <script type="text/javascript">
   
   function fn_modify_form(cnt){
