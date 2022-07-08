@@ -17,6 +17,7 @@ import kr.co.gdu.lms.vo.CommunityComment;
 import kr.co.gdu.lms.vo.CommunityFile;
 import kr.co.gdu.lms.vo.Qna;
 import kr.co.gdu.lms.vo.Recommend;
+import kr.co.gdu.lms.vo.RecommendForm;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -24,6 +25,15 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class CommunityService {
 	@Autowired private CommunityMapper communityMapper;
+	
+	// 희원 - 
+	
+	
+	// 희원 - Community리스트 추천수 많은 5개 게시글 가져오기
+	public List<RecommendForm> selectRecommendList(){
+		List<RecommendForm> recommendList = communityMapper.selectRecommendList();
+		return recommendList;
+	}
 	
 	// 희원 - recommandAction 게시물 추천 중복 확인 및 추천하기 
 	public int recommandAction(int communityNo, String loginId) {
@@ -176,9 +186,10 @@ public class CommunityService {
 			}
 		}
 		
-		communityMapper.deleteCommunityFileList(communityNo);
-		int row = communityMapper.deleteCommunity(communityNo, communityPw);
-		communityMapper.deleteCommunityCommentByCommunityNo(communityNo);
+		communityMapper.deleteCommunityFileList(communityNo); // 커뮤니티 파일 삭제
+		communityMapper.deleteRecommendByCommunityNo(communityNo); // 커뮤니티 추천수 삭제
+		communityMapper.deleteCommunityCommentByCommunityNo(communityNo); // 커뮤니티 댓글 삭제
+		int row = communityMapper.deleteCommunity(communityNo, communityPw); // 커뮤니티 게시글 삭제
 		
 		return row;
 		

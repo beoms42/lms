@@ -166,6 +166,14 @@
 		);
 	</insert>
 	
+	<!--부모글 삭제시 추천 전체 삭제-->
+	<delete id="deleteRecommendByCommunityNo"
+			parameterType="kr.co.gdu.lms.vo.Recommend">
+		DELETE FROM recommend
+		WHERE community_no = #{communityNo};
+	</delete>
+	
+	
 	<!-- 커뮤니티 추천 중복(1은 추천함, 0은 추천안함)-->
 	<select id="selectRecommendCheck"
 			parameterType="kr.co.gdu.lms.vo.Recommend"
@@ -177,17 +185,17 @@
 	
 	<!--인기글 5개 LIST-->
 	<select id="selectRecommendList"
-			parameterType="String"
-			resultType="kr.co.gdu.lms.vo.Recommend">
+			resultType="kr.co.gdu.lms.vo.RecommendForm">
 		SELECT
 			c.community_no communityNo
+			, c.login_id loginId
 			, c.community_title communityTitle
-			, c.community_content communityContent
-			, c.create_date createDate 
+			, c.create_date createDate
 			, COUNT(*) cnt
 		FROM recommend r
 		JOIN community c
 			ON r.community_no = c.community_no
+		WHERE c.community_no
 		GROUP BY c.community_no
 		ORDER BY cnt DESC
 		LIMIT 0,5;

@@ -72,4 +72,11 @@ public interface CommunityMapper {
 	// 희원 - insertRecommend
 	void insertRecommend(Recommend recommend);
 	
+	// 희원 - Community리스트 추천수 많은 5개 게시글 가져오기
+	List<RecommendForm> selectRecommendList();
+	
+	// 희원 - 부모글 삭제시 추천 전체 삭제
+	int deleteRecommendByCommunityNo(int communityNo);
+	
+	
 	}

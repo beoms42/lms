@@ -232,9 +232,16 @@ public class CommunityController {
 		log.debug(CF.PHW+"CommunityController.getCommunityList.get communityList : "+map.get("communityList")+CF.RS );
 		log.debug(CF.PHW+"CommunityController.getCommunityList.get lastPage : "+map.get("lastPage")+CF.RS );
 
+		List<RecommendForm> recommendList = communityService.selectRecommendList();
+		log.debug(CF.PHW+"CommunityController.getCommunityList.get recommendList : "+recommendList+CF.RS );
+		
+		
 		model.addAttribute("communityList", map.get("communityList"));
 		model.addAttribute("lastPage", map.get("lastPage"));
 		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("recommendList", recommendList);
+		
 		
 		return "community/getCommunityListByPage";
 	}

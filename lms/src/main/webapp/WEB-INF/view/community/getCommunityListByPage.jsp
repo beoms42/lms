@@ -42,15 +42,44 @@
       <div class="main-panel">
         <div class="content-wrapper">
           <div class="row">
-            <div class="col-md-12 grid-margin">
+            <div class="col-md-0 grid-margin">
               <div class="row">
-                <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+                <div class="col-10 col-xl-8 mb-4 mb-xl-0">
                   <h1>[TFT인들 모여라~!]</h1>
                 </div>
-                <div class="col-12 col-xl-4">
-                 <div class="justify-content-end d-flex">
-                 </div>
-                </div>
+            	<div class="col-lg-10 grid-margin stretch-card">
+				<div class="card">
+				<div class="card-body">
+				<h4 class="card-title">인기글 모음</h4>
+				<p class="card-description">
+                  </p>
+                  <div class="table-responsive">
+                  <table class="table">
+                  	<thead>
+                  		<tr>
+                  			<th>게시글 번호</th>
+                  			<th>게시글 제목</th>
+                  			<th>게시글 작성자</th>
+                  			<th>작성 날짜</th>
+                  			<th>추천수</th>
+                  		</tr>
+                  	</thead>
+                  	<tbody>
+                  	<c:forEach var="rl" items="${recommendList}">
+						<tr>
+                  			<td>${rl.communityNo}</td>
+                  			<td><a href="${pageContext.request.contextPath}/loginCheck/getCommunityOne?communityNo=${rl.communityNo}">${rl.communityTitle}</a></td>
+                  			<td>${rl.loginId}</td>
+                  			<td>${rl.createDate}</td>
+                  			<td>${rl.cnt}</td>
+                  		</tr>                  	
+                  	</c:forEach>   
+                  	</tbody>
+                  </table>
+				</div>
+				</div>
+				</div>
+				</div>
               </div>
             </div>
           </div>
@@ -63,8 +92,8 @@
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">커뮤니티 게시판</h4>
-          		<div align="right">
-                <a class="btn btn-secondary" href="${pageContext.request.contextPath}/loginCheck/addCommunity" >게시글 입력</a>
+                <div align="right">
+                <a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/loginCheck/addCommunity" >게시글 입력</a>
                 </div>
                   <p class="card-description">
                   </p>
@@ -80,12 +109,12 @@
                       </thead>
                       <tbody>
                       <c:forEach var="cl" items="${communityList}">
-                      	<tr>
-                      		<td>${cl.communityNo}</td>
-                      		<td><a href="${pageContext.request.contextPath}/loginCheck/getCommunityOne?communityNo=${cl.communityNo}">${cl.communityTitle}</a></td>
-                      		<td>${cl.loginId}</td>
-                      		<td>${cl.createDate}</td>
-                      	</tr>
+                         <tr>
+                            <td>${cl.communityNo}</td>
+                            <td><a href="${pageContext.request.contextPath}/loginCheck/getCommunityOne?communityNo=${cl.communityNo}">${cl.communityTitle}</a></td>
+                            <td>${cl.loginId}</td>
+                            <td>${cl.createDate}</td>
+                         </tr>
                       </c:forEach>                
                       </tbody>
                     </table>
@@ -94,13 +123,13 @@
               </div>
             </div>
           </div>
-		<c:if test="${currentPage > 1}">
-			<a class="btn btn-success" href="${pageContext.request.contextPath}/loginCheck/getCommunityListByPage?currentPage=${currentPage-1}">이전</a>
-		</c:if>
-		
-		<c:if test="${currentPage < lastPage}">
-			<a class="btn btn-success" href="${pageContext.request.contextPath}/loginCheck/getCommunityListByPage?currentPage=${currentPage+1}">다음</a>
-		</c:if>
+      <c:if test="${currentPage > 1}">
+         <a class="btn btn-success" href="${pageContext.request.contextPath}/loginCheck/getCommunityListByPage?currentPage=${currentPage-1}">이전</a>
+      </c:if>
+      
+      <c:if test="${currentPage < lastPage}">
+         <a class="btn btn-success" href="${pageContext.request.contextPath}/loginCheck/getCommunityListByPage?currentPage=${currentPage+1}">다음</a>
+      </c:if>
       </div>
       <!-- main-panel ends -->
     </div>   
@@ -132,4 +161,3 @@
 
 </body>
 </html>
-
