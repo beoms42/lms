@@ -275,15 +275,16 @@ public class LectureController {
 										,@RequestParam(name="m" ,defaultValue = "-1")int m
 										,@RequestParam(name="y",defaultValue = "-1") int y
 										) {
-		// 세션에서 login정보 들고 오기
+		
+		// session값 들고 오기
 		int loginLv = (int)session.getAttribute("sessionLv");
 		String loginId = (String)session.getAttribute("sessionId");
-		
+
 		//  요청값 디버깅
-		log.debug(CF.HJI+"LectureController.request y : "+y+CF.RS);
-		log.debug(CF.HJI+"LectureController.request m : "+m+CF.RS);
-		log.debug(CF.HJI+"LectureController.getSheduleListByMonth sessionId : "+loginId+CF.RS);
-		log.debug(CF.HJI+"LectureController.getSheduleListByMonth sessionLv : "+loginLv+CF.RS);
+		log.debug(CF.HJI+"LectureController.getSheduleListByMonth y : "+y+CF.RS);
+		log.debug(CF.HJI+"LectureController.getSheduleListByMonth m : "+m+CF.RS);
+		log.debug(CF.HJI+"LectureController.getSheduleListByMonth loginId : "+loginId+CF.RS);
+		log.debug(CF.HJI+"LectureController.getSheduleListByMonth loginLv : "+loginLv+CF.RS);
 		
 		// 실행
 		Map<String, Object> scheduleMap = lectureService.getSheduleListByMonth(y, m, loginLv, loginId);
@@ -307,11 +308,13 @@ public class LectureController {
 	// 시간표
 	// 시간표 추가
 	@PostMapping("/loginCheck/addSchedule")
-	public String addSchedule(@RequestParam(name="scheduleStartDate")Date scheduleStartDate
+	public String addSchedule(HttpSession session
+								,@RequestParam(name="scheduleStartDate")Date scheduleStartDate
 								,@RequestParam(name="scheduleEndDate")Date scheduleEndDate
 								,@RequestParam(name="lectureSubjectNo")int lectureSubjectNo
 								,@RequestParam(name="m")int m
 								,@RequestParam(name="y")int y) {
+		
 		// 요청값 디버깅
 		log.debug(CF.HJI+"LectureController.addShedule scheduleStartDate : "+scheduleStartDate+CF.RS);
 		log.debug(CF.HJI+"LectureController.addShedule scheduleEndDate : "+scheduleEndDate+CF.RS);
@@ -327,15 +330,26 @@ public class LectureController {
 			log.debug(CF.HJI+"LectureController.addShedule 실패! : "+row+CF.RS);
 		} 
 		
-         return "redirect:/loginCheck/getSheduleListByMonth?m="+m+"&y="+y;
+        return "redirect:/loginCheck/getSheduleListByMonth?m="+m+"&y="+y;
 	}
 	
 	// 시간표 삭제
 	@GetMapping("/loginCheck/removeSchedule")
-	public String removeSchedule(@RequestParam(name="scheduleNo") int scheduleNo
+	public String removeSchedule(HttpSession session
+								,@RequestParam(name="scheduleNo") int scheduleNo
 								,@RequestParam(name="m")int m
 								,@RequestParam(name="y")int y
 								) {
+		
+		// session값 들고 오기
+		int loginLv = (int)session.getAttribute("sessionLv");
+		
+		// 권한 확인
+		log.debug(CF.HJI+"LectureController.removeReference loginLv : "+loginLv+CF.RS);
+		if(loginLv > 2) {
+			return "redirect:/loginCheck/main";
+		}
+				
 		// 요청값 디버깅
 		log.debug(CF.HJI+"LectureController.removeSchedule scheduleNo : "+scheduleNo+CF.RS);
 		log.debug(CF.HJI+"LectureController.removeSchedule m : "+m+CF.RS);
@@ -358,13 +372,29 @@ public class LectureController {
 								,@RequestParam(name="scheduleNo") int scheduleNo
 								,@RequestParam(name="m")int m
 								,@RequestParam(name="y")int y) {
+		
+		// session값 들고 오기
+		int loginLv = (int)session.getAttribute("sessionLv");
+		
+		// 권한 확인
+		log.debug(CF.HJI+"LectureController.modifyScheduleForm loginLv : "+loginLv+CF.RS);
+		if(loginLv > 2) {
+			return "redirect:/loginCheck/main";
+		}
+		
 		// 요청값 디버깅
 		log.debug(CF.HJI+"LectureController.modifyScheduleForm scheduleNo : "+scheduleNo+CF.RS);
 		log.debug(CF.HJI+"LectureController.modifyScheduleForm m : "+m+CF.RS);
 		log.debug(CF.HJI+"LectureController.modifyScheduleForm y : "+y+CF.RS);
+		log.debug(CF.HJI+"LectureController.modifyScheduleForm loginLv : "+loginLv+CF.RS);
+		
+		if(loginLv > 2) {
+			return"/lecture/getSheduleListByMonth";
+		}
 		
 		// 실행
 		Map<String,Object> modifyScheduleForm = lectureService.modifyScheduleForm(scheduleNo);
+		
 		// 분리
 		Map<String,Object> selectScheduleOne = (Map<String,Object>)modifyScheduleForm.get("selectScheduleOne");
 		
@@ -378,8 +408,9 @@ public class LectureController {
 		model.addAttribute("scheduleDate", selectScheduleOne.get("scheduleDate"));
 		model.addAttribute("m",m);
 		model.addAttribute("y",y);
-		
+
 		return "/lecture/modifySchedule";
+		
 	}
 	
 	// 시간표 수정액션
@@ -396,8 +427,6 @@ public class LectureController {
 		// 실행
 		int row = lectureService.modifyScheduleAction(schedule);
 		
-		// 상세보기 가기 위해 번호 추출
-		int scheduleNo = schedule.getScheduleNo();
 		// 디버깅
 		if(row == 1) {
 			log.debug(CF.HJI+"LectureController.modifyScheduleAction 성공! : "+row+CF.RS);
@@ -416,8 +445,16 @@ public class LectureController {
 										, @RequestParam(name = "currentPage", defaultValue = "1") int currentPage
 										, @RequestParam(name = "rowPerPage", defaultValue = "10") int rowPerPage) {
 		
+		// session값 들고 오기
 		String loginId = (String)session.getAttribute("sessionId");
 		int loginLv = (int)session.getAttribute("sessionLv");
+		
+		// 권한 확인
+		log.debug(CF.HJI+"LectureController.getLectureReferenceList loginLv : "+loginLv+CF.RS);
+		if(loginLv > 1) {
+			return "redirect:/loginCheck/main";
+		}
+		
 		// 요청값 디버깅
 		log.debug(CF.HJI+"LectureController.getLectureReferenceList currentPage : "+currentPage+CF.RS);
 		log.debug(CF.HJI+"LectureController.getLectureReferenceList rowPerPage : "+rowPerPage+CF.RS);
@@ -445,8 +482,16 @@ public class LectureController {
 	}
 	// 자료실 상세보기
 	@GetMapping("/loginCheck/getReferenceOne")
-	public String getReferenceOne(Model model
+	public String getReferenceOne(Model model, HttpSession session
 								,@RequestParam(name="referenceNo") int referenceNo) {
+		// session값 들고 오기
+		int loginLv = (int)session.getAttribute("sessionLv");
+		
+		// 권한 확인
+		log.debug(CF.HJI+"LectureController.getReferenceOne loginLv : "+loginLv+CF.RS);
+		if(loginLv > 1) {
+			return "redirect:/loginCheck/main";
+		}
 		
 		// 요청값 디버깅
 		log.debug(CF.HJI+"LectureController.getReferenceOne referenceNo : "+referenceNo+CF.RS);
@@ -465,8 +510,16 @@ public class LectureController {
 	
 	// 자료실 입력
 	@GetMapping("/loginCheck/addReference")
-	public String addReferenceForm(Model model
+	public String addReferenceForm(Model model, HttpSession session
 									,@RequestParam(name="lectureName")String lectureName) {
+		// session값 들고 오기
+		int loginLv = (int)session.getAttribute("sessionLv");
+		
+		// 권한 확인
+		log.debug(CF.HJI+"LectureController.updateAddReferenceForm loginLv : "+loginLv+CF.RS);
+		if(loginLv > 1) {
+			return "redirect:/loginCheck/main";
+		}
 		
 		// 요청값 디버깅
 		log.debug(CF.HJI+"LectureController.getReferenceOne lectureName : "+lectureName+CF.RS);
@@ -478,10 +531,12 @@ public class LectureController {
 	}
 	
 	@PostMapping("/loginCheck/addReference")
-	public String addReferenceAction(HttpServletRequest request
+	public String addReferenceAction(HttpServletRequest request, HttpSession session
 									, ReferenceForm referenceForm) {
 		
+		// 경로 설정
 		String path = request.getServletContext().getRealPath("/file/referenceFile/");
+		
 		// 요청값 디버깅
 		log.debug(CF.HJI+"LectureController.addReferenceAction referenceForm : "+referenceForm+CF.RS);
 		log.debug(CF.HJI+"LectureController.addReferenceAction path : "+path+CF.RS);
@@ -502,11 +557,25 @@ public class LectureController {
 	
 	// 자료실 수정폼
 	@GetMapping("/loginCheck/updateReference")
-	public String updateReferenceForm(Model model
+	public String updateReferenceForm(Model model, HttpSession session
 										,@RequestParam(name = "referenceNo") int referenceNo) {
+		
+		// session값 들고 오기
+		int loginLv = (int)session.getAttribute("sessionLv");
+		
+		// 권한 확인
+		log.debug(CF.HJI+"LectureController.updateAddReferenceForm loginLv : "+loginLv+CF.RS);
+		if(loginLv > 1) {
+			return "redirect:/loginCheck/main";
+		}
 		
 		// 요청값 디버깅
 		log.debug(CF.HJI+"LectureController.updateAddReferenceForm referenceNo : "+referenceNo+CF.RS);
+		
+		// 권한 확인
+		if(loginLv > 1) {
+			return"/lecture/getLectureReferenceList";
+		}
 		
 		// 실행
 		Map<String, Object> map = lectureService.getReferenceOne(referenceNo);
@@ -520,11 +589,13 @@ public class LectureController {
 	}
 	// 자료실 수정액션
 	@PostMapping("/loginCheck/updateReference")
-	public String updateReferenceAction(Model model, HttpServletRequest request
+	public String updateReferenceAction(Model model, HttpServletRequest request, HttpSession session
 											,@RequestParam(name = "referenceNo") int referenceNo
 											,ReferenceForm referenceForm) {
 		
+		// 경로 설정
 		String path = request.getServletContext().getRealPath("/file/referenceFile/");
+		
 		// 요청값 디버깅
 		log.debug(CF.HJI+"LectureController.updateReferenceAction referenceNo : "+referenceNo+CF.RS);
 		log.debug(CF.HJI+"LectureController.updateReferenceAction referenceForm : "+referenceForm+CF.RS);
@@ -553,13 +624,25 @@ public class LectureController {
 	
 	// 자료실 삭제
 	@GetMapping("/loginCheck/removeReference")
-	public String removeReference(HttpServletRequest request
+	public String removeReference(HttpServletRequest request, HttpSession session
 									,@RequestParam(name="referenceNo")int referenceNo) {
 		
+		// session값 들고 오기
+		int loginLv = (int)session.getAttribute("sessionLv");
+		
+		// 권한 확인
+		log.debug(CF.HJI+"LectureController.removeReference loginLv : "+loginLv+CF.RS);
+		if(loginLv > 1) {
+			return "redirect:/loginCheck/main";
+		}
+		
+		// 경로 설정
 		String path = request.getServletContext().getRealPath("/file/referenceFile/");
-		// 요청값 추출
+		
+		// 디버깅
 		log.debug(CF.HJI+"LectureController.removeReference referenceNo : "+referenceNo+CF.RS);
 		log.debug(CF.HJI+"LectureController.removeReference path : "+path+CF.RS);
+		
 		
 		// 실행
 		lectureService.removeReference(referenceNo, path);
@@ -571,7 +654,16 @@ public class LectureController {
 	
 	// 과목 리스트
 	@GetMapping("/loginCheck/getSubjectList")
-	public String getSubjectList(Model model) {
+	public String getSubjectList(Model model, HttpSession session) {
+		
+		// session값 들고 오기
+		int loginLv = (int)session.getAttribute("sessionLv");
+		
+		// 권한 확인
+		log.debug(CF.HJI+"LectureController.getSubjectList loginLv : "+loginLv+CF.RS);
+		if(loginLv > 2) {
+			return"redirect:/loginCheck/main";
+		}
 		
 		// 실행
 		List<Subject> list = lectureService.getSubjectList();
@@ -584,8 +676,17 @@ public class LectureController {
 	
 	// 과목 입력
 	@PostMapping("/loginCheck/addSubject")
-	public String addSubject(Subject subject) {
+	public String addSubject(Subject subject, HttpSession session) {
 		
+		// session값 들고 오기
+		int loginLv = (int)session.getAttribute("sessionLv");
+		
+		// 권한 확인
+		log.debug(CF.HJI+"LectureController.addSubject loginLv : "+loginLv+CF.RS);
+		if(loginLv > 2) {
+			return"redirect:/loginCheck/getSubjectList";
+		}
+				
 		// 디버깅
 		log.debug(CF.HJI+"LectureController.addSubject subject : "+subject+CF.RS);
 		
@@ -598,13 +699,22 @@ public class LectureController {
 		} else {
 			log.debug(CF.HJI+"LectureController.addSubject 실패! : "+row+CF.RS);
 		}
-		
+	
 		return"redirect:/loginCheck/getSubjectList";
 	}
 	
 	// 과목 삭제
 	@GetMapping("/loginCheck/removeSubject")
-	public String removeSubject(@RequestParam(name="subjectName")String subjectName) {
+	public String removeSubject(HttpSession session
+								, @RequestParam(name="subjectName")String subjectName) {
+		// session값 들고 오기
+		int loginLv = (int)session.getAttribute("sessionLv");
+		
+		// 권한 확인
+		log.debug(CF.HJI+"LectureController.addSubject loginLv : "+loginLv+CF.RS);
+		if(loginLv > 2) {
+			return"redirect:/loginCheck/getSubjectList";
+		}
 		
 		// 디버깅
 		log.debug(CF.HJI+"LectureController.addSubject subjectName : "+subjectName+CF.RS);

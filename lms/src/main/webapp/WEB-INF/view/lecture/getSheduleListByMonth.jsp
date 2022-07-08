@@ -110,11 +110,17 @@
 								<div>
 									<c:forEach var="c" items="${list}">
 										<c:if test="${(c.scheduleDateDay) ==  (i - startBlank)}">
+											
 											<span id="c${c.scheduleNo}">
 											<input name="scheduleNo" class="btn btn-sm bg-white text-dark" type="button" data-toggle="modal" data-target="#ScheduleOneModal" onclick="javascript:Click(${c.scheduleNo})" value="[${c.lectureName}]${c.subjectName}">
-											<a class="btn btn-sm btn-primary" href="${pageContext.request.contextPath}/loginCheck/modifySchedule?scheduleNo=${c.scheduleNo}&y=${y}&m=${m}">수정</a>
-											<a class="btn btn-sm btn-danger" href="${pageContext.request.contextPath}/loginCheck/removeSchedule?scheduleNo=${c.scheduleNo}&y=${y}&m=${m}">삭제</a><br>
+											<c:if test="${sessionLv > 2}">
+												<div class="btn-group">
+												<a class=" btn-sm btn-primary" href="${pageContext.request.contextPath}/loginCheck/modifySchedule?scheduleNo=${c.scheduleNo}&y=${y}&m=${m}">수정</a>
+												<a class=" btn-sm btn-danger" href="${pageContext.request.contextPath}/loginCheck/removeSchedule?scheduleNo=${c.scheduleNo}&y=${y}&m=${m}">삭제</a><br>
+												</div>
+											</c:if>
 											</span>
+											
 										</c:if>
 									</c:forEach>
 								</div>
