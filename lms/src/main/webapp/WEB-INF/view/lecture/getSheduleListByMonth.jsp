@@ -110,14 +110,13 @@
 								<div>
 									<c:forEach var="c" items="${list}">
 										<c:if test="${(c.scheduleDateDay) ==  (i - startBlank)}">
-											
 											<span id="c${c.scheduleNo}">
 											<input name="scheduleNo" class="btn btn-sm bg-white text-dark" type="button" data-toggle="modal" data-target="#ScheduleOneModal" onclick="javascript:Click(${c.scheduleNo})" value="[${c.lectureName}]${c.subjectName}">
 											<c:if test="${sessionLv > 2}">
 												<div class="btn-group">
 												<a class=" btn-sm btn-primary" href="${pageContext.request.contextPath}/loginCheck/modifySchedule?scheduleNo=${c.scheduleNo}&y=${y}&m=${m}">수정</a>
-												<a class=" btn-sm btn-danger" href="${pageContext.request.contextPath}/loginCheck/removeSchedule?scheduleNo=${c.scheduleNo}&y=${y}&m=${m}">삭제</a><br>
-												</div>
+												<a class=" btn-sm btn-danger" href="${pageContext.request.contextPath}/loginCheck/removeSchedule?scheduleNo=${c.scheduleNo}&y=${y}&m=${m}">삭제</a>
+												</div><br>
 											</c:if>
 											</span>
 											
@@ -228,7 +227,7 @@
 	       	 <div class="modal-body">
 	       	 <div> 강의 : <span id="lectureName"></span></div>
 			 <div> 과목 : <span id="subjectName"></span></div>
-			 <div> 시간표 : <span id="scheduleDate"></span></div>
+			 <div> 시간표 : <span id="scheduleDateOne"></span></div>
 			 </div>
 			 <div class="modal-footer">
 				<!-- 요기다 좀 찾아라 hidden="hidden" -->
@@ -277,7 +276,7 @@
 			console.log(result);
 				$('#lectureName').text(result.lectureName)
 				$('#subjectName').text(result.subjectName)
-				$('#scheduleDate').text(result.scheduleDate)
+				$('#scheduleDateOne').text(result.scheduleDate)
 			},
 			error : function(a, b, c){
 				//통신 실패시 발생하는 함수(콜백)
