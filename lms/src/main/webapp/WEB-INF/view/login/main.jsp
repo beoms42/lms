@@ -76,6 +76,17 @@ to {
 	left: 0;
 	top: 0
 }
+
+.title {
+	position: relative;
+	top: 65px;
+	left: 65px;
+}
+
+.content {
+	position: relative;
+	top: 20px;
+}
 </style>
 
 </head>
@@ -98,15 +109,15 @@ to {
 					<div class="row">
 						<div class="col-md-5 grid-margin stretch-card">
 							<div class="card tale-bg">
-								<h1>LMS-TFT</h1>
+								<h1 class="title">LMS-TFT</h1>
 								<div class="card-people mt-auto">
 									<img
 										src="${pageContext.request.contextPath}/images/dashboard/people.svg"
 										alt="people">
 									<div class="weather-info">
-										<div class="d-flex">
+										<div class="content d-flex">
 											<div>
-												<h4>${year}년${month}월${day}일${dayOfWeek}</h4>
+												<h4>${year}년 ${month}월 ${day}일 ${dayOfWeek}</h4>
 												<br>
 												<div style="display: flex;">
 													<h2 class="mb-0 font-weight-normal">
