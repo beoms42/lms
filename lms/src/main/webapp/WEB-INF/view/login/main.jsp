@@ -98,6 +98,7 @@ to {
 					<div class="row">
 						<div class="col-md-5 grid-margin stretch-card">
 							<div class="card tale-bg">
+								<h1>LMS-TFT</h1>
 								<div class="card-people mt-auto">
 									<img
 										src="${pageContext.request.contextPath}/images/dashboard/people.svg"

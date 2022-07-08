@@ -19454,11 +19454,16 @@ p {
 }
 
 h1, .h1 {
+  position: relative;
   font-size: 3.125rem;
+  left: 65px;
+  top: 65px;
 }
 
 h2, .h2 {
+  position: relative;
   font-size: 2.187rem;
+  top: 20px;
 }
 
 h3, .h3 {
@@ -19466,7 +19471,9 @@ h3, .h3 {
 }
 
 h4, .h4 {
+  position: relative;
   font-size: 1.125rem;
+  top: 20px;
 }
 
 h5, .h5 {
@@ -20194,7 +20201,6 @@ code {
 }
 
 .card-people {
-  position: relative;
   padding-top: 20px;
 }
 
