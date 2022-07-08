@@ -256,6 +256,7 @@
   		}
   	});
   	
+  	// 이메일 중복 체크
   	$('#emailChk').click(function() {
   		if($('#email').val().length > 8) {
   			$.ajax({
@@ -449,7 +450,7 @@
   		} else if($('#customFile').val()=='') {
   			$('#detailAddrHelper').text('');
   			$('#imageHelper').text('사진을 등록해주세요.');
-  		} else if(file.indexOf('jpg') != -1 || file.indexOf('jpeg') != -1 || file.indexOf('png') != -1 || file.indexOf('PNG') != -1) {
+  		} else if(file.indexOf('jpg') == -1 && file.indexOf('jpeg') == -1 && file.indexOf('png') == -1 && file.indexOf('PNG') == -1) {
   			$('#imageHelper').text('사진 형식이 아닙니다.');
   		} else {
   			$('#addMemberForm').submit();
@@ -506,7 +507,7 @@
   	  		} else if($('#customFile').val()=='') {
   	  			$('#detailAddrHelper').text('');
   	  			$('#imageHelper').text('사진을 등록해주세요.');
-  	  		} else if(file.indexOf('jpg') != -1 || file.indexOf('jpeg') != -1 || file.indexOf('png') != -1 || file.indexOf('PNG') != -1) {
+  	  		} else if(file.indexOf('jpg') == -1 && file.indexOf('jpeg') == -1 && file.indexOf('png') == -1 && file.indexOf('PNG') == -1) {
   	  			$('#imageHelper').text('사진 형식이 아닙니다.');
   	  		} else {
   	  			$('#addMemberForm').submit();

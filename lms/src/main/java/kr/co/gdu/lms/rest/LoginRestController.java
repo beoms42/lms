@@ -1,6 +1,5 @@
 package kr.co.gdu.lms.rest;
 
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -17,13 +16,11 @@ import kr.co.gdu.lms.service.LoginService;
 import kr.co.gdu.lms.vo.Login;
 import lombok.extern.slf4j.Slf4j;
 
-
 @Slf4j
 @RestController
 public class LoginRestController {
 
 	@Autowired LoginService loginService;
-	
 	
 	// 바꾸는 비밀번호와 비밀번호 변경 이력 비교
 	@PostMapping("/lastLoginPwCheck")
@@ -106,5 +103,4 @@ public class LoginRestController {
 		
 		return sb.toString(); // return 타입 string이라 object -> string으로 형 변환해주기
 	}
-	
 }

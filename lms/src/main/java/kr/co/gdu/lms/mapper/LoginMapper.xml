@@ -221,7 +221,7 @@
 			#{loginId}
 			, PASSWORD(#{loginPw})
 			, #{level}
-			, '1'
+			, '2'
 			, NOW()
 			, NOW()
 			, NOW()
