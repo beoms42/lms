@@ -108,20 +108,31 @@
 						            	<button id="searchId" type="button" class="btn btn-primary mr-2">아이디 찾기</button>
 						            	<a href="${pageContext.request.contextPath}/login" class="btn btn-light" type="button">로그인 화면으로</a>
 						            </c:if>
+						         </form>
 						         
-						             <c:if test="${resultMsg != null}">
+					             <c:if test="${resultMsg != null}">
 						             <div class="modal_background">
 					   				      <div class="msgbox">
-							                 <h4 class="text-center">회원님의 아이디를 이메일로 발송했습니다. </h4>
-							                 <hr>
-							                 <div class="text-center">
-								                 <a href="${pageContext.request.contextPath}/login" class="btn btn-primary mr-2" type="button">로그인 하러가기</a>
-								                 <a href="${pageContext.request.contextPath}/searchLoginPw" class="btn btn-light" type="button">비밀번호 찾기</a>
-							                 </div>
+					   				      	<c:choose>
+					   				      		<c:when test="${resultMsg eq 'true'}">
+					   				      			<h4 class="text-center">회원님의 아이디를 이메일로 발송했습니다. </h4>		
+					   				      			<hr>
+							                 		<div class="text-center">
+								                 		<a href="${pageContext.request.contextPath}/login" class="btn btn-primary mr-2" type="button">로그인 하러가기</a>
+								                 		<a href="${pageContext.request.contextPath}/searchLoginPw" class="btn btn-light" type="button">비밀번호 찾기</a>
+							                 		</div>
+					   				      		</c:when>
+								                <c:otherwise>
+					   				      			<h4 class="text-center">해당 정보와 일치하는 데이터가 없습니다.</h4>
+					   				      			<hr>
+					   				      			<div class="text-center">
+					   				      				<a href="${pageContext.request.contextPath}/searchLoginId" class="btn btn-primary mr-2 text-center" type="button">다시 아이디 찾기</a>
+					   				      			</div>
+					   				      		</c:otherwise>
+					   				      	</c:choose>
 			          				   	 </div>         
 			          				</div>
-						            </c:if>
-					            </form>
+					            </c:if>
 					        </div>
 						</div>
 					</div>
@@ -175,8 +186,11 @@
   	$('#searchId').click(function(){
   		if($('#name').val() == ''){
   			$('#nameHelper').text('이름을 입력하세요.');
-  		} else if($('#email').val() == ''){
+  		} else if($('#email').val().indexOf('@') == -1 || $('#email').val().indexOf('.') == -1) {
   			$('#nameHelper').text('');
+			$('#emailHelper').text('이메일 형식이 다릅니다.');
+  		} else if($('#email').val() == ''){
+  			$('#emailHelper').text('');
   			$('#emailHelper').text('이메일을 입력하세요.');
   		} else{
   			$('#searchLoginIdForm').submit();

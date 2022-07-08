@@ -26,6 +26,7 @@
   	.auth .auth-form-light select {color: #4C4C4C;}
   	.button-bottom {margin-bottom : 10px;}
   	.boxShadow {box-shadow: 0 20px 25px -5px rgb(0 0 0 / 10%);}
+  	.top {margin-top : 40px;}
   </style>
 </head>
 
@@ -72,7 +73,7 @@
 					            <h3 class="card-title bottom">회원 가입</h3>
 					            <form class="forms-sample" id="addMemberForm" method="post" action="${pageContext.request.contextPath}/addMember" enctype="multipart/form-data">
 						            <div class="row">
-						            	<input type="hidden" name="addChk" value="${addChk}">
+						            	<input type="hidden" name="addChk" id="addChk" value="${addChk}">
 							            <div class="form-group col">
 								            <label>ID 중복 검사</label>
 								            <input type="text" class="form-control button-bottom" placeholder="ID를 입력해주세요." id="id">
@@ -111,10 +112,17 @@
 							            <input type="date" class="form-control" name="birth" id="birth">
 							            <span id="birthHelper"></span>
 						          	</div>
-						            <div class="form-group">
-							            <label>이메일</label>
-							            <input type="email" name="email" class="form-control" placeholder="이메일" id="email">
-							            <span id="emailHelper"></span>
+  									<div class="row top">
+  										<div class="form-group col">
+								            <label>이메일 중복 검사</label>
+								            <input type="email" class="form-control button-bottom" placeholder="이메일을 입력해주세요." id="email">
+								            <span id="emailHelper"></span>
+									        <button type="button" class="float-right btn btn-primary mr-2" id="emailChk">이메일 중복 검사</button>
+							            </div>
+							            <div class="form-group col">
+								            <label>이메일</label>
+								            <input type="email" name="email" class="form-control" placeholder="이메일" id="realEmail" readonly="readonly">
+							            </div>
 						            </div>
 						            <div class="form-group">
 							            <label>휴대폰 번호</label>
@@ -248,6 +256,29 @@
   		}
   	});
   	
+  	$('#emailChk').click(function() {
+  		if($('#email').val().length > 8) {
+  			$.ajax({
+  				type:'get'
+  				, url : url +'/email'
+  				, data : {email:$('#email').val(), addChk:$('#addChk').val()}
+  				, success: function(ck) {
+  					console.log('ck : ', ck);
+  					if(ck=='false') {
+  						$('#emailHelper').text('이미 사용중인 이메일 입니다.');
+  						$('#realEmail').val('');
+  					} else {	
+  						$('#emailHelper').text('사용가능한 이메일 입니다.');
+  						$('#email').val(ck);
+  						$('#realEmail').val(ck);
+  					}
+  				}
+  			})
+  		} else {
+  			$('#emailHelper').text('이메일은 최소 8자 이상 입력해주셔야합니다.');
+  		}
+  	});
+  	
   	// 주소검색
   	$('#searchAddrList').hide();
   	$('#searchAddr').click(function() {
@@ -283,10 +314,10 @@
   		if($('#customFile').val() != '') {
   			var file = $('#customFile').val();
   			console.log("file",file);
-  			if(file.indexOf('jpg') != -1 || file.indexOf('jpeg') != -1 || file.indexOf('png') != -1) {
+  			if(file.indexOf('jpg') != -1 || file.indexOf('jpeg') != -1 || file.indexOf('png') != -1 || file.indexOf('PNG') != -1) {
   				console.log("성공여부", file.indexOf("jpg"));
   			} else {
-  				$('#imageHelper').text('이미지 타입이 아닙니다.');
+  				$('#imageHelper').text('사진 형식이 아닙니다.');
   			}
   	  	}
   	}); 
@@ -334,8 +365,10 @@
   	
   	$('#email').blur(function() {
   		if($('#email').val()=='') {
+  			$('#realEmail').val('');
   			$('#emailHelper').text('이메일을 입력해주세요.');
   		} else if($('#email').val().indexOf('@') == -1 || $('#email').val().indexOf('.') == -1) {
+  			$('#realEmail').val('');
   			$('#emailHelper').text('이메일 형식이 다릅니다.');	
   		} else {
   			$('#emailHelper').text('');
@@ -370,6 +403,8 @@
   	
   	// 버튼 눌렀을시 유효성 검사
   	$('#addMemberBtn').click(function() {
+  		var file = $('#customFile').val();
+		console.log("file",file);
   		if($('#realId').val()=='') {
   			alert('아이디 중복 검사 해주세요');
   		} else if($('#pw').val()=='') {
@@ -390,12 +425,14 @@
   			$('#nameHelper').text('');
   			$('#birthHelper').text('생년월일을 입력해주세요.');
   		} else if($('#email').val()=='') {
+  			$('#realEmail').val('');
   			$('#birthHelper').text('');
   			$('#emailHelper').text('이메일을 입력해주세요.');
-  		} else if($('#email').val().indexOf('@') == -1 || $('#email').val().indexOf('.') == -1) {
+  		} else if($('#realEmail').val()=='') {
+  			$('#realEmail').val('');
   			$('#birthHelper').text('');
   			$('#emailHelper').text('');	
-  			$('#emailHelper').text('이메일 형식이 다릅니다.');	
+  			alert('이메일 중복 검사 해주세요.');	
   		} else if($('#phone').val()=='') {
   			$('#emailHelper').text('');
   			$('#phoneHelper').text('휴대폰 번호를 입력해주세요.');
@@ -412,6 +449,8 @@
   		} else if($('#customFile').val()=='') {
   			$('#detailAddrHelper').text('');
   			$('#imageHelper').text('사진을 등록해주세요.');
+  		} else if(file.indexOf('jpg') != -1 || file.indexOf('jpeg') != -1 || file.indexOf('png') != -1 || file.indexOf('PNG') != -1) {
+  			$('#imageHelper').text('사진 형식이 아닙니다.');
   		} else {
   			$('#addMemberForm').submit();
   		}
@@ -421,6 +460,8 @@
   	$(document).keydown(function(event){
   		if(event.keyCode==13) {
   			event.preventDefault();
+  			var file = $('#customFile').val();
+  			console.log("file",file);
   			if($('#realId').val()=='') {
   	  			alert('아이디 중복 검사 해주세요');
   	  		} else if($('#pw').val()=='') {
@@ -441,12 +482,14 @@
   	  			$('#nameHelper').text('');
   	  			$('#birthHelper').text('생년월일을 입력해주세요.');
   	  		} else if($('#email').val()=='') {
+  	  			$('#realEmail').val('');
   	  			$('#birthHelper').text('');
   	  			$('#emailHelper').text('이메일을 입력해주세요.');
-  	  		} else if($('#email').val().indexOf('@') == -1 || $('#email').val().indexOf('.') == -1) {
+  	  		} else if($('#realEmail').val()=='') {
+  	  			$('#realEmail').val('');
   	  			$('#birthHelper').text('');
   	  			$('#emailHelper').text('');	
-  	  			$('#emailHelper').text('이메일 형식이 다릅니다.');	
+  	  			alert('이메일 중복 검사 해주세요.');	
   	  		} else if($('#phone').val()=='') {
   	  			$('#emailHelper').text('');
   	  			$('#phoneHelper').text('휴대폰 번호를 입력해주세요.');
@@ -463,6 +506,8 @@
   	  		} else if($('#customFile').val()=='') {
   	  			$('#detailAddrHelper').text('');
   	  			$('#imageHelper').text('사진을 등록해주세요.');
+  	  		} else if(file.indexOf('jpg') != -1 || file.indexOf('jpeg') != -1 || file.indexOf('png') != -1 || file.indexOf('PNG') != -1) {
+  	  			$('#imageHelper').text('사진 형식이 아닙니다.');
   	  		} else {
   	  			$('#addMemberForm').submit();
   	  		}
@@ -471,8 +516,8 @@
   	
   	// custom - file 사용위함 
   	$(".custom-file-input").on("change", function() {
-  	  var fileName = $(this).val().split("\\").pop();
-  	  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+	  	  var fileName = $(this).val().split("\\").pop();
+	  	  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
   	});
   	
   </script>

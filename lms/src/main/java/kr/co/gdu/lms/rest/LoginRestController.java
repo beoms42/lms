@@ -43,21 +43,40 @@ public class LoginRestController {
 		return "";
 	}
 	
+	// email 중복체크
+	@GetMapping("/email")
+	public String email(@RequestParam(value="email") String email
+						, @RequestParam(value="addChk") String addChk) {
+		
+		log.debug(CF.OHI+"LoginRestController.email : "+email+CF.RS);
+		log.debug(CF.OHI+"LoginRestController.addChk : "+addChk+CF.RS);
+		                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+		int count = loginService.emailCheck(email, addChk);
+		log.debug(CF.OHI+"LoginRestController.email.get count : "+count+CF.RS);
+		
+		if(count >= 1) { // 중복된 이메일이 있다면
+			return "false"; // false값 리턴
+		}
+		
+		return email;
+	}
+	
+	// id 중복체크
 	@GetMapping("/id")
 	public String id(@RequestParam(value="id") String id) {
 		
 		// id 중복 체크해서 중복된 아이디 개수 받아오기
 		int count = loginService.idCheck(id);
-		log.debug(CF.OHI+"LoginRestController.idCheck.post count : "+count+CF.RS);
+		log.debug(CF.OHI+"LoginRestController.id.get count : "+count+CF.RS);
 		
 		if(count == 1) { // 중복된 아이디가 있다면
 			return "false"; // false값 리턴
-			
 		}
 		
 		return id;
 	}
 	
+	//주소 검색
 	@GetMapping("/searchAddr")
 	public String searchAddr(@RequestParam(value="keyword") String keyword) {
 		

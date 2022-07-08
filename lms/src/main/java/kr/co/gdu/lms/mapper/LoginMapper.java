@@ -73,8 +73,11 @@ public interface LoginMapper {
 	// 로그인 - 마지막 로그인날짜 업데이트
 	int updateLastLoginDate(String loginId);
 	
-	// id 중복 체크 위해 id 리스트 받기
+	// id 중복 체크 위해 id 개수 받기
 	int selectIdCnt(String id);
+	
+	// email 중복 체크 위해 email 개수 받기
+	int selectEmailCnt(Map<String, Object> map);
 	
 	// 매니저 회원가입
 	int insertMember(MemberForm addMemberForm);

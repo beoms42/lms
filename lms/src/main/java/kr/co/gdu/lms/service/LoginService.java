@@ -125,17 +125,22 @@ public class LoginService {
 		
 		log.debug(CF.OHI+"LoginService.searchAllLoginId loginId : "+loginId+CF.RS);
 		
-		SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-		simpleMailMessage.setTo((String) map.get("email"));
-		simpleMailMessage.setFrom("LMS-TFT");
-		simpleMailMessage.setSubject("LMS-TFT 아이디 발송");
-		simpleMailMessage.setText("회원님의 아이디는 "+loginId+" 입니다.");
+		if(loginId != null) {
+			SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+			simpleMailMessage.setTo((String) map.get("email"));
+			simpleMailMessage.setFrom("LMS-TFT");
+			simpleMailMessage.setSubject("LMS-TFT 아이디 발송");
+			simpleMailMessage.setText("회원님의 아이디는 "+loginId+" 입니다.");
+			
+			log.debug(CF.OHI+"LoginService.searchAllLoginId simpleMailMessage"+simpleMailMessage+CF.RS);
+			
+			javaMailSender.send(simpleMailMessage);
+			
+			return "true";
+		} else {
+			return "false";
+		}
 		
-		log.debug(CF.OHI+"LoginService.searchAllLoginId simpleMailMessage"+simpleMailMessage+CF.RS);
-		
-		javaMailSender.send(simpleMailMessage);
-		
-		return "resultMsg";
 	}
 		
 	// 로그인
@@ -153,7 +158,22 @@ public class LoginService {
 		return login;
 	}
 	
-	// ajax로 아이디 중복 체크 시 
+	// 이메일 중복 체크 
+	public int emailCheck(String email, String addChk) {
+	
+		Map<String, Object> map = new HashMap<>();
+		map.put("email", email);
+		map.put("addChk", addChk);
+		
+		log.debug(CF.OHI+"LoginService.emailCheck map : "+map+CF.RS);
+		
+		// 해당 이메일 있는지 체크해서 일치하는 개수 받아오기
+		int count = loginMapper.selectEmailCnt(map);
+		
+		return count;
+	}
+	
+	// 아이디 중복 체크  
 	public int idCheck(String id) {
 		
 		// 해당 아이디 있는지 체크해서 일치하는 개수 받아오기

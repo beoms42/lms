@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.gdu.lms.mapper.LoginMapper">
+	
 	<update id="updateActiveByMember"
 			parameterType="String">
 		UPDATE login
@@ -18,6 +19,7 @@
 		AND DATEDIFF(NOW(), last_login_date) >= 90
 		AND DATEDIFF(NOW(), last_login_date) &lt; 180
 	</select>
+	
 	<!-- 3개월 동안 로그인 안한 사용자 비활성화 -->
 	<update id="updateActiveByDormantMember"
 			parameterType="String">
@@ -154,8 +156,29 @@
 		WHERE login_id=#{id}
 	</select>
 	
+	<!-- email 중복 체크 위해 email 리스트 받기 -->
+	<select id="selectEmailCnt"
+			parameterType="java.util.Map"
+			resultType="int">
+		SELECT 
+			count(*)
+			<if test='"manager".equals(addChk)'>
+				FROM manager
+				WHERE manager_email=#{email}
+			</if>
+			<if test='"teacher".equals(addChk)'>
+				FROM teacher
+				WHERE teacher_email=#{email}			
+			</if>
+			<if test='"student".equals(addChk)'>
+				FROM student
+				WHERE student_email=#{email}
+			</if>
+	</select>
+	
 	<!-- 회원가입 - 회원정보넣기 -->
-	<insert id="insertMember" parameterType="kr.co.gdu.lms.vo.MemberForm">
+	<insert id="insertMember" 
+			parameterType="kr.co.gdu.lms.vo.MemberForm">
 		
 		<if test='"manager".equals(addChk)'>
 			INSERT INTO manager		
