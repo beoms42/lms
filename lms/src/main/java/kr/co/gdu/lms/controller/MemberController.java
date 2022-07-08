@@ -264,16 +264,28 @@ public class MemberController {
 						 , @RequestParam(name = "loginPw") String loginPw
 		   				 , @RequestParam(name="msg") String msg) {
 	   
-	   model.addAttribute(msg, "msg");
+	   log.debug("MemberController.pwCheck loginId:" + loginId);
+	   log.debug("MemberController.pwCheck loginPw:" + loginPw);
+	   
+	   // 로그인 객체에 Id, Pw 담기
+	   login.setLoginId(loginId);
+	   login.setLoginPw(loginPw);
+	   
+	   // 확인 실패시 넘길 loginId와 msg 담기
+	   model.addAttribute("loginId", loginId);
+	   model.addAttribute("msg", msg);
 	   
 	   // 패스워드가 일치하는지 확인
 	   int row = memberService.getPwCheck(login);
+	   log.debug("memberService.getPwCheck row:" + row);
 	   
 	   if("modifyPwCheck".equals(msg)) {
 	       if (row == 1) {
-	          return "redirect:/loginCheck/modifyMember";
+	    	   log.debug("비밀번호 맞음: 회원수정 폼창 띄우기 성공");	
+	    	   return "redirect:/loginCheck/modifyMember";
 	       } else {
-	          return "/member/pwCheck";
+	    	   log.debug("비밀번호 틀림: 회원수정 폼창 띄우기 실패");	
+	          return "member/pwCheck";
 	       }
 	   } else if("removePwCheck".equals(msg)) {
 		   // 레벨 받아오기
@@ -294,20 +306,10 @@ public class MemberController {
 		       return "/member/pwCheck";
 		   }
 	   } else {
-		   // 받아온 매개변수 디버깅
-		   log.debug(CF.GDH + "MemberController.modifyPwPwCheck.Post loginId : " + loginId + CF.RS);
-		   log.debug(CF.GDH + "MemberController.modifyPwPwCheck.Post loginPw : " + loginPw + CF.RS);
-		   
-		   login.setLoginId(loginId);
-		   login.setLoginPw(loginPw);
-		   
-		   // 모델에 담아서 넘기기
-		   model.addAttribute("loginId", loginId);
-		   
 		   if(row == 1) {
 			   return "member/modifyPw";
 		   } else {
-			   return "redirect:/member/pwCheck";
+			   return "member/pwCheck";
 		   }
 	   }
    }

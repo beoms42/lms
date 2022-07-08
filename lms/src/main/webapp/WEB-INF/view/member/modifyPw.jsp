@@ -23,6 +23,11 @@
   <!-- endinject -->
   <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/tftace.jpg" />
   <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <style>
+     .helper {
+        color : #FF0000;
+     }
+  </style>
 </head>
 <body>
   <div class="container-scroller">
@@ -53,16 +58,16 @@
 							</tr>
 							<tr>
 								<th>변경할 비밀번호</th>
-								<td><input type="password" class="form-control-df" id="tryPw"> 
-								<span id="tryPwHelper"></span></td>
+								<td><input type="password" class="form-control-df" id="tryPw"><br> 
+								<div id="tryPwHelper" class="helper"></div></td>
 							</tr>
 							<tr>
 								<th>변경할 비밀번호 확인</th>
-								<td><input type="password" class="form-control-df" name="loginPw" id="loginPw">
-								<span id="loginPwHelper"></span></td>
+								<td><input type="password" class="form-control-df" name="loginPw" id="loginPw"><br>
+								<div id="loginPwHelper" class="helper"></div></td>
 							</tr>
 						</table><br>
-						<button class="btn btn-primary" id="loginPwBtn" style="border-radius: 4 4 4 4;">변경하기</button>
+						<button type="button" class="btn btn-primary" id="loginPwBtn" style="border-radius: 4 4 4 4;">변경하기</button>
 					</form>
                 </div>
                 <div class="col-12 col-xl-4">
@@ -72,8 +77,6 @@
               </div>
             </div>
           </div>
-          
-          
         </div>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
@@ -122,13 +125,10 @@
     //유효성 
 	$('#tryPw').blur(function() {
 		if($('#tryPw').val()=='') {
-			alert('dddddd');
 			$('#tryPwHelper').text('비밀번호를 입력해주세요.');
 		} else if(!spc.test($('#tryPw').val())) { // tryPw에 spc가 없다면
-			alert('dddddd');
 			$('#tryPwHelper').text('비밀번호에 특수문자를 포함해주세요.');
 		} else if($('#tryPw').val().length <9) {
-			alert('dddddd');
 			$('#tryPwHelper').text('비밀번호를 8자 이상 입력해주세요.');
 		} else {
 			$('#tryPwHelper').text('');
@@ -161,7 +161,7 @@
   		} else {
   			$('#loginPwForm').submit();
   		}
-  	}
+  	})
   	
  	// enter키 눌렀을때 유효성 검사
   	$(document).keydown(function(event){
@@ -180,7 +180,7 @@
   	  			$('#loginPwHelper').text('비밀번호와 일치하지 않습니다.');
   	  		}
   		}
-  	}
+  	})
   </script>
 </body>
 
