@@ -90,6 +90,7 @@ public interface YoungInMapper {
 	// qna 삭제
 	void deleteByQnaNo(int qnaNo);
 	
-	
+	// ------------- stats---------
+	List<Map<String, Object>> selectMilitaryStatus();
 	
 }

@@ -325,4 +325,14 @@
 		DELETE FROM qna
 		WHERE qna_no = #{qnaNo} OR qna_answer_no = #{qnaNo}		
 	</delete>
+	
+	<!-- 학생별 군필명 -->
+	<select id="selectMilitaryStatus"
+			resultType="java.util.Map">
+		SELECT 
+			military_status ms
+			, COUNT(military_status) cs
+		FROM student
+		GROUP BY military_status
+	</select>
 </mapper>

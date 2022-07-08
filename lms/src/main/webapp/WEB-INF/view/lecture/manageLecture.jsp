@@ -94,7 +94,7 @@
                       		<a href="${pageContext.request.contextPath}/loginCheck/addSubjectInLecture?lectureName=${lect.lectureName}"><label class="badge badge-warning">과목설정</label></a>
                       		<a href="${pageContext.request.contextPath}/loginCheck/addStudentInLectureForm?lectureName=${lect.lectureName}"><label class="badge badge-success">학생배정</label></a>
                       		<a href="${pageContext.request.contextPath}/loginCheck/updateLectureForm?lectureName=${lect.lectureName}"><label class="badge badge-info">수정</label></a>
-                      		<a href="#"><label class="badge badge-danger">삭제</label></a>
+                      		<a href="${pageContext.request.contextPath}/loginCheck/deleteLecture?lectureName=${lect.lectureName}"><label class="badge badge-danger">삭제</label></a>
                       		</td>
                       	</tr>
                       </c:forEach>                

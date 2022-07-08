@@ -130,7 +130,9 @@ public class LectureController {
 			, HttpSession session
 			, @RequestParam(name = "lectureName") String lectureName) {
 			
-		return "";
+			lectureService.deleteLecture(lectureName);
+			
+		return "redirect:/loginCheck/manageLecture";
 	}
 	
 	// 강의관리 - 과목설정 버튼 클릭시

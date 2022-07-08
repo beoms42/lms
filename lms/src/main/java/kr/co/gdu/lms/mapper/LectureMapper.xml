@@ -137,7 +137,10 @@
 	</update>
 	
 	<delete id="deleteLecutre"
-		parameterType="String"></delete>
+		parameterType="String">
+		DELETE FROM lecture
+		WHERE lecture_name = #{lectureName};
+	</delete>
 		
 	<select id="selectSubejctList"
 		resultType="String">

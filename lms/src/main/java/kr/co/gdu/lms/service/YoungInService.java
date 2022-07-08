@@ -255,4 +255,14 @@ public class YoungInService {
 		//디비 qna삭제
 		youngInMapper.deleteByQnaNo(qnaNo);
 	}
+	
+	// ----------------- restcontroller
+	
+	// 영인 - restcontroller
+		public List<Map<String, Object>> selectMilitaryStatus() {
+			
+			List<Map<String, Object>> list = youngInMapper.selectMilitaryStatus();
+			
+			return list;
+		}
 }

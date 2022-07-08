@@ -131,7 +131,10 @@ public class LectureSerivce {
 		lectureMapper.updateLecture(lecture);
 	}
 	
-// 시간표
+	public void deleteLecture(String lectureName) {
+		lectureMapper.deleteLecutre(lectureName);
+	}
+	// 시간표
 	
 	// 시간표리스트보기
 	public Map<String, Object> getSheduleListByMonth(int y, int m, int loginLv, String loginId) {

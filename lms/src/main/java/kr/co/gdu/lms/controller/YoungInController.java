@@ -313,4 +313,11 @@ public class YoungInController {
 		return "redirect:/loginCheck/getQnaListByPage";
 	}
 	
+	// ------------ 레스트컨트롤러--------------
+	
+	@GetMapping("/loginCheck/selectMilitaryStatus")
+	public String selectMilitaryStatus() {
+		
+		return "stats/selectMilitaryStatus";
+	}
 }
