@@ -39,21 +39,21 @@ public class MemberController {
 	   // msg 확인
 	   log.debug(CF.GDH + "MemberController.getMemberList msg : " + msg + CF.RS);
        
+	   // msg 모델이 담기
+	   model.addAttribute("msg", msg);
+	   
 	   // msg분기별로 정보받아오기
 	   if("student".equals(msg)) {
 		   List<Student> studentList = memberService.getStudentList();
 		   log.debug(CF.GDH+"MemberController.getMemberList studentList : " + studentList + CF.RS);
-		   model.addAttribute("msg", msg);
 		   model.addAttribute("studentList", studentList);
 	   } else if("teacher".equals(msg)) {
 		   List<Teacher> teacherList = memberService.getTeacherList();
 		   log.debug(CF.GDH+"MemberController.getMemberList teacherList : " + teacherList + CF.RS);
-		   model.addAttribute("msg", msg);
 		   model.addAttribute("teacherList", teacherList);
 	   } else if("manager".equals(msg)) {
 		   List<Manager> managerList = memberService.getManagerList();
 	       log.debug(CF.GDH+"MemberController.getMemberList managerList : " + managerList + CF.RS);
-	       model.addAttribute("msg", msg);
 	       model.addAttribute("managerList", managerList);
 	   }
        
@@ -115,7 +115,7 @@ public class MemberController {
          log.debug(CF.PSH+"MemberController.modifyManager :"+deptList+CF.RS);
           log.debug(CF.PSH+"MemberController.modifyManager :"+positionList+CF.RS);
          
-          // 필요한 정보들을 모델에 담기
+         // 필요한 정보들을 모델에 담기
          model.addAttribute("deptList", deptList);
          model.addAttribute("positionList", positionList);
       } 
@@ -138,6 +138,14 @@ public class MemberController {
 								, Manager manager
 								, @RequestParam(name="incomeAddress") String incomeAddress
 								, @RequestParam(name="writtenAddress", defaultValue = "none") String writtenAddress) {
+	   
+	   // 받아온 매개변수 디버깅
+	   log.debug(CF.GDH + "MemberController.modifyStudent.Post student : " + student + CF.RS);
+	   log.debug(CF.GDH + "MemberController.modifyTeacher.Post teacher : " + teacher + CF.RS);
+	   log.debug(CF.GDH + "MemberController.modifyManager.Post manager : " + manager + CF.RS);
+	   log.debug(CF.GDH + "MemberController.modifyStudent.Post incomeAddress : " + incomeAddress + CF.RS);
+	   log.debug(CF.GDH + "MemberController.modifyStudent.Post writtenAddress : " + writtenAddress + CF.RS);
+	   
 	   // 세션을 통해 레벨 받아오기
 	   int level = (int) session.getAttribute("sessionLv");
 	   
@@ -148,13 +156,8 @@ public class MemberController {
 	   if(level == 1) {
 		  // student에 아이디 넣어주기
 		  student.setLoginId(loginId);
-		  
-	      // 받아온 매개변수 디버깅
-	      log.debug(CF.GDH + "MemberController.modifyStudent.Post student : " + student + CF.RS);
-	      log.debug(CF.GDH + "MemberController.modifyStudent.Post incomeAddress : " + incomeAddress + CF.RS);
-	      log.debug(CF.GDH + "MemberController.modifyStudent.Post writtenAddress : " + writtenAddress + CF.RS);
-	      
-	      if(writtenAddress.equals("none")) {
+
+		  if(writtenAddress.equals("none")) {
 	    	  student.setAddress(incomeAddress);
 	    	  log.debug(CF.GDH + "MemberController.modifyStudent.Post student.setAddress(incomeAddress) : " + student + CF.RS);
 	      } else {
@@ -175,11 +178,6 @@ public class MemberController {
 	   } else if(level == 2) {
 		  // teacher에 아이디 넣어주기
 		  teacher.setLoginId(loginId);
-		  
-	      // 받아온 매개변수 디버깅
-	      log.debug(CF.GDH + "MemberController.modifyTeacher.Post teacher : " + teacher + CF.RS);
-	      log.debug(CF.GDH + "MemberController.modifyTeacher.Post incomeAddress : " + incomeAddress + CF.RS);
-	      log.debug(CF.GDH + "MemberController.modifyTeacher.Post writtenAddress : " + writtenAddress + CF.RS);
 	      
 	      if(writtenAddress.equals("none")) {
 	    	  teacher.setAddress(incomeAddress);
@@ -202,11 +200,6 @@ public class MemberController {
 	   } else if(level == 3) {
 		  // manager에 아이디 넣어주기
 		  manager.setLoginId(loginId);
-		
-		// 받아온 매개변수 디버깅
-		log.debug(CF.GDH + "MemberController.modifyManager.Post manager : " + manager + CF.RS);
-		log.debug(CF.GDH + "MemberController.modifyManager.Post incomeAddress : " + incomeAddress + CF.RS);
-		log.debug(CF.GDH + "MemberController.modifyManager.Post writtenAddress : " + writtenAddress + CF.RS);
 		
 		if(writtenAddress.equals("none")) {
 			manager.setAddress(incomeAddress);
