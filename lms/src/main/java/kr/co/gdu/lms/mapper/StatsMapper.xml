@@ -33,8 +33,40 @@
 		GROUP BY lecture_name
 	</select>
 	<!-- 전체 학생 남녀 비율 -->
-	<select id="genderRate"
+	<select id="selectGenderRate"
 			resultType="java.util.Map">
-		SELECT student_gender gender,(COUNT(student_gender)/(SELECT COUNT(student_gender) FROM student))*100 cnt FROM student GROUP BY student_gender
+		SELECT student_gender gender
+				,(COUNT(student_gender)/(SELECT COUNT(student_gender) FROM student))*100 cnt 	
+		FROM student 
+		GROUP BY student_gender
+	</select>
+	<!-- 반당 인원수 -->
+	<select id="selectPerClass"
+			resultType="java.util.Map">
+		SELECT 
+			lecture_name lectureName
+			,COUNT(lecture_name)-1 cnt
+		FROM lecture 
+		WHERE lecture_active = '1'
+		GROUP BY lecture_name 
+	</select>
+	<!--학생 대졸/초대졸/고졸 퍼센트 -->
+	<select id="selectGraduate"
+			resultType="java.util.Map">
+		SELECT 
+			graduate graduate
+			,((COUNT(student_name)/(SELECT COUNT(student_name) FROM student))*100) cnt
+		FROM student 
+		GROUP BY graduate
+	</select>
+	<!-- 전공/비전공 -->
+	<select id="selectMajor"
+			resultType="java.util.Map">
+		SELECT 
+			major_name
+			,(count(major_name)/(SELECT COUNT(login_id) FROM student))*100
+		FROM major 
+		WHERE major_name LIKE '%컴퓨터%' 
+		OR major_name LIKE '%소프트웨어%'
 	</select>
 </mapper>

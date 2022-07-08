@@ -33,8 +33,23 @@ public class StatsService {
 	}
 	public List<Map<String,Object>> genderRate(){
 		List<Map<String,Object>> genderList = new ArrayList<>();
-		genderList = statsmapper.genderRate();
+		genderList = statsmapper.selectGenderRate();
 		return genderList;
 	}
+	
+	
+	
+	
+	public List<Map<String,Object>> addPerClass(){
+		List<Map<String,Object>> classList = new ArrayList<>();
+		classList = statsmapper.selectPerClass();
+		return classList;
+	}
+	public List<Map<String,Object>> addGraduate(){
+		List<Map<String,Object>> graduateList = new ArrayList<>();
+		graduateList = statsmapper.selectGraduate();
+		return graduateList;
+	}
+
 }
 	

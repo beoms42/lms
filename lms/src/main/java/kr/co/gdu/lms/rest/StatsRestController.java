@@ -38,4 +38,18 @@ public class StatsRestController {
 		list = statsservice.genderRate();
 		return list;
 	}
+
+	@GetMapping("/addPerClass")
+	public List<Map<String,Object>> addPerClass(){
+		List<Map<String,Object>> classList = new ArrayList<Map<String,Object>>();
+		classList = statsservice.addPerClass();
+		return classList;
+	}
+	@GetMapping("/graduate")
+	public List<Map<String,Object>> addGraduate(){
+		List<Map<String,Object>> graduateList = new ArrayList<Map<String,Object>>();
+		graduateList = statsservice.addGraduate();
+		return graduateList;
+	}
+	
 }

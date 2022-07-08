@@ -15,8 +15,11 @@
 		FROM assignment_exam a 
 		INNER JOIN education e 
 		ON a.education_no = e.education_no
+		INNER JOIN lecture l 
+		ON e.lecture_name = l.lecture_name
 		WHERE e.lecture_name = #{lectureName}
-		ORDER BY create_date DESC
+		AND l.lecture_active = '1'
+		ORDER BY a.create_date DESC
 	</select> 
 	<!-- 과제 입력 -->
 	<insert id="insertAssignmentExam"
