@@ -55,9 +55,6 @@
 		                <form id="attendanceDateForm" method="get" action="${pageContext.request.contextPath}/loginCheck/getAttendanceList">
 		                	 <h3 class="float-right bottom">
 		                	 <c:choose>
-		                	 	<c:when test="${list[0].scheduleDate != null}">
-		                	 		<input id="scheduleDate" type="date" name="scheduleDate" value="${list[0].scheduleDate}">
-		                	 	</c:when>
 		                	 	<c:when test="${ckDate ne ''}">
 		                	 		<input id="scheduleDate" type="date" name="scheduleDate" value="${ckDate}">
 		                	 	</c:when>

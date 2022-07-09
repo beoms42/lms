@@ -57,15 +57,8 @@
 	                <div class="card-body">
 		                <h2>강의명 [${lectureName}]</h2>
 		                <form id="attendanceDateForm" method="get" action="${pageContext.request.contextPath}/loginCheck/modifyAttendanceList">
-		                	 <h3 class="float-right bottom">
-			                	 <c:choose>
-			                	 	<c:when test="${list[0].scheduleDate != null}">
-			                	 		<input id="scheduleDate" type="date" name="scheduleDate" value="${list[0].scheduleDate}">
-			                	 	</c:when>
-			                	 	<c:otherwise>
-			                	 		<input id="scheduleDate" type="date" name="scheduleDate" value="${ckDate}">
-			                	 	</c:otherwise>
-			                	 </c:choose>
+		                	<h3 class="float-right bottom">
+			                <input id="scheduleDate" type="date" name="scheduleDate" value="${ckDate}">
 		                	</h3>
 		                </form>
 		                <form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyAttendanceList">
