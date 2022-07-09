@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -49,13 +51,26 @@
 	            <div class="col-lg-10 grid-margin stretch-card">
 	              <div class="card">
 	                <div class="card-body">
-		                <h2>강의명 [${list[0].lectureName}]</h2>
+		                <h2>강의명 [${lectureName}]</h2>
 		                <form id="attendanceDateForm" method="get" action="${pageContext.request.contextPath}/loginCheck/getAttendanceList">
 		                	 <h3 class="float-right bottom">
-		                		<input id="scheduleDate" type="date" name="scheduleDate" value="${list[0].scheduleDate}">
+		                	 <c:choose>
+		                	 	<c:when test="${list[0].scheduleDate != null}">
+		                	 		<input id="scheduleDate" type="date" name="scheduleDate" value="${list[0].scheduleDate}">
+		                	 	</c:when>
+		                	 	<c:when test="${ckDate ne ''}">
+		                	 		<input id="scheduleDate" type="date" name="scheduleDate" value="${ckDate}">
+		                	 	</c:when>
+		                	 	<c:otherwise>
+		                	 		<jsp:useBean id="now" class="java.util.Date" />
+		                	 		<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="date"/>
+		                	 		<input id="scheduleDate" type="date" name="scheduleDate" value="${date}">
+		                	 	</c:otherwise>
+		                	 </c:choose>
 		                	</h3>
 		                </form>
 		                <form method="get" action="${pageContext.request.contextPath}/loginCheck/modifyAttendanceList">
+		                	<input type="hidden" name="scheduleDate" value="${list[0].scheduleDate}">
 			                <table class="table">
 		                		<thead>
 		                			<tr>
@@ -74,7 +89,14 @@
 			                		</c:forEach>
 		                		</tbody>
 		                	</table>
-		                	<button class="btn btn-primary float-right top">출결 변경</button>
+		                	<c:choose>
+		                		<c:when test="${fn:length(list)==0}">
+                					<h3 class="text-center top">해당 날짜와 일치하는 출결 데이터가 없습니다.</h3>
+		                		</c:when>
+		                		<c:otherwise>
+		                			<button class="btn btn-primary float-right top">출결 변경</button>	
+		                		</c:otherwise>
+		                	</c:choose>
 		                </form>
 	                </div>
 	              </div>

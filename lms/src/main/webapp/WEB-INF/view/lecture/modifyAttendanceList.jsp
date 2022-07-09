@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -54,10 +55,17 @@
 	            <div class="col-lg-10 grid-margin stretch-card">
 	              <div class="card">
 	                <div class="card-body">
-		                <h2>강의명 [${list[0].lectureName}]</h2>
+		                <h2>강의명 [${lectureName}]</h2>
 		                <form id="attendanceDateForm" method="get" action="${pageContext.request.contextPath}/loginCheck/modifyAttendanceList">
 		                	 <h3 class="float-right bottom">
-		                		<input id="scheduleDate" type="date" name="scheduleDate" value="${list[0].scheduleDate}">
+			                	 <c:choose>
+			                	 	<c:when test="${list[0].scheduleDate != null}">
+			                	 		<input id="scheduleDate" type="date" name="scheduleDate" value="${list[0].scheduleDate}">
+			                	 	</c:when>
+			                	 	<c:otherwise>
+			                	 		<input id="scheduleDate" type="date" name="scheduleDate" value="${ckDate}">
+			                	 	</c:otherwise>
+			                	 </c:choose>
 		                	</h3>
 		                </form>
 		                <form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyAttendanceList">
@@ -88,10 +96,17 @@
 			                		</c:forEach>
 		                		</tbody>
 		                	</table>
-		                	<div class="float-right top">
-		                		<a class="btn btn-success" href="${pageContext.request.contextPath}/loginCheck/modifyAttendanceListAll?scheduleNo=${list[0].scheduleNo}&scheduleDate=${list[0].scheduleDate}">모두 출석으로 변경</a>
-		                		<button class="btn btn-primary">출결 변경</button>
-		                	</div>
+		                	<c:choose>
+		                		<c:when test="${fn:length(list)==0}">
+                					<h3 class="text-center top">해당 날짜와 일치하는 출결 데이터가 없습니다.</h3>
+		                		</c:when>
+		                		<c:otherwise>
+		                			<div class="float-right top">
+		                				<a class="btn btn-success" href="${pageContext.request.contextPath}/loginCheck/modifyAttendanceListAll?scheduleNo=${list[0].scheduleNo}&scheduleDate=${list[0].scheduleDate}">모두 출석으로 변경</a>
+				                		<button class="btn btn-primary">출결 변경</button>
+				                	</div>	
+		                		</c:otherwise>
+		                	</c:choose>
 		                </form>
 	                </div>
 	              </div>

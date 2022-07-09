@@ -20,4 +20,9 @@ public interface HyeinMapper {
 	// 출결사항 수정
 	int updateAttendance(Map<String, Object> map);
 	
+	// 강사별 강의이름
+	String selectLectureName(Map<String, Object> map);
+	
+	// 현재 날짜
+	String selectNowDate();
 }

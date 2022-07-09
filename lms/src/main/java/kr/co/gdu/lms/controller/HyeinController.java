@@ -33,6 +33,7 @@ public class HyeinController {
 		
 		return "redirect:/loginCheck/getAttendanceList?scheduleDate="+scheduleDate;
 	}
+	
 	// 출결리스트
 	@GetMapping("/loginCheck/getAttendanceList")
 	public String getAttendanceList(Model model
@@ -50,9 +51,12 @@ public class HyeinController {
 		map.put("loginId", session.getAttribute("sessionId"));
 		map.put("scheduleDate", scheduleDate);
 		
-		List<Map<String, Object>> returnList = hyeinService.getAttendanceList(map);
+		// 출결 리스트
+		Map<String, Object> returnMap = hyeinService.getAttendanceList(map);
 		
-		model.addAttribute("list", returnList);
+		model.addAttribute("lectureName", returnMap.get("lectureName"));
+		model.addAttribute("list", returnMap.get("attendanceList"));
+		model.addAttribute("ckDate", scheduleDate);
 		
 		return "lecture/getAttendance";
 	}
@@ -61,7 +65,7 @@ public class HyeinController {
 	@GetMapping("/loginCheck/modifyAttendanceList")
 	public String modifyAttendanceList(Model model
 										, HttpSession session
-										, @RequestParam(value="scheduleDate", defaultValue="") String scheduleDate) {
+										, @RequestParam(value="scheduleDate") String scheduleDate) {
 		// 강사 이상 아니면 메인으로
 		if((int)session.getAttribute("sessionLv") < 2) {
 			return "redirect:/loginCheck/main";
@@ -73,9 +77,11 @@ public class HyeinController {
 		map.put("loginId", session.getAttribute("sessionId"));
 		map.put("scheduleDate", scheduleDate);
 		
-		List<Map<String, Object>> returnList = hyeinService.getAttendanceList(map);
+		Map<String, Object> returnMap = hyeinService.getAttendanceList(map);
 		
-		model.addAttribute("list", returnList);
+		model.addAttribute("lectureName", returnMap.get("lectureName"));
+		model.addAttribute("list", returnMap.get("attendanceList"));
+		model.addAttribute("ckDate", scheduleDate);
 		
 		return "lecture/modifyAttendanceList";
 	}

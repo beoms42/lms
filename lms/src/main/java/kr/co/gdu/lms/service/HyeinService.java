@@ -25,17 +25,27 @@ public class HyeinService {
 	}
 	
 	// 강사별 맡고있는 강의의 학생이름, 출결, 강의 이름 , 출결날짜 뽑기
-	public List<Map<String, Object>> getAttendanceList(Map<String, Object> map) {
+	public Map<String, Object> getAttendanceList(Map<String, Object> map) {
 		
 		log.debug(CF.OHI+"HyeinService.modifyAttendanceList map"+map+CF.RS);
 		
+		// 강의명
+		String lectureName = hyeinMapper.selectLectureName(map);
+		
+		// 출결리스트
 		List<Map<String, Object>> attendanceList = hyeinMapper.selectAttendance(map);
 		
+		// 출결데이터 없을때 띄워줄 현재 날짜
 		log.debug(CF.OHI+"HyeinService.modifyAttendanceList attendanceList : "+attendanceList+CF.RS);
 		
-		return attendanceList;
+		Map<String, Object> returnMap = new HashMap<>();
+		returnMap.put("lectureName", lectureName);
+		returnMap.put("attendanceList", attendanceList);
+		
+		return returnMap;
 	}
 	
+	// 출결 수정
 	public void modifyAttendace(List<String> list) {
 		
 		for(String s : list) {
