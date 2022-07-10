@@ -208,6 +208,7 @@
 		<if test='"student".equals(addChk)'>
 			, #{graduate}
 			, #{military}
+			, #{employment}
 		</if>
 			, NOW()
 			, NOW()

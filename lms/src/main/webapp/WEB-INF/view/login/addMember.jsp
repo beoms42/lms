@@ -175,6 +175,7 @@
 							                    <option>군필</option>
 							                    <option>미필</option>
 					                  		</select>
+					                  		<input type="hidden" name="employment" value="미취업">
 							            </div>
 						            </c:if>
 						            

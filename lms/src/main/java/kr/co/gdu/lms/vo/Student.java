@@ -14,6 +14,7 @@ public class Student {
 	private String studentPhone;
 	private String militaryStatus;
 	private String graduate;
+	private String employment;
 	private String createDate;
 	private String updateDate;
 

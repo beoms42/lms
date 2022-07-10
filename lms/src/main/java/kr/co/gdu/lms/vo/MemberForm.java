@@ -18,6 +18,7 @@ public class MemberForm {
 	private MultipartFile customFile;
 	private String graduate;
 	private String military;
+	private String employment;
 	private String addChk;
 	private String level;
 	private int deptNo;
