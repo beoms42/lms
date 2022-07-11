@@ -208,7 +208,7 @@
 			<c:if test="${commentCurrentPage < commentLastPage}">
 				<a href="${pageContext.request.contextPath}/loginCheck/getCommunityOne?communityNo=${communityNo}&commentCurrentPage=${commentCurrentPage+1}">다음</a>
 			</c:if>	
-				
+			
 				<form id ="addCommentForm" method="post" action="${pageContext.request.contextPath}/loginCheck/addCommunityComment">
 					<br>
 					<table class="table table-bordered table-sm">
@@ -309,14 +309,6 @@
 		}
 	});
   
-  
-  
-
-  
-  
-  
- 	
- 		
  		
   </script>
 </body>

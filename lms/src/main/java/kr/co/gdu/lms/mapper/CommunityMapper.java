@@ -49,7 +49,7 @@ public interface CommunityMapper {
 	List<CommunityComment> selectCommunityCommentList(Map<String,Object> map);
 	
 	// 희원 - CommunityComment 댓글 총 개수
-	int countCommunityComment();
+	int countCommunityComment(int communityNo);
 	
 	// 희원 - CommunityComment 댓글 삭제
 	int deleteCommunityComment(CommunityComment communityComment);

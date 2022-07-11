@@ -259,7 +259,7 @@ public class CommunityService {
 		CommunityMember communityMember = communityMapper.selectCommunityOne((int)map.get("communityNo")); // 커뮤니티 게시글 가져오기(게시글 작성 멤버 사진파일name 포함)
 		List<CommunityFile> communityFileList = communityMapper.selectCommunityFileOne((int)map.get("communityNo")); // 커뮤니티 게시글 파일(리스트) 가져오기
 		List<CommunityComment> communityCommentList = communityMapper.selectCommunityCommentList(paramMap); // 커뮤니티 게시글 댓글 리스트 가져오기
-		int commentTotalCount = communityMapper.countCommunityComment(); // 커뮤니티 게시글 총 개수 가져오기
+		int commentTotalCount = communityMapper.countCommunityComment((int)map.get("communityNo")); // 커뮤니티 게시글 총 개수 가져오기
 		
 		int commentLastPage = commentTotalCount/(int)paramMap.get("commentRowPerPage"); // 커뮤니티 댓글 lastPage 구하기
 		

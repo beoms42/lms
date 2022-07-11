@@ -261,7 +261,8 @@
 	<!-- 커뮤니티 게시글 총 개수 -->
 	<select id="countCommunityComment"
 			resultType="int">
-		SELECT COUNT(*) FROM community_comment;
+		SELECT COUNT(*) FROM community_comment
+		WHERE community_no = #{communityNo};
 	</select>
 	
 	<!-- selectQnAlist 영인 -->
