@@ -5,7 +5,8 @@
 	<select id="selectAvgScore"
 			resultType="java.util.Map">
 		SELECT 
-			e.lecture_name className ,(SUM(assignment_submit_score)/COUNT(assignment_exam_no)) AS avg
+			e.lecture_name lable 
+			,(SUM(assignment_submit_score)/COUNT(assignment_exam_no)) data
 		FROM assignment_submit a
 		INNER JOIN education e
 		ON a.education_no = e.education_no
@@ -18,15 +19,17 @@
 	<select id="selectDropRecord"
 			resultType="java.util.Map">
 		SELECT 
-			e.lecture_name DlectureName,(COUNT(e.lecture_name)) Dcnt 
+			e.lecture_name lable
+			,(COUNT(e.lecture_name)) data 
 		FROM education e INNER JOIN drop_record d 
-		ON e.education_no = d.education_no 
+			ON e.education_no = d.education_no 
 		GROUP BY e.lecture_name
 	</select>
 	<!-- 반당 평균 나이 -->
 	<select id="selectClassAverAge"
 			resultType="java.util.Map">
-		SELECT lecture_name lectureName,SUM(YEAR(NOW())-YEAR(student_birth))/COUNT(student_name) cnt
+		SELECT lecture_name lable
+				,SUM(YEAR(NOW())-YEAR(student_birth))/COUNT(student_name) data
 		FROM student s 
 		INNER JOIN education e
 			ON s.login_id = e.login_id
@@ -35,8 +38,8 @@
 	<!-- 전체 학생 남녀 비율 -->
 	<select id="selectGenderRate"
 			resultType="java.util.Map">
-		SELECT student_gender gender
-				,(COUNT(student_gender)/(SELECT COUNT(student_gender) FROM student))*100 cnt 	
+		SELECT student_gender lable
+				,(COUNT(student_gender)/(SELECT COUNT(student_gender) FROM student))*100 data 	
 		FROM student 
 		GROUP BY student_gender
 	</select>
@@ -44,8 +47,8 @@
 	<select id="selectPerClass"
 			resultType="java.util.Map">
 		SELECT 
-			lecture_name lectureName
-			,COUNT(lecture_name)-1 cnt
+			lecture_name lable
+			,COUNT(lecture_name)-1 data
 		FROM lecture 
 		WHERE lecture_active = '1'
 		GROUP BY lecture_name 
@@ -54,8 +57,8 @@
 	<select id="selectGraduate"
 			resultType="java.util.Map">
 		SELECT 
-			graduate graduate
-			,((COUNT(student_name)/(SELECT COUNT(student_name) FROM student))*100) cnt
+			graduate lable
+			,((COUNT(student_name)/(SELECT COUNT(student_name) FROM student))*100) data
 		FROM student 
 		GROUP BY graduate
 	</select>
@@ -63,8 +66,8 @@
 	<select id="selectMajor"
 			resultType="java.util.Map">
 		SELECT 
-			major_name
-			,(count(major_name)/(SELECT COUNT(login_id) FROM student))*100
+			major_name lable
+			,(count(major_name)/(SELECT COUNT(login_id) FROM student))*100 data
 		FROM major 
 		WHERE major_name LIKE '%컴퓨터%' 
 		OR major_name LIKE '%소프트웨어%'

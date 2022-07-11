@@ -330,8 +330,8 @@
 	<select id="selectMilitaryStatus"
 			resultType="java.util.Map">
 		SELECT 
-			military_status ms
-			, COUNT(military_status) cs
+			military_status lable
+			, COUNT(military_status) data
 		FROM student
 		GROUP BY military_status
 	</select>
