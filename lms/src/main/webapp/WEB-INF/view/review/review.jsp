@@ -107,9 +107,12 @@
 			                				<td>${ED.loginId}</td>
 		                					<td>${ED.educationReviewContent}</td>
 		                					
-		                					<td>${ED.educationReviewStar}</td>
-		                			
+		                					
+		                					<td id="test">
+		                					<c:forEach begin="1" end="${ED.educationReviewStar}">★</c:forEach></td>
+		                					
 		                					<td>${ED.createDate}</td>
+		                					
 		                				</tr>
 			                	   </c:forEach>
 			                     </tbody>
@@ -121,7 +124,7 @@
 						<textarea class="col-auto form-control" type="text" id="educationReviewContent" name="educationReviewContent"
 					 		 placeholder="좋은 수강평을 남겨주시면 감사"></textarea>
 						</div>
-					
+								
 						<fieldset>
 							<input type="radio" name="educationReviewStar" value="5" id="rate1"><label
 								for="rate1">★</label>
@@ -185,7 +188,7 @@
   <script src="${pageContext.request.contextPath}/js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
   <script>
-
+  educationReviewStar
 			
   </script>
 </body>

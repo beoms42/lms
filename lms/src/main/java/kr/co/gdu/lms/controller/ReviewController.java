@@ -42,6 +42,8 @@ public class ReviewController {
 		log.debug(CF.GMC + lectureName+CF.RS);
 		
 		model.addAttribute("lectureName",lectureName);
+		
+		
 		return"review/review";
 	}
 	
