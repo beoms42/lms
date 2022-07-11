@@ -385,6 +385,13 @@ public class LoginController {
 		// 로그인 정보 넣어서 맞다면 로그인아이디와 level 들고오기   
 		Login login = loginService.login(loginTest);
 		
+		int loginActive = loginService.getLoginActive(loginTest);
+		log.debug(CF.LCH+"LoginController.login.post loginActive"+loginActive+CF.RS);
+		if(loginActive != 1) {
+			model.addAttribute("loginActive", loginActive);
+			return "login/login";
+		}
+		
 		if(login == null) { // 로그인 정보가 일치하지 않으면
 			log.debug(CF.OHI+"LoginController.login.post 로그인 정보가 일치하지 않습니다"+login+CF.RS);
 			return "redirect:/login?msg2=fail"; //다시 로그인 페이지로

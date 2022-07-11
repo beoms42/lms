@@ -110,7 +110,7 @@
               </ul>
             </div>
           </li>
-          <c:if test="${sessionLv == 4}">
+          <c:if test="${sessionLv == 4 or sessionLv == 3}">
 	          <li class="nav-item">
 	            <a class="nav-link" data-toggle="collapse" href="#mana" aria-expanded="false" aria-controls="icons">
 	              <i class="icon-contract menu-icon"></i>
@@ -119,10 +119,15 @@
 	            </a>
 	            <div class="collapse" id="mana">
 	              <ul class="nav flex-column sub-menu">
-	                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/getMemberList?msg=student">학생 리스트</a></li>
-	                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/getMemberList?msg=teacher">강사 리스트</a></li>
-	                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/getMemberList?msg=manager">매니저 리스트</a></li>
-	                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/acceptAddMember">회원가입 승인</a></li>
+	              	<c:if test="${sessionLv == 4}">
+		                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/getMemberList?msg=student">학생 리스트</a></li>
+		                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/getMemberList?msg=teacher">강사 리스트</a></li>
+		                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/getMemberList?msg=manager">매니저 리스트</a></li>
+		                <li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/acceptAddMember">회원가입 승인</a></li>
+	                </c:if>
+	                <c:if test="${sessionLv == 3}">
+	                	<li class="nav-item"> <a class="nav-link" href="${pageContext.request.contextPath}/loginCheck/getEmploymentList">취업관리</a></li>
+	                </c:if>
 	              </ul>
 	            </div>
 	          </li>

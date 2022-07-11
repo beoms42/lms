@@ -76,6 +76,22 @@
 	                 <span id="pwHelper"></span>
 	               </div>
 	               <div>
+	               	  <c:choose>
+	               	  	<c:when test="${loginActive eq 0}">
+	               	  		<span>비활성화 된 계정입니다.</span>
+	               	  	</c:when>
+	               	  	<c:when test="${loginActive eq 2}">
+		               	  	<span>승인되지 않은 아이디입니다.</span>
+	               	  	</c:when>
+	               	  	<c:when test="${loginActive eq 3}">
+	               	  		<span>승인 거절된 아이디입니다.</span>
+	               	  	</c:when>
+	               	  	<c:otherwise>
+	               	  		<span></span>
+	               	  	</c:otherwise>
+	               	  </c:choose>
+	               </div>
+	               <div>
 	                   <h4>managerID : manager</h4>
 	                   <h4>teacherID : teacher</h4>
 	                   <h4>studentID : student</h4>
@@ -134,7 +150,7 @@
   <!-- endinject -->
   <script>
   	let msg2 = '${msg2}';
-  	console.log(msg2+ "찬희 바보야");
+  	console.log(msg2);
   	
   	if(msg2 == 'fail') {
   		console.log("성공했어요");

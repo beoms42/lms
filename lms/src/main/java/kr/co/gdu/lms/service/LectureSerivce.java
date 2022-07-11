@@ -25,6 +25,10 @@ import lombok.extern.slf4j.Slf4j;
 public class LectureSerivce {
 	@Autowired private LectureMapper lectureMapper;
 	
+	public List<String> getLectureNameList() {
+		return lectureMapper.selectLectureNameList();
+	}
+	
 	// 강의개설시 필요한 드롭다운 메뉴 : 강사 / 매니저 / 강의실 / 정원(강의실)
 	public HashMap<String, Object> getMakeLectureNeed() {
 		HashMap<String, Object> map = new HashMap<String, Object>();
