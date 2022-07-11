@@ -135,6 +135,10 @@ public class LoginController {
 		int cnt = loginService.searchAllLoginPw(map);
 		log.debug(CF.PHW+"LoginController.searchLoginPw.post cnt : "+cnt+CF.RS );
 		
+		if(cnt == 0) {
+			return "redirect:/searchLoginPw";
+		}
+		
 		model.addAttribute("loginId", loginId);
 		
 		return "login/modifyLoginPw";

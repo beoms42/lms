@@ -85,20 +85,52 @@
   <!-- End custom js for this page-->
 
 <script>
+
+
+	$('#loginPw').blur(function(){
+		if ($('#loginPw').val() == ''){
+			$('#loginPwHelper').text('비밀번호를 입력해주세요.');
+		} else if (!spc.test($('#loginPw').val())){
+			$('#loginPwHelper').text('비밀번호에 특수문자를 포함해주세요..');
+		} else if($('#loginPw').val().length <9){
+			$('#loginPwHelper').text('비밀번호를 8자 이상 입력해주세요.');
+		} else {
+			$('#loginPwHelper').text('');
+		}
+	});
 	
+	$('#loginPwChk').blur(function(){
+		if ($('#loginPwChk').val() == ''){
+			$('#loginPwChkHelper').text('비밀번호를 입력해주세요.');
+		} else if (!spc.test($('#loginPw').val())){
+			$('#loginPwChkHelper').text('비밀번호에 특수문자를 포함해주세요..');
+		} else if($('#loginPwChk').val().length <9){
+			$('#loginPwChkHelper').text('비밀번호를 8자 이상 입력해주세요.');
+		} else {
+			$('#loginPwChkHelper').text('');
+		}
+	});
+
+
 	var url='${pageContext.request.contextPath}';
+	var spc = RegExp(/[~!@#$%^&*()|<>?:{}]/);
+	
 	$('#changePw').click(function(){
 		
-		if($('#loginPw').val() == ''){
-  			$('#loginPwHelper').text('비밀번호를 입력하세요.');
-  		} else if($('#loginPwChk').val() == ''){
-  			$('#loginPwHelper').text('');
-  			$('#loginPwChkHelper').text('비밀번호를 입력하세요.');
-  		} else if($('#loginPw').val() != $('#loginPwChk').val()){
-  			$('#loginPwChkHelper').text('');
-  			$('#loginPwChkHelper').text('비밀번호가 일치하지 않습니다.')
-  		} else{
-  			
+		if ($('#loginPw').val() == ''){
+			$('#loginPwHelper').text('비밀번호를 입력해주세요.');
+		} else if (!spc.test($('#loginPw').val())){
+			$('#loginPwHelper').text('비밀번호에 특수문자를 포함해주세요..');
+		} else if($('#loginPw').val().length <9){
+			$('#loginPwHelper').text('비밀번호를 8자 이상 입력해주세요.');
+		} else if($('#loginPwChk').val() == ''){
+			$('#loginPwHelper').text('');
+			$('#loginPwChkHelper').text('비밀번호를 입력해주세요.');
+		} else if (!spc.test($('#loginPw').val())){
+			$('#loginPwChkHelper').text('비밀번호에 특수문자를 포함해주세요..');
+		} else if($('#loginPwChk').val().length <9){
+			$('#loginPwChkHelper').text('비밀번호를 8자 이상 입력해주세요.');
+		} else {
   			$.ajax({
   				type : "POST"
   				, url : url+"/lastLoginPwCheck"
@@ -106,39 +138,46 @@
   				, success : function(ck) {
   					console.log('ck:', ck);
   					if(ck=='false') {
-  						$('#lastLoginPwCheckHelper').text('이전 비밀번호와 같은 비밀번호 입니다. 다른비밀번호를 설정해주세요.')
+  						$('#lastLoginPwCheckHelper').text('이전 비밀번호와 같은 비밀번호 입니다. 다른비밀번호를 설정해주세요.');
   					}else{
   						$('#modifyLoginPwForm').submit();
   					}
   				}
-  				
   			})
-  			
   		}
-		
 	});
-
 	
-	$('#loginPw').blur(function(){
-		if ($('#loginPw').val() == ''){
-			$('#loginPwHelper').text('비밀번호를 입력하세요.');
-		} else if ($('#loginPw').val().length < 4){
-			$('#loginPwHelper').text('비밀번호는 4글자 이상으로 입력해주세요.');
-		} else {
-			$('#loginPwHelper').text('');
-		}
-	});
-
-	$('#loginPwChk').blur(function(){
-		if ($('#loginPwChk').val() == ''){
-			$('#loginPwChkHelper').text('비밀번호를 입력하세요.');
-		} else if ($('#loginPwChk').val().length < 4){
-			$('#loginPwChkHelper').text('비밀번호는 4글자 이상으로 입력해주세요.');
-		} else if ($('#loginPw').val() != $('#loginPwChk').val()){
-			$('#loginPwChkHelper').text('');
-			$('#loginPwChkHelper').text('비밀번호가 일치하지 않습니다.');
-		} else {
-			$('#loginPwChkHelper').text('');
+	
+	$(document).keydown(function(event){
+		if(event.keyCode==13) {
+			if ($('#loginPw').val() == ''){
+				$('#loginPwHelper').text('비밀번호를 입력해주세요.');
+			} else if (!spc.test($('#loginPw').val())){
+				$('#loginPwHelper').text('비밀번호에 특수문자를 포함해주세요..');
+			} else if($('#loginPw').val().length <9){
+				$('#loginPwHelper').text('비밀번호를 8자 이상 입력해주세요.');
+			} else if($('#loginPwChk').val() == ''){
+				$('#loginPwHelper').text('');
+				$('#loginPwChkHelper').text('비밀번호를 입력해주세요.');
+			} else if (!spc.test($('#loginPw').val())){
+				$('#loginPwChkHelper').text('비밀번호에 특수문자를 포함해주세요..');
+			} else if($('#loginPwChk').val().length <9){
+				$('#loginPwChkHelper').text('비밀번호를 8자 이상 입력해주세요.');
+			} else {
+	  			$.ajax({
+	  				type : "POST"
+	  				, url : url+"/lastLoginPwCheck"
+	  				, data : {loginPw:$('#loginPw').val(), loginId:"${loginId}"}
+	  				, success : function(ck) {
+	  					console.log('ck:', ck);
+	  					if(ck=='false') {
+	  						$('#lastLoginPwCheckHelper').text('이전 비밀번호와 같은 비밀번호 입니다. 다른비밀번호를 설정해주세요.');
+	  					} else{
+	  						$('#modifyLoginPwForm').submit();
+	  					}
+	  				}
+	  			})
+	  		}
 		}
 	});
 

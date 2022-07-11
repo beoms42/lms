@@ -154,18 +154,50 @@
 
 	$('#searchPw').click(function(){
 		if ($('#loginId').val() == ''){
-			$('#loginIdHelper').text('아이디를 입력하세요.');
-		} else if($('#name').val() == ''){
-			$('#loginIdHelper').text('');
-			$('#nameHelper').text('이름을 입력하세요.');
-		} else if($('#email').val() == ''){
-			$('#nameHelper').text('');
-			$('#emailHelper').text('이메일을 입력하세요.');
-		} else{
+				$('#loginIdHelper').text('아이디를 입력하세요.');
+			} else if ($('#loginId').val().length < 4){
+				$('#loginIdHelper').text('아이디는 4글자 이상으로 입력해주세요.');
+			} else if($('#name').val() == ''){
+				$('#loginIdHelper').text('');
+				$('#nameHelper').text('이름을 입력하세요.');
+			} else if($('#email').val() == ''){
+	  	  			$('#nameHelper').text('');
+	  	  			$('#emailHelper').text('이메일을 입력하세요.');
+			} else if($('#email').val().indexOf('@') == -1 || $('#email').val().indexOf('.') == -1) {
+	  	  			$('#emailHelper').text('');
+	  				$('#emailHelper').text('이메일 형식이 다릅니다.');
+	  	  	} else{
 			$('#searchLoginPwForm').submit();
 		}
 	});
 
+	
+	
+	$(document).keydown(function(event){
+  		if(event.keyCode==13) {
+  			if ($('#loginId').val() == ''){
+  				$('#loginIdHelper').text('아이디를 입력하세요.');
+  			} else if ($('#loginId').val().length < 4){
+  				$('#loginIdHelper').text('아이디는 4글자 이상으로 입력해주세요.');
+  			} else if($('#name').val() == ''){
+  				$('#loginIdHelper').text('');
+  				$('#nameHelper').text('이름을 입력하세요.');
+  			} else if($('#email').val() == ''){
+  	  	  			$('#nameHelper').text('');
+  	  	  			$('#emailHelper').text('이메일을 입력하세요.');
+  			} else if($('#email').val().indexOf('@') == -1 || $('#email').val().indexOf('.') == -1) {
+  	  	  			$('#emailHelper').text('');
+  	  				$('#emailHelper').text('이메일 형식이 다릅니다.');
+  	  	  		} else{
+  				$('#searchLoginPwForm').submit();
+  			}
+  		}
+	});
+  		
+	
+	
+	
+	
   
   </script>
 </body>

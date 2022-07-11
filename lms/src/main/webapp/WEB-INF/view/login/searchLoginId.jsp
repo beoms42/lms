@@ -182,20 +182,39 @@
 		}
 	});
 
-  
+  	// 버튼 눌렀을때 유효성 검사
   	$('#searchId').click(function(){
   		if($('#name').val() == ''){
   			$('#nameHelper').text('이름을 입력하세요.');
-  		} else if($('#email').val().indexOf('@') == -1 || $('#email').val().indexOf('.') == -1) {
-  			$('#nameHelper').text('');
-			$('#emailHelper').text('이메일 형식이 다릅니다.');
   		} else if($('#email').val() == ''){
-  			$('#emailHelper').text('');
+  			$('#nameHelper').text('');
   			$('#emailHelper').text('이메일을 입력하세요.');
+  		} else if($('#email').val().indexOf('@') == -1 || $('#email').val().indexOf('.') == -1) {
+  			$('#emailHelper').text('');
+			$('#emailHelper').text('이메일 형식이 다릅니다.');
   		} else{
   			$('#searchLoginIdForm').submit();
   		}
   	});
+  	
+  	// enter키 눌렀을때 유효성 검사
+  	$(document).keydown(function(event){
+  		if(event.keyCode==13) {
+  			if($('#name').val() == ''){
+  	  			$('#nameHelper').text('이름을 입력하세요.');
+  	  		} else if($('#email').val() == ''){
+  	  			$('#nameHelper').text('');
+  	  			$('#emailHelper').text('이메일을 입력하세요.');
+  	  		} else if($('#email').val().indexOf('@') == -1 || $('#email').val().indexOf('.') == -1) {
+  	  			$('#emailHelper').text('');
+  				$('#emailHelper').text('이메일 형식이 다릅니다.');
+  	  		} else{
+  	  			$('#searchLoginIdForm').submit();
+  	  		}
+  		}
+  	});	
+  	
+  	
   
   </script>
   
