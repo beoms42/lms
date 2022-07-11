@@ -206,7 +206,7 @@
   <script type="text/javascript">
   
   $('#communityPw').blur(function() {
-		if ($('#communityPw').val() == '') {
+		if ($('#communityPw').val().trim() == '') {
 			$('#communityPwHelper').text('비밀번호를 입력하세요.');
 		} else {
 			$('#communityPwHelper').text('');
@@ -215,7 +215,7 @@
   	
   
 	  $('#removeCommunityBt').click(function(){
-			if($('#communityPw').val() == '') {
+			if($('#communityPw').val().trim() == '') {
 				$('#communityPwHelper').text('비밀번호를 입력하세요.');
 			} else {
 				$('#removeForm').submit();

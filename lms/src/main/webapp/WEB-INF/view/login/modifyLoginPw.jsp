@@ -88,11 +88,11 @@
 
 
 	$('#loginPw').blur(function(){
-		if ($('#loginPw').val() == ''){
+		if ($('#loginPw').val().trim() == ''){
 			$('#loginPwHelper').text('비밀번호를 입력해주세요.');
-		} else if (!spc.test($('#loginPw').val())){
+		} else if (!spc.test($('#loginPw').val().trim())){
 			$('#loginPwHelper').text('비밀번호에 특수문자를 포함해주세요..');
-		} else if($('#loginPw').val().length <9){
+		} else if($('#loginPw').val().trim().length < 8){
 			$('#loginPwHelper').text('비밀번호를 8자 이상 입력해주세요.');
 		} else {
 			$('#loginPwHelper').text('');
@@ -100,11 +100,11 @@
 	});
 	
 	$('#loginPwChk').blur(function(){
-		if ($('#loginPwChk').val() == ''){
+		if ($('#loginPwChk').val().trim() == ''){
 			$('#loginPwChkHelper').text('비밀번호를 입력해주세요.');
-		} else if (!spc.test($('#loginPw').val())){
+		} else if (!spc.test($('#loginPw').val().trim())){
 			$('#loginPwChkHelper').text('비밀번호에 특수문자를 포함해주세요..');
-		} else if($('#loginPwChk').val().length <9){
+		} else if($('#loginPwChk').val().trim().length < 8){
 			$('#loginPwChkHelper').text('비밀번호를 8자 이상 입력해주세요.');
 		} else {
 			$('#loginPwChkHelper').text('');
@@ -117,24 +117,24 @@
 	
 	$('#changePw').click(function(){
 		
-		if ($('#loginPw').val() == ''){
+		if ($('#loginPw').val().trim() == ''){
 			$('#loginPwHelper').text('비밀번호를 입력해주세요.');
-		} else if (!spc.test($('#loginPw').val())){
+		} else if (!spc.test($('#loginPw').val().trim())){
 			$('#loginPwHelper').text('비밀번호에 특수문자를 포함해주세요..');
-		} else if($('#loginPw').val().length <9){
+		} else if($('#loginPw').val().trim().length < 8){
 			$('#loginPwHelper').text('비밀번호를 8자 이상 입력해주세요.');
-		} else if($('#loginPwChk').val() == ''){
+		} else if($('#loginPwChk').val().trim() == ''){
 			$('#loginPwHelper').text('');
 			$('#loginPwChkHelper').text('비밀번호를 입력해주세요.');
-		} else if (!spc.test($('#loginPw').val())){
+		} else if (!spc.test($('#loginPw').val().trim())){
 			$('#loginPwChkHelper').text('비밀번호에 특수문자를 포함해주세요..');
-		} else if($('#loginPwChk').val().length <9){
+		} else if($('#loginPwChk').val().trim().length < 8){
 			$('#loginPwChkHelper').text('비밀번호를 8자 이상 입력해주세요.');
 		} else {
   			$.ajax({
   				type : "POST"
   				, url : url+"/lastLoginPwCheck"
-  				, data : {loginPw:$('#loginPw').val(), loginId:"${loginId}"}
+  				, data : {loginPw:$('#loginPw').val().trim(), loginId:"${loginId}"}
   				, success : function(ck) {
   					console.log('ck:', ck);
   					if(ck=='false') {
@@ -150,24 +150,24 @@
 	
 	$(document).keydown(function(event){
 		if(event.keyCode==13) {
-			if ($('#loginPw').val() == ''){
+			if ($('#loginPw').val().trim() == ''){
 				$('#loginPwHelper').text('비밀번호를 입력해주세요.');
 			} else if (!spc.test($('#loginPw').val())){
 				$('#loginPwHelper').text('비밀번호에 특수문자를 포함해주세요..');
-			} else if($('#loginPw').val().length <9){
+			} else if($('#loginPw').val().trim().length < 8){
 				$('#loginPwHelper').text('비밀번호를 8자 이상 입력해주세요.');
-			} else if($('#loginPwChk').val() == ''){
+			} else if($('#loginPwChk').val().trim() == ''){
 				$('#loginPwHelper').text('');
 				$('#loginPwChkHelper').text('비밀번호를 입력해주세요.');
 			} else if (!spc.test($('#loginPw').val())){
 				$('#loginPwChkHelper').text('비밀번호에 특수문자를 포함해주세요..');
-			} else if($('#loginPwChk').val().length <9){
+			} else if($('#loginPwChk').val().trim().length < 8){
 				$('#loginPwChkHelper').text('비밀번호를 8자 이상 입력해주세요.');
 			} else {
 	  			$.ajax({
 	  				type : "POST"
 	  				, url : url+"/lastLoginPwCheck"
-	  				, data : {loginPw:$('#loginPw').val(), loginId:"${loginId}"}
+	  				, data : {loginPw:$('#loginPw').val().trim(), loginId:"${loginId}"}
 	  				, success : function(ck) {
 	  					console.log('ck:', ck);
 	  					if(ck=='false') {

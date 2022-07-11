@@ -164,7 +164,7 @@
   <script type="text/javascript">
   	
   	$('#name').blur(function(){
-		if ($('#name').val() == ''){
+		if ($('#name').val().trim() == ''){
 			$('#nameHelper').text('이름을 입력하세요.');
 		} else {
 			$('#nameHelper').text('');
@@ -173,9 +173,9 @@
   
   
 	$('#email').blur(function(){
-		if ($('#email').val() == ''){
+		if ($('#email').val().trim() == ''){
 			$('#emailHelper').text('이메일을 입력하세요.');
-		} else if($('#email').val().indexOf('@') == -1 || $('#email').val().indexOf('.') == -1) {
+		} else if($('#email').val().trim().indexOf('@') == -1 || $('#email').val().trim().indexOf('.') == -1) {
 			$('#emailHelper').text('이메일 형식이 다릅니다.');
 		} else {
 			$('#emailHelper').text('');
@@ -184,12 +184,12 @@
 
   	// 버튼 눌렀을때 유효성 검사
   	$('#searchId').click(function(){
-  		if($('#name').val() == ''){
+  		if($('#name').val().trim() == ''){
   			$('#nameHelper').text('이름을 입력하세요.');
-  		} else if($('#email').val() == ''){
+  		} else if($('#email').val().trim() == ''){
   			$('#nameHelper').text('');
   			$('#emailHelper').text('이메일을 입력하세요.');
-  		} else if($('#email').val().indexOf('@') == -1 || $('#email').val().indexOf('.') == -1) {
+  		} else if($('#email').val().trim().indexOf('@') == -1 || $('#email').val().trim().indexOf('.') == -1) {
   			$('#emailHelper').text('');
 			$('#emailHelper').text('이메일 형식이 다릅니다.');
   		} else{
@@ -200,12 +200,12 @@
   	// enter키 눌렀을때 유효성 검사
   	$(document).keydown(function(event){
   		if(event.keyCode==13) {
-  			if($('#name').val() == ''){
+  			if($('#name').val().trim() == ''){
   	  			$('#nameHelper').text('이름을 입력하세요.');
-  	  		} else if($('#email').val() == ''){
+  	  		} else if($('#email').val().trim() == ''){
   	  			$('#nameHelper').text('');
   	  			$('#emailHelper').text('이메일을 입력하세요.');
-  	  		} else if($('#email').val().indexOf('@') == -1 || $('#email').val().indexOf('.') == -1) {
+  	  		} else if($('#email').val().trim().indexOf('@') == -1 || $('#email').val().trim().indexOf('.') == -1) {
   	  			$('#emailHelper').text('');
   				$('#emailHelper').text('이메일 형식이 다릅니다.');
   	  		} else{

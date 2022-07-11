@@ -123,9 +123,9 @@
   <script>
 
 	$('#loginId').blur(function(){
-		if ($('#loginId').val() == ''){
+		if ($('#loginId').val().trim() == ''){
 			$('#loginIdHelper').text('아이디를 입력하세요.');
-		} else if ($('#loginId').val().length < 4){
+		} else if ($('#loginId').val().trim().length < 4){
 			$('#loginIdHelper').text('아이디는 4글자 이상으로 입력해주세요.');
 		} else {
 			$('#loginIdHelper').text('');
@@ -133,7 +133,7 @@
 	});
 	
 	$('#name').blur(function(){
-		if ($('#name').val() == ''){
+		if ($('#name').val().trim() == ''){
 			$('#nameHelper').text('이름을 입력하세요.');
 		} else {
 			$('#nameHelper').text('');
@@ -142,9 +142,9 @@
 
 
 	$('#email').blur(function(){
-		if ($('#email').val() == ''){
+		if ($('#email').val().trim() == ''){
 			$('#emailHelper').text('이메일을 입력하세요.');
-		} else if($('#email').val().indexOf('@') == -1 || $('#email').val().indexOf('.') == -1) {
+		} else if($('#email').val().trim().indexOf('@') == -1 || $('#email').val().trim().indexOf('.') == -1) {
 			$('#emailHelper').text('이메일 형식이 다릅니다.');
 		} else {
 			$('#emailHelper').text('');
@@ -153,17 +153,17 @@
 
 
 	$('#searchPw').click(function(){
-		if ($('#loginId').val() == ''){
+		if ($('#loginId').val().trim() == ''){
 				$('#loginIdHelper').text('아이디를 입력하세요.');
-			} else if ($('#loginId').val().length < 4){
+			} else if ($('#loginId').val().trim().length < 4){
 				$('#loginIdHelper').text('아이디는 4글자 이상으로 입력해주세요.');
-			} else if($('#name').val() == ''){
+			} else if($('#name').val().trim() == ''){
 				$('#loginIdHelper').text('');
 				$('#nameHelper').text('이름을 입력하세요.');
-			} else if($('#email').val() == ''){
+			} else if($('#email').val().trim() == ''){
 	  	  			$('#nameHelper').text('');
 	  	  			$('#emailHelper').text('이메일을 입력하세요.');
-			} else if($('#email').val().indexOf('@') == -1 || $('#email').val().indexOf('.') == -1) {
+			} else if($('#email').val().trim().indexOf('@') == -1 || $('#email').val().trim().indexOf('.') == -1) {
 	  	  			$('#emailHelper').text('');
 	  				$('#emailHelper').text('이메일 형식이 다릅니다.');
 	  	  	} else{
@@ -175,17 +175,17 @@
 	
 	$(document).keydown(function(event){
   		if(event.keyCode==13) {
-  			if ($('#loginId').val() == ''){
+  			if ($('#loginId').val().trim() == ''){
   				$('#loginIdHelper').text('아이디를 입력하세요.');
-  			} else if ($('#loginId').val().length < 4){
+  			} else if ($('#loginId').val().trim().length < 4){
   				$('#loginIdHelper').text('아이디는 4글자 이상으로 입력해주세요.');
-  			} else if($('#name').val() == ''){
+  			} else if($('#name').val().trim() == ''){
   				$('#loginIdHelper').text('');
   				$('#nameHelper').text('이름을 입력하세요.');
-  			} else if($('#email').val() == ''){
+  			} else if($('#email').val().trim() == ''){
   	  	  			$('#nameHelper').text('');
   	  	  			$('#emailHelper').text('이메일을 입력하세요.');
-  			} else if($('#email').val().indexOf('@') == -1 || $('#email').val().indexOf('.') == -1) {
+  			} else if($('#email').val().trim().indexOf('@') == -1 || $('#email').val().trim().indexOf('.') == -1) {
   	  	  			$('#emailHelper').text('');
   	  				$('#emailHelper').text('이메일 형식이 다릅니다.');
   	  	  		} else{

@@ -155,7 +155,7 @@
 							<td style="width: 20%">
 							<c:if test="${sessionId eq ccl.loginId}">
 								<button type="button" id="modifyBtn${idx.count}" class="btn btn-info btn-sm" onclick="fn_modify_form('${idx.count}')">수정</button>
-								<button type="submit" id="modifySaveBtn${idx.count}" class="btn btn-success btn-sm" hidden="hidden">저장</button>
+								<button type="button" id="modifySaveBtn${idx.count}" class="btn btn-success btn-sm" hidden="hidden" onclick="fn_modify_save_form('${idx.count}')">저장</button>
 								<button type="button" data-toggle="modal" class="btn btn-danger btn-sm" data-target="#deleteCommunityCommentModal">삭제</button>
 							</c:if>
 							</td>
@@ -281,6 +281,16 @@
   
   <script type="text/javascript">
   
+  
+  // 댓글 수정 유효성 검사
+  function fn_modify_save_form(cnt){
+	  if($('#commentContent'+cnt).val().trim() == '') {
+			$('#modifyCommentContentHelper').text('댓글을 입력하세요');
+		} else {
+			$('#modifyCommentForm').submit();
+		}
+  }
+  
   function fn_modify_form(cnt){
 	  $('#commentContent'+cnt).prop("disabled", false);
 	  $('#modifyBtn'+cnt).prop('hidden', 'hidden');
@@ -292,7 +302,7 @@
 	});
   
   $('#addCommentBt').click(function () {
-	  if($('#addCommentContent').val() == '') {
+	  if($('#addCommentContent').val().trim() == '') {
 			$('#commentContentHelper').text('댓글을 입력하세요');
 		} else {
 			$('#addCommentForm').submit();
@@ -301,14 +311,13 @@
   
   $(document).keydown(function(event){
 		if(event.keyCode==13) {
-			if($('#addCommentContent').val() == '') {
+			if($('#addCommentContent').val().trim() == '') {
 				$('#commentContentHelper').text('댓글을 입력하세요');
 			} else {
 				$('#addCommentForm').submit();
 			}
 		}
 	});
-  
  		
   </script>
 </body>

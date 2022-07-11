@@ -183,12 +183,12 @@
 	
 	 // 클릭시 유효성
 	$('#addCommunity').click(function(){
-		if($('#communityTitle').val() == '') {
+		if($('#communityTitle').val().trim() == '') {
 			$('#communityTitleHelper').text('제목을 입력하세요');
-		} else if($('#communityPw').val() == '') {
+		} else if($('#communityPw').val().trim() == '') {
 			$('#communityTitleHelper').text('');
 			$('#communityPwHelper').text('비밀번호를 입력하세요');
-		} else if($('#summernote').val() == ''){
+		} else if($('#summernote').val().trim() == '' || $('#summernote').val() == "&nbsp;"){
 			$('#communityPwHelper').text('');
 			$('#communityContentHelper').text('내용을 입력하세요');
 		} else {
@@ -209,12 +209,12 @@
 	// 엔터키 유효성
 	$(document).keydown(function(event){
 		if(event.keyCode==13) {
-			if($('#communityTitle').val() == '') {
+			if($('#communityTitle').val().trim() == '') {
 				$('#communityTitleHelper').text('제목을 입력하세요');
-			} else if($('#communityPw').val() == '') {
+			} else if($('#communityPw').val().trim() == '') {
 				$('#communityTitleHelper').text('');
 				$('#communityPwHelper').text('비밀번호를 입력하세요');
-			} else if($('#summernote').val() == ''){
+			} else if($('#summernote').val().trim() == '' || $('#summernote').val() == "&nbsp;"){
 				$('#communityPwHelper').text('');
 				$('#communityContentHelper').text('내용을 입력하세요');
 			} else {
