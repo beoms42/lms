@@ -196,6 +196,8 @@
 			}
 		});
 		
+		
+		// 클릭시 유효성
 		$('#modifyCommunityBt').click(function(){
 			if($('#communityTitle').val() == '') {
 				$('#communityTitleHelper').text('제목을 입력하세요');
@@ -220,6 +222,34 @@
 			}
 		});
 		
+		
+		// 엔터키 유효성
+		$(document).keydown(function(event){
+			if(event.keyCode==13) {
+				if($('#communityTitle').val() == '') {
+					$('#communityTitleHelper').text('제목을 입력하세요');
+				} else if($('#communityPw').val() == '') {
+					$('#communityTitleHelper').text('');
+					$('#communityPwHelper').text('비밀번호를 입력하세요');
+				} else if($('#summernote').val() == ''){
+					$('#communityPwHelper').text('');
+					$('#communityContentHelper').text('내용을 입력하세요');
+				} else {
+					var flag2 = true;
+					$('.communityFileList').each(function(){ // each함수를 이용한 반복
+						if($(this).val() == '') {
+							flag2 = false;
+						}
+					});
+					if(flag2) {
+						$('#modifyForm').submit();
+					} else {
+						alert('파일이 첨부되지 않은 communityFileList가 존재합니다');
+					}
+				}
+				}
+			});
+			
 
 	function fileClick(communityFileNo, communityFileName) {
 		

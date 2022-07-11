@@ -145,7 +145,7 @@
 	        </div>
 	        
 	        <c:forEach var="ccl" items="${communityCommentList}" varStatus="idx">
-				<form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyCommunityComment">
+				<form id="modifyCommentForm" method="post" action="${pageContext.request.contextPath}/loginCheck/modifyCommunityComment">
 					<table class="table table-bordered table-sm">
 						<tr>
 							<td>작성자</td>
@@ -162,9 +162,12 @@
 						</tr>
 						<tr>
 							<td>댓글달기</td>
-							<td colspan="4"><textarea name="communityCommentContent" id="commentContent${idx.count}" rows="2" cols="135" disabled="disabled" class="form-control">${ccl.communityCommentContent}  </textarea></td>
+							<td colspan="4"><textarea name="communityCommentContent" id="commentContent${idx.count}" rows="2" cols="135" disabled="disabled" class="form-control">${ccl.communityCommentContent}</textarea></td>
 						</tr>
 					</table>
+					<div style="text-align: right">
+					<span id="modifyCommentContentHelper" class="top"></span>
+					</div>
 					<input type="hidden" name="communityNo" value="${ccl.communityNo}" readonly="readonly">
 					<input type="hidden" name="updateDate">
 				</form>
@@ -206,7 +209,7 @@
 				<a href="${pageContext.request.contextPath}/loginCheck/getCommunityOne?communityNo=${communityNo}&commentCurrentPage=${commentCurrentPage+1}">다음</a>
 			</c:if>	
 				
-				<form method="post" action="${pageContext.request.contextPath}/loginCheck/addCommunityComment">
+				<form id ="addCommentForm" method="post" action="${pageContext.request.contextPath}/loginCheck/addCommunityComment">
 					<br>
 					<table class="table table-bordered table-sm">
 						<tr>
@@ -215,13 +218,16 @@
 						</tr>
 						<tr>
 							<td>댓글달기</td>
-							<td><textarea name="communityCommentContent" rows="2" cols="135" class="form-control"></textarea></td>
+							<td><textarea id="addCommentContent" name="communityCommentContent" rows="2" cols="135" class="form-control"></textarea></td>
 						</tr>
 					</table>
+					<div style="text-align: right">
+					<span id="commentContentHelper" class="top"></span>
+					</div>
 					<input type="hidden" name="communityNo" value="${communityNo}" readonly="readonly">
 					<input type="hidden" name="updateDate">
 					<div style="text-align: right">
-					<br><button type="submit" class="btn btn-success btn-sm">댓글입력</button>
+					<br><button id="addCommentBt" type="button" class="btn btn-success btn-sm">댓글입력</button>
 					</div>
 				</form>
 			
@@ -283,9 +289,35 @@
   
   $('#checkRowChk').click(function () {
 		$('.msgbox').css('display','none');
-	})
+	});
+  
+  $('#addCommentBt').click(function () {
+	  if($('#addCommentContent').val() == '') {
+			$('#commentContentHelper').text('댓글을 입력하세요');
+		} else {
+			$('#addCommentForm').submit();
+		}
+	});
+  
+  $(document).keydown(function(event){
+		if(event.keyCode==13) {
+			if($('#addCommentContent').val() == '') {
+				$('#commentContentHelper').text('댓글을 입력하세요');
+			} else {
+				$('#addCommentForm').submit();
+			}
+		}
+	});
   
   
+  
+
+  
+  
+  
+ 	
+ 		
+ 		
   </script>
 </body>
 </html>
