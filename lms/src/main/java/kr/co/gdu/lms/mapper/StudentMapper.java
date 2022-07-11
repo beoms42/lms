@@ -1,16 +1,23 @@
 package kr.co.gdu.lms.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
 import kr.co.gdu.lms.vo.Login;
-import kr.co.gdu.lms.vo.Manager;
 import kr.co.gdu.lms.vo.Student;
-import kr.co.gdu.lms.vo.Teacher;
 
 @Mapper
 public interface StudentMapper {
+	int updateEmploymentByStudent(Student student);
+	
+	// 취업관리 학생 리스트 총 행 수
+	int selectEmploymentTotalRow(String lectureName);
+	
+	// 취업관리 학생 리스트
+	List<Map<String, Object>> selectEmploymentList(Map<String, Object> paramMap);
+	
 	// 학생정보 상세보기 SELECT
 	Student selectStudentOne(String loginId);
 	

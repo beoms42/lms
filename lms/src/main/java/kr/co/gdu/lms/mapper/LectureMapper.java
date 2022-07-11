@@ -8,6 +8,8 @@ import kr.co.gdu.lms.vo.*;
 
 @Mapper
 public interface LectureMapper {
+	// 개설한 강의 리스트
+	List<String> selectLectureNameList();
 	
 	// 종강한 강의 active 변경하기
 	int updateActiveByEndLecture(String lectureName);

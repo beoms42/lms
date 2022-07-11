@@ -33,10 +33,45 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class MemberService {
    @Autowired private StudentMapper studentMapper;
-   @Autowired  private TeacherMapper teacherMapper;
-   @Autowired  private ManagerMapper managerMapper;
+   @Autowired private TeacherMapper teacherMapper;
+   @Autowired private ManagerMapper managerMapper;
    @Autowired private AdminMapper adminMapper;
    @Autowired private MemberFileMapper memberFileMapper;
+   
+   public int modifyEmploymentByStudent(Student student) {
+	   log.debug(CF.LCH+"MemberService.modifyEmploymentByStudent student : "+student+CF.RS);
+	   return studentMapper.updateEmploymentByStudent(student);
+   }
+   
+   // 학생들 취업 상태 리스트
+   public List<Object> getEmploymentList(Map<String, Object> paramMap) {
+	   log.debug(CF.LCH+"MemberService.getEmploymentList paramMap : "+paramMap+CF.RS);
+	   int employmentStartRow = ((int)paramMap.get("employmentCurrentPage")-1) * (int)paramMap.get("employmentRowPerPage");
+	   log.debug(CF.LCH+"MemberService.getEmploymentList employmentStartRow : "+employmentStartRow+CF.RS);
+	   paramMap.put("employmentStartRow", employmentStartRow);
+	   
+	   List<Map<String, Object>> returnMap = studentMapper.selectEmploymentList(paramMap);
+	   log.debug(CF.LCH+"MemberService.getEmploymentList returnMap : "+returnMap+CF.RS);
+	   
+	   int employmentTotalCount = studentMapper.selectEmploymentTotalRow((String)paramMap.get("lectureName"));
+	   log.debug(CF.LCH+"MemberService.getEmploymentList employmentTotalCount : "+employmentTotalCount+CF.RS);
+	   
+	   int employmentLastPage = employmentTotalCount / (int)paramMap.get("employmentRowPerPage");
+	   
+	   if(employmentTotalCount % (int)paramMap.get("employmentRowPerPage") != 0) {
+		   employmentLastPage += 1;
+	   }
+	   
+	   log.debug(CF.LCH+"MemberService.getEmploymentList employmentLastPage : "+employmentLastPage+CF.RS);
+	   
+	   List<Object> returnList = new ArrayList<Object>();
+	   returnList.add(returnMap);
+	   returnList.add(employmentLastPage);
+	   
+	   log.debug(CF.LCH+"MemberService.getEmploymentList returnList : "+returnList+CF.RS);
+	   
+	   return returnList;
+   }
    
    // 회원정보 상세보기
    public Map<String, Object> getMemberOne(Login login) {

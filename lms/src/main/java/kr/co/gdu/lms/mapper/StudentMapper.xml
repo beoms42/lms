@@ -1,15 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.gdu.lms.mapper.StudentMapper">
-		<select id="selectStudentList" 
-			   resultType="kr.co.gdu.lms.vo.Student">
-			SELECT
-				login_id loginId
-				, student_name studentName
-				, student_birth studentBirth
-				, create_date createDate
-			FROM student 
-		</select>
+	<update id="updateEmploymentByStudent"
+			parameterType="kr.co.gdu.lms.vo.Student">
+		UPDATE student SET
+			employment = #{employment}
+		WHERE login_id = #{loginId}
+	</update>
+	<select id="selectEmploymentTotalRow"
+			parameterType="String"
+			resultType="int">
+		SELECT
+			COUNT(*)
+		FROM student s
+		JOIN education e
+			ON s.login_id = e.login_id
+		<if test="lectureName != ''">
+			WHERE e.lecture_name = #{lectureName}
+		</if>
+	</select>
+	<select id="selectEmploymentList"
+			parameterType="String"
+			resultType="java.util.Map">
+		SELECT
+			e.lecture_name lectureName
+			, s.student_name studentName
+			, s.login_id loginId
+			, s.employment employment
+		FROM student s 
+		JOIN education e
+			ON s.login_id = e.login_id
+		<if test="lectureName != ''">
+			WHERE e.lecture_name = #{lectureName}
+		</if>
+		LIMIT #{employmentStartRow}, #{employmentRowPerPage}
+	</select>
+
+	<select id="selectStudentList" 
+		   resultType="kr.co.gdu.lms.vo.Student">
+		SELECT
+			login_id loginId
+			, student_name studentName
+			, student_birth studentBirth
+			, create_date createDate
+		FROM student 
+	</select>
 
 	<select id="selectStudentOne"
 			resultType="kr.co.gdu.lms.vo.Student"

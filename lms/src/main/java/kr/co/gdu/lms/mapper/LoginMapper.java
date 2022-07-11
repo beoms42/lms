@@ -13,6 +13,9 @@ import kr.co.gdu.lms.vo.Teacher;
 
 @Mapper
 public interface LoginMapper {
+	// 로그인 시 login_active 가져오는 메서드
+	int selectLoginActive(Login login);
+	
 	// 계정 복구 시 active 1로 바꾸는 메서드
 	int updateActiveByMember(String loginId);
 	

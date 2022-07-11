@@ -143,6 +143,12 @@ public class LoginService {
 		
 	}
 		
+	public int getLoginActive(Login login) {
+		log.debug(CF.LCH+"LoginService.login login : "+login+CF.RS);
+		
+		return loginMapper.selectLoginActive(login);
+	}
+	
 	// 로그인
 	public Login login(Login loginTest) {
 		log.debug(CF.OHI+"LoginService.login loginTest : "+loginTest+CF.RS);

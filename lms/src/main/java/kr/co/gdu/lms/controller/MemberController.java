@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.gdu.lms.log.CF;
+import kr.co.gdu.lms.service.LectureSerivce;
 import kr.co.gdu.lms.service.LoginService;
 import kr.co.gdu.lms.service.MemberService;
 import kr.co.gdu.lms.vo.Dept;
+import kr.co.gdu.lms.vo.Lecture;
 import kr.co.gdu.lms.vo.Login;
 import kr.co.gdu.lms.vo.Manager;
 import kr.co.gdu.lms.vo.Position;
@@ -31,7 +33,76 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberController {
    @Autowired private MemberService memberService;
    @Autowired private LoginService loginService;
+   @Autowired private LectureSerivce lectureSerivce;
+   
+   @GetMapping("/loginCheck/modifyEmploymentByStudent")
+   public String modifyEmploymentByStudent(Model model
+		   								, Student student
+				   						, @RequestParam(name = "lectureName", defaultValue = "") String lectureName
+		   								, @RequestParam(name="employmentCurrentPage", defaultValue = "1") int employmentCurrentPage
+		   								, @RequestParam(name="employmentRowPerPage", defaultValue = "10") int employmentRowPerPage) {
+	   
+	   log.debug(CF.LCH + "MemberController.modifyEmploymentByStudent.get lectureName : " + lectureName + CF.RS);
+	   log.debug(CF.LCH + "MemberController.modifyEmploymentByStudent.get employmentCurrentPage : " + employmentCurrentPage + CF.RS);
+	   log.debug(CF.LCH + "MemberController.modifyEmploymentByStudent.get employmentRowPerPage : " + employmentRowPerPage + CF.RS);
+	   
+	   List<String> lectureNameList = lectureSerivce.getLectureNameList();
+	   log.debug(CF.LCH + "MemberController.modifyEmploymentByStudent.get lectureNameList : " + lectureNameList + CF.RS);
+	   
+	   Map<String, Object> paramMap = new HashMap<String, Object>();
+	   paramMap.put("lectureName", lectureName);
+	   paramMap.put("employmentCurrentPage", employmentCurrentPage);
+	   paramMap.put("employmentRowPerPage", employmentRowPerPage);
+	   
+	   log.debug(CF.LCH + "MemberController.modifyEmploymentByStudent.get paramMap : " + paramMap + CF.RS);
+	   
+	   List<Object> employmentList = memberService.getEmploymentList(paramMap);
+	   
+	   log.debug(CF.LCH + "MemberController.modifyEmploymentByStudent.get employmentList : " + employmentList + CF.RS);
+	   
+	   model.addAttribute("lectureName", lectureName);
+	   model.addAttribute("lectureNameList", lectureNameList);
+	   model.addAttribute("employmentList", employmentList.get(0));
+	   model.addAttribute("employmentCurrentPage", employmentCurrentPage);
+	   model.addAttribute("employmentLastPage", employmentList.get(1));
+	   
+	   
+	   return "member/modifyEmploymentByStudent";
+   }
 
+   @GetMapping("/loginCheck/getEmploymentList")
+   public String getEmploymentList(Model model
+		   						, @RequestParam(name = "lectureName", defaultValue = "") String lectureName
+   								, @RequestParam(name="employmentCurrentPage", defaultValue = "1") int employmentCurrentPage
+   								, @RequestParam(name="employmentRowPerPage", defaultValue = "10") int employmentRowPerPage) {
+	   
+	   log.debug(CF.LCH + "MemberController.getEmploymentList.get lectureName : " + lectureName + CF.RS);
+	   log.debug(CF.LCH + "MemberController.getEmploymentList.get employmentCurrentPage : " + employmentCurrentPage + CF.RS);
+	   log.debug(CF.LCH + "MemberController.getEmploymentList.get employmentRowPerPage : " + employmentRowPerPage + CF.RS);
+	   
+	   List<String> lectureNameList = lectureSerivce.getLectureNameList();
+	   log.debug(CF.LCH + "MemberController.getEmploymentList.get lectureNameList : " + lectureNameList + CF.RS);
+	   
+	   Map<String, Object> paramMap = new HashMap<String, Object>();
+	   paramMap.put("lectureName", lectureName);
+	   paramMap.put("employmentCurrentPage", employmentCurrentPage);
+	   paramMap.put("employmentRowPerPage", employmentRowPerPage);
+	   
+	   log.debug(CF.LCH + "MemberController.getEmploymentList.get paramMap : " + paramMap + CF.RS);
+	   
+	   List<Object> employmentList = memberService.getEmploymentList(paramMap);
+	   
+	   log.debug(CF.LCH + "MemberController.getEmploymentList.get employmentList : " + employmentList + CF.RS);
+	   
+	   model.addAttribute("lectureName", lectureName);
+	   model.addAttribute("lectureNameList", lectureNameList);
+	   model.addAttribute("employmentList", employmentList.get(0));
+	   model.addAttribute("employmentCurrentPage", employmentCurrentPage);
+	   model.addAttribute("employmentLastPage", employmentList.get(1));
+	   
+	   return "member/getEmploymentList";
+   }
+   
    // 회원 목록
    @GetMapping("/loginCheck/getMemberList")
    public String getMemberList(Model model
