@@ -24,6 +24,7 @@ public class ReviewService {
 	public void insertReview(EducationReview educationreview) {
 		reviewMapper.insertReview(educationreview);
 	}
+	//종강 강의별 별점 리스트
 	public List<Map<String,Object>>selectEducationReviewList(){
 		List<Map<String, Object>>list = (List<Map<String, Object>>) reviewMapper.selectEducationReviewList();
 		log.debug(CF.PSH+"LectureService.selectEducationReviewList:"+list+CF.RS);
@@ -31,4 +32,14 @@ public class ReviewService {
 	return list;
 
 	}
+	
+	//강의 리뷰 리스트
+	public List<Map<String, Object>>selectLectureReviewList(String lectureName){
+		List<Map<String,Object>>list = (List<Map<String, Object>>)reviewMapper.selectLectureReviewList(lectureName);
+		log.debug(CF.PSH+"ReviewService.selectLectureReviewList:"+list+CF.RS);
+		
+		return list;
+	}
+	
+	
 }

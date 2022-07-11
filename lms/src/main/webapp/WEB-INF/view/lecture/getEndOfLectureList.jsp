@@ -99,7 +99,7 @@
 		                		<tbody>
 			                		<c:forEach var="EL" items="${list}">
 			                			<tr>
-			                				<td><a href="${pageContext.request.contextPath}/loginCheck/addReview?educationNo=${EL.lectureName}">${EL.lectureName}</a></td>
+			                				<td><a href="${pageContext.request.contextPath}/loginCheck/addReview?lectureName=${EL.lectureName}">${EL.lectureName}</a></td>
 		                					<td>${EL.lectureEndDate}</td>
 		                					<td>${EL.dateDiff }일</td>
 		                				</tr>

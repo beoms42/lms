@@ -104,7 +104,7 @@
 		                		<tbody>
 			                		<c:forEach var="ED" items="${list}">
 			                			<tr>
-			                				<td></td>
+			                				<td>${ED.loginId}</td>
 		                					<td>${ED.educationReviewContent}</td>
 		                					<td>${ED.educationReviewStar}</td>
 		                					<td>${ED.createDate}</td>

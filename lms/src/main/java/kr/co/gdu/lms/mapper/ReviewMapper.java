@@ -13,6 +13,9 @@ public interface ReviewMapper {
 	int selectEducationNo(Map<String,Object> paramMap);
 	void insertReview(EducationReview educationreview);
 	
-	//종강 강의 리뷰 리스트
+	//종강 강의별 별점 리스트
 	List<Map<String, Object>> selectEducationReviewList();
+	
+	//종강 강의 리뷰 리스트
+	List<Map<String, Object>> selectLectureReviewList(String lectureName);
 }

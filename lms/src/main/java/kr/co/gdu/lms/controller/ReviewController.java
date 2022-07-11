@@ -24,31 +24,33 @@ import lombok.extern.slf4j.Slf4j;
 public class ReviewController {
 	@Autowired private ReviewService  reviewservice;
 	//종강한 강의 리스트
-	@GetMapping("/loginCheck/addReview")
-	public String getEndOfLectureList(Model model) {
-		return"review/review";
+	
 
-	}
-	@PostMapping("/loginCheck/addReview")
-	public String getEndOfLectureList(Model model
-									  ,@RequestParam (name="lectureNo") String lectureName
+	 
+	@GetMapping("/loginCheck/addReview")
+	public String review(Model model
+									  ,@RequestParam (name="lectureName",defaultValue="12312") String lectureName
 									  ,HttpSession session
 									  ,EducationReview educationreview) {
 		String loginId = (String) session.getAttribute("sessionId");
 		Map<String,Object> paramMap = new HashMap<>();
-		List<Map<String,Object>>list= reviewservice.selectEducationReviewList();
-		
+		List<Map<String,Object>>list= reviewservice.selectLectureReviewList(lectureName);
+		model.addAttribute("list", list);
 		paramMap.put("loginId", loginId);
 		paramMap.put("lectureName", lectureName);
-	    log.debug(CF.PSH+"LectureController.selectEducationReviewList:"+list+CF.RS);
+		
+		
+	    log.debug(CF.PSH+"ReviewController.selectLectureReviewList:"+list+CF.RS);
 		log.debug(CF.GMC + loginId+CF.RS);
 		log.debug(CF.GMC + lectureName+CF.RS);
+		
 		int educationNo = reviewservice.selectEducationNo(paramMap);
-		model.addAttribute("list", list);
 		educationreview.setEducationNo(educationNo);
-		reviewservice.insertReview(educationreview);
+		
 		return"review/review";
 	}
+	
+	
 	
 }
 

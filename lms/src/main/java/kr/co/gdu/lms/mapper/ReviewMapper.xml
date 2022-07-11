@@ -29,15 +29,18 @@
 			,NOW()
 		)
 </insert>
-<select id="selectEducationReviewList"
-		parameterType="java.util.Map">
+
+
+<select id= "selectLectureReviewList"
+		resultType="java.util.Map"
+		parameterType="String">
 	SELECT 
-	     education_no educationNo 
-		, education_review_star educationReviewStar
-		, education_review_content educationReviewContent
-		, create_date createDate
-	FROM education_review e INNER JOIN education ed
-	 	ON e.education_no = ed.education_no
-	WHERE e.education_no = #{educationNo}
+		e.login_id loginId
+		, er.education_review_content educationReviewContent
+		, er.education_review_star educationReviewStar
+		, er.create_date createDate
+	FROM education_review er JOIN education e
+		ON er.education_no = e.education_no
+	WHERE e.lecture_name = #{lectureName}
 </select>
 </mapper>

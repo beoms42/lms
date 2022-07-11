@@ -735,6 +735,6 @@ public class LectureController {
        log.debug(CF.PSH+"LectureController.getEndOfLectureList List:"+list+CF.RS);
        return"lecture/getEndOfLectureList";
 
-}
+    }
 	
 }
