@@ -95,7 +95,7 @@
 	                <table class="table">
 		                		<thead>
 		                			<tr>
-		                				<th>아이디//앞에 2자리만?</th>
+		                				<th>아이디</th>
 		                				<th>리뷰</th>
 		                				<th>평점</th>
 		                				<th>작성날짜</th>
@@ -106,7 +106,9 @@
 			                			<tr>
 			                				<td>${ED.loginId}</td>
 		                					<td>${ED.educationReviewContent}</td>
+		                					
 		                					<td>${ED.educationReviewStar}</td>
+		                			
 		                					<td>${ED.createDate}</td>
 		                				</tr>
 			                	   </c:forEach>
@@ -114,7 +116,7 @@
 			                  </table>
 	                
 					<form class="mb-3" name="myform" id="myform" action="${pageContext.request.contextPath}/loginCheck/addReview" method="post">
-						<input type="hidden" id="lectureName" value="${lectureName}">
+						<input type="text" id="lectureName"  name="lectureName" value="강의 ${lectureName}">
 			            <div>
 						<textarea class="col-auto form-control" type="text" id="educationReviewContent" name="educationReviewContent"
 					 		 placeholder="좋은 수강평을 남겨주시면 감사"></textarea>
