@@ -69,20 +69,29 @@
 								</colgroup>			        
 								<tr>
 									<th>제목</th>
-									<td><input type="text" name="communityTitle" id="communityTitle" class="form-control"><span id="communityTitleHelper"></span></td>
+									<td>
+										<input type="text" name="communityTitle" id="communityTitle" class="form-control">
+										<div id="communityTitleHelper" class="top"></div>
+									</td>
 								</tr>				        				        
 								<tr>
 									<th>비밀번호</th>
-									<td><input type="password" name="communityPw" id="communityPw" class="form-control"><span id="communityPwHelper"></span></td>
+									<td>
+										<input type="password" name="communityPw" id="communityPw" class="form-control">
+										<div id="communityPwHelper" class="top"></div>
+									</td>
 								</tr>				        				        
 								<tr>
 									<th>작성자</th>
-									<td><input type="text" name="loginId" id="loginId" class="form-control" value="${sessionId}" readonly="readonly"></td>
+									<td>
+										<input type="text" name="loginId" id="loginId" class="form-control" value="${sessionId}" readonly="readonly">
+									</td>
 								</tr>				        				        
 								<tr>
 									<th>내용</th>
 									<td>
 										<textarea id="summernote" name="communityContent"></textarea>
+										<div id="communityContentHelper" class="top"></div>
 										<script>
 											$('#summernote').summernote({
 												  tabsize: 2,
@@ -103,7 +112,7 @@
 									</td>
 								</tr>
 						   </table>
-						   <button class="btn btn-primary float-right" id="addCommunity">게시글 입력</button>
+						   <button class="btn btn-primary float-right" id="addCommunity" type="button">게시글 입력</button>
 	                  </form>
                   </div>
                 </div>
@@ -153,9 +162,9 @@
   <script src="${pageContext.request.contextPath}/js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
 <script type="text/javascript">
-$(document).ready(function(){ // html페이지를 다 로드시키고 매개변수함수를 실행
+	 // html페이지를 다 로드시키고 매개변수함수를 실행
 	$('#addFileupload').click(function(){
-		let flag = true;
+		var flag = true;
 		// 추가된 communityFileList안에 파일이 첨부되지 않았다면 새로운 communityFileList 추가 X
 		
 		// jquery api 사용
@@ -178,11 +187,11 @@ $(document).ready(function(){ // html페이지를 다 로드시키고 매개변�
 		} else if($('#communityPw').val() == '') {
 			$('#communityTitleHelper').text('');
 			$('#communityPwHelper').text('비밀번호를 입력하세요');
-		} else if($('#communityContent').val() == ''){
+		} else if($('#summernote').val() == ''){
 			$('#communityPwHelper').text('');
 			$('#communityContentHelper').text('내용을 입력하세요');
 		} else {
-			let flag2 = true;
+			var flag2 = true;
 			$('.communityFileList').each(function(){ // each함수를 이용한 반복
 				if($(this).val() == '') {
 					flag2 = false;
@@ -196,7 +205,7 @@ $(document).ready(function(){ // html페이지를 다 로드시키고 매개변�
 		}
 	});
 	
-});	
+
 </script>
 </body>
 </html>

@@ -3,6 +3,7 @@
     
 <!DOCTYPE html>
 <html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -136,7 +137,7 @@
               <div class="card">
                 <div class="card-body"><h3 class="bottom">[커뮤니티 게시글 삭제]</h3>
                   <div class="table-responsive">
-                    <form method="post" action="${pageContext.request.contextPath}/loginCheck/removeCommunity">
+                    <form id="removeForm" method="post" action="${pageContext.request.contextPath}/loginCheck/removeCommunity">
                     <table class="table">
 	                    <colgroup>
 	                    	<col width="20%">
@@ -148,10 +149,11 @@
 						</tr>				        
 						<tr>
 							<th>비밀번호</th>
-							<td><input type="password" name="communityPw" value="${communityPw}"><br></td>
+							<td><input type="password" id="communityPw" name="communityPw" value="${communityPw}"><br></td>
+							<td><div id="communityPwHelper" class="top"></div></td>
 						</tr>				        
 				    </table>
-				    <button type="submit">삭제하기</button>
+				    <button type="button" id="removeCommunityBt">삭제하기</button>
 				    </form>
                   </div>
                 </div>
@@ -200,6 +202,26 @@
   <script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
   <script src="${pageContext.request.contextPath}/js/Chart.roundedBarCharts.js"></script>
   <!-- End custom js for this page-->
+  
+  <script type="text/javascript">
+  
+  $('#communityPw').blur(function() {
+		if ($('#communityPw').val() == '') {
+			$('#communityPwHelper').text('비밀번호를 입력하세요.');
+		} else {
+			$('#communityPwHelper').text('');
+		}
+	});
+  	
+  
+	  $('#removeCommunityBt').click(function(){
+			if($('#communityPw').val() == '') {
+				$('#communityPwHelper').text('비밀번호를 입력하세요.');
+			} else {
+				$('#removeForm').submit();
+			}
+	  });
+  </script>
 </body>
 </html>
 

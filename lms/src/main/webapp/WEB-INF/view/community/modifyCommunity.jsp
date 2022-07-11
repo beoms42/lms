@@ -76,11 +76,17 @@
 							</tr>				        
 							<tr>
 								<th>제목</th>
-								<td><input type="text" name="communityTitle" value="${communityMember.communityTitle}" class="form-control"></td>
+								<td>
+									<input type="text" name="communityTitle" id="communityTitle" value="${communityMember.communityTitle}" class="form-control">
+									<div id="communityTitleHelper" class="top"></div>
+								</td>
 							</tr>				        
 							<tr>
 								<th>비밀번호</th>
-								<td><input type="password" name="communityPw" class="form-control"></td>
+								<td>
+									<input type="password" name="communityPw" id="communityPw" class="form-control">
+									<div id="communityPwHelper" class="top"></div>
+								</td>
 							</tr>				        
 							<tr>
 								<th>작성자</th>
@@ -90,6 +96,7 @@
 								<th>내용</th>
 								<td>
 									<textarea id="summernote" name="communityContent">${communityMember.communityContent}</textarea>
+									<div id="communityContentHelper" class="top"></div>
 									<script>
 										$('#summernote').summernote({
 											  tabsize: 2,
@@ -102,7 +109,7 @@
 							</tr>				        
 							<tr>
 								<th>작성날짜</th>
-								<td>${community.createDate}</td>
+								<td>${communityMember.createDate}</td>
 							</tr>
 							<tr>
 								<th rowspan="2" >첨부 파일</th>
@@ -191,9 +198,13 @@
 		
 		$('#modifyCommunityBt').click(function(){
 			if($('#communityTitle').val() == '') {
-				alert('communityTitle 입력하세요');
-			} else if($('#communityContent').val() == '') {
-				alert('communityContent 입력하세요');
+				$('#communityTitleHelper').text('제목을 입력하세요');
+			} else if($('#communityPw').val() == '') {
+				$('#communityTitleHelper').text('');
+				$('#communityPwHelper').text('비밀번호를 입력하세요');
+			} else if($('#summernote').val() == ''){
+				$('#communityPwHelper').text('');
+				$('#communityContentHelper').text('내용을 입력하세요');
 			} else {
 				var flag2 = true;
 				$('.communityFileList').each(function(){ // each함수를 이용한 반복
