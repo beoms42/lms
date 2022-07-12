@@ -78,5 +78,7 @@ public interface CommunityMapper {
 	// 희원 - 부모글 삭제시 추천 전체 삭제
 	int deleteRecommendByCommunityNo(int communityNo);
 	
+	// 희원 - 게시글 작성 날짜, 오늘 날짜 비교해서 게시판에 new 아이콘 띄우기
+	 List<Integer> selectCreateDateAndToday();
 	
 	}

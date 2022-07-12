@@ -25,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CommunityController {
 	@Autowired private CommunityService communityService;
 	
+	
 	// 희원 - Recommand Action - get방식
 	@GetMapping("/loginCheck/recommandAction")
 	public String recommandAction(@RequestParam (name = "communityNo") int communityNo
@@ -232,8 +233,11 @@ public class CommunityController {
 		log.debug(CF.PHW+"CommunityController.getCommunityList.get communityList : "+map.get("communityList")+CF.RS );
 		log.debug(CF.PHW+"CommunityController.getCommunityList.get lastPage : "+map.get("lastPage")+CF.RS );
 
-		List<RecommendForm> recommendList = communityService.selectRecommendList();
+		List<RecommendForm> recommendList = communityService.getRecommendList();
 		log.debug(CF.PHW+"CommunityController.getCommunityList.get recommendList : "+recommendList+CF.RS );
+		
+		List<Integer> todayList = communityService.getCreateDateAndToday();
+		log.debug(CF.PHW+"CommunityController.getCommunityList.get todayList : "+todayList+CF.RS );
 		
 		
 		model.addAttribute("communityList", map.get("communityList"));
@@ -241,6 +245,7 @@ public class CommunityController {
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("recommendList", recommendList);
+		model.addAttribute("todayList", todayList);
 		
 		
 		return "community/getCommunityListByPage";
