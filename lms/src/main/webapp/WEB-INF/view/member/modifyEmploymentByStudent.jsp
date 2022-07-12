@@ -72,12 +72,13 @@
 	                		</c:choose>
 	                	</c:forEach>
 	                </select>
-	                <button type="submit">검색</button>
+	                <button class="btn btn-success" type="submit">검색</button>
                 </form>
                 </div>
                   <p class="card-description">
                   </p>
                   <div class="table-responsive">
+                  <form method="post" action="${pageContext.request.contextPath}/loginCheck/modifyEmploymentByStudent">
                     <table class="table">
                       <thead>
                         <tr>
@@ -88,34 +89,34 @@
                       </thead>
                       <tbody>
 	                      <c:forEach var="e" items="${employmentList}">
-	                    	 <form ="student">
-		                         <tr>
-		                            <td>${e.lectureName}</td>
-		                            <td>${e.studentName}(${e.loginId})</td>
-		                            <input type="hidden" id="loginId" name="loginId" value="${e.loginId}">
-		                            <td>
-			                            <select id="employment" class="employment" name="employment">
-			                            	<option <c:if test="${e.employment eq '미취업'}">selected="selected"</c:if>>미취업</option>
-			                            	<option <c:if test="${e.employment eq '취업'}">selected="selected"</c:if>>취업</option>
-			                            </select>
-		                            </td>
-		                         </tr>
-	                         </form>
+	                         <tr>
+	                            <td>${e.lectureName}</td>
+	                            <input type="hidden" name="lectureName" value="${lectureName}">
+	                            <input type="hidden" name="employmentCurrentPage" value="${employmentCurrentPage}">
+	                            <td>${e.studentName}(${e.loginId})</td>
+	                            <td>
+		                            <select id="employment" class="employment" name="employment">
+		                            	<option value="${e.loginId},미취업" <c:if test="${e.employment eq '미취업'}">selected="selected"</c:if>>미취업</option>
+		                            	<option value="${e.loginId},취업" <c:if test="${e.employment eq '취업'}">selected="selected"</c:if>>취업</option>
+		                            </select>
+	                            </td>
+	                         </tr>
 	                      </c:forEach>
-                         <button type="button" id="btn">수정</button>
                       </tbody>
                     </table>
+                   	<button class="float-right btn btn-success" id="btn">수정</button>
+                   </form>
                   </div>
                 </div>
               </div>
             </div>
           </div>
       <c:if test="${employmentCurrentPage > 1}">
-         <a class="btn btn-success" href="${pageContext.request.contextPath}/loginCheck/getEmploymentList?employmentCurrentPage=${employmentCurrentPage-1}&lectureName=${lectureName}">이전</a>
+         <a class="btn btn-success" href="${pageContext.request.contextPath}/loginCheck/modifyEmploymentByStudent?employmentCurrentPage=${employmentCurrentPage-1}&lectureName=${lectureName}">이전</a>
       </c:if>
       
       <c:if test="${employmentCurrentPage < employmentLastPage}">
-         <a class="btn btn-success" href="${pageContext.request.contextPath}/loginCheck/getEmploymentList?employmentCurrentPage=${employmentCurrentPage+1}&lectureName=${lectureName}">다음</a>
+         <a class="btn btn-success" href="${pageContext.request.contextPath}/loginCheck/modifyEmploymentByStudent?employmentCurrentPage=${employmentCurrentPage+1}&lectureName=${lectureName}">다음</a>
       </c:if>
       </div>
       <!-- main-panel ends -->
@@ -147,21 +148,4 @@
   <!-- End custom js for this page-->
 
 </body>
-<script type="text/javascript">
-	$('#btn').click(function() {
-		var formValues = $("form[name=sampleForm]").serialize() ;
-		$.ajax({
-			type:'post'
-			, url:'/lms/modifyEmployment'
-			, data:form
-			, success:function(row) {
-				if(row == 1) {
-					console.log("업데이트 성공");
-				} else {
-					console.log("업데이트 실패")
-				}
-			}
-		});
-	});
-</script>
 </html>

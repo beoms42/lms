@@ -71,7 +71,7 @@
 	                		</c:choose>
 	                	</c:forEach>
 	                </select>
-	                <button type="submit">검색</button>
+	                <button type="submit btn btn-success">검색</button>
                 </form>
                 </div>
                   <p class="card-description">
@@ -96,7 +96,7 @@
                       </tbody>
                     </table>
                     <div>
-                    	<a class="float-right" href="${pageContext.request.contextPath}/loginCheck/modifyEmploymentByStudent">취업관리</a>
+                    	<a class="float-right btn btn-success" href="${pageContext.request.contextPath}/loginCheck/modifyEmploymentByStudent?employmentCurrentPage=${employmentCurrentPage}&lectureName=${lectureName}">취업관리</a>
                     </div>
                   </div>
                 </div>

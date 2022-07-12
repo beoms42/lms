@@ -35,6 +35,18 @@ public class MemberController {
    @Autowired private LoginService loginService;
    @Autowired private LectureSerivce lectureSerivce;
    
+   @PostMapping("/loginCheck/modifyEmploymentByStudent")
+   public String modifyEmploymentByStudent(@RequestParam(name="lectureName") String lectureName
+		   								, @RequestParam(name = "employment") List<String> employment
+		   								, @RequestParam(name="employmentCurrentPage") int employmentCurrentPage) {
+	   log.debug(CF.LCH + "MemberController.modifyEmploymentByStudent.post lectureName : " + lectureName + CF.RS);
+	   log.debug(CF.LCH + "MemberController.modifyEmploymentByStudent.post employment : " + employment + CF.RS);
+	   log.debug(CF.LCH + "MemberController.modifyEmploymentByStudent.post employmentCurrentPage : " + employmentCurrentPage + CF.RS);
+	   String[] changeLectureName = lectureName.split(",");
+	   memberService.modifyEmploymentByStudent(employment);
+	   return "redirect:/loginCheck/getEmploymentList?employmentCurrentPage="+employmentCurrentPage+"&lectureName="+changeLectureName[0];
+   }
+   
    @GetMapping("/loginCheck/modifyEmploymentByStudent")
    public String modifyEmploymentByStudent(Model model
 		   								, Student student

@@ -38,9 +38,21 @@ public class MemberService {
    @Autowired private AdminMapper adminMapper;
    @Autowired private MemberFileMapper memberFileMapper;
    
-   public int modifyEmploymentByStudent(Student student) {
-	   log.debug(CF.LCH+"MemberService.modifyEmploymentByStudent student : "+student+CF.RS);
-	   return studentMapper.updateEmploymentByStudent(student);
+   public void modifyEmploymentByStudent(List<String> employment) {
+	   
+	   log.debug(CF.LCH+"MemberService.modifyEmploymentByStudent employment : "+employment+CF.RS);
+	   for(String s : employment) {
+		   
+		   String[] employmentAry = s.split(",");
+		   log.debug(CF.LCH+"MemberService.modifyEmploymentByStudent employmentAry : "+employmentAry+CF.RS);
+		   
+		   Student student = new Student();
+		   student.setEmployment(employmentAry[1]);
+		   student.setLoginId(employmentAry[0]);
+		   log.debug(CF.LCH+"MemberService.modifyEmploymentByStudent student : "+student+CF.RS);
+		   
+		   studentMapper.updateEmploymentByStudent(student);
+	   }
    }
    
    // 학생들 취업 상태 리스트
