@@ -210,8 +210,7 @@ to {
 		src="${pageContext.request.contextPath}/js/Chart.roundedBarCharts.js"></script>
 	<!-- End custom js for this page-->
 	<script type="text/javascript">
-		$
-				.ajax({
+			$.ajax({
 					url : '/lms/weather',
 					type : 'get',
 					timeout : 30000,
@@ -300,8 +299,68 @@ to {
 				}
 			}
 			//일자리 리스트 
-			$
-					.ajax({
+			$.ajax({
+					type : 'get',
+					cache : "false",
+					url : '/lms/adRestController',
+					data : {
+						currentPage : currentPage,
+						rowPerPage : rowPerPage
+					},
+					success : function(a) {
+						console.log(typeof (a));
+						console.log(a);
+						var a2 = JSON.parse(a);
+						console.log(a2);
+						var arr = a2.GetJobInfo.row;
+
+						console.log(arr);
+						totalCount = a2.GetJobInfo.list_total_count;
+						console.log(totalCount);
+						for (let i = 0; i < arr.length; i++) {
+
+							$('#addJobListDivOne')
+									.append(
+											"<div class='col-lg-3 text-center' style='border : 1px solid #555555;'>\
+ 						<button class='btn btn-primary ' type='button'  aria-haspopup='true' aria-expanded='true'>"
+													+ arr[i].CMPNY_NM
+													+ "</button>\
+ 						<a class='dropdown-item' href='#'>"
+													+ arr[i].BSNS_SUMRY_CN
+													+ "</a>\
+ 						<a class='dropdown-item' href='#'>"
+													+ arr[i].HOPE_WAGE
+													+ "</a>\
+ 						<a class='dropdown-item' href='#'>"
+													+ arr[i].RCEPT_CLOS_NM
+													+ "</a><br>\
+ 						<a class='dropdown-item' href='#'>"
+													+ arr[i].WORK_PARAR_BASS_ADRES_CN
+													+ "</a></div>");
+						}
+						// currentPage 12, rowPerPage12 씩 증가
+						currentPage += 12;
+						rowPerPage += 12;
+						console.log(currentPage);
+						console.log(rowPerPage);
+					}
+				})
+			});
+
+		//일자리 리스트 보여주는 범위 설정 currentPage 1 ~ rowPerPage 12
+		var totalCount;
+		var currentPage = 1;
+		var rowPerPage = 12;
+
+		console.log(currentPage);
+		if (currentPage == 1) {
+			$('#reducePage').hide();
+		}
+
+		//리스트 다음 버튼
+		$('#addPage').click(function() {
+				$('#addJobListDivOne').empty();
+				$.ajax({
 						type : 'get',
 						cache : "false",
 						url : '/lms/adRestController',
@@ -321,111 +380,38 @@ to {
 							console.log(totalCount);
 							for (let i = 0; i < arr.length; i++) {
 
-								$('#addJobListDivOne')
-										.append(
-												"<div class='col-lg-3 text-center' style='border : 1px solid #555555;'>\
-  						<button class='btn btn-primary ' type='button'  aria-haspopup='true' aria-expanded='true'>"
+								$('#addJobListDivOne').append("<div class='col-lg-3 text-center' style='border : 1px solid #555555;'>\
+								<button class='btn btn-primary ' type='button'  aria-haspopup='true' aria-expanded='true'>"
 														+ arr[i].CMPNY_NM
 														+ "</button>\
-  						<a class='dropdown-item' href='#'>"
+								<a class='dropdown-item' href='#'>"
 														+ arr[i].BSNS_SUMRY_CN
 														+ "</a>\
-  						<a class='dropdown-item' href='#'>"
+								<a class='dropdown-item' href='#'>"
 														+ arr[i].HOPE_WAGE
 														+ "</a>\
-  						<a class='dropdown-item' href='#'>"
+								<a class='dropdown-item' href='#'>"
 														+ arr[i].RCEPT_CLOS_NM
 														+ "</a><br>\
-  						<a class='dropdown-item' href='#'>"
+								<a class='dropdown-item' href='#'>"
 														+ arr[i].WORK_PARAR_BASS_ADRES_CN
 														+ "</a></div>");
 							}
-							// currentPage 12, rowPerPage12 씩 증가
+							//currentPage을 +12=13, rowPerPage12 +12=24
 							currentPage += 12;
 							rowPerPage += 12;
 							console.log(currentPage);
 							console.log(rowPerPage);
+							if (currentPage != 1) {
+								$('#reducePage').show();
+							}
 						}
 					})
-		});
-
-		//일자리 리스트 보여주는 범위 설정 currentPage 1 ~ rowPerPage 12
-		var totalCount;
-		var currentPage = 1;
-		var rowPerPage = 12;
-
-		console.log(currentPage);
-		if (currentPage == 1) {
-			$('#reducePage').hide();
-		}
-
-		//리스트 다음 버튼
-		$('#addPage')
-				.click(
-						function() {
-							//	$('#reducePage').click(function() { 
-
-							$('#addJobListDivOne').empty();
-							$
-									.ajax({
-										type : 'get',
-										cache : "false",
-										url : '/lms/adRestController',
-										data : {
-											currentPage : currentPage,
-											rowPerPage : rowPerPage
-										},
-										success : function(a) {
-											console.log(typeof (a));
-											console.log(a);
-											var a2 = JSON.parse(a);
-											console.log(a2);
-											var arr = a2.GetJobInfo.row;
-
-											console.log(arr);
-											totalCount = a2.GetJobInfo.list_total_count;
-											console.log(totalCount);
-											for (let i = 0; i < arr.length; i++) {
-
-												$('#addJobListDivOne')
-														.append(
-																"<div class='col-lg-3 text-center' style='border : 1px solid #555555;'>\
-						<button class='btn btn-primary ' type='button'  aria-haspopup='true' aria-expanded='true'>"
-																		+ arr[i].CMPNY_NM
-																		+ "</button>\
-						<a class='dropdown-item' href='#'>"
-																		+ arr[i].BSNS_SUMRY_CN
-																		+ "</a>\
-						<a class='dropdown-item' href='#'>"
-																		+ arr[i].HOPE_WAGE
-																		+ "</a>\
-						<a class='dropdown-item' href='#'>"
-																		+ arr[i].RCEPT_CLOS_NM
-																		+ "</a><br>\
-						<a class='dropdown-item' href='#'>"
-																		+ arr[i].WORK_PARAR_BASS_ADRES_CN
-																		+ "</a></div>");
-											}
-											//currentPage을 +12=13, rowPerPage12 +12=24
-											currentPage += 12;
-											rowPerPage += 12;
-											console.log(currentPage);
-											console.log(rowPerPage);
-											if (currentPage != 1) {
-												$('#reducePage').show();
-											}
-										}
-									})
-						});
+			});
 		//리스트 이전 버튼
-		$('#reducePage')
-				.click(
-						function() {
-							//$('#reducePage').click(function() { 
-
-							$('#addJobListDivOne').empty();
-							$
-									.ajax({
+		$('#reducePage').click(function() {
+								$('#addJobListDivOne').empty();
+								$.ajax({
 										type : 'get',
 										cache : "false",
 										url : '/lms/adRestController',
@@ -445,9 +431,7 @@ to {
 											console.log(totalCount);
 											for (let i = 0; i < arr.length; i++) {
 
-												$('#addJobListDivOne')
-														.append(
-																"<div class='col-lg-3 text-center' style='border : 1px solid #555555;'>\
+												$('#addJobListDivOne').append("<div class='col-lg-3 text-center' style='border : 1px solid #555555;'>\
 					<button class='btn btn-primary ' type='button'  aria-haspopup='true' aria-expanded='true'>"
 																		+ arr[i].CMPNY_NM
 																		+ "</button>\
@@ -478,9 +462,8 @@ to {
 						});
 	</script>
 	<script>
-	var arr;
-	$
-			.ajax({
+		var arr;
+		$.ajax({
 				type : 'get',
 				url : '/lms/addAvgScore',
 				success : function(jsonData) {

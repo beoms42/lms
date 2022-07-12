@@ -10,7 +10,7 @@
 	<update id="updateActiveByEndLecture"
 			parameterType="String">
 		UPDATE lecture SET
-			lecture_active = '0'
+			lecture_active = '2'
 		WHERE lecture_name = #{lectureName}
 	</update>
 	<select id="selectLectureListByEndDate"
