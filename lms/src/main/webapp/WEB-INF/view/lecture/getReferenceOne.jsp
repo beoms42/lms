@@ -101,7 +101,7 @@
 			                  </div>
 						</div>
 						<div class="float-right top bottom right">
-							<c:if test="${sessionLv > 2 }">
+							<c:if test="${sessionLv <= 2 }">
 					    	<a class="btn  btn-facebook auth-form-btn" href="${pageContext.request.contextPath}/loginCheck/updateReference?referenceNo=${reference.referenceNo}">수정</a>
 				        	<button  class="btn btn-danger" type="button" class="site-btn" data-toggle="modal" data-target="#deleteReferenceModal">삭제</button>
 				        	</c:if>

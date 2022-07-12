@@ -243,16 +243,50 @@
 	<!-- 시간표추가 -->
 	<insert id="insertSchedule" 
 			parameterType="kr.co.gdu.lms.vo.Schedule">
+			<selectKey resultType="int" keyProperty="scheduleNo" order="AFTER">
+				SELECT LAST_INSERT_ID();
+			</selectKey>
 		INSERT INTO schedule(
 			schedule_date
-			,lecture_subject_no
-			,create_date
-			,update_date
+			, lecture_subject_no
+			, create_date
+			, update_date
 		) VALUES(
 			#{scheduleDate}
-			,#{lectureSubjectNo}
-			,NOW()
-			,NOW());
+			, #{lectureSubjectNo}
+			, NOW()
+			, NOW());
+	</insert>
+	
+	<!-- 시간표 과목 -->
+	<select id="selectAttendanceSubject"
+			parameterType="int"
+			resultType="String">
+		SELECT lecture_name lecutreName
+		FROM lecture_subject
+		WHERE lecture_subject_no = #{lectureSubjectNo};
+	</select>
+	
+	<!-- 시간표 출석학생리스트 -->
+	<select id="selectAttendanceEducationList"
+			parameterType="String"
+			resultType="int">
+		SELECT education_no educationNo
+		FROM education
+		WHERE lecture_name = #{lectureName};
+	</select>
+	
+	<!-- 출석입력 -->
+	<insert id="insertAttendance"
+			parameterType="kr.co.gdu.lms.vo.Attendance">
+		INSERT INTO attendance (
+		schedule_no
+		, education_no
+		, attendance_record
+		) VALUES (
+		#{scheduleNo}
+		, #{educationNo}
+		, '출결전');
 	</insert>
 	
 	<!-- 시간표수정 -->

@@ -348,7 +348,7 @@ public class LectureController {
 		
 		// 권한 확인
 		log.debug(CF.HJI+"LectureController.removeReference loginLv : "+loginLv+CF.RS);
-		if(loginLv > 2) {
+		if(loginLv <= 2) {
 			return "redirect:/loginCheck/main";
 		}
 				
@@ -380,7 +380,7 @@ public class LectureController {
 		
 		// 권한 확인
 		log.debug(CF.HJI+"LectureController.modifyScheduleForm loginLv : "+loginLv+CF.RS);
-		if(loginLv > 2) {
+		if(loginLv <= 2) {
 			return "redirect:/loginCheck/main";
 		}
 		
@@ -389,10 +389,6 @@ public class LectureController {
 		log.debug(CF.HJI+"LectureController.modifyScheduleForm m : "+m+CF.RS);
 		log.debug(CF.HJI+"LectureController.modifyScheduleForm y : "+y+CF.RS);
 		log.debug(CF.HJI+"LectureController.modifyScheduleForm loginLv : "+loginLv+CF.RS);
-		
-		if(loginLv > 2) {
-			return"/lecture/getSheduleListByMonth";
-		}
 		
 		// 실행
 		Map<String,Object> modifyScheduleForm = lectureService.modifyScheduleForm(scheduleNo);
@@ -451,12 +447,6 @@ public class LectureController {
 		String loginId = (String)session.getAttribute("sessionId");
 		int loginLv = (int)session.getAttribute("sessionLv");
 		
-		// 권한 확인
-		log.debug(CF.HJI+"LectureController.getLectureReferenceList loginLv : "+loginLv+CF.RS);
-		if(loginLv > 1) {
-			return "redirect:/loginCheck/main";
-		}
-		
 		// 요청값 디버깅
 		log.debug(CF.HJI+"LectureController.getLectureReferenceList currentPage : "+currentPage+CF.RS);
 		log.debug(CF.HJI+"LectureController.getLectureReferenceList rowPerPage : "+rowPerPage+CF.RS);
@@ -482,6 +472,7 @@ public class LectureController {
 		
 		return "/lecture/getLectureReferenceList";
 	}
+	
 	// 자료실 상세보기
 	@GetMapping("/loginCheck/getReferenceOne")
 	public String getReferenceOne(Model model, HttpSession session
@@ -491,7 +482,7 @@ public class LectureController {
 		
 		// 권한 확인
 		log.debug(CF.HJI+"LectureController.getReferenceOne loginLv : "+loginLv+CF.RS);
-		if(loginLv > 1) {
+		if(loginLv <= 1) {
 			return "redirect:/loginCheck/main";
 		}
 		
@@ -519,7 +510,7 @@ public class LectureController {
 		
 		// 권한 확인
 		log.debug(CF.HJI+"LectureController.updateAddReferenceForm loginLv : "+loginLv+CF.RS);
-		if(loginLv > 1) {
+		if(loginLv < 2) {
 			return "redirect:/loginCheck/main";
 		}
 		
@@ -567,17 +558,13 @@ public class LectureController {
 		
 		// 권한 확인
 		log.debug(CF.HJI+"LectureController.updateAddReferenceForm loginLv : "+loginLv+CF.RS);
-		if(loginLv > 1) {
-			return "redirect:/loginCheck/main";
+		// 권한 확인
+		if(loginLv < 2) {
+			return"/lecture/getLectureReferenceList";
 		}
 		
 		// 요청값 디버깅
 		log.debug(CF.HJI+"LectureController.updateAddReferenceForm referenceNo : "+referenceNo+CF.RS);
-		
-		// 권한 확인
-		if(loginLv > 1) {
-			return"/lecture/getLectureReferenceList";
-		}
 		
 		// 실행
 		Map<String, Object> map = lectureService.getReferenceOne(referenceNo);
@@ -634,7 +621,7 @@ public class LectureController {
 		
 		// 권한 확인
 		log.debug(CF.HJI+"LectureController.removeReference loginLv : "+loginLv+CF.RS);
-		if(loginLv > 1) {
+		if(loginLv < 2) {
 			return "redirect:/loginCheck/main";
 		}
 		
@@ -663,7 +650,7 @@ public class LectureController {
 		
 		// 권한 확인
 		log.debug(CF.HJI+"LectureController.getSubjectList loginLv : "+loginLv+CF.RS);
-		if(loginLv > 2) {
+		if(loginLv < 2) {
 			return"redirect:/loginCheck/main";
 		}
 		
@@ -685,7 +672,7 @@ public class LectureController {
 		
 		// 권한 확인
 		log.debug(CF.HJI+"LectureController.addSubject loginLv : "+loginLv+CF.RS);
-		if(loginLv > 2) {
+		if(loginLv < 2) {
 			return"redirect:/loginCheck/getSubjectList";
 		}
 				
@@ -714,7 +701,7 @@ public class LectureController {
 		
 		// 권한 확인
 		log.debug(CF.HJI+"LectureController.addSubject loginLv : "+loginLv+CF.RS);
-		if(loginLv > 2) {
+		if(loginLv < 2) {
 			return"redirect:/loginCheck/getSubjectList";
 		}
 		

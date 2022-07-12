@@ -289,24 +289,52 @@ public class LectureSerivce {
         	 Calendar cal = Calendar.getInstance();
         	 // 켈린더로 변환(Date 날짜를 calendar로 바꾸기 때문에 다른 설정이 필요 없다.) 타입만 바뀜
         	 cal.setTime(scheduleStartDate);
+        	 
         	 // 이 켈린더의 date를 i 만큼 더하겠다. day + i
         	 cal.add(Calendar.DATE, i);
         	 log.debug(CF.HJI+"LectureService.addShedule cal : "+cal+CF.RS);
+        	
         	 // 일주일에서 주말은 제외하기 위해 dayOfWeek 선언
         	 // 켈린더타입에서 주를 구할 수 있다.
         	 int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
         	 log.debug(CF.HJI+"LectureService.addShedule dayOfWeek : "+dayOfWeek+CF.RS);
+        	 
         	 // 토일이 아니면
         	 if(dayOfWeek != 1 && dayOfWeek != 7) {
         		// String으로 변환하기 위해 다시 한번 타입 변환(yyyy-MM-dd)
         		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
-	        	// fm안에 있는 YYYY-MM-DD를 포맷하겠다. String으로 (이건 자동으로 되는것 같다.)
+	        	
+        		// fm안에 있는 YYYY-MM-DD를 포맷하겠다. String으로 (이건 자동으로 되는것 같다.)
         		String scheduleDate = fm.format(cal.getTime());
             	log.debug(CF.HJI+"LectureService.addShedule scheduleDate : "+scheduleDate+CF.RS);
             	Schedule schedule = new Schedule();
          		schedule.setScheduleDate(scheduleDate);
          		schedule.setLectureSubjectNo(lectureSubjectNo);
          		row = lectureMapper.insertSchedule(schedule);
+         		
+         		// 입력 후 scheduleNo 확인
+         		log.debug(CF.HJI+"LectureService.addShedule schedule 후 : "+schedule+CF.RS);
+         		
+         		// 출결 넣기 위해 
+         		String lecutreName = lectureMapper.selectAttendanceSubject(lectureSubjectNo);
+         		log.debug(CF.HJI+"LectureService.addShedule lecutreName : "+lecutreName+CF.RS);
+         		
+         		// 리스트 뽑기
+         		List<Integer> attendanceEducationList = lectureMapper.selectAttendanceEducationList(lecutreName);
+         		log.debug(CF.HJI+"LectureService.addShedule AttendanceEducationList : "+attendanceEducationList+CF.RS);
+         		
+         		// 출석 입력
+         		int attendenceConfirm = 0;
+         		for(int j=0; j < attendanceEducationList.size(); j++) {
+         			Attendance attendance = new Attendance();
+         			attendance.setScheduleNo(schedule.getScheduleNo());
+         			attendance.setEducationNo(attendanceEducationList.get(j));
+         			lectureMapper.insertAttendance(attendance);
+         			attendenceConfirm++;
+         		}
+         		log.debug(CF.HJI+"LectureService.addShedule attendenceConfirm : "+attendenceConfirm+CF.RS);
+         		
+         		// 디버깅
          		if(row == 1) {
         			log.debug(CF.HJI+"LectureService.addShedule 성공! : "+row+CF.RS);
         		} else {
