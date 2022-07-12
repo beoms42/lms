@@ -174,7 +174,7 @@
 	$('#btn').click(function() {
 		if ($('#noticeTitle').val() == '') {
 			$('#noticeTitleHelper').text('공지사항 제목을 입력해주세요.');
-		} else if ($('#summernote').val() == ''){
+		} else if ($('#summernote').val().length < 1){
 			$('#noticeTitleHelper').text('');
 			$('#contentHelper').text('공지사항 내용을 입력해주세요.');
 		} else {

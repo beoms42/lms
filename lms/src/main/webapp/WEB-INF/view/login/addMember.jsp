@@ -413,7 +413,7 @@
   			$('#pwHelper').text('비밀번호를 입력해주세요.');
   		} else if(!spc.test($('#pw').val())) { // pw에 spc가 없다면
   			$('#pwHelper').text('비밀번호에 특수문자를 포함해주세요.');
-  		} else if($('#pw').val().length <9) {
+  		} else if($('#pw').val().length <8) {
   			$('#pwHelper').text('비밀번호를 8자 이상 입력해주세요.');
   		} else if($('#pwCk').val()=='') {
   			$('#pwHelper').text('');
@@ -470,7 +470,7 @@
   	  			$('#pwHelper').text('비밀번호를 입력해주세요.');
   	  		} else if(!spc.test($('#pw').val())) { // pw에 spc가 없다면
   	  			$('#pwHelper').text('비밀번호에 특수문자를 포함해주세요.');
-  	  		} else if($('#pw').val().length <9) {
+  	  		} else if($('#pw').val().length <8) {
   	  			$('#pwHelper').text('비밀번호를 8자 이상 입력해주세요.');
   	  		} else if($('#pwCk').val()=='') {
   	  			$('#pwHelper').text('');
