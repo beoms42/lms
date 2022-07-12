@@ -306,40 +306,50 @@ public class LectureSerivce {
 	        	
         		// fm안에 있는 YYYY-MM-DD를 포맷하겠다. String으로 (이건 자동으로 되는것 같다.)
         		String scheduleDate = fm.format(cal.getTime());
-            	log.debug(CF.HJI+"LectureService.addShedule scheduleDate : "+scheduleDate+CF.RS);
-            	Schedule schedule = new Schedule();
-         		schedule.setScheduleDate(scheduleDate);
-         		schedule.setLectureSubjectNo(lectureSubjectNo);
-         		row = lectureMapper.insertSchedule(schedule);
+        		
+        		// 중복확인
+         		Schedule scheduleConfilm = new Schedule();
+         		scheduleConfilm.setScheduleDate(scheduleDate);
+         		scheduleConfilm.setLectureSubjectNo(lectureSubjectNo);
+         		List<Schedule> Confilm = lectureMapper.selectScheduleConfilm(scheduleConfilm);
+         		log.debug(CF.HJI+"LectureService.addShedule Confilm : "+Confilm+CF.RS);
          		
-         		// 입력 후 scheduleNo 확인
-         		log.debug(CF.HJI+"LectureService.addShedule schedule 후 : "+schedule+CF.RS);
-         		
-         		// 출결 넣기 위해 
-         		String lecutreName = lectureMapper.selectAttendanceSubject(lectureSubjectNo);
-         		log.debug(CF.HJI+"LectureService.addShedule lecutreName : "+lecutreName+CF.RS);
-         		
-         		// 리스트 뽑기
-         		List<Integer> attendanceEducationList = lectureMapper.selectAttendanceEducationList(lecutreName);
-         		log.debug(CF.HJI+"LectureService.addShedule AttendanceEducationList : "+attendanceEducationList+CF.RS);
-         		
-         		// 출석 입력
-         		int attendenceConfirm = 0;
-         		for(int j=0; j < attendanceEducationList.size(); j++) {
-         			Attendance attendance = new Attendance();
-         			attendance.setScheduleNo(schedule.getScheduleNo());
-         			attendance.setEducationNo(attendanceEducationList.get(j));
-         			lectureMapper.insertAttendance(attendance);
-         			attendenceConfirm++;
-         		}
-         		log.debug(CF.HJI+"LectureService.addShedule attendenceConfirm : "+attendenceConfirm+CF.RS);
-         		
-         		// 디버깅
-         		if(row == 1) {
-        			log.debug(CF.HJI+"LectureService.addShedule 성공! : "+row+CF.RS);
-        		} else {
-        			log.debug(CF.HJI+"LectureService.addShedule 실패! : "+row+CF.RS);
-        		} 
+         		if(Confilm.size() == 0) {
+	            	log.debug(CF.HJI+"LectureService.addShedule scheduleDate : "+scheduleDate+CF.RS);
+	            	Schedule schedule = new Schedule();
+	         		schedule.setScheduleDate(scheduleDate);
+	         		schedule.setLectureSubjectNo(lectureSubjectNo);
+	         		row = lectureMapper.insertSchedule(schedule);
+	         		
+	         		// 입력 후 scheduleNo 확인
+	         		log.debug(CF.HJI+"LectureService.addShedule schedule 후 : "+schedule+CF.RS);
+	         		
+	         		// 출결 넣기 위해 
+	         		String lecutreName = lectureMapper.selectAttendanceSubject(lectureSubjectNo);
+	         		log.debug(CF.HJI+"LectureService.addShedule lecutreName : "+lecutreName+CF.RS);
+	         		
+	         		// 리스트 뽑기
+	         		List<Integer> attendanceEducationList = lectureMapper.selectAttendanceEducationList(lecutreName);
+	         		log.debug(CF.HJI+"LectureService.addShedule AttendanceEducationList : "+attendanceEducationList+CF.RS);
+	         		
+	         		// 출석 입력
+	         		int attendenceConfirm = 0;
+	         		for(int j=0; j < attendanceEducationList.size(); j++) {
+	         			Attendance attendance = new Attendance();
+	         			attendance.setScheduleNo(schedule.getScheduleNo());
+	         			attendance.setEducationNo(attendanceEducationList.get(j));
+	         			lectureMapper.insertAttendance(attendance);
+	         			attendenceConfirm++;
+	         		}
+	         		log.debug(CF.HJI+"LectureService.addShedule attendenceConfirm : "+attendenceConfirm+CF.RS);
+	         		
+	         		// 디버깅
+	         		if(row == 1) {
+	        			log.debug(CF.HJI+"LectureService.addShedule 성공! : "+row+CF.RS);
+	        		} else {
+	        			log.debug(CF.HJI+"LectureService.addShedule 실패! : "+row+CF.RS);
+	        		} 
+	        	 }
         	 }
 		}
 		
@@ -392,11 +402,15 @@ public class LectureSerivce {
 		
 		// mapper로 모델값 추출
 		int row = lectureMapper.deleteSchedule(scheduleNo);
+		int attendanceRow = lectureMapper.deleteAttendance(scheduleNo);
 		if(row == 1) {
 			log.debug(CF.HJI+"LectureService.removeSchedule : "+"성공"+CF.RS);
+			log.debug(CF.HJI+"LectureService.removeSchedule attendanceRow : "+attendanceRow+CF.RS);
 		} else {
 			log.debug(CF.HJI+"LectureService.removeSchedule : "+"실패"+CF.RS);
+			log.debug(CF.HJI+"LectureService.removeSchedule attendanceRow : "+attendanceRow+CF.RS);
 		}
+		
 		
 		return row;
 	}

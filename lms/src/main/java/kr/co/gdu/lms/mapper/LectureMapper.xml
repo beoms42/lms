@@ -258,6 +258,17 @@
 			, NOW());
 	</insert>
 	
+	<!-- 시간표 중복확인 -->
+	<select id="selectScheduleConfilm"
+			parameterType="kr.co.gdu.lms.vo.Schedule"
+			resultType="kr.co.gdu.lms.vo.Schedule">
+		SELECT 
+			schedule_date scheduleDate
+			, lecture_subject_no lectureSubjectNo
+		FROM schedule
+		WHERE schedule_date = #{scheduleDate} AND lecture_subject_no = #{lectureSubjectNo};
+	</select>
+	
 	<!-- 시간표 과목 -->
 	<select id="selectAttendanceSubject"
 			parameterType="int"
@@ -303,6 +314,13 @@
 	<delete id="deleteSchedule" 
 			parameterType="int">
 		DELETE FROM schedule 
+		WHERE schedule_no = #{scheduleNo};
+	</delete>
+	
+	<!-- 출결삭제 -->
+	<delete id="deleteAttendance"
+			parameterType="int">
+		DELETE FROM attendance
 		WHERE schedule_no = #{scheduleNo};
 	</delete>
 	
