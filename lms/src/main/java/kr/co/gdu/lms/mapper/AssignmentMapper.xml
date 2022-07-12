@@ -113,8 +113,8 @@
 	<select id="selectAssignmentSubmitTeacher"
 			parameterType="java.util.Map"
 			resultType="kr.co.gdu.lms.vo.AssignmentSubmit">
-		SELECT
-			assignment_exam_no assignmentExamNo
+			SELECT
+			a.assignment_exam_no assignmentExamNo
 			, a.education_no educationNo
 			, assignment_signfile_url assignmentSignfileURL
 			, assignment_submit_content assignmentSubmitContent
@@ -122,10 +122,16 @@
 			, update_date updateDate
 			, assignment_submit_score assignmentSubmitScore
 			, e.login_id loginId
+			, f.assignment_file_name assignmentFileName
+			, f.assignment_file_origin_name assignmentFileOriginName
+			, f.assignment_file_type assignmentFileType
 		FROM assignment_submit a 
 		INNER JOIN education e 
 		ON e.education_no = a.education_no
-		WHERE assignment_exam_no = #{assignmentExamNo} AND e.lecture_name = #{lectureName}
+		INNER JOIN assignment_file f
+		ON a.assignment_exam_no = f.assignment_exam_no
+		WHERE a.assignment_exam_no = #{assignmentExamNo}
+		GROUP BY e.login_id
 	</select>
 	<!-- 점수 입력 -->
 	<update id="updateScore" 

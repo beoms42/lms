@@ -12,4 +12,7 @@ public class AssignmentSubmit {
 	private String updateDate;
 	private String assignmentSubmitScore;
 	private String loginId;
+	private String assignmentFileName;
+	private String assignmentFileOriginName;
+	private String assignmentFileType;
 }

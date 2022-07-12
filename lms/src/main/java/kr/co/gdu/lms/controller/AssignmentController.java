@@ -34,16 +34,19 @@ public class AssignmentController {
 	@GetMapping("/loginCheck/getAssignmentExam")
 	// 과제 리스트 출력
 	public String getAssignment(HttpServletRequest request
-								, Model model) {
+								, Model model
+								,@RequestParam (name="lectureName",defaultValue="자바") String lectureName) {
 		
 		HttpSession session = request.getSession();
 		String sessionMemberId = (String) session.getAttribute("sessionId");
 		int level = (int) session.getAttribute("sessionLv");
 		
 		//educationNo,lectureName 받아오기
-		Map<String,Object> educationMap = assignmentservice.getEducation(sessionMemberId);
-		log.debug(CF.GMC + "AssignmentController.getAssignment lectureName" + educationMap.get("lectureName") + CF.RS);
-		String lectureName = (String)educationMap.get("lectureName");
+		if(level < 3 ) {
+			Map<String,Object> educationMap = assignmentservice.getEducation(sessionMemberId);
+			log.debug(CF.GMC + "AssignmentController.getAssignment lectureName" + educationMap.get("lectureName") + CF.RS);
+			lectureName = (String)educationMap.get("lectureName");
+		}
 		if (request.getParameter("lectureName") != null) { // 관리자 및 매니저가 접속해서 임의로 값을 받아올경우
 			log.debug(CF.GMC + "AssignmentController.getAssignment lectureName" + lectureName + CF.RS);
 			lectureName = (String) request.getParameter("lectureName");
@@ -104,18 +107,8 @@ public class AssignmentController {
 		int educationNo = (int)paramMap.get("educationNo");
 		assignmentAddForm.setEducationNo(educationNo);
 		
-		// 경로 지정
-		String path = request.getServletContext().getRealPath("/file/assignmentFile/");
-
-		List<MultipartFile> assignmentFileList = assignmentAddForm.getAssignmentFileList();
-		if (assignmentFileList != null && assignmentFileList.get(0).getSize() > 0) { // 하나 이상의 파일이 업로드 되면
-			for (MultipartFile mf : assignmentFileList) {
-				log.debug(CF.GMC + "addAssignmentExam.assignmentFileList name : " + mf.getOriginalFilename());
-			}
-		}
 		assignmentAddForm.setLoginId(sessionMemberId);
-
-		log.debug(CF.GMC + "AssignmentController.addAssignment path : " + path + CF.RS);
+		assignmentservice.addAssignmentExam(assignmentAddForm);
 		log.debug(CF.GMC + "AssignmentController.addAssignment assignmentexam : " + assignmentAddForm + CF.RS);
 
 		
@@ -135,19 +128,19 @@ public class AssignmentController {
 		HttpSession session = request.getSession();
 		String sessionMemberId = (String) session.getAttribute("sessionId");
 		int level = (int) session.getAttribute("sessionLv");
+		int educationNo = 0;
 		// 과목명 받아오는 부분
-		Map<String,Object> educationMap = assignmentservice.getEducation(sessionMemberId);
-		
 		//학생 or 강사 일 경우 쿼리로 lectureName 찾아오기
 		if (level < 3) {
+			Map<String,Object> educationMap = assignmentservice.getEducation(sessionMemberId);
 			lectureName = (String)educationMap.get("lectureName");
+			 educationNo = (int)educationMap.get("educationNo");
 		}
 		//관리자의 경우 select창에서 value 값 받아오기
 		if (request.getParameter("lectureName") != null) {
 			log.debug(CF.GMC + "AssignmentController.getAssignment lectureName" + lectureName + CF.RS);
 			lectureName = (String) request.getParameter("lectureName");
 		}
-		int educationNo = (int)educationMap.get("educationNo");
 	
 		//매개변수로 사용할 Map 세팅
 		Map<String, Object> paramMap = new HashMap<String, Object>();
@@ -178,8 +171,10 @@ public class AssignmentController {
 	}
 
 	@PostMapping("/loginCheck/getAssignmentOne")
-	public String addAssignmentSubmit(AssignmentSubmitForm assignmentSubmitForm, HttpServletRequest request,
-			Model model, @RequestParam(name = "assignmentExamNo") int assignmentExamNo) {
+	public String addAssignmentSubmit(AssignmentSubmitForm assignmentSubmitForm
+									  , HttpServletRequest request
+									  ,	Model model
+									  , @RequestParam(name = "assignmentExamNo") int assignmentExamNo) {
 		// 학생 파일 제출
 		// 아이디 세션/레벨 받아오기
 		HttpSession session = request.getSession();
@@ -284,15 +279,19 @@ public class AssignmentController {
 	@GetMapping("/loginCheck/modifyAssignment")
 	public String modifyAssignment(Model model
 								   ,HttpServletRequest request
-								   ,@RequestParam(name = "assignmentExamNo") int assignmentExamNo) {
+								   ,@RequestParam(name = "assignmentExamNo") int assignmentExamNo
+								   ,@RequestParam (name="lecutreName",defaultValue="자바") String lectureName) {
 		log.debug(CF.GMC + "AssignmentController.getAssignmentOne assignmentExamNo : " + assignmentExamNo + CF.RS);
 		HttpSession session = request.getSession();
 		String sessionMemberId = (String) session.getAttribute("sessionId");
 		int level = (int) session.getAttribute("sessionLv");
+		int edcuationNo=0;
 		// 과목 값 받아오기
-		Map<String,Object> educationMap = assignmentservice.getEducation(sessionMemberId);
-		String lectureName = (String)educationMap.get("lectureName");
-		int edcuationNo = (int)educationMap.get("educationNo");
+		if(level < 3) {
+			Map<String,Object> educationMap = assignmentservice.getEducation(sessionMemberId);
+			lectureName = (String)educationMap.get("lectureName");
+			edcuationNo = (int)educationMap.get("educationNo");
+		}
 		if (request.getParameter("lectureName") != null) {
 			log.debug(CF.GMC + "AssignmentController.getAssignment lectureName" + lectureName + CF.RS);
 			lectureName = (String) request.getParameter("lectureName");
@@ -330,10 +329,13 @@ public class AssignmentController {
 		HttpSession session = request.getSession();
 		String sessionMemberId = (String) session.getAttribute("sessionId");
 		int level = (int) session.getAttribute("sessionLv");
+		int educationNo = 0;
 		//과목 번호
-		Map<String,Object> educationMap = assignmentservice.getEducation(sessionMemberId);
-		int educationNo = (int)educationMap.get("educationNo");
-		log.debug(CF.GMC + "AssignmentController.getAssignmentmodifty lectureName : " + lectureName + CF.RS);
+		if(level < 3) {
+			Map<String,Object> educationMap = assignmentservice.getEducation(sessionMemberId);
+			educationNo = (int)educationMap.get("educationNo");
+			log.debug(CF.GMC + "AssignmentController.getAssignmentmodifty lectureName : " + lectureName + CF.RS);
+		}
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("educationNo", educationNo);
 		paramMap.put("loginId", sessionMemberId);

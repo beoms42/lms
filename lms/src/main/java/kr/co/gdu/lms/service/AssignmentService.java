@@ -41,6 +41,9 @@ public class AssignmentService {
 		return assignmentExamList;
 
 	}
+	public void addAssignmentExam(AssignmentAddForm assignmentAddForm ) {
+		assignmentmapper.insertAssignmentExam(assignmentAddForm);
+	}
 
 	public Map<String, Object> getAssignmentOne(Map<String, Object> paramMap) {
 		log.debug(CF.GMC + "AssignmentService.addAssignment.param assignmentExamNo : "
