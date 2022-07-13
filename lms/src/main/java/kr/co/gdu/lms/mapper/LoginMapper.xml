@@ -320,5 +320,12 @@
 		FROM login
 		WHERE login_id=#{loginId}		
 	</select>
+	<!-- 과목 리스트 -->
+	<select id="selectLectureList"
+			resultType="java.util.Map">
+		SELECT lecture_name lectureName
+		FROM lecture
+		WHERE lecture_active = '1'
+	</select>
 		
 </mapper>

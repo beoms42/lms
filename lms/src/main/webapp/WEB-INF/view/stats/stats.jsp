@@ -155,7 +155,6 @@ to {
 		$('#statsSelect').change(function() {
 			
 			var url = $(this).val();
-		    alert(url);
 		
 		// 데이터를 호출
 		$(function(){

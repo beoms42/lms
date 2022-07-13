@@ -117,7 +117,7 @@ to {
 									<div class="weather-info">
 										<div class="content d-flex">
 											<div>
-												<h4>${year}년 ${month}월 ${day}일 ${dayOfWeek}</h4>
+												<h4>${year}년${month}월 ${day}일 ${dayOfWeek}</h4>
 												<br>
 												<div style="display: flex;">
 													<h2 class="mb-0 font-weight-normal">
@@ -135,48 +135,50 @@ to {
 								</div>
 							</div>
 						</div>
-							
-											<div class="col-lg-11 grid-margin">
-												<div class="card">
-													<div class="card-body">
-													<select id="lectureName">
-														<option value="">과목 선택</option>
-														<c:forEach var="m" items="${lectureNameList}">
-															<option value="/lms/employmet">${m.lectureName}</option>
-														</c:forEach>
-													</select>
-														<div id="myChart" width="100%"></div>
-													</div>
 
-												</div>
-											</div>
+						<div class="col-lg-5 grid-margin">
+							<div class="card">
+								<div class="card-body">
 								
-						
-											<div class="col-lg-11 grid-margin">
-												<div class="card">
-													<div class="card-body">
-														<h4 class="card-title">일자리 공고</h4>
-														<div id="addJobListDivOne" class="row"></div>
-													</div>
-
-												</div>
-												<div style="text-align: center;">
-													<button id="reducePage" class="btn btn-outline-dark btn-fw">이전</button>
-													<button id="addPage" class="btn btn-outline-dark btn-fw">다음</button>
-												</div>
-											</div>
-										</div>
-									</div>
+									<select id="lectureName">
+										<option value="" selected="selected">과목 선택</option>
+										<c:forEach var="m" items="${lectureList}">
+											<option value="${m.lectureName}">${m.lectureName}</option>
+										</c:forEach>
+									</select>
+									<div id="myChart" width="100%"></div>
+									
 								</div>
+
 							</div>
-							<!-- content-wrapper ends -->
-					<!-- partial:partials/_footer.html -->
-					<jsp:include page="/inc/footer.jsp" />
-					<!-- partial -->
+						</div>
+
+
+						<div class="col-lg-11 grid-margin">
+							<div class="card">
+								<div class="card-body">
+									<h4 class="card-title">일자리 공고</h4>
+									<div id="addJobListDivOne" class="row"></div>
+								</div>
+
+							</div>
+							<div style="text-align: center;">
+								<button id="reducePage" class="btn btn-outline-dark btn-fw">이전</button>
+								<button id="addPage" class="btn btn-outline-dark btn-fw">다음</button>
+							</div>
+						</div>
+					</div>
 				</div>
-				<!-- main-panel ends -->
 			</div>
 		</div>
+		<!-- content-wrapper ends -->
+		<!-- partial:partials/_footer.html -->
+		<jsp:include page="/inc/footer.jsp" />
+		<!-- partial -->
+	</div>
+	<!-- main-panel ends -->
+	</div>
+	</div>
 	</div>
 	<!-- plugins:js -->
 	<script
@@ -203,11 +205,14 @@ to {
 	<!-- endinject -->
 	<!-- Custom js for this page-->
 	<script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
+	<script type="text/javascript"
+		src="https://www.gstatic.com/charts/loader.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/js/Chart.roundedBarCharts.js"></script>
 	<!-- End custom js for this page-->
 	<script type="text/javascript">
-			$.ajax({
+		$
+				.ajax({
 					url : '/lms/weather',
 					type : 'get',
 					timeout : 30000,
@@ -296,68 +301,8 @@ to {
 				}
 			}
 			//일자리 리스트 
-			$.ajax({
-					type : 'get',
-					cache : "false",
-					url : '/lms/adRestController',
-					data : {
-						currentPage : currentPage,
-						rowPerPage : rowPerPage
-					},
-					success : function(a) {
-						console.log(typeof (a));
-						console.log(a);
-						var a2 = JSON.parse(a);
-						console.log(a2);
-						var arr = a2.GetJobInfo.row;
-
-						console.log(arr);
-						totalCount = a2.GetJobInfo.list_total_count;
-						console.log(totalCount);
-						for (let i = 0; i < arr.length; i++) {
-
-							$('#addJobListDivOne')
-									.append(
-											"<div class='col-lg-3 text-center' style='border : 1px solid #555555;'>\
- 						<button class='btn btn-primary ' type='button'  aria-haspopup='true' aria-expanded='true'>"
-													+ arr[i].CMPNY_NM
-													+ "</button>\
- 						<a class='dropdown-item' href='#'>"
-													+ arr[i].BSNS_SUMRY_CN
-													+ "</a>\
- 						<a class='dropdown-item' href='#'>"
-													+ arr[i].HOPE_WAGE
-													+ "</a>\
- 						<a class='dropdown-item' href='#'>"
-													+ arr[i].RCEPT_CLOS_NM
-													+ "</a><br>\
- 						<a class='dropdown-item' href='#'>"
-													+ arr[i].WORK_PARAR_BASS_ADRES_CN
-													+ "</a></div>");
-						}
-						// currentPage 12, rowPerPage12 씩 증가
-						currentPage += 12;
-						rowPerPage += 12;
-						console.log(currentPage);
-						console.log(rowPerPage);
-					}
-				})
-			});
-
-		//일자리 리스트 보여주는 범위 설정 currentPage 1 ~ rowPerPage 12
-		var totalCount;
-		var currentPage = 1;
-		var rowPerPage = 12;
-
-		console.log(currentPage);
-		if (currentPage == 1) {
-			$('#reducePage').hide();
-		}
-
-		//리스트 다음 버튼
-		$('#addPage').click(function() {
-				$('#addJobListDivOne').empty();
-				$.ajax({
+			$
+					.ajax({
 						type : 'get',
 						cache : "false",
 						url : '/lms/adRestController',
@@ -377,38 +322,51 @@ to {
 							console.log(totalCount);
 							for (let i = 0; i < arr.length; i++) {
 
-								$('#addJobListDivOne').append("<div class='col-lg-3 text-center' style='border : 1px solid #555555;'>\
-								<button class='btn btn-primary ' type='button'  aria-haspopup='true' aria-expanded='true'>"
+								$('#addJobListDivOne')
+										.append(
+												"<div class='col-lg-3 text-center' style='border : 1px solid #555555;'>\
+ 						<button class='btn btn-primary ' type='button'  aria-haspopup='true' aria-expanded='true'>"
 														+ arr[i].CMPNY_NM
 														+ "</button>\
-								<a class='dropdown-item' href='#'>"
+ 						<a class='dropdown-item' href='#'>"
 														+ arr[i].BSNS_SUMRY_CN
 														+ "</a>\
-								<a class='dropdown-item' href='#'>"
+ 						<a class='dropdown-item' href='#'>"
 														+ arr[i].HOPE_WAGE
 														+ "</a>\
-								<a class='dropdown-item' href='#'>"
+ 						<a class='dropdown-item' href='#'>"
 														+ arr[i].RCEPT_CLOS_NM
 														+ "</a><br>\
-								<a class='dropdown-item' href='#'>"
+ 						<a class='dropdown-item' href='#'>"
 														+ arr[i].WORK_PARAR_BASS_ADRES_CN
 														+ "</a></div>");
 							}
-							//currentPage을 +12=13, rowPerPage12 +12=24
+							// currentPage 12, rowPerPage12 씩 증가
 							currentPage += 12;
 							rowPerPage += 12;
 							console.log(currentPage);
 							console.log(rowPerPage);
-							if (currentPage != 1) {
-								$('#reducePage').show();
-							}
 						}
 					})
-			});
-		//리스트 이전 버튼
-		$('#reducePage').click(function() {
-								$('#addJobListDivOne').empty();
-								$.ajax({
+		});
+
+		//일자리 리스트 보여주는 범위 설정 currentPage 1 ~ rowPerPage 12
+		var totalCount;
+		var currentPage = 1;
+		var rowPerPage = 12;
+
+		console.log(currentPage);
+		if (currentPage == 1) {
+			$('#reducePage').hide();
+		}
+
+		//리스트 다음 버튼
+		$('#addPage')
+				.click(
+						function() {
+							$('#addJobListDivOne').empty();
+							$
+									.ajax({
 										type : 'get',
 										cache : "false",
 										url : '/lms/adRestController',
@@ -428,7 +386,65 @@ to {
 											console.log(totalCount);
 											for (let i = 0; i < arr.length; i++) {
 
-												$('#addJobListDivOne').append("<div class='col-lg-3 text-center' style='border : 1px solid #555555;'>\
+												$('#addJobListDivOne')
+														.append(
+																"<div class='col-lg-3 text-center' style='border : 1px solid #555555;'>\
+								<button class='btn btn-primary ' type='button'  aria-haspopup='true' aria-expanded='true'>"
+																		+ arr[i].CMPNY_NM
+																		+ "</button>\
+								<a class='dropdown-item' href='#'>"
+																		+ arr[i].BSNS_SUMRY_CN
+																		+ "</a>\
+								<a class='dropdown-item' href='#'>"
+																		+ arr[i].HOPE_WAGE
+																		+ "</a>\
+								<a class='dropdown-item' href='#'>"
+																		+ arr[i].RCEPT_CLOS_NM
+																		+ "</a><br>\
+								<a class='dropdown-item' href='#'>"
+																		+ arr[i].WORK_PARAR_BASS_ADRES_CN
+																		+ "</a></div>");
+											}
+											//currentPage을 +12=13, rowPerPage12 +12=24
+											currentPage += 12;
+											rowPerPage += 12;
+											console.log(currentPage);
+											console.log(rowPerPage);
+											if (currentPage != 1) {
+												$('#reducePage').show();
+											}
+										}
+									})
+						});
+		//리스트 이전 버튼
+		$('#reducePage')
+				.click(
+						function() {
+							$('#addJobListDivOne').empty();
+							$
+									.ajax({
+										type : 'get',
+										cache : "false",
+										url : '/lms/adRestController',
+										data : {
+											currentPage : currentPage,
+											rowPerPage : rowPerPage
+										},
+										success : function(a) {
+											console.log(typeof (a));
+											console.log(a);
+											var a2 = JSON.parse(a);
+											console.log(a2);
+											var arr = a2.GetJobInfo.row;
+
+											console.log(arr);
+											totalCount = a2.GetJobInfo.list_total_count;
+											console.log(totalCount);
+											for (let i = 0; i < arr.length; i++) {
+
+												$('#addJobListDivOne')
+														.append(
+																"<div class='col-lg-3 text-center' style='border : 1px solid #555555;'>\
 					<button class='btn btn-primary ' type='button'  aria-haspopup='true' aria-expanded='true'>"
 																		+ arr[i].CMPNY_NM
 																		+ "</button>\
@@ -458,29 +474,24 @@ to {
 									})
 						});
 	</script>
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
- <script>
-		  //차트에서 사용할 모델(데이터)로 가공
-	
-	
-		
 
-		
+	<script>
+		//차트에서 사용할 모델(데이터)로 가공
+
 		// 데이터를 호출
-		$('#lectureName').change(){
-		var lectureName = $('#lectureName').val();
-		var myData =  [['lable','data']];
-		$.ajax({
-		   type:'get'
-		   ,url: "lms/employmet"
-		   ,data: lectureName
-		   ,success:function(jsonData) {
-		      for(var i=0; i<jsonData.length; i++) {
-		       
-		         myData.push([jsonData[i].lable,jsonData[i].data])
-		      }
-		
-		
+		$('#lectureName').change(function() {
+			var myData =  [['lable','data']];
+			var lecture = $(this).val();
+			// 데이터를 호출
+			$.ajax({
+				type : 'get',
+				url : '/lms/employment',
+				data : {lectureName : lecture},
+				success : function(jsonData) {
+					for (var i = 0; i < jsonData.length; i++) {
+						myData.push([ jsonData[i].lable, jsonData[i].data ])
+					}
+
 		console.log(myData);
 		
 		
@@ -508,8 +519,6 @@ to {
 		});
 		});
 	
-	
-
-</script>
+	</script>
 </body>
 </html>

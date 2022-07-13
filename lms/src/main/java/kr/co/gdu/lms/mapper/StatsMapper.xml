@@ -78,7 +78,7 @@
 	
 		SELECT
 		   s.employment lable
-		   , COUNT(*)/(SELECT COUNT(*) FROM education WHERE lecture_name =#{lectureName})*100 cnt
+		   , COUNT(*)/(SELECT COUNT(*) FROM education WHERE lecture_name =#{lectureName})*100 data
 		FROM student s JOIN education e
 		ON s.login_id = e.login_id
 		GROUP BY s.employment, e.lecture_name
