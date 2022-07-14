@@ -176,20 +176,23 @@ public class YoungInController {
 							, Model model){
 		
 		String loginId = (String) session.getAttribute("sessionId"); // 학생 이름얻기
-		
+		log.debug(CF.JYI+"sessionId.sessionId.get sessionIdsessionIdsessionId : "+loginId+CF.RS);
 		
 		//이름으로 강의명 가져오기
 		Map<String, Object> map = youngInService.selectRecordBook(loginId);
 		
+		if(map != null) {
+			
+
 		// 강의명 / 과목별 교재수령 / 강의에 귀속된 과목리스트
 		String lectureName = (String) map.get("lectureName");
 		List<HashMap<String, Object>> getBookList = (List<HashMap<String, Object>>) map.get("returnList");
 		List<String> subjectName = (List<String>) map.get("subjectName");
 		
-				
 		model.addAttribute("lectureName", lectureName);
 		model.addAttribute("getBookList", getBookList);
 		model.addAttribute("subjectName", subjectName);
+		}
 		
 		return "lecture/getBooks";
 	}
