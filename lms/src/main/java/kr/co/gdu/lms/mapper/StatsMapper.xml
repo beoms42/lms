@@ -72,4 +72,23 @@
 		WHERE major_name LIKE '%컴퓨터%' 
 		OR major_name LIKE '%소프트웨어%'
 	</select>
+	<select id="selectEmployment"
+			parameterType="String"
+			resultType="java.util.Map">
+	
+		SELECT
+		   s.employment lable
+		   , COUNT(*)/(SELECT COUNT(*) FROM education WHERE lecture_name =#{lectureName})*100 data
+		FROM student s JOIN education e
+		ON s.login_id = e.login_id
+		GROUP BY s.employment, e.lecture_name
+		HAVING e.lecture_name = #{lectureName}
+	</select>
+	<select id="selectLectureName"
+			resultType="String"
+			parameterType="String">
+		SELECT lecture_name lectureName From lecture WHERE lecture_active='1'
+	
+	</select>
+	
 </mapper>

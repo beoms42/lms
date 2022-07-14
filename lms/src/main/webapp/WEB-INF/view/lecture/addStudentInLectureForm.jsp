@@ -24,6 +24,9 @@
   <!-- endinject -->
   <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/tftace.jpg" />
   <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <style>
+  	.top {margin-top : 20px;}
+  </style>
 </head>
 <body>
   <div class="container-scroller">
@@ -87,12 +90,13 @@
                       </tbody>
                     </table>
                   </div>
-                <button type="submit">절대안대지</button>
+                <button type="submit" class="float-right btn btn-primary top">학생 배정</button>
                 </div>
               </div>
             </div>
           </form>
           </div>
+        </div>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
         <!-- partial -->

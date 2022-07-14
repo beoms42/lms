@@ -26,11 +26,14 @@ import lombok.extern.slf4j.Slf4j;
 public class CommunityService {
 	@Autowired private CommunityMapper communityMapper;
 	
-	// 희원 - 
-	
+	// 희원 - 게시글 작성날짜, 오늘날짜 비교해서 게시판에 new 아이콘 띄우기
+	public List<Integer> getCreateDateAndToday(){
+		List<Integer> todayList = communityMapper.selectCreateDateAndToday(); 
+		return todayList;
+	}
 	
 	// 희원 - Community리스트 추천수 많은 5개 게시글 가져오기
-	public List<RecommendForm> selectRecommendList(){
+	public List<RecommendForm> getRecommendList(){
 		List<RecommendForm> recommendList = communityMapper.selectRecommendList();
 		return recommendList;
 	}

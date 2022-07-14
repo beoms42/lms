@@ -91,4 +91,7 @@ public interface LoginMapper {
 	// 로그인시 레벨받기
 	int selectLevelByLoginId(String loginId);
 	
+	// 과목 리스트 데이터 받아오기
+	List<Map<String,Object>> selectLectureList();
+	
 }

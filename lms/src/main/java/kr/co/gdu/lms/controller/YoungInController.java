@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,7 +21,6 @@ import kr.co.gdu.lms.log.CF;
 import kr.co.gdu.lms.service.LectureSerivce;
 import kr.co.gdu.lms.service.MemberService;
 import kr.co.gdu.lms.service.YoungInService;
-import kr.co.gdu.lms.vo.CommunityForm;
 import kr.co.gdu.lms.vo.Lecture;
 import kr.co.gdu.lms.vo.Qna;
 import kr.co.gdu.lms.vo.Student;
@@ -82,7 +79,7 @@ public class YoungInController {
 		youngInService.insertStudentInLecture(loginIdList, lectureName);
 		log.debug(CF.JYI+"LectureService.addStudentInLectureAction.get loginIdList : "+loginIdList+CF.RS);
 		
-		return "lecture/manageLecture";
+		return "redirect:/loginCheck/manageLectureOne?lectureName="+lectureName;
 	}
 	
 	

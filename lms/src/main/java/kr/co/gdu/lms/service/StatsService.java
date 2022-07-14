@@ -36,10 +36,11 @@ public class StatsService {
 		genderList = statsmapper.selectGenderRate();
 		return genderList;
 	}
-	
-	
-	
-	
+	public List<Map<String,Object>> addemployment(String lectureName){
+		List<Map<String,Object>> genderList = new ArrayList<>();
+		genderList = statsmapper.selectEmployment(lectureName);
+		return genderList;
+	}
 	public List<Map<String,Object>> addPerClass(){
 		List<Map<String,Object>> classList = new ArrayList<>();
 		classList = statsmapper.selectPerClass();
@@ -49,6 +50,10 @@ public class StatsService {
 		List<Map<String,Object>> graduateList = new ArrayList<>();
 		graduateList = statsmapper.selectGraduate();
 		return graduateList;
+	}
+	public String selectLectureName(String loginId) {
+		String lectureName = statsmapper.selectLectureName(loginId);
+		return lectureName;
 	}
 
 }

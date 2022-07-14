@@ -290,4 +290,10 @@ public class LoginService {
 		int level = loginMapper.selectLevelByLoginId(loginId);
 		return level;		
 	}
+	
+	public List<Map<String,Object>> addLectureList(){
+		List<Map<String,Object>> lectureList = loginMapper.selectLectureList();
+		return lectureList;
+		
+	}
 }

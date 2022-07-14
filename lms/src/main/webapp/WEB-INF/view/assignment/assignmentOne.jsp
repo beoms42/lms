@@ -299,8 +299,8 @@ input {
 																						name="lectureName" value="${lectureName}">
 																						<input type="hidden" id="assignmentExamNo"
 																						name="assignmentExamNo"
-																						value="${m.assignmentExamNo}"> <input
-																						type="hidden" id="educationNo" name="educationNo"
+																						value="${m.assignmentExamNo}">
+																						 <input type="hidden" id="educationNo" name="educationNo"
 																						value="${m.educationNo}"> <input
 																						type="number" id="assignmentSubmitScore"
 																						name="assignmentSubmitScore" max="100" min="0"
@@ -314,21 +314,21 @@ input {
 																				</c:if>
 																			<tr>
 																				<td>파일</td>
-																				<c:forEach var="f" items="${fileList}">
 																					<c:if
-																						test="${f.assignmentFileType.equals('image/jpeg') || f.assignmentFileType.equals('image/gif') || f.assignmentFileType.equals('image/PNG') || f.assignmentFileType.equals('image/png') || f.assignmentFileType.equals('image/webp')}">
+																						test="${m.assignmentFileType.equals('image/jpeg') || m.assignmentFileType.equals('image/gif') || m.assignmentFileType.equals('image/PNG') || m.assignmentFileType.equals('image/png') || m.assignmentFileType.equals('image/webp')}">
 																						<td><a
-																							href="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}"><img
-																								src="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}" width="100%"></a></td>
+																							href="${pageContext.request.contextPath}/file/assignmentSubmitFile/${m.assignmentFileName}"><img
+																								src="${pageContext.request.contextPath}/file/assignmentSubmitFile/${m.assignmentFileName}" width="100%"></a>
+																								
+																								</td>
 																					</c:if>
 
 
 																					<c:if
-																						test="${f.assignmentFileType.equals('application/octet-stream')}">
+																						test="${m.assignmentFileType.equals('application/octet-stream')}">
 																						<td><a
-																							href="${pageContext.request.contextPath}/file/assignmentSubmitFile/${f.assignmentFileName}">${f.assignmentFileOriginName}</a></td>
+																							href="${pageContext.request.contextPath}/file/assignmentSubmitFile/${m.assignmentFileName}">${m.assignmentFileOriginName}</a></td>
 																					</c:if>
-																				</c:forEach>
 																			</tr>
 																		</tbody>
 																	</table>

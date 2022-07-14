@@ -24,6 +24,10 @@
   <!-- endinject -->
   <link rel="shortcut icon" href="${pageContext.request.contextPath}/images/tftace.jpg" />
   <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<style>
+	.new {margin-left : 10px;}
+</style>
 </head>
 <body>
   <div class="container-scroller">
@@ -65,6 +69,7 @@
                   		</tr>
                   	</thead>
                   	<tbody>
+                  	
                   	<c:forEach var="rl" items="${recommendList}">
 						<tr>
                   			<td>${rl.communityNo}</td>
@@ -108,10 +113,19 @@
                         </tr>
                       </thead>
                       <tbody>
+	                      
+                      
                       <c:forEach var="cl" items="${communityList}">
                          <tr>
                             <td>${cl.communityNo}</td>
-                            <td><a href="${pageContext.request.contextPath}/loginCheck/getCommunityOne?communityNo=${cl.communityNo}">${cl.communityTitle}</a></td>
+                            <td>
+                            <a href="${pageContext.request.contextPath}/loginCheck/getCommunityOne?communityNo=${cl.communityNo}">${cl.communityTitle}</a>
+	                      		<c:forEach var="tl" items="${todayList}">
+	                      			<c:if test="${tl eq cl.communityNo}">
+	                      				<span class="badge badge-warning new"> New</span>
+	                      			</c:if>
+                     			 </c:forEach>
+                            </td>
                             <td>${cl.loginId}</td>
                             <td>${cl.createDate}</td>
                          </tr>

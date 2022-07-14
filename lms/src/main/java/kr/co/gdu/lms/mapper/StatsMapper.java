@@ -16,4 +16,6 @@ public interface StatsMapper {
 	List<Map<String,Object>> selectGenderRate(); //남녀 성비
 	List<Map<String,Object>> selectPerClass(); //반당 인원수
 	List<Map<String,Object>> selectGraduate();
+	List<Map<String,Object>> selectEmployment(String lectureName);
+	String selectLectureName(String loginId);
 	}

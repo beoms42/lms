@@ -33,60 +33,60 @@
 <link rel="shortcut icon"
 	href="${pageContext.request.contextPath}/images/tftace.jpg" />
 <style type="text/css">/* Chart.js */
-@
-keyframes chartjs-render-animation {
-	from {opacity: .99
-}
-
-to {
-	opacity: 1
-}
-
-}
-.chartjs-render-monitor {
-	animation: chartjs-render-animation 1ms
-}
-
-.chartjs-size-monitor, .chartjs-size-monitor-expand,
-	.chartjs-size-monitor-shrink {
-	position: absolute;
-	direction: ltr;
-	left: 0;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	overflow: hidden;
-	pointer-events: none;
-	visibility: hidden;
-	z-index: -1
-}
-
-.chartjs-size-monitor-expand>div {
-	position: absolute;
-	width: 1000000px;
-	height: 1000000px;
-	left: 0;
-	top: 0
-}
-
-.chartjs-size-monitor-shrink>div {
-	position: absolute;
-	width: 200%;
-	height: 200%;
-	left: 0;
-	top: 0
-}
-
-.title {
-	position: relative;
-	top: 65px;
-	left: 65px;
-}
-
-.content {
-	position: relative;
-	top: 20px;
-}
+	@
+	keyframes chartjs-render-animation {
+		from {opacity: .99
+	}
+	
+	to {
+		opacity: 1
+	}
+	
+	}
+	.chartjs-render-monitor {
+		animation: chartjs-render-animation 1ms
+	}
+	
+	.chartjs-size-monitor, .chartjs-size-monitor-expand,
+		.chartjs-size-monitor-shrink {
+		position: absolute;
+		direction: ltr;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		overflow: hidden;
+		pointer-events: none;
+		visibility: hidden;
+		z-index: -1
+	}
+	
+	.chartjs-size-monitor-expand>div {
+		position: absolute;
+		width: 1000000px;
+		height: 1000000px;
+		left: 0;
+		top: 0
+	}
+	
+	.chartjs-size-monitor-shrink>div {
+		position: absolute;
+		width: 200%;
+		height: 200%;
+		left: 0;
+		top: 0
+	}
+	
+	.title {
+		position: relative;
+		top: 65px;
+		left: 65px;
+	}
+	
+	.content {
+		position: relative;
+		top: 20px;
+	}
 </style>
 
 </head>
@@ -117,7 +117,7 @@ to {
 									<div class="weather-info">
 										<div class="content d-flex">
 											<div>
-												<h4>${year}년 ${month}월 ${day}일 ${dayOfWeek}</h4>
+												<h4>${year}년${month}월 ${day}일 ${dayOfWeek}</h4>
 												<br>
 												<div style="display: flex;">
 													<h2 class="mb-0 font-weight-normal">
@@ -135,51 +135,50 @@ to {
 								</div>
 							</div>
 						</div>
-									<div class="col-lg-6 grid-margin stretch-card">
-										<div class="card">
-											<div class="card-body">
-												<div class="chartjs-size-monitor">
-													<div class="chartjs-size-monitor-expand">
-														<div class=""></div>
-													</div>
-													<div class="chartjs-size-monitor-shrink">
-														<div class=""></div>
-													</div>
-												</div>
-												<h4 class="card-title">Grade Average</h4>
-												<canvas id="barChart"
-													style="display: block; width: 642px; height: 321px;"
-													width="642" height="321" class="chartjs-render-monitor"></canvas>
-											</div>
-										</div>
-									</div>
-								
-						
-											<div class="col-lg-11 grid-margin">
-												<div class="card">
-													<div class="card-body">
-														<h4 class="card-title">일자리 공고</h4>
-														<div id="addJobListDivOne" class="row"></div>
-													</div>
 
-												</div>
-												<div style="text-align: center;">
-													<button id="reducePage" class="btn btn-outline-dark btn-fw">이전</button>
-													<button id="addPage" class="btn btn-outline-dark btn-fw">다음</button>
-												</div>
-											</div>
-										</div>
-									</div>
+						<div class="col-lg-5 grid-margin">
+							<div class="card">
+								<div class="card-body">
+								
+									<select id="lectureName" class="custom-select">
+										<option value="" selected="selected">과목 선택</option>
+										<c:forEach var="m" items="${lectureList}">
+											<option value="${m.lectureName}">${m.lectureName}</option>
+										</c:forEach>
+									</select>
+									<div id="myChart" width="100%"></div>
+									
 								</div>
+
 							</div>
-							<!-- content-wrapper ends -->
-					<!-- partial:partials/_footer.html -->
-					<jsp:include page="/inc/footer.jsp" />
-					<!-- partial -->
+						</div>
+
+
+						<div class="col-lg-11 grid-margin">
+							<div class="card">
+								<div class="card-body">
+									<h4 class="card-title">일자리 공고</h4>
+									<div id="addJobListDivOne" class="row"></div>
+								</div>
+
+							</div>
+							<div style="text-align: center;">
+								<button id="reducePage" class="btn btn-outline-dark btn-fw">이전</button>
+								<button id="addPage" class="btn btn-outline-dark btn-fw">다음</button>
+							</div>
+						</div>
+					</div>
 				</div>
-				<!-- main-panel ends -->
 			</div>
 		</div>
+		<!-- content-wrapper ends -->
+		<!-- partial:partials/_footer.html -->
+		<jsp:include page="/inc/footer.jsp" />
+		<!-- partial -->
+	</div>
+	<!-- main-panel ends -->
+	</div>
+	</div>
 	</div>
 	<!-- plugins:js -->
 	<script
@@ -206,11 +205,14 @@ to {
 	<!-- endinject -->
 	<!-- Custom js for this page-->
 	<script src="${pageContext.request.contextPath}/js/dashboard.js"></script>
+	<script type="text/javascript"
+		src="https://www.gstatic.com/charts/loader.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/js/Chart.roundedBarCharts.js"></script>
 	<!-- End custom js for this page-->
 	<script type="text/javascript">
-			$.ajax({
+		$
+				.ajax({
 					url : '/lms/weather',
 					type : 'get',
 					timeout : 30000,
@@ -299,68 +301,8 @@ to {
 				}
 			}
 			//일자리 리스트 
-			$.ajax({
-					type : 'get',
-					cache : "false",
-					url : '/lms/adRestController',
-					data : {
-						currentPage : currentPage,
-						rowPerPage : rowPerPage
-					},
-					success : function(a) {
-						console.log(typeof (a));
-						console.log(a);
-						var a2 = JSON.parse(a);
-						console.log(a2);
-						var arr = a2.GetJobInfo.row;
-
-						console.log(arr);
-						totalCount = a2.GetJobInfo.list_total_count;
-						console.log(totalCount);
-						for (let i = 0; i < arr.length; i++) {
-
-							$('#addJobListDivOne')
-									.append(
-											"<div class='col-lg-3 text-center' style='border : 1px solid #555555;'>\
- 						<button class='btn btn-primary ' type='button'  aria-haspopup='true' aria-expanded='true'>"
-													+ arr[i].CMPNY_NM
-													+ "</button>\
- 						<a class='dropdown-item' href='#'>"
-													+ arr[i].BSNS_SUMRY_CN
-													+ "</a>\
- 						<a class='dropdown-item' href='#'>"
-													+ arr[i].HOPE_WAGE
-													+ "</a>\
- 						<a class='dropdown-item' href='#'>"
-													+ arr[i].RCEPT_CLOS_NM
-													+ "</a><br>\
- 						<a class='dropdown-item' href='#'>"
-													+ arr[i].WORK_PARAR_BASS_ADRES_CN
-													+ "</a></div>");
-						}
-						// currentPage 12, rowPerPage12 씩 증가
-						currentPage += 12;
-						rowPerPage += 12;
-						console.log(currentPage);
-						console.log(rowPerPage);
-					}
-				})
-			});
-
-		//일자리 리스트 보여주는 범위 설정 currentPage 1 ~ rowPerPage 12
-		var totalCount;
-		var currentPage = 1;
-		var rowPerPage = 12;
-
-		console.log(currentPage);
-		if (currentPage == 1) {
-			$('#reducePage').hide();
-		}
-
-		//리스트 다음 버튼
-		$('#addPage').click(function() {
-				$('#addJobListDivOne').empty();
-				$.ajax({
+			$
+					.ajax({
 						type : 'get',
 						cache : "false",
 						url : '/lms/adRestController',
@@ -380,38 +322,51 @@ to {
 							console.log(totalCount);
 							for (let i = 0; i < arr.length; i++) {
 
-								$('#addJobListDivOne').append("<div class='col-lg-3 text-center' style='border : 1px solid #555555;'>\
-								<button class='btn btn-primary ' type='button'  aria-haspopup='true' aria-expanded='true'>"
+								$('#addJobListDivOne')
+										.append(
+												"<div class='col-lg-3 text-center' style='border : 1px solid #555555;'>\
+ 						<button class='btn btn-primary ' type='button'  aria-haspopup='true' aria-expanded='true'>"
 														+ arr[i].CMPNY_NM
 														+ "</button>\
-								<a class='dropdown-item' href='#'>"
+ 						<a class='dropdown-item' href='#'>"
 														+ arr[i].BSNS_SUMRY_CN
 														+ "</a>\
-								<a class='dropdown-item' href='#'>"
+ 						<a class='dropdown-item' href='#'>"
 														+ arr[i].HOPE_WAGE
 														+ "</a>\
-								<a class='dropdown-item' href='#'>"
+ 						<a class='dropdown-item' href='#'>"
 														+ arr[i].RCEPT_CLOS_NM
 														+ "</a><br>\
-								<a class='dropdown-item' href='#'>"
+ 						<a class='dropdown-item' href='#'>"
 														+ arr[i].WORK_PARAR_BASS_ADRES_CN
 														+ "</a></div>");
 							}
-							//currentPage을 +12=13, rowPerPage12 +12=24
+							// currentPage 12, rowPerPage12 씩 증가
 							currentPage += 12;
 							rowPerPage += 12;
 							console.log(currentPage);
 							console.log(rowPerPage);
-							if (currentPage != 1) {
-								$('#reducePage').show();
-							}
 						}
 					})
-			});
-		//리스트 이전 버튼
-		$('#reducePage').click(function() {
-								$('#addJobListDivOne').empty();
-								$.ajax({
+		});
+
+		//일자리 리스트 보여주는 범위 설정 currentPage 1 ~ rowPerPage 12
+		var totalCount;
+		var currentPage = 1;
+		var rowPerPage = 12;
+
+		console.log(currentPage);
+		if (currentPage == 1) {
+			$('#reducePage').hide();
+		}
+
+		//리스트 다음 버튼
+		$('#addPage')
+				.click(
+						function() {
+							$('#addJobListDivOne').empty();
+							$
+									.ajax({
 										type : 'get',
 										cache : "false",
 										url : '/lms/adRestController',
@@ -431,7 +386,65 @@ to {
 											console.log(totalCount);
 											for (let i = 0; i < arr.length; i++) {
 
-												$('#addJobListDivOne').append("<div class='col-lg-3 text-center' style='border : 1px solid #555555;'>\
+												$('#addJobListDivOne')
+														.append(
+																"<div class='col-lg-3 text-center' style='border : 1px solid #555555;'>\
+								<button class='btn btn-primary ' type='button'  aria-haspopup='true' aria-expanded='true'>"
+																		+ arr[i].CMPNY_NM
+																		+ "</button>\
+								<a class='dropdown-item' href='#'>"
+																		+ arr[i].BSNS_SUMRY_CN
+																		+ "</a>\
+								<a class='dropdown-item' href='#'>"
+																		+ arr[i].HOPE_WAGE
+																		+ "</a>\
+								<a class='dropdown-item' href='#'>"
+																		+ arr[i].RCEPT_CLOS_NM
+																		+ "</a><br>\
+								<a class='dropdown-item' href='#'>"
+																		+ arr[i].WORK_PARAR_BASS_ADRES_CN
+																		+ "</a></div>");
+											}
+											//currentPage을 +12=13, rowPerPage12 +12=24
+											currentPage += 12;
+											rowPerPage += 12;
+											console.log(currentPage);
+											console.log(rowPerPage);
+											if (currentPage != 1) {
+												$('#reducePage').show();
+											}
+										}
+									})
+						});
+		//리스트 이전 버튼
+		$('#reducePage')
+				.click(
+						function() {
+							$('#addJobListDivOne').empty();
+							$
+									.ajax({
+										type : 'get',
+										cache : "false",
+										url : '/lms/adRestController',
+										data : {
+											currentPage : currentPage,
+											rowPerPage : rowPerPage
+										},
+										success : function(a) {
+											console.log(typeof (a));
+											console.log(a);
+											var a2 = JSON.parse(a);
+											console.log(a2);
+											var arr = a2.GetJobInfo.row;
+
+											console.log(arr);
+											totalCount = a2.GetJobInfo.list_total_count;
+											console.log(totalCount);
+											for (let i = 0; i < arr.length; i++) {
+
+												$('#addJobListDivOne')
+														.append(
+																"<div class='col-lg-3 text-center' style='border : 1px solid #555555;'>\
 					<button class='btn btn-primary ' type='button'  aria-haspopup='true' aria-expanded='true'>"
 																		+ arr[i].CMPNY_NM
 																		+ "</button>\
@@ -461,348 +474,51 @@ to {
 									})
 						});
 	</script>
+
 	<script>
-		var arr;
-		$.ajax({
+		//차트에서 사용할 모델(데이터)로 가공
+
+		// 데이터를 호출
+		$('#lectureName').change(function() {
+			var myData =  [['lable','data']];
+			var lecture = $(this).val();
+			// 데이터를 호출
+			$.ajax({
 				type : 'get',
-				url : '/lms/addAvgScore',
+				url : '/lms/employment',
+				data : {lectureName : lecture},
 				success : function(jsonData) {
-					let a = [];
-					let b = [];
-					arr = jsonData;
-					console.log(arr);
-					for (j = 0; j < jsonData.length; j++) {
-						a.push(arr[j].className);
-						b.push(arr[j].avg);
-					}
-					var data = {
-						labels : a,
-						datasets : [ {
-							label : "genderRate",
-							data : b,
-							backgroundColor : [ 'rgba(255,192,203, 0.2)',
-									'rgba(255,192,203, 0.2)',
-									'rgba(255,192,202, 0.2)',
-									'rgba(255,192,201, 0.2)',
-									'rgba(255,192,200, 0.2)',
-									'rgba(255,192,199, 0.2)' ],
-							borderColor : [ 'rgba(255,192,203,1)',
-									'rgba(255,192,203, 1)',
-									'rgba(255,192,203, 1)',
-									'rgba(255,192,203, 1)',
-									'rgba(255,192,203, 1)',
-									'rgba(255,192,203, 1)' ],
-							borderWidth : 1,
-							fill : false
-						} ]
-					}
-					var multiLineData = {
-						labels : [ "Red", "Blue", "Yellow", "Green",
-								"Purple", "Orange" ],
-						datasets : [ {
-							label : 'Dataset 1',
-							data : [ 10, 19, 3, 5, 2, 3 ],
-							borderColor : [ '#587ce4' ],
-							borderWidth : 2,
-							fill : false
-						}, {
-							label : 'Dataset 2',
-							data : [ 5, 23, 7, 12, 42, 23 ],
-							borderColor : [ '#ede190' ],
-							borderWidth : 2,
-							fill : false
-						}, {
-							label : 'Dataset 3',
-							data : [ 15, 10, 21, 32, 12, 33 ],
-							borderColor : [ '#f44252' ],
-							borderWidth : 2,
-							fill : false
-						} ]
-					};
-					var options = {
-						scales : {
-							yAxes : [ {
-								ticks : {
-									beginAtZero : true
-								}
-							} ]
-						},
-						legend : {
-							display : false
-						},
-						elements : {
-							point : {
-								radius : 0
-							}
-						}
-
-					};
-					var doughnutPieData = {
-						datasets : [ {
-							data : [ 30, 40, 30 ],
-							backgroundColor : [ 'rgba(255, 99, 132, 0.5)',
-									'rgba(54, 162, 235, 0.5)',
-									'rgba(255, 206, 86, 0.5)',
-									'rgba(75, 192, 192, 0.5)',
-									'rgba(153, 102, 255, 0.5)',
-									'rgba(255, 159, 64, 0.5)' ],
-							borderColor : [ 'rgba(255,99,132,1)',
-									'rgba(54, 162, 235, 1)',
-									'rgba(255, 206, 86, 1)',
-									'rgba(75, 192, 192, 1)',
-									'rgba(153, 102, 255, 1)',
-									'rgba(255, 159, 64, 1)' ],
-						} ],
-
-						// These labels appear in the legend and in the tooltips when hovering different arcs
-						labels : [ 'Pink', 'Blue', 'Yellow', ]
-					};
-					var doughnutPieOptions = {
-						responsive : true,
-						animation : {
-							animateScale : true,
-							animateRotate : true
-						}
-					};
-					var areaData = {
-						labels : [ "2013", "2014", "2015", "2016", "2017" ],
-						datasets : [ {
-							label : '# of Votes',
-							data : [ 12, 19, 3, 5, 2, 3 ],
-							backgroundColor : [ 'rgba(255, 99, 132, 0.2)',
-									'rgba(54, 162, 235, 0.2)',
-									'rgba(255, 206, 86, 0.2)',
-									'rgba(75, 192, 192, 0.2)',
-									'rgba(153, 102, 255, 0.2)',
-									'rgba(255, 159, 64, 0.2)' ],
-							borderColor : [ 'rgba(255,99,132,1)',
-									'rgba(54, 162, 235, 1)',
-									'rgba(255, 206, 86, 1)',
-									'rgba(75, 192, 192, 1)',
-									'rgba(153, 102, 255, 1)',
-									'rgba(255, 159, 64, 1)' ],
-							borderWidth : 1,
-							fill : true, // 3: no fill
-						} ]
-					};
-
-					var areaOptions = {
-						plugins : {
-							filler : {
-								propagate : true
-							}
-						}
+					for (var i = 0; i < jsonData.length; i++) {
+						myData.push([ jsonData[i].lable, jsonData[i].data ])
 					}
 
-					var multiAreaData = {
-						labels : [ "Jan", "Feb", "Mar", "Apr", "May",
-								"Jun", "Jul", "Aug", "Sep", "Oct", "Nov",
-								"Dec" ],
-						datasets : [
-								{
-									label : 'Facebook',
-									data : [ 8, 11, 13, 15, 12, 13, 16, 15,
-											13, 19, 11, 14 ],
-									borderColor : [ 'rgba(255, 99, 132, 0.5)' ],
-									backgroundColor : [ 'rgba(255, 99, 132, 0.5)' ],
-									borderWidth : 1,
-									fill : true
-								},
-								{
-									label : 'Twitter',
-									data : [ 7, 17, 12, 16, 14, 18, 16, 12,
-											15, 11, 13, 9 ],
-									borderColor : [ 'rgba(54, 162, 235, 0.5)' ],
-									backgroundColor : [ 'rgba(54, 162, 235, 0.5)' ],
-									borderWidth : 1,
-									fill : true
-								},
-								{
-									label : 'Linkedin',
-									data : [ 6, 14, 16, 20, 12, 18, 15, 12,
-											17, 19, 15, 11 ],
-									borderColor : [ 'rgba(255, 206, 86, 0.5)' ],
-									backgroundColor : [ 'rgba(255, 206, 86, 0.5)' ],
-									borderWidth : 1,
-									fill : true
-								} ]
-					};
+		console.log(myData);
+		
+		
+		// 차트를 그리는 로직
+		
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawChart);
+		
+		function drawChart() {
+		   var data = google.visualization.arrayToDataTable(myData);
+			
+		      var options = {
+		    	        width: 600,
+		    	        height: 400,
+		    	        legend: { position: 'top', maxLines: 3 },
+		    	        bar: { groupWidth: '75%' },
+		    	        isStacked: true,
+		    	      };
+			var chart = new google.visualization.ColumnChart(document.getElementById('myChart'));
+			  chart.draw(data, options);
+			};
 
-					var multiAreaOptions = {
-						plugins : {
-							filler : {
-								propagate : true
-							}
-						},
-						elements : {
-							point : {
-								radius : 0
-							}
-						},
-						scales : {
-							xAxes : [ {
-								gridLines : {
-									display : false
-								}
-							} ],
-							yAxes : [ {
-								gridLines : {
-									display : false
-								}
-							} ]
-						}
-					}
-
-					var scatterChartData = {
-						datasets : [
-								{
-									label : 'First Dataset',
-									data : [ {
-										x : -10,
-										y : 0
-									}, {
-										x : 0,
-										y : 3
-									}, {
-										x : -25,
-										y : 5
-									}, {
-										x : 40,
-										y : 5
-									} ],
-									backgroundColor : [ 'rgba(255, 99, 132, 0.2)' ],
-									borderColor : [ 'rgba(255,99,132,1)' ],
-									borderWidth : 1
-								},
-								{
-									label : 'Second Dataset',
-									data : [ {
-										x : 10,
-										y : 5
-									}, {
-										x : 20,
-										y : -30
-									}, {
-										x : -25,
-										y : 15
-									}, {
-										x : -10,
-										y : 5
-									} ],
-									backgroundColor : [
-											'rgba(54, 162, 235, 0.2)', ],
-									borderColor : [
-											'rgba(54, 162, 235, 1)', ],
-									borderWidth : 1
-								} ]
-
-					}
-
-					var scatterChartOptions = {
-						scales : {
-							xAxes : [ {
-								type : 'linear',
-								position : 'bottom'
-							} ]
-						}
-					}
-
-					// Get context with jQuery - using jQuery's .get() method.
-					if ($("#barChart").length) {
-						var barChartCanvas = $("#barChart").get(0)
-								.getContext("2d");
-						// This will get the first returned node in the jQuery collection.
-						var barChart = new Chart(barChartCanvas, {
-							type : 'bar',
-							data : data,
-							options : options
-						});
-					}
-
-					if ($("#lineChart").length) {
-						var lineChartCanvas = $("#lineChart").get(0)
-								.getContext("2d");
-						var lineChart = new Chart(lineChartCanvas, {
-							type : 'line',
-							data : data,
-							options : options
-						});
-					}
-
-					if ($("#linechart-multi").length) {
-						var multiLineCanvas = $("#linechart-multi").get(0)
-								.getContext("2d");
-						var lineChart = new Chart(multiLineCanvas, {
-							type : 'line',
-							data : multiLineData,
-							options : options
-						});
-					}
-
-					if ($("#areachart-multi").length) {
-						var multiAreaCanvas = $("#areachart-multi").get(0)
-								.getContext("2d");
-						var multiAreaChart = new Chart(multiAreaCanvas, {
-							type : 'line',
-							data : multiAreaData,
-							options : multiAreaOptions
-						});
-					}
-
-					if ($("#doughnutChart").length) {
-						var doughnutChartCanvas = $("#doughnutChart")
-								.get(0).getContext("2d");
-						var doughnutChart = new Chart(doughnutChartCanvas,
-								{
-									type : 'doughnut',
-									data : doughnutPieData,
-									options : doughnutPieOptions
-								});
-					}
-
-					if ($("#pieChart").length) {
-						var pieChartCanvas = $("#pieChart").get(0)
-								.getContext("2d");
-						var pieChart = new Chart(pieChartCanvas, {
-							type : 'pie',
-							data : data,
-							options : doughnutPieOptions
-						});
-					}
-
-					if ($("#areaChart").length) {
-						var areaChartCanvas = $("#areaChart").get(0)
-								.getContext("2d");
-						var areaChart = new Chart(areaChartCanvas, {
-							type : 'line',
-							data : areaData,
-							options : areaOptions
-						});
-					}
-
-					if ($("#scatterChart").length) {
-						var scatterChartCanvas = $("#scatterChart").get(0)
-								.getContext("2d");
-						var scatterChart = new Chart(scatterChartCanvas, {
-							type : 'scatter',
-							data : scatterChartData,
-							options : scatterChartOptions
-						});
-					}
-
-					if ($("#browserTrafficChart").length) {
-						var doughnutChartCanvas = $("#browserTrafficChart")
-								.get(0).getContext("2d");
-						var doughnutChart = new Chart(doughnutChartCanvas,
-								{
-									type : 'doughnut',
-									data : browserTrafficData,
-									options : doughnutPieOptions
-								});
-					}
-				}
-			});
-
+		
+		}
+		});
+		});
+	
 	</script>
 </body>
 </html>

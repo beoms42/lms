@@ -5,12 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.gdu.lms.service.StatsService;
-
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @RestController
 public class StatsRestController {
 	@Autowired private StatsService statsservice;
@@ -50,6 +54,15 @@ public class StatsRestController {
 		List<Map<String,Object>> graduateList = new ArrayList<Map<String,Object>>();
 		graduateList = statsservice.addGraduate();
 		return graduateList;
+	}
+	@GetMapping("/employment")
+	public List<Map<String,Object>> addEmployment(@RequestParam (name="lectureName",defaultValue="12312") String lectureName
+												  ,HttpSession session){
+		String loginId = (String) session.getAttribute("sessionId");
+		int level = (int) session.getAttribute("sessionLv");
+		List<Map<String,Object>> employeeList = new ArrayList<Map<String,Object>>();
+		employeeList = statsservice.addemployment(lectureName);
+		return employeeList;
 	}
 	
 }

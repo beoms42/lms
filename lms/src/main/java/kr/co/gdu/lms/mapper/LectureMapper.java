@@ -77,11 +77,26 @@ public interface LectureMapper {
 	// 시간표추가
 	int insertSchedule(Schedule schedule);
 	
+	// 시간표 과목
+	String selectAttendanceSubject(int lectureSubjectNo);
+	
+	// 출석학생리스트
+	List<Integer> selectAttendanceEducationList(String lecutreName);
+	
+	// 시간표 중복확인
+	List<Schedule> selectScheduleConfilm(Schedule schedule);
+	
+	// 출석입력
+	int insertAttendance(Attendance attendance);
+	
 	// 시간표수정
 	int updateSchedule(Schedule schedule);
 	
 	// 시간표삭제
 	int deleteSchedule(int scheduleNo);
+	
+	// 출석삭제
+	int deleteAttendance(int scheduleNo);
 	
 	// 강의과목리스트
 	List<LectureSubject>selectLectureSubjecList();
