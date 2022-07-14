@@ -64,7 +64,7 @@
 			, login_id loginId
 			, create_date createDate
 		FROM community
-		ORDER BY create_date DESC
+		ORDER BY community_no DESC
 		LIMIT #{startRow}, #{rowPerPage};
 	</select>
 	
