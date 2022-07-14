@@ -20,7 +20,6 @@ import kr.co.gdu.lms.service.LectureSerivce;
 import kr.co.gdu.lms.service.LoginService;
 import kr.co.gdu.lms.service.MemberService;
 import kr.co.gdu.lms.vo.Dept;
-import kr.co.gdu.lms.vo.Lecture;
 import kr.co.gdu.lms.vo.Login;
 import kr.co.gdu.lms.vo.Manager;
 import kr.co.gdu.lms.vo.Position;

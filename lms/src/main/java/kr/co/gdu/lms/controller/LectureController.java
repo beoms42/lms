@@ -1,6 +1,5 @@
 package kr.co.gdu.lms.controller;
 
-
 import java.sql.Date;
 import java.util.*;
 
@@ -576,6 +575,7 @@ public class LectureController {
 		
 		return "/lecture/updateReference";
 	}
+	
 	// 자료실 수정액션
 	@PostMapping("/loginCheck/updateReference")
 	public String updateReferenceAction(Model model, HttpServletRequest request, HttpSession session
@@ -717,9 +717,11 @@ public class LectureController {
 	//종강한 강의 리스트
     @GetMapping("/loginCheck/getEndOfLectureList")
     public String getEndOfLectureList(Model model) {
+    	
        List<Map<String, Object>>list = lectureService.selectLectureListByEndDate();
-       model.addAttribute("list", list);
        log.debug(CF.PSH+"LectureController.getEndOfLectureList List:"+list+CF.RS);
+       
+       model.addAttribute("list", list);
        return"lecture/getEndOfLectureList";
 
     }
