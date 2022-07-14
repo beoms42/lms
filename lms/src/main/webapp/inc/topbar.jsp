@@ -93,7 +93,7 @@
           	<c:choose>
           		<c:when test="${sessionLv == 4}">
           			<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-		              <img src="${pageContext.request.contextPath}/file/memberPhoto/dd.png" alt="profile"/>
+		              <img src="${pageContext.request.contextPath}/file/memberPhoto/hyein.jpg" alt="profile"/>
 		            </a>
           		</c:when>
           		<c:otherwise>
@@ -103,14 +103,13 @@
           		</c:otherwise>
           	</c:choose>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-         <a class="dropdown-item" href="${pageContext.request.contextPath}/loginCheck/getMemberOne?loginId=${sessionId}">
-            <i class="ti-settings text-primary"></i> MyPage 
-         </a>
-               
-              <a class="dropdown-item" href="${pageContextPath.request.getContextPath}/lms/loginCheck/logout">
-                <i class="ti-power-off text-primary"></i>
-                Logout
-              </a>
+	        	<a class="dropdown-item" href="${pageContext.request.contextPath}/loginCheck/getMemberOne?loginId=${sessionId}">
+	            	<i class="ti-settings text-primary"></i> MyPage 
+	         	</a>
+	            <a class="dropdown-item" href="${pageContextPath.request.getContextPath}/lms/loginCheck/logout">
+	               <i class="ti-power-off text-primary"></i>
+	               Logout
+	            </a>
             </div>
           </li>
         </ul>
