@@ -93,6 +93,9 @@ public class YoungInService {
 		//학생의 로그인아이디로 강의명 알아내기
 		String lectureName = youngInMapper.selectLectureNameByLoginId(loginId);
 		log.debug(CF.JYI+"youngInService.selectRecordBook. lectureName 이름으로얻은강의명 : "+lectureName+CF.RS);
+		if(lectureName == null) {
+			return null;
+		}
 		// subjectName > 강의에 귀속된 subjectName(과목)의 List<String>값
 		List<String> subjectName = youngInMapper.selectSubjectListByLectureNameYoungIn(lectureName);
 		log.debug(CF.JYI+"youngInService.selectRecordBook. subjectName 서브젝트리스트 : "+subjectName+CF.RS);

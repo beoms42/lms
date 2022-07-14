@@ -54,6 +54,11 @@
               </div>
             </div>
           </div>
+          <c:if test="${empty lectureName}">
+          	<h1> 현재 배정된 강의가 없습니다.</h1>
+          </c:if>
+          
+          <c:if test="${!empty lectureName}">
           <!-- 강의개설 실제부분 --> 
           <div class="row">
             <div class="col-lg-7 grid-margin stretch-card">
@@ -111,6 +116,7 @@
             </div>
           
           </div>
+          </c:if>
           <!-- 강의개설 끝 -->
 
           
