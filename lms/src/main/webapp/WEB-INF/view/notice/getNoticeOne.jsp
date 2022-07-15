@@ -62,7 +62,7 @@
 	                  <h2 class="smalltitle-bottom">${notice.noticeTitle}</h2>
 		                  <div class="row bottom">
 		                  	<div class="col-sm-1">
-		                  		<img src="${pageContext.request.contextPath}/file/memberPhoto/dd.png" class="round left" width="50" height="50">	
+		                  		<img src="${pageContext.request.contextPath}/file/memberPhoto/admin.PNG" class="round left" width="50" height="50">	
 		                  	</div>
 		                  	<div class="col-sm-11 font-size">
 		                  		${notice.loginId}

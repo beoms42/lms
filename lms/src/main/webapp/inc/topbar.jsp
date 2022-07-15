@@ -93,7 +93,7 @@
           	<c:choose>
           		<c:when test="${sessionLv == 4}">
           			<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-		              <img src="${pageContext.request.contextPath}/file/memberPhoto/hyein.jpg" alt="profile"/>
+		              <img src="${pageContext.request.contextPath}/file/memberPhoto/admin.PNG" alt="profile"/>
 		            </a>
           		</c:when>
           		<c:otherwise>

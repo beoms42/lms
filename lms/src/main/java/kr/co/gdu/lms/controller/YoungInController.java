@@ -79,7 +79,7 @@ public class YoungInController {
 		youngInService.insertStudentInLecture(loginIdList, lectureName);
 		log.debug(CF.JYI+"LectureService.addStudentInLectureAction.get loginIdList : "+loginIdList+CF.RS);
 		
-		return "redirect:/loginCheck/manageLectureOne?lectureName="+lectureName;
+		return "redirect:/loginCheck/manageLecture";
 	}
 	
 	
